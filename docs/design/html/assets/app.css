@@ -510,3 +510,20 @@ i[data-icon] svg, .nav .item svg, .win-title .ctl svg { width: 16px; height: 16p
 /* Кнопки внизу окна одного размера («Стоп» и «Запустить», «Сохранить журнал» и «Новый запуск»). */
 .page-foot .btn { min-width: 150px; justify-content: center; }
 .btn i[data-icon], .btn svg { flex: none; }
+
+/* Заголовок раздела внутри прокрутки: уходит вверх вместе с содержимым. */
+.page > .page-head { padding: 16px 0 12px; }
+
+/* Флажок как в программе резервного копирования: 15 × 15; пустой: рамка 1 #767F8C, скругление 3;
+   отмеченный: заливка акцентом, белая галочка; при наведении рамка или заливка темнее. */
+.check .box {
+  width: 15px; height: 15px; border: 0; border-radius: 3px; background: var(--pr-bg);
+  box-shadow: inset 0 0 0 1px var(--pr-check-border); color: transparent; display: block; flex: none;
+}
+.check .box svg { display: block; }
+.check:hover .box { box-shadow: inset 0 0 0 1px var(--pr-accent); }
+.check.on .box { background: var(--pr-accent); box-shadow: none; color: var(--pr-text-on-accent); }
+.check.on:hover .box { background: var(--pr-accent-hover); }
+
+/* Кнопка со значком: текст ровно по центру кнопки, значок 16 слева от текста. */
+.btn.with-icon::after { content: ""; width: 16px; flex: none; }

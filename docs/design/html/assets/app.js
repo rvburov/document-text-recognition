@@ -33,6 +33,10 @@
 
   /* ── Значки ── */
   function icon(name, size, stroke) {
+    var filled = (window.PR_FILL || {})[name];
+    if (filled) {
+      return '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="' + filled + '"/></svg>';
+    }
     var d = (window.PR_ICONS || {})[name];
     if (!d) return "";
     size = 16;
@@ -40,9 +44,19 @@
     return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' +
       stroke + '" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>';
   }
+  // Галочка флажка как в программе резервного копирования (AppStyle._draw_checkbox): квадрат 15,
+  // ломаная (0,24; 0,53) → (0,43; 0,71) → (0,77; 0,31) от стороны, толщина 15 / 8, скругленные концы.
+  var CHECK = '<svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.875" ' +
+    'stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 7.95L6.45 10.65L11.55 4.65"/></svg>';
   function renderIcons(scope) {
     scope.querySelectorAll("i[data-icon]").forEach(function (el) {
       el.innerHTML = icon(el.dataset.icon, +el.dataset.size || 16, +el.dataset.stroke || 0);
+    });
+    scope.querySelectorAll(".check .box").forEach(function (box) { box.innerHTML = CHECK; });
+    // Кнопка со значком и текстом: текст ровно по центру, значок слева от него (справа такой же пустой отступ).
+    scope.querySelectorAll(".btn").forEach(function (btn) {
+      var text = Array.prototype.some.call(btn.childNodes, function (n) { return n.nodeType === 3 && n.textContent.trim(); });
+      btn.classList.toggle("with-icon", !!btn.querySelector("i[data-icon]") && text);
     });
   }
 
@@ -81,6 +95,9 @@
     win.appendChild(body);
     win.insertAdjacentHTML("beforeend", '<div class="scrim"></div><div class="toast"></div>');
     content.querySelectorAll(".dialog").forEach(function (d) { win.appendChild(d); });
+    // Заголовок раздела прокручивается вместе с содержимым, а не стоит над ним.
+    var head = content.querySelector(":scope > .page-head"), page = content.querySelector(":scope > .page");
+    if (head && page) page.insertBefore(head, page.firstChild);
     screen.appendChild(win);
     if (screen.dataset.caption) screen.insertAdjacentHTML("afterbegin", '<p class="pr-caption">' + screen.dataset.caption + "</p>");
     return win;
