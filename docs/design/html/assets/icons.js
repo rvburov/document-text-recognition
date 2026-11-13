@@ -126,7 +126,7 @@ Object.assign(window.PR_ICONS, {
   "Refresh": "M21 12a9 9 0 0 1-15.5 6.2 M3 12A9 9 0 0 1 18.5 5.8 M21 3v5h-5 M3 21v-5h5",
   "Files": "M15 2H9a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7z M15 2v5h5 M3 7v13a2 2 0 0 0 2 2h10",
   "ScanText": "M3 7V5a2 2 0 0 1 2-2h2 M17 3h2a2 2 0 0 1 2 2v2 M21 17v2a2 2 0 0 1-2 2h-2 M7 21H5a2 2 0 0 1-2-2v-2 M7 8h8 M7 12h10 M7 16h6",
-  "Template": "M4 3h16v18H4z M7 7h10v3H7z M7 13h4v4H7z M14 13h3 M14 16h3",
+  "Template": "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M10 14h7v5h-7z M8 9h2",
   "Rename": "M4 7h9 M4 12h6 M4 17h9 M15 15l2 2 4-4",
   "Upload": "M12 15V3 M7 8l5-5 5 5 M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4",
   "Minimize": "M5 12h14",

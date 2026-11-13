@@ -401,7 +401,7 @@ body { line-height: 1.4; }
 .btn.danger:hover { background: var(--pr-danger-hover); border-color: var(--pr-danger-hover); }
 .btn:disabled, .btn.disabled { opacity: .45; background: var(--pr-bg); color: var(--pr-text); border-color: var(--pr-line-strong); filter: none; }
 .btn.accent:disabled { background: var(--pr-accent); border-color: var(--pr-accent); color: var(--pr-text-on-accent); }
-.btn i[data-icon] svg { width: 15px; height: 15px; }
+.btn i[data-icon] svg { width: 16px; height: 16px; }
 .btn-icon { width: 32px; height: 32px; border-radius: 6px; color: var(--pr-text2); }
 .btn-icon:hover { background: var(--pr-ghost-hover); color: var(--pr-text); }
 .btn-link { color: var(--pr-accent); font-weight: 500; }
@@ -503,3 +503,10 @@ body { line-height: 1.4; }
 .pr-toolbar .zoom button.current { border-color: var(--pr-accent); color: var(--pr-accent); }
 .t-mono { font-family: var(--pr-font-mono); }
 mark { background: var(--pr-highlight); color: inherit; }
+
+/* Значки: один размер 16 и толщина 1,9 во всем окне; четкие края. */
+i[data-icon] svg, .nav .item svg, .win-title .ctl svg { width: 16px; height: 16px; shape-rendering: geometricPrecision; }
+.nav { padding-top: 14px; }
+/* Кнопки внизу окна одного размера («Стоп» и «Запустить», «Сохранить журнал» и «Новый запуск»). */
+.page-foot .btn { min-width: 150px; justify-content: center; }
+.btn i[data-icon], .btn svg { flex: none; }

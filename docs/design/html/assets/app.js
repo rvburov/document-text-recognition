@@ -4,7 +4,7 @@
   "use strict";
 
   var BOARDS = [
-    { file: "01-main.html", n: 1, title: "Переименование", group: "Основные экраны", sub: "Главный экран: папки, запуск, результат" },
+    { file: "01-main.html", n: 1, title: "Обработка", group: "Основные экраны", sub: "Главный экран: папки, запуск, результат" },
     { file: "02-run.html", n: 2, title: "Идет распознавание", group: "Основные экраны", sub: "Ход работы, счетчики, остановка" },
     { file: "03-results.html", n: 3, title: "Результат", group: "Основные экраны", sub: "Таблица файлов, фильтр по итогу, подробности" },
     { file: "04-templates.html", n: 4, title: "Шаблоны", group: "Основные экраны", sub: "Список шаблонов и рамки на странице" },
@@ -18,7 +18,7 @@
     { file: "12-ds-components.html", n: 12, title: "Дизайн-система: компоненты", group: "Дизайн-система", sub: "Кнопки, поля, таблица, диалоги" }
   ];
   var NAV = [
-    { id: "rename", label: "Переименование", icon: "Rename", file: "01-main.html" },
+    { id: "rename", label: "Обработка", icon: "ScanText", file: "01-main.html" },
     { id: "templates", label: "Шаблоны", icon: "Template", file: "04-templates.html", count: "6" },
     { id: "settings", label: "Настройки", icon: "Settings", file: "05-settings.html" }
   ];
@@ -35,8 +35,8 @@
   function icon(name, size, stroke) {
     var d = (window.PR_ICONS || {})[name];
     if (!d) return "";
-    size = size || 16;
-    stroke = stroke || (size <= 16 ? 1.8 : size <= 18 ? 1.6 : size <= 24 ? 1.4 : 1.1);
+    size = 16;
+    stroke = 1.9;
     return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' +
       stroke + '" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>';
   }
@@ -50,10 +50,10 @@
   function navHtml(active) {
     var items = NAV.map(function (n) {
       return '<a class="item' + (n.id === active ? " current" : "") + '" href="' + n.file + '"' + (n.isNew ? " data-new" : "") + '>' +
-        icon(n.icon, 18) + "<span>" + n.label + "</span>" + (n.count ? '<span class="count">' + n.count + "</span>" : "") + "</a>";
+        icon(n.icon, 16) + "<span>" + n.label + "</span>" + (n.count ? '<span class="count">' + n.count + "</span>" : "") + "</a>";
     }).join("");
-    return '<nav class="nav"><div class="brand">' + logo(20) + "<span>Распознавание текста документов</span></div>" + items +
-      '<div class="bottom"><a class="item' + (active === "about" ? " current" : "") + '" href="06-about.html">' + icon("Info", 18) +
+    return '<nav class="nav">' + items +
+      '<div class="bottom"><a class="item' + (active === "about" ? " current" : "") + '" href="06-about.html">' + icon("Info", 16) +
       "<span>О программе</span></a><div class=\"version\">Версия " + VERSION + "</div></div></nav>";
   }
   function logo(size) {

@@ -29,10 +29,10 @@
   --pr-code: #3A4552;
   --pr-pdf: #B42318;
   --pr-pdf-light: #FDF1EF;
-  /* Рамки шаблонов (как в разметке шаблона: синяя, зеленая, красно-оранжевая) */
+  /* Рамки шаблонов (как в разметке шаблона: синяя, зеленая, красная) */
   --pr-frame-designation: #2F6FE4;
   --pr-frame-name: #2E9E44;
-  --pr-frame-both: #F0502A;
+  --pr-frame-both: #D92D20;
   /* Шрифты */
   --pr-font: "Golos Text", "Segoe UI", system-ui, Arial, sans-serif;
   --pr-font-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
