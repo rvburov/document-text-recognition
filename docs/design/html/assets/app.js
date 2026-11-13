@@ -165,7 +165,7 @@
     var total = +(win.dataset.total || 248);
     var done = 0;
     var rows = Array.prototype.slice.call(win.querySelectorAll("[data-run-row]"));
-    rows.forEach(function (r) { r.hidden = true; });
+    rows.forEach(function (r) { r.setAttribute("data-pending", ""); });
     setRun(win, "running");
     clearInterval(win._timer);
     win._timer = setInterval(function () {
@@ -178,7 +178,7 @@
       });
       win.querySelectorAll("[data-percent]").forEach(function (p) { p.textContent = Math.round(part * 100) + "%"; });
       var visible = Math.round(rows.length * part);
-      rows.forEach(function (r, k) { r.hidden = k >= visible; });
+      rows.forEach(function (r, k) { r.toggleAttribute("data-pending", k >= visible); });
       if (done >= total) { clearInterval(win._timer); setRun(win, "done"); toast(win, "Готово: переименовано 231 из 248"); }
     }, 220);
   }
@@ -233,6 +233,8 @@
     }
     el = e.target.closest("[data-goto]");
     if (el) { goto(win, el.dataset.goto); if (el.dataset.toast) toast(win, el.dataset.toast); return; }
+    el = e.target.closest("[data-file]");
+    if (el) { toast(win, "Открывается в программе просмотра PDF: " + el.dataset.file); return; }
     el = e.target.closest("tr[data-detail], .li[data-detail]");
     if (el) { select(win, el); return; }
     el = e.target.closest("[data-spin]");
@@ -246,11 +248,16 @@
     win.querySelectorAll("[data-page]").forEach(function (p) { p.hidden = p.dataset.page !== page; });
     closeAll(win);
   }
-  function filterRows(win, status) {
+  // Строка видна, если подходит и статус из списка, и строка поиска (по именам «Было» и «Стало»).
+  function applyFilters(win) {
+    var status = win.dataset.filter || "";
+    var query = (win.dataset.query || "").trim().toLowerCase();
     win.querySelectorAll("tr[data-status]").forEach(function (r) {
-      r.hidden = !!status && r.dataset.status !== status;
+      var names = (r.cells[0].textContent + " " + r.cells[2].textContent).toLowerCase();
+      r.hidden = (!!status && r.dataset.status !== status) || (!!query && names.indexOf(query) < 0);
     });
   }
+  function filterRows(win, status) { win.dataset.filter = status; applyFilters(win); }
   function select(win, row) {
     var list = row.closest("tbody, .list");
     list.querySelectorAll(".selected, .current").forEach(function (r) { r.classList.remove("selected", "current"); });
@@ -287,6 +294,13 @@
     renderIcons(document);
     applyZoom(+(store.get("zoom") || 1));
     document.addEventListener("click", onClick);
+    document.addEventListener("input", function (e) {
+      var field = e.target.closest("input[data-search]");
+      if (!field) return;
+      var win = winOf(field);
+      win.dataset.query = field.value;
+      applyFilters(win);
+    });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") document.querySelectorAll(".win").forEach(closeAll);
     });

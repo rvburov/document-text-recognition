@@ -10,121 +10,90 @@
 <script src="../assets/app.js" defer></script>
 </head>
 <body>
-<p class="pr-board-note"><b>Результат прогона.</b> Список «Все файлы» фильтрует таблицу по итогу, поиск ищет по имени, «Скачать файл» сохраняет результат. Щелчок по строке открывает справа подробности: что распознали оба движка, почему файл пропущен, кнопки «Открыть PDF» и «Показать в папке». Для пропущенных и ошибочных есть «Ввести имя вручную» (предложение).</p>
+<p class="pr-board-note"><b>Результат прогона.</b> Поиск ищет по имени файла (наберите, например, «крышка»), список «Все файлы» оставляет файлы одного статуса, «Скачать файл» сохраняет результат. Щелчок по имени файла открывает его. Щелчок по строке открывает справа карточку файла: статус, новое имя, тип документа и причина, если файл пропущен; внизу «Открыть PDF» и «Показать в папке». Для пропущенных и ошибочных есть «Ввести имя вручную» (предложение).</p>
 <div class="pr-screens">
-<section class="pr-screen" data-active="rename" data-caption="Завершено: 231 переименован, 13 пропущены, 4 ошибки. Щелкните строку, справа появятся подробности">
+<section class="pr-screen" data-active="rename" data-caption="Завершено: 231 переименован, 13 пропущены, 4 ошибки. Щелкните строку: справа подробности; щелкните имя файла: он откроется">
 <div class="page-head"><h1>Обработка</h1></div>
 <div class="page"><div class="stack">
 <div class="banner success"><i data-icon="CheckCheck"></i><div class="grow"><b>Завершено за 9 мин 12 с.</b> Переименовано 231 из 248. Пропущено 13, ошибок 4: эти файлы остались с прежними именами.</div></div>
-<div class="row results-head"><span class="t-strong grow">Результат</span><div data-new><input class="input" style="width:220px" placeholder="Поиск по имени"></div><div class="select status" data-open="flt"><span data-select-label>Все файлы (248)</span><i data-icon="ChevronDown" data-size="14"></i><div class="popup" id="flt"><div class="option current" data-filter="">Все файлы (248)</div><div class="option" data-filter="done">Переименованы (231)</div><div class="option" data-filter="same">Имя уже верное (0)</div><div class="option" data-filter="skip">Пропущены (13)</div><div class="option" data-filter="error">Ошибки (4)</div></div></div><button class="btn accent" data-open="download"><i data-icon="Download"></i>Скачать файл</button></div>
+<div class="row results-head"><span class="t-strong grow">Результат</span><input class="input search" data-search style="width:220px" placeholder="Поиск по имени файла"><div class="select status" data-open="flt"><span data-select-label>Все файлы (248)</span><i data-icon="ChevronDown" data-size="14"></i><div class="popup" id="flt"><div class="option current" data-filter="">Все файлы (248)</div><div class="option" data-filter="done">Переименованы (231)</div><div class="option" data-filter="same">Имя уже верное (0)</div><div class="option" data-filter="skip">Пропущены (13)</div><div class="option" data-filter="error">Ошибки (4)</div></div></div><button class="btn accent" data-open="download"><i data-icon="Download"></i>Скачать файл</button></div>
 <div class="split"><div class="grow"><div class="table-wrap"><table class="table">
 <colgroup><col style="width:25%"><col style="width:34px"><col><col style="width:150px"></colgroup>
-<thead><tr><th>Было</th><th></th><th>Стало</th><th>Итог</th></tr></thead>
+<thead><tr><th>Было</th><th></th><th>Стало</th><th>Статус</th></tr></thead>
 <tbody>
-<tr data-status="done" data-detail="f0"><td class="old">scan_0001.pdf</td><td class="arrow">→</td><td>АБВГ.301121.001 Кронштейн Сборочный чертеж.pdf</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
-<tr data-status="done" data-detail="f1"><td class="old">scan_0002.pdf</td><td class="arrow">→</td><td>АБВГ.301121.002 Основание Чертеж детали.pdf</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
-<tr data-status="done" data-detail="f2"><td class="old">scan_0003.pdf</td><td class="arrow">→</td><td>АБВГ.301121.003 Крышка Чертеж детали.pdf</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
-<tr data-status="skip" data-detail="f3"><td class="old">scan_0004.pdf</td><td class="arrow">→</td><td>АБВГ.301121.003 Крышка Чертеж детали.pdf</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
-<tr data-status="done" data-detail="f4"><td class="old">scan_0005.pdf</td><td class="arrow">→</td><td>АБВГ.468332.010 Блок питания Схема электрическая.pdf</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
-<tr data-status="same" data-detail="f5"><td class="old">АБВГ.466229.001 Плата Спецификация.pdf</td><td class="arrow">→</td><td>АБВГ.466229.001 Плата Спецификация.pdf</td><td><span class="pill "><span class="dot muted"></span>Имя уже верное</span></td></tr>
-<tr data-status="skip" data-detail="f6"><td class="old">scan_0007.pdf</td><td class="arrow">→</td><td class="t-muted">не подошел ни один шаблон</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
-<tr data-status="done" data-detail="f7"><td class="old">scan_0008.pdf</td><td class="arrow">→</td><td>АБВГ.741512.002 Втулка Чертеж детали.pdf</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
-<tr data-status="error" data-detail="f8"><td class="old">scan_0009.pdf</td><td class="arrow">→</td><td class="t-muted">обозначение не совпало: Tesseract «АБВГ.301121.0O5», PaddleOCR «АБВГ.301121.005»</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>
-<tr data-status="done" data-detail="f9"><td class="old">Подпапка\scan_0010.pdf</td><td class="arrow">→</td><td>АБВГ.711111.004 Шайба Чертеж детали.pdf</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
-<tr data-status="done" data-detail="f10"><td class="old">Подпапка\scan_0011.pdf</td><td class="arrow">→</td><td>АБВГ.468332.010 Блок питания Перечень элементов.pdf</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
-<tr data-status="error" data-detail="f11"><td class="old">scan_0012.pdf</td><td class="arrow">→</td><td class="t-muted">не удалось переименовать (файл занят?): файл открыт в другой программе</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>
+<tr data-status="done" data-detail="f0"><td class="old"><span class="file-link" data-file="АБВГ.301121.001 Кронштейн Сборочный чертеж.pdf">scan_0001.pdf</span></td><td class="arrow">→</td><td><span class="file-link" data-file="АБВГ.301121.001 Кронштейн Сборочный чертеж.pdf">АБВГ.301121.001 Кронштейн Сборочный чертеж.pdf</span></td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="done" data-detail="f1"><td class="old"><span class="file-link" data-file="АБВГ.301121.002 Основание Чертеж детали.pdf">scan_0002.pdf</span></td><td class="arrow">→</td><td><span class="file-link" data-file="АБВГ.301121.002 Основание Чертеж детали.pdf">АБВГ.301121.002 Основание Чертеж детали.pdf</span></td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="done" data-detail="f2"><td class="old"><span class="file-link" data-file="АБВГ.301121.003 Крышка Чертеж детали.pdf">scan_0003.pdf</span></td><td class="arrow">→</td><td><span class="file-link" data-file="АБВГ.301121.003 Крышка Чертеж детали.pdf">АБВГ.301121.003 Крышка Чертеж детали.pdf</span></td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="skip" data-detail="f3"><td class="old"><span class="file-link" data-file="scan_0004.pdf">scan_0004.pdf</span></td><td class="arrow">→</td><td class="t-muted">имя «АБВГ.301121.003 Крышка Чертеж детали.pdf» уже занято другим файлом в этой папке</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
+<tr data-status="done" data-detail="f4"><td class="old"><span class="file-link" data-file="АБВГ.468332.010 Блок питания Схема электрическая.pdf">scan_0005.pdf</span></td><td class="arrow">→</td><td><span class="file-link" data-file="АБВГ.468332.010 Блок питания Схема электрическая.pdf">АБВГ.468332.010 Блок питания Схема электрическая.pdf</span></td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="same" data-detail="f5"><td class="old"><span class="file-link" data-file="АБВГ.466229.001 Плата Спецификация.pdf">АБВГ.466229.001 Плата Спецификация.pdf</span></td><td class="arrow">→</td><td><span class="file-link" data-file="АБВГ.466229.001 Плата Спецификация.pdf">АБВГ.466229.001 Плата Спецификация.pdf</span></td><td><span class="pill "><span class="dot muted"></span>Имя уже верное</span></td></tr>
+<tr data-status="skip" data-detail="f6"><td class="old"><span class="file-link" data-file="scan_0007.pdf">scan_0007.pdf</span></td><td class="arrow">→</td><td class="t-muted">не подошел ни один шаблон</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
+<tr data-status="done" data-detail="f7"><td class="old"><span class="file-link" data-file="АБВГ.741512.002 Втулка Чертеж детали.pdf">scan_0008.pdf</span></td><td class="arrow">→</td><td><span class="file-link" data-file="АБВГ.741512.002 Втулка Чертеж детали.pdf">АБВГ.741512.002 Втулка Чертеж детали.pdf</span></td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="skip" data-detail="f8" class="selected"><td class="old"><span class="file-link" data-file="scan_0009.pdf">scan_0009.pdf</span></td><td class="arrow">→</td><td class="t-muted">обозначение прочитано по-разному: «АБВГ.301121.0O5» и «АБВГ.301121.005»</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
+<tr data-status="done" data-detail="f9"><td class="old"><span class="file-link" data-file="Подпапка\АБВГ.711111.004 Шайба Чертеж детали.pdf">Подпапка\scan_0010.pdf</span></td><td class="arrow">→</td><td><span class="file-link" data-file="Подпапка\АБВГ.711111.004 Шайба Чертеж детали.pdf">АБВГ.711111.004 Шайба Чертеж детали.pdf</span></td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="done" data-detail="f10"><td class="old"><span class="file-link" data-file="Подпапка\АБВГ.468332.010 Блок питания Перечень элементов.pdf">Подпапка\scan_0011.pdf</span></td><td class="arrow">→</td><td><span class="file-link" data-file="Подпапка\АБВГ.468332.010 Блок питания Перечень элементов.pdf">АБВГ.468332.010 Блок питания Перечень элементов.pdf</span></td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="error" data-detail="f11"><td class="old"><span class="file-link" data-file="scan_0012.pdf">scan_0012.pdf</span></td><td class="arrow">→</td><td class="t-muted">ошибка обработки: недостаточно памяти</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>
+<tr data-status="skip" data-detail="f12"><td class="old"><span class="file-link" data-file="scan_0013.pdf">scan_0013.pdf</span></td><td class="arrow">→</td><td class="t-muted">файл открыт в другой программе</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
 </tbody></table></div></div>
-<div style="width:300px;flex:none" data-new><div data-detail-panel="f0" hidden>
-<div class="t-h3" style="margin-bottom:10px">scan_0001.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill success"><span class="dot success"></span>Переименован</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>АБВГ.301121.001 Кронштейн Сборочный чертеж.pdf</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Сборочный чертеж</span></div><div class="setting"><div class="text">Tesseract и PaddleOCR</div><span class="pill success">совпали</span></div>
-</div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-</div></div><div data-detail-panel="f1" hidden>
-<div class="t-h3" style="margin-bottom:10px">scan_0002.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill success"><span class="dot success"></span>Переименован</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>АБВГ.301121.002 Основание Чертеж детали.pdf</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Чертеж детали</span></div><div class="setting"><div class="text">Tesseract и PaddleOCR</div><span class="pill success">совпали</span></div>
-</div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-</div></div><div data-detail-panel="f2" hidden>
-<div class="t-h3" style="margin-bottom:10px">scan_0003.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill success"><span class="dot success"></span>Переименован</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>АБВГ.301121.003 Крышка Чертеж детали.pdf</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Чертеж детали</span></div><div class="setting"><div class="text">Tesseract и PaddleOCR</div><span class="pill success">совпали</span></div>
-</div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-</div></div><div data-detail-panel="f3" hidden>
-<div class="t-h3" style="margin-bottom:10px">scan_0004.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill warning"><span class="dot warning"></span>Пропущен</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>АБВГ.301121.003 Крышка Чертеж детали.pdf</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Чертеж детали</span></div>
-<div class="setting"><div class="text t-danger">имя «АБВГ.301121.003 Крышка Чертеж детали.pdf» уже занято другим файлом в этой папке</div></div></div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-<button class="btn" data-new data-open="manual">Ввести имя вручную…</button></div></div><div data-detail-panel="f4" hidden>
-<div class="t-h3" style="margin-bottom:10px">scan_0005.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill success"><span class="dot success"></span>Переименован</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>АБВГ.468332.010 Блок питания Схема электрическая.pdf</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Схема электрическая</span></div><div class="setting"><div class="text">Tesseract и PaddleOCR</div><span class="pill success">совпали</span></div>
-</div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-</div></div><div data-detail-panel="f5" hidden>
-<div class="t-h3" style="margin-bottom:10px">АБВГ.466229.001 Плата Спецификация.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill "><span class="dot muted"></span>Имя уже верное</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>АБВГ.466229.001 Плата Спецификация.pdf</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Спецификация</span></div><div class="setting"><div class="text">Tesseract и PaddleOCR</div><span class="pill success">совпали</span></div>
-</div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-</div></div><div data-detail-panel="f6" hidden>
-<div class="t-h3" style="margin-bottom:10px">scan_0007.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill warning"><span class="dot warning"></span>Пропущен</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>нет</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>нет</span></div>
-<div class="setting"><div class="text t-danger">не подошел ни один шаблон</div></div></div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-<button class="btn" data-new data-open="manual">Ввести имя вручную…</button></div></div><div data-detail-panel="f7" hidden>
-<div class="t-h3" style="margin-bottom:10px">scan_0008.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill success"><span class="dot success"></span>Переименован</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>АБВГ.741512.002 Втулка Чертеж детали.pdf</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Чертеж детали</span></div><div class="setting"><div class="text">Tesseract и PaddleOCR</div><span class="pill success">совпали</span></div>
-</div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-</div></div><div data-detail-panel="f8">
-<div class="t-h3" style="margin-bottom:10px">scan_0009.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill danger"><span class="dot danger"></span>Ошибка</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>нет</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Спецификация</span></div><div class="setting"><div class="text">Tesseract</div><span class="t-mono">АБВГ.301121.0<mark style="background:var(--pr-highlight)">O</mark>5</span></div><div class="setting"><div class="text">PaddleOCR</div><span class="t-mono">АБВГ.301121.005</span></div>
-<div class="setting"><div class="text t-danger">обозначение не совпало: Tesseract «АБВГ.301121.0O5», PaddleOCR «АБВГ.301121.005»</div></div></div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-<button class="btn" data-new data-open="manual">Ввести имя вручную…</button></div></div><div data-detail-panel="f9" hidden>
-<div class="t-h3" style="margin-bottom:10px">Подпапка\scan_0010.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill success"><span class="dot success"></span>Переименован</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>АБВГ.711111.004 Шайба Чертеж детали.pdf</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Чертеж детали</span></div><div class="setting"><div class="text">Tesseract и PaddleOCR</div><span class="pill success">совпали</span></div>
-</div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-</div></div><div data-detail-panel="f10" hidden>
-<div class="t-h3" style="margin-bottom:10px">Подпапка\scan_0011.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill success"><span class="dot success"></span>Переименован</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>АБВГ.468332.010 Блок питания Перечень элементов.pdf</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Перечень элементов</span></div><div class="setting"><div class="text">Tesseract и PaddleOCR</div><span class="pill success">совпали</span></div>
-</div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-</div></div><div data-detail-panel="f11" hidden>
-<div class="t-h3" style="margin-bottom:10px">scan_0012.pdf</div>
-<div class="card"><div class="setting"><div class="text">Итог</div><span class="pill danger"><span class="dot danger"></span>Ошибка</span></div>
-<div class="setting"><div class="text">Новое имя</div><span>нет</span></div>
-<div class="setting"><div class="text">Тип документа</div><span>Сборочный чертеж</span></div>
-<div class="setting"><div class="text t-danger">не удалось переименовать (файл занят?): файл открыт в другой программе</div></div></div>
-<div class="row wrap" style="margin-top:12px"><button class="btn"><i data-icon="FileText"></i>Открыть PDF</button><button class="btn"><i data-icon="Folder"></i>Показать в папке</button>
-<button class="btn" data-new data-open="manual">Ввести имя вручную…</button></div></div></div></div>
+<div style="width:310px;flex:none"><div class="card file-card" data-detail-panel="f0" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>scan_0001.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill success"><span class="dot success"></span>Переименован</span></span></div><div class="kv stacked"><span class="k">Новое имя</span><span class="v ">АБВГ.301121.001 Кронштейн Сборочный чертеж.pdf</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Сборочный чертеж</span></div>
+<div class="file-actions"><button class="btn" data-file="АБВГ.301121.001 Кронштейн Сборочный чертеж.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+</div><div class="card file-card" data-detail-panel="f1" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>scan_0002.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill success"><span class="dot success"></span>Переименован</span></span></div><div class="kv stacked"><span class="k">Новое имя</span><span class="v ">АБВГ.301121.002 Основание Чертеж детали.pdf</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Чертеж детали</span></div>
+<div class="file-actions"><button class="btn" data-file="АБВГ.301121.002 Основание Чертеж детали.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+</div><div class="card file-card" data-detail-panel="f2" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>scan_0003.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill success"><span class="dot success"></span>Переименован</span></span></div><div class="kv stacked"><span class="k">Новое имя</span><span class="v ">АБВГ.301121.003 Крышка Чертеж детали.pdf</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Чертеж детали</span></div>
+<div class="file-actions"><button class="btn" data-file="АБВГ.301121.003 Крышка Чертеж детали.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+</div><div class="card file-card" data-detail-panel="f3" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>scan_0004.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill warning"><span class="dot warning"></span>Пропущен</span></span></div><div class="kv"><span class="k">Новое имя</span><span class="v ">нет</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Чертеж детали</span></div><div class="kv stacked"><span class="k">Причина</span><span class="v ">имя «АБВГ.301121.003 Крышка Чертеж детали.pdf» уже занято другим файлом в этой папке</span></div>
+<div class="file-actions"><button class="btn" data-file="scan_0004.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+<button class="btn full" data-new data-open="manual">Ввести имя вручную…</button></div><div class="card file-card" data-detail-panel="f4" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>scan_0005.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill success"><span class="dot success"></span>Переименован</span></span></div><div class="kv stacked"><span class="k">Новое имя</span><span class="v ">АБВГ.468332.010 Блок питания Схема электрическая.pdf</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Схема электрическая</span></div>
+<div class="file-actions"><button class="btn" data-file="АБВГ.468332.010 Блок питания Схема электрическая.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+</div><div class="card file-card" data-detail-panel="f5" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>АБВГ.466229.001 Плата Спецификация.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill "><span class="dot muted"></span>Имя уже верное</span></span></div><div class="kv stacked"><span class="k">Новое имя</span><span class="v ">АБВГ.466229.001 Плата Спецификация.pdf</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Спецификация</span></div>
+<div class="file-actions"><button class="btn" data-file="АБВГ.466229.001 Плата Спецификация.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+</div><div class="card file-card" data-detail-panel="f6" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>scan_0007.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill warning"><span class="dot warning"></span>Пропущен</span></span></div><div class="kv"><span class="k">Новое имя</span><span class="v ">нет</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">не определен</span></div><div class="kv stacked"><span class="k">Причина</span><span class="v ">не подошел ни один шаблон</span></div>
+<div class="file-actions"><button class="btn" data-file="scan_0007.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+<button class="btn full" data-new data-open="manual">Ввести имя вручную…</button></div><div class="card file-card" data-detail-panel="f7" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>scan_0008.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill success"><span class="dot success"></span>Переименован</span></span></div><div class="kv stacked"><span class="k">Новое имя</span><span class="v ">АБВГ.741512.002 Втулка Чертеж детали.pdf</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Чертеж детали</span></div>
+<div class="file-actions"><button class="btn" data-file="АБВГ.741512.002 Втулка Чертеж детали.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+</div><div class="card file-card" data-detail-panel="f8">
+<div class="file-title"><i data-icon="FileText"></i><span>scan_0009.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill warning"><span class="dot warning"></span>Пропущен</span></span></div><div class="kv"><span class="k">Новое имя</span><span class="v ">нет</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Спецификация</span></div><div class="kv stacked"><span class="k">Причина</span><span class="v ">обозначение прочитано по-разному: «АБВГ.301121.0O5» и «АБВГ.301121.005»</span></div>
+<div class="file-actions"><button class="btn" data-file="scan_0009.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+<button class="btn full" data-new data-open="manual">Ввести имя вручную…</button></div><div class="card file-card" data-detail-panel="f9" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>Подпапка\scan_0010.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill success"><span class="dot success"></span>Переименован</span></span></div><div class="kv stacked"><span class="k">Новое имя</span><span class="v ">АБВГ.711111.004 Шайба Чертеж детали.pdf</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Чертеж детали</span></div>
+<div class="file-actions"><button class="btn" data-file="Подпапка\АБВГ.711111.004 Шайба Чертеж детали.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+</div><div class="card file-card" data-detail-panel="f10" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>Подпапка\scan_0011.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill success"><span class="dot success"></span>Переименован</span></span></div><div class="kv stacked"><span class="k">Новое имя</span><span class="v ">АБВГ.468332.010 Блок питания Перечень элементов.pdf</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Перечень элементов</span></div>
+<div class="file-actions"><button class="btn" data-file="Подпапка\АБВГ.468332.010 Блок питания Перечень элементов.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+</div><div class="card file-card" data-detail-panel="f11" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>scan_0012.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill danger"><span class="dot danger"></span>Ошибка</span></span></div><div class="kv"><span class="k">Новое имя</span><span class="v ">нет</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Сборочный чертеж</span></div><div class="kv stacked"><span class="k">Причина</span><span class="v t-danger">ошибка обработки: недостаточно памяти</span></div>
+<div class="file-actions"><button class="btn" data-file="scan_0012.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+<button class="btn full" data-new data-open="manual">Ввести имя вручную…</button></div><div class="card file-card" data-detail-panel="f12" hidden>
+<div class="file-title"><i data-icon="FileText"></i><span>scan_0013.pdf</span></div>
+<div class="kv"><span class="k">Статус</span><span class="v "><span class="pill warning"><span class="dot warning"></span>Пропущен</span></span></div><div class="kv"><span class="k">Новое имя</span><span class="v ">нет</span></div><div class="kv"><span class="k">Тип документа</span><span class="v ">Чертеж детали</span></div><div class="kv stacked"><span class="k">Причина</span><span class="v ">файл открыт в другой программе</span></div>
+<div class="file-actions"><button class="btn" data-file="scan_0013.pdf">Открыть PDF</button><button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>
+<button class="btn full" data-new data-open="manual">Ввести имя вручную…</button></div></div></div>
 </div></div>
 <div class="page-foot"><span class="t-muted">13.11.2026 10:51 · D:\Сканы\2026-11 и подпапки</span><span class="spacer"></span>
 <button class="btn big accent" data-nav="01-main.html"><i data-icon="Play"></i>Новый запуск</button></div>
 <div class="dialog base" id="download"><div class="d-title"><span class="name">Скачать файл</span><span class="btn-icon" data-close><i data-icon="Close" data-size="14"></i></span></div>
 <div class="d-body"><div class="field"><label>Формат</label><div class="segments"><span class="segment current">Таблица Excel (.xlsx)</span><span class="segment">CSV</span><span class="segment">Текст (.txt)</span></div></div>
-<div class="hint">В файле все строки результата: было, стало, итог и причина. Имя файла: «Результат 2026-11-13 10-42». Откроется стандартное окно сохранения Windows.</div></div>
+<div class="hint">В файле все строки результата: было, стало, статус и причина. Имя файла: «Результат 2026-11-13 10-42». Откроется стандартное окно сохранения Windows.</div></div>
 <div class="d-actions"><button class="btn" data-close>Отмена</button><button class="btn accent" data-toast="Файл сохранен"><i data-icon="Download"></i>Скачать</button></div></div>
 <div class="dialog base" id="manual"><div class="d-title"><span class="name">Имя вручную</span><span class="btn-icon" data-close><i data-icon="Close" data-size="14"></i></span></div>
 <div class="d-body"><div class="stack"><div class="field"><label>Обозначение</label><input class="input" value="АБВГ.301121.005"></div><div class="field"><label>Наименование</label><input class="input" value="Корпус"></div><div class="field"><label>Тип документа</label><input class="input" value="Спецификация"></div>

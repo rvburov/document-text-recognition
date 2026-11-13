@@ -536,3 +536,29 @@ i[data-icon] svg, .nav .item svg, .win-title .ctl svg { width: 16px; height: 16p
 .results-head { gap: 8px; margin: 4px 0 8px; }
 .select.status { min-width: 210px; height: 32px; }
 .select.status .popup { min-width: 100%; }
+
+/* Строка прогона, до которой еще не дошла очередь. */
+tr[data-pending] { display: none !important; }
+
+/* Имя файла в таблице: щелчок открывает файл. */
+.file-link { cursor: pointer; }
+.file-link:hover { color: var(--pr-accent); text-decoration: underline; }
+
+/* Поиск в строке «Результат»: высота как у списка и кнопки. */
+.input.search { height: 32px; }
+
+/* Карточка файла справа от таблицы: имя внутри карточки, строки «название: значение», кнопки по краям. */
+.file-card { padding: 12px; display: flex; flex-direction: column; }
+.file-card .file-title { display: flex; align-items: flex-start; gap: 8px; font-weight: 600; font-size: 13.5px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--pr-divider); overflow-wrap: anywhere; }
+.file-card .file-title i[data-icon] { color: var(--pr-text2); margin-top: 1px; }
+.kv { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 40px; padding: 8px 0;
+  border-bottom: 1px solid var(--pr-divider); }
+.kv .k { color: var(--pr-text-secondary); flex: none; }
+.kv .v { min-width: 0; text-align: right; overflow-wrap: anywhere; }
+.kv.stacked { flex-direction: column; align-items: stretch; gap: 4px; }
+.kv.stacked .v { text-align: left; }
+.file-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 12px; }
+.file-actions .btn { width: 100%; }
+.file-card .btn.full { width: 100%; margin-top: 8px; }
+.file-card .btn.full[data-new] { margin-top: 14px; }
