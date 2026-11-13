@@ -3,23 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>1 · Переименование — Переименование PDF</title>
+<title>1 · Переименование · Распознавание текста документов</title>
 <link rel="stylesheet" href="../assets/tokens.css">
 <link rel="stylesheet" href="../assets/app.css">
 <script src="../assets/icons.js"></script>
 <script src="../assets/app.js" defer></script>
 </head>
 <body>
-<p class="pr-board-note"><b>Главный экран.</b> Режим, две папки, «Искать в подпапках», ход работы и результат на одном экране. Нажмите <b>«Запустить»</b>: подтверждение, затем идет распознавание (счетчики, полоса, строки появляются по мере готовности), «Стоп» доступен. Вместо текстового журнала — таблица «Было → Стало» с фильтром по итогу; «Сохранить журнал» — в Excel, CSV или текст. Желтые метки «предложение» — то, чего нет в нынешней версии.</p>
+<p class="pr-board-note"><b>Главный экран.</b> Две папки, «Искать в подпапках», ход работы и результат на одном экране. Нажмите <b>«Запустить»</b>: подтверждение, затем идет распознавание (счетчики, полоса, строки появляются по мере готовности), «Стоп» доступен. Вместо текстового журнала таблица «Было → Стало» с фильтром по итогу; «Сохранить журнал» сохраняет в Excel, CSV или текст. Желтые метки «предложение» отмечают то, чего нет в нынешней версии.</p>
 <div class="pr-screens">
 <section class="pr-screen" data-active="rename" data-run="idle" data-caption="Готов к работе. Нажмите «Запустить»: подтверждение, затем ход работы и результат">
-<div class="page-head"><h1>Переименование</h1><div class="segments"><span class="segment current" data-nav="01-main.html">По содержимому (шаблоны и OCR)</span><span class="segment" data-nav="04-by-name.html">По имени файла (до первого пробела)</span></div></div>
+<div class="page-head"><h1>Переименование</h1></div>
 <div class="page"><div class="stack">
 <div class="card">
   <div class="field"><label>1. Папка шаблонов</label>
     <div class="path"><input class="input on-card" value="\\fileserver\КД\Шаблоны" placeholder="Выберите папку с шаблонами…"><button class="btn" data-open="pick">Обзор…</button></div>
-    <div class="legend" style="margin-top:4px"><span>Рамки на шаблоне:</span><span><i class="swatch designation"></i>синяя — обозначение</span><span><i class="swatch name"></i>зеленая — наименование</span><span><i class="swatch both"></i>красно-оранжевая — оба поля вместе</span></div>
-    <div class="hint">Готовы 6 шаблонов из 6 · <a class="btn-link" href="05-templates.html">Открыть шаблоны</a></div>
+    <div class="legend" style="margin-top:4px"><span>Рамки на шаблоне:</span><span><i class="swatch designation"></i>синяя: обозначение</span><span><i class="swatch name"></i>зеленая: наименование</span><span><i class="swatch both"></i>красно-оранжевая: оба поля вместе</span></div>
+    <div class="hint">Готовы 6 шаблонов из 6 · <a class="btn-link" href="04-templates.html">Открыть шаблоны</a></div>
   </div>
 </div>
 <div class="card">
@@ -53,9 +53,9 @@
 <tr data-status="skip" data-detail="f3" data-run-row><td class="old">scan_0004.pdf</td><td class="arrow">→</td><td>АБВГ.301121.003 Крышка.pdf</td><td>Чертеж детали</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
 <tr data-status="done" data-detail="f4" data-run-row><td class="old">scan_0005.pdf</td><td class="arrow">→</td><td>АБВГ.304512.010 Вал приводной.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
 <tr data-status="same" data-detail="f5" data-run-row><td class="old">АБВГ.466229.001 Плата.pdf</td><td class="arrow">→</td><td>АБВГ.466229.001 Плата.pdf</td><td>Спецификация</td><td><span class="pill "><span class="dot muted"></span>Имя уже верное</span></td></tr>
-<tr data-status="skip" data-detail="f6" data-run-row><td class="old">scan_0007.pdf</td><td class="arrow">→</td><td class="t-muted">не подошел ни один шаблон</td><td>—</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
+<tr data-status="skip" data-detail="f6" data-run-row><td class="old">scan_0007.pdf</td><td class="arrow">→</td><td class="t-muted">не подошел ни один шаблон</td><td>нет</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
 <tr data-status="done" data-detail="f7" data-run-row><td class="old">scan_0008.pdf</td><td class="arrow">→</td><td>АБВГ.741512.002 Втулка.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
-<tr data-status="error" data-detail="f8" data-run-row><td class="old">scan_0009.pdf</td><td class="arrow">→</td><td class="t-muted">обозначение: Tesseract «АБВГ.301121.0O5», PaddleOCR «АБВГ.301121.005» — не совпали</td><td>Спецификация</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>
+<tr data-status="error" data-detail="f8" data-run-row><td class="old">scan_0009.pdf</td><td class="arrow">→</td><td class="t-muted">обозначение не совпало: Tesseract «АБВГ.301121.0O5», PaddleOCR «АБВГ.301121.005»</td><td>Спецификация</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>
 <tr data-status="done" data-detail="f9" data-run-row><td class="old">Подпапка\scan_0010.pdf</td><td class="arrow">→</td><td>АБВГ.711111.004 Шайба.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
 <tr data-status="done" data-detail="f10" data-run-row><td class="old">Подпапка\scan_0011.pdf</td><td class="arrow">→</td><td>АБВГ.711111.005 Шпилька.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
 <tr data-status="error" data-detail="f11" data-run-row><td class="old">scan_0012.pdf</td><td class="arrow">→</td><td class="t-muted">не удалось переименовать (файл занят?): файл открыт в другой программе</td><td>Сборочный чертеж</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>

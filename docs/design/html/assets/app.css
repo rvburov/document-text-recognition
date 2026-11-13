@@ -1,5 +1,5 @@
 /* Библиотека блоков макета: те же элементы, что в стилях программы (Controls.axaml).
-   Цвет — только var(--pr-…) из tokens.css. */
+   Цвет: только var(--pr-…) из tokens.css. */
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -367,7 +367,7 @@ body.thumbnail .pr-screens > *:not(:first-child) { display: none; }
 
 /* ── Стиль программы резервного копирования (Backup App, docs/UI_DESIGN.md) ─────────────────────
    Фон рабочей области серо-голубой, карточки белые с рамкой, кнопки и поля 32 с рамкой и скруглением 6,
-   акцент синий у главной кнопки, переключателей и выбранного. Недоступное — прозрачность .45. */
+   акцент синий у главной кнопки, переключателей и выбранного. Недоступное: прозрачность .45. */
 body { line-height: 1.4; }
 .win { border-radius: var(--pr-radius-large); border-color: var(--pr-ring); }
 .win-title { background: var(--pr-bg-secondary); }

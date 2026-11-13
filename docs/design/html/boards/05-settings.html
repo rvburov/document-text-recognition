@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>7 · Настройки — Переименование PDF</title>
+<title>5 · Настройки · Распознавание текста документов</title>
 <link rel="stylesheet" href="../assets/tokens.css">
 <link rel="stylesheet" href="../assets/app.css">
 <script src="../assets/icons.js"></script>
 <script src="../assets/app.js" defer></script>
 </head>
 <body>
-<p class="pr-board-note"><b>Настройки</b> — в самой программе, а не в чужом окне: распознавание, вид имени, вид окна, обновление, данные. Списки и переключатели нажимаются. Метки «предложение» — новые настройки; без меток — то, что сейчас зашито в программу (показывается для наглядности).</p>
+<p class="pr-board-note"><b>Настройки</b> хранятся в самой программе, а не в чужом окне: распознавание, вид имени, вид окна, обновление, данные. Списки и переключатели нажимаются. Метки «предложение» отмечают новые настройки; без меток то, что сейчас зашито в программу (показано для наглядности).</p>
 <div class="pr-screens">
 <section class="pr-screen" data-active="settings" data-caption="Настройки хранятся в самой программе, в профиле пользователя Windows">
 <div class="page-head"><h1>Настройки</h1></div>
@@ -18,12 +18,12 @@
 <div class="group-label">Распознавание</div>
 <div class="card">
 <div class="setting"><div class="text">Движки распознавания<div class="hint">Оба движка читают поле, имя ставится только при совпадении: так ошибка одного не попадает в имя файла.</div></div><div class="select" data-open="eng"><span data-select-label>Tesseract и PaddleOCR, сверка</span><i data-icon="ChevronDown" data-size="14"></i><div class="popup" id="eng"><div class="option current">Tesseract и PaddleOCR, сверка</div><div class="option">Только Tesseract</div><div class="option">Только PaddleOCR</div></div></div></div>
-<div class="setting" data-new><div class="text">Одновременно файлов<div class="hint">Больше потоков — быстрее, но выше загрузка компьютера. «Авто» — по числу ядер.</div></div><div class="select" data-open="thr"><span data-select-label>Авто (4)</span><i data-icon="ChevronDown" data-size="14"></i><div class="popup" id="thr"><div class="option current">Авто (4)</div><div class="option">1</div><div class="option">2</div><div class="option">4</div><div class="option">8</div></div></div></div>
+<div class="setting" data-new><div class="text">Одновременно файлов<div class="hint">Больше потоков: быстрее, но выше загрузка компьютера. «Авто»: по числу ядер.</div></div><div class="select" data-open="thr"><span data-select-label>Авто (4)</span><i data-icon="ChevronDown" data-size="14"></i><div class="popup" id="thr"><div class="option current">Авто (4)</div><div class="option">1</div><div class="option">2</div><div class="option">4</div><div class="option">8</div></div></div></div>
 <div class="setting"><div class="text">Искать в подпапках по умолчанию</div><span class="switch on"></span></div>
 </div>
 <div class="group-label">Имя файла</div>
 <div class="card">
-<div class="setting"><div class="text">Вид имени<div class="hint">Пример: «АБВГ.301121.001 Кронштейн.pdf». Недопустимые в Windows символы и слишком длинные имена — файл пропускается с причиной.</div></div><span class="t-mono">Обозначение␣Наименование.pdf</span></div>
+<div class="setting"><div class="text">Вид имени<div class="hint">Пример: «АБВГ.301121.001 Кронштейн.pdf». Если в имени недопустимые в Windows символы или оно слишком длинное, файл пропускается с причиной.</div></div><span class="t-mono">Обозначение␣Наименование.pdf</span></div>
 <div class="setting" data-new><div class="text">Если имя уже занято<div class="hint">Сейчас такой файл пропускается.</div></div><div class="select" data-open="dup"><span data-select-label>Пропустить файл</span><i data-icon="ChevronDown" data-size="14"></i><div class="popup" id="dup"><div class="option current">Пропустить файл</div><div class="option">Добавить номер: «… (2).pdf»</div></div></div></div>
 </div>
 <div class="group-label">Вид</div>
@@ -38,7 +38,6 @@
 </div>
 <div class="group-label">Данные</div>
 <div class="card">
-<div class="setting" data-new><div class="text">Хранить историю прогонов</div><div class="select" data-open="keep"><span data-select-label>12 месяцев</span><i data-icon="ChevronDown" data-size="14"></i><div class="popup" id="keep"><div class="option">3 месяца</div><div class="option current">12 месяцев</div><div class="option">Всегда</div></div></div></div>
 <div class="setting"><div class="text">Журнал работы программы<div class="hint">Для разбора ошибок: что делала программа, без содержимого файлов.</div></div><button class="btn"><i data-icon="Folder"></i>Открыть папку</button></div>
 <div class="setting"><div class="text">Сбросить настройки</div><button class="btn" data-toast="Настройки сброшены">Сбросить…</button></div>
 </div>

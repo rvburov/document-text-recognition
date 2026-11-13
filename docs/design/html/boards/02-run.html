@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2 · Идет распознавание — Переименование PDF</title>
+<title>2 · Идет распознавание · Распознавание текста документов</title>
 <link rel="stylesheet" href="../assets/tokens.css">
 <link rel="stylesheet" href="../assets/app.css">
 <script src="../assets/icons.js"></script>
 <script src="../assets/app.js" defer></script>
 </head>
 <body>
-<p class="pr-board-note"><b>Ход работы.</b> Слева направо: что сейчас распознается, сколько осталось, счетчики (как в нынешней версии: найдено, обработано, переименовано, пропущено — и отдельно ошибки). Таблица заполняется по мере готовности. «Стоп» — с подтверждением: файлы в работе дочитываются и не переименовываются. Ниже — экран после остановки.</p>
+<p class="pr-board-note"><b>Ход работы.</b> Слева направо: что сейчас распознается, сколько осталось, счетчики (как в нынешней версии: найдено, обработано, переименовано, пропущено, и отдельно ошибки). Таблица заполняется по мере готовности. «Стоп» спрашивает подтверждение: файлы в работе дочитываются и не переименовываются. Ниже экран после остановки.</p>
 <div class="pr-screens">
 <section class="pr-screen" data-active="rename" data-run="running" data-caption="Идет распознавание: 112 из 248. «Стоп» спрашивает подтверждение">
-<div class="page-head"><h1>Переименование</h1><div class="segments"><span class="segment current" data-nav="01-main.html">По содержимому (шаблоны и OCR)</span><span class="segment" data-nav="04-by-name.html">По имени файла (до первого пробела)</span></div></div>
+<div class="page-head"><h1>Переименование</h1></div>
 <div class="page"><div class="stack">
 <div class="card white">
   <div class="status-line"><i data-icon="ScanText" data-size="18"></i><span class="t-strong grow">Распознавание и переименование… <span class="t-muted">45%</span></span><span class="t-muted">осталось около 4 мин · 4 потока</span></div>
@@ -32,9 +32,9 @@
 <tr data-status="skip" data-detail="f3"><td class="old">scan_0004.pdf</td><td class="arrow">→</td><td>АБВГ.301121.003 Крышка.pdf</td><td>Чертеж детали</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
 <tr data-status="done" data-detail="f4"><td class="old">scan_0005.pdf</td><td class="arrow">→</td><td>АБВГ.304512.010 Вал приводной.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
 <tr data-status="same" data-detail="f5"><td class="old">АБВГ.466229.001 Плата.pdf</td><td class="arrow">→</td><td>АБВГ.466229.001 Плата.pdf</td><td>Спецификация</td><td><span class="pill "><span class="dot muted"></span>Имя уже верное</span></td></tr>
-<tr data-status="skip" data-detail="f6"><td class="old">scan_0007.pdf</td><td class="arrow">→</td><td class="t-muted">не подошел ни один шаблон</td><td>—</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
+<tr data-status="skip" data-detail="f6"><td class="old">scan_0007.pdf</td><td class="arrow">→</td><td class="t-muted">не подошел ни один шаблон</td><td>нет</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
 <tr data-status="done" data-detail="f7"><td class="old">scan_0008.pdf</td><td class="arrow">→</td><td>АБВГ.741512.002 Втулка.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
-<tr data-status="error" data-detail="f8"><td class="old">scan_0009.pdf</td><td class="arrow">→</td><td class="t-muted">обозначение: Tesseract «АБВГ.301121.0O5», PaddleOCR «АБВГ.301121.005» — не совпали</td><td>Спецификация</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>
+<tr data-status="error" data-detail="f8"><td class="old">scan_0009.pdf</td><td class="arrow">→</td><td class="t-muted">обозначение не совпало: Tesseract «АБВГ.301121.0O5», PaddleOCR «АБВГ.301121.005»</td><td>Спецификация</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>
 <tr data-status="done" data-detail="f9"><td class="old">Подпапка\scan_0010.pdf</td><td class="arrow">→</td><td>АБВГ.711111.004 Шайба.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
 <tr data-status="done" data-detail="f10"><td class="old">Подпапка\scan_0011.pdf</td><td class="arrow">→</td><td>АБВГ.711111.005 Шпилька.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
 <tr data-status="error" data-detail="f11"><td class="old">scan_0012.pdf</td><td class="arrow">→</td><td class="t-muted">не удалось переименовать (файл занят?): файл открыт в другой программе</td><td>Сборочный чертеж</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>
@@ -49,7 +49,7 @@
 <div class="d-actions"><button class="btn" data-close>Продолжить</button><button class="btn danger" data-run-stop>Остановить</button></div></div>
 </section>
 <section class="pr-screen" data-active="rename" data-caption="После «Стоп»: работа остановлена, итог по уже обработанным">
-<div class="page-head"><h1>Переименование</h1><div class="segments"><span class="segment current" data-nav="01-main.html">По содержимому (шаблоны и OCR)</span><span class="segment" data-nav="04-by-name.html">По имени файла (до первого пробела)</span></div></div>
+<div class="page-head"><h1>Переименование</h1></div>
 <div class="page"><div class="stack">
 <div class="card white"><div class="status-line"><span class="t-strong grow t-warning">Остановлено пользователем</span><span class="t-muted">13.11.2026 10:46</span></div>
 <div class="progress" style="margin:10px 0 12px"><span style="width:47%;background:var(--pr-orange)"></span></div>

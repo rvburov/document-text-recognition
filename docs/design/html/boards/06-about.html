@@ -3,44 +3,44 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>8 · О программе и обновление — Переименование PDF</title>
+<title>6 · О программе и обновление · Распознавание текста документов</title>
 <link rel="stylesheet" href="../assets/tokens.css">
 <link rel="stylesheet" href="../assets/app.css">
 <script src="../assets/icons.js"></script>
 <script src="../assets/app.js" defer></script>
 </head>
 <body>
-<p class="pr-board-note"><b>О программе и обновление</b> — как в программах организации: при запуске программа смотрит в <b>папку обновлений</b> на сетевом диске; если там версия новее, предлагает установить. «Установить»: копирование с ходом, затем программа закрывается, ставит новую версию и открывается снова. Интернет не нужен. Нажмите «Установить» и «Далее».</p>
+<p class="pr-board-note"><b>О программе и обновление</b>, как в программах организации: при запуске программа смотрит в <b>папку обновлений</b> на сетевом диске; если там версия новее, предлагает установить. «Установить»: копирование с ходом, затем программа закрывается, ставит новую версию и открывается снова. Интернет не нужен. Нажмите «Установить» и «Далее».</p>
 <div class="pr-screens">
 <section class="pr-screen" data-active="about" data-caption="Обновление найдено в папке обновлений. «Установить» копирует, закрывает программу и запускает новую">
 <div class="page-head"><h1>О программе</h1></div>
 <div class="page" style="max-width:780px"><div class="stack">
 <div class="card row" style="gap:16px"><svg width="56" height="56" viewBox="0 0 24 24"><rect x="3" y="2" width="15" height="20" rx="2" fill="var(--pr-pdf-light)" stroke="var(--pr-pdf)" stroke-width="1.2"/><path d="M7 8h7M7 12h5" stroke="var(--pr-pdf)" stroke-width="1.2" stroke-linecap="round"/><circle cx="17" cy="17" r="5" fill="var(--pr-accent)"/><path d="M14.8 17.1l1.5 1.5 2.9-3" stroke="var(--pr-text-on-accent)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<div class="grow"><div class="t-medium">Переименование PDF</div><div class="t-muted" style="margin-top:4px">Версия 1.0.0 · 13.11.2026 · Windows x64</div><div class="hint">Переименовывает сканы чертежей по обозначению и наименованию из штампа.</div></div></div>
+<div class="grow"><div class="t-medium">Распознавание текста документов</div><div class="t-muted" style="margin-top:4px">Версия 1.0.0 · 13.11.2026 · Windows x64</div><div class="hint">Распознает обозначение и наименование в штампе скана и переименовывает файл.</div></div></div>
 <div class="group-label">Обновление</div>
 <div data-page="found"><div class="card">
 <div class="setting"><div class="text"><span class="t-strong">Доступна версия 1.1.0</span><div class="hint">Сейчас установлена 1.0.0. Найдена в папке обновлений 13.11.2026 при запуске.</div></div><button class="btn accent" data-goto="copy"><i data-icon="Download"></i>Установить</button></div>
 <div class="setting"><div class="text">Что нового</div><button class="btn-link" data-open="notes">Открыть список изменений</button></div>
 <div class="setting"><div class="text">Проверять обновления при запуске</div><span class="switch on"></span></div>
-<div class="setting"><div class="text">Папка обновлений<div class="hint">Туда администратор кладет новый установщик «Переименование PDF-Setup.exe».</div></div><span class="t-muted">\\fileserver\Программы\pdf-rename</span><button class="btn">Изменить…</button></div>
+<div class="setting"><div class="text">Папка обновлений<div class="hint">Туда администратор кладет новый установщик «Распознавание текста документов-Setup.exe».</div></div><span class="t-muted">\\fileserver\Программы\pdf-rename</span><button class="btn">Изменить…</button></div>
 </div></div>
 <div data-page="copy" hidden><div class="card"><div class="status-line"><span class="t-strong grow">Копирование обновления… 64%</span><span class="t-muted">412 из 640 МБ</span></div><div class="progress" style="margin:10px 0"><span style="width:64%"></span></div>
-<div class="hint">После копирования программа закроется, установит версию 1.1.0 и откроется снова. Настройки и история сохранятся.</div>
+<div class="hint">После копирования программа закроется, установит версию 1.1.0 и откроется снова. Настройки сохранятся.</div>
 <div class="row" style="margin-top:10px"><span class="grow"></span><button class="btn" data-goto="found">Отмена</button><button class="btn accent" data-goto="latest">Далее (имитация)</button></div></div></div>
 <div data-page="latest" hidden><div class="card"><div class="setting"><div class="text"><span class="t-strong t-success">Установлена последняя версия 1.1.0</span><div class="hint">Проверено только что.</div></div><button class="btn" data-spin data-toast="Обновлений нет"><i data-icon="Refresh"></i>Проверить</button></div></div></div>
 <div class="group-label">Сведения</div>
 <div class="card">
 <div class="setting"><div class="text">Компоненты распознавания</div><span class="pill success">Tesseract 5.5 · PaddleOCR 3.3 · готовы</span></div>
-<div class="setting"><div class="text">Папка программы</div><span class="t-muted">C:\Users\ivanov\AppData\Local\Переименование PDF</span></div>
-<div class="setting"><div class="text">Данные (настройки, история)</div><span class="t-muted">C:\Users\ivanov\AppData\Roaming\Переименование PDF</span></div>
+<div class="setting"><div class="text">Папка программы</div><span class="t-muted">C:\Users\ivanov\AppData\Local\Распознавание текста документов</span></div>
+<div class="setting"><div class="text">Данные (настройки)</div><span class="t-muted">C:\Users\ivanov\AppData\Roaming\Распознавание текста документов</span></div>
 <div class="setting"><div class="text">Сторонние компоненты и лицензии</div><button class="btn-link" data-open="licenses">Открыть</button></div>
 </div><div style="height:12px"></div>
 </div></div>
 <div class="dialog base" id="notes"><div class="d-title"><span class="name">Что нового в 1.1.0</span><span class="btn-icon" data-close><i data-icon="Close" data-size="14"></i></span></div>
-<div class="d-body"><ul style="margin:0;padding-left:18px"><li>Раздел «История»: прежние прогоны и возврат имен.</li><li>Ввод имени вручную для пропущенных файлов.</li><li>Исправлено: длинные пути в подпапках.</li></ul></div>
+<div class="d-body"><ul style="margin:0;padding-left:18px"><li>Ввод имени вручную для пропущенных файлов.</li><li>Проверка шаблона на скане.</li><li>Исправлено: длинные пути в подпапках.</li></ul></div>
 <div class="d-actions"><button class="btn accent" data-close>Закрыть</button></div></div>
 <div class="dialog base" id="licenses"><div class="d-title"><span class="name">Сторонние компоненты</span><span class="btn-icon" data-close><i data-icon="Close" data-size="14"></i></span></div>
-<div class="d-body t-small" style="line-height:1.7">Avalonia (MIT) · .NET (MIT) · Tesseract (Apache-2.0) · Leptonica (BSD-2) · PaddleOCR, Paddle Inference (Apache-2.0) · OpenCV (Apache-2.0) · OpenCvSharp (Apache-2.0) · PDFium (BSD-3), Docnet (MIT) · tessdata (Apache-2.0)<div class="hint">Полные тексты — в файле THIRD-PARTY-NOTICES.txt рядом с программой.</div></div>
+<div class="d-body t-small" style="line-height:1.7">Avalonia (MIT) · .NET (MIT) · Tesseract (Apache-2.0) · Leptonica (BSD-2) · PaddleOCR, Paddle Inference (Apache-2.0) · OpenCV (Apache-2.0) · OpenCvSharp (Apache-2.0) · PDFium (BSD-3), Docnet (MIT) · tessdata (Apache-2.0)<div class="hint">Полные тексты в файле THIRD-PARTY-NOTICES.txt рядом с программой.</div></div>
 <div class="d-actions"><button class="btn accent" data-close>Закрыть</button></div></div>
 </section>
 </div>

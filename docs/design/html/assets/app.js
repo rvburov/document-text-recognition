@@ -1,29 +1,26 @@
-/* Макет «Переименование PDF»: рамка окна Windows, панель разделов, значки, интерактивность.
+/* Макет «Распознавание текста документов»: рамка окна Windows, панель разделов, значки, интерактивность.
    Доски описывают только содержимое; поведение задается атрибутами (см. README.md). */
 (function () {
   "use strict";
 
   var BOARDS = [
-    { file: "01-main.html", n: 1, title: "Переименование", group: "Основные экраны", sub: "Главный экран: режим, папки, запуск" },
+    { file: "01-main.html", n: 1, title: "Переименование", group: "Основные экраны", sub: "Главный экран: папки, запуск, результат" },
     { file: "02-run.html", n: 2, title: "Идет распознавание", group: "Основные экраны", sub: "Ход работы, счетчики, остановка" },
     { file: "03-results.html", n: 3, title: "Результат", group: "Основные экраны", sub: "Таблица файлов, фильтр по итогу, подробности" },
-    { file: "04-by-name.html", n: 4, title: "Режим «По имени»", group: "Основные экраны", sub: "Проверка, предпросмотр, переименование" },
-    { file: "05-templates.html", n: 5, title: "Шаблоны", group: "Основные экраны", sub: "Список шаблонов и рамки на странице" },
-    { file: "06-history.html", n: 6, title: "История", group: "Основные экраны", sub: "Прошлые прогоны, возврат прежних имен" },
-    { file: "07-settings.html", n: 7, title: "Настройки", group: "Основные экраны", sub: "Распознавание, имя файла, вид, обновление" },
-    { file: "08-about.html", n: 8, title: "О программе и обновление", group: "Основные экраны", sub: "Версия, проверка и установка обновления" },
-    { file: "09-first-run.html", n: 9, title: "Первый запуск", group: "Сценарии и состояния", sub: "Пустые папки, подсказки по шагам" },
-    { file: "10-errors.html", n: 10, title: "Ошибки", group: "Сценарии и состояния", sub: "Что видит человек и что делать" },
-    { file: "11-dialogs.html", n: 11, title: "Диалоги", group: "Сценарии и состояния", sub: "Подтверждения и выбор файла" },
-    { file: "12-install.html", n: 12, title: "Установка и обновление", group: "Сценарии и состояния", sub: "Установщик, ярлык, обновление при запуске" },
-    { file: "13-ds-foundations.html", n: 13, title: "Дизайн-система: основы", group: "Дизайн-система", sub: "Цвета, шрифты, размеры, значки" },
-    { file: "14-ds-components.html", n: 14, title: "Дизайн-система: компоненты", group: "Дизайн-система", sub: "Кнопки, поля, таблица, диалоги" }
+    { file: "04-templates.html", n: 4, title: "Шаблоны", group: "Основные экраны", sub: "Список шаблонов и рамки на странице" },
+    { file: "05-settings.html", n: 5, title: "Настройки", group: "Основные экраны", sub: "Распознавание, имя файла, вид, обновление" },
+    { file: "06-about.html", n: 6, title: "О программе и обновление", group: "Основные экраны", sub: "Версия, проверка и установка обновления" },
+    { file: "07-first-run.html", n: 7, title: "Первый запуск", group: "Сценарии и состояния", sub: "Пустые папки, подсказки по шагам" },
+    { file: "08-errors.html", n: 8, title: "Ошибки", group: "Сценарии и состояния", sub: "Что видит человек и что делать" },
+    { file: "09-dialogs.html", n: 9, title: "Диалоги", group: "Сценарии и состояния", sub: "Подтверждения" },
+    { file: "10-install.html", n: 10, title: "Установка и обновление", group: "Сценарии и состояния", sub: "Установщик, ярлык, обновление при запуске" },
+    { file: "11-ds-foundations.html", n: 11, title: "Дизайн-система: основы", group: "Дизайн-система", sub: "Цвета, шрифты, размеры, значки" },
+    { file: "12-ds-components.html", n: 12, title: "Дизайн-система: компоненты", group: "Дизайн-система", sub: "Кнопки, поля, таблица, диалоги" }
   ];
   var NAV = [
     { id: "rename", label: "Переименование", icon: "Rename", file: "01-main.html" },
-    { id: "templates", label: "Шаблоны", icon: "Template", file: "05-templates.html", count: "6" },
-    { id: "history", label: "История", icon: "History", file: "06-history.html", isNew: true },
-    { id: "settings", label: "Настройки", icon: "Settings", file: "07-settings.html" }
+    { id: "templates", label: "Шаблоны", icon: "Template", file: "04-templates.html", count: "6" },
+    { id: "settings", label: "Настройки", icon: "Settings", file: "05-settings.html" }
   ];
   var VERSION = "1.0.0";
   var params = new URLSearchParams(location.search);
@@ -55,8 +52,8 @@
       return '<a class="item' + (n.id === active ? " current" : "") + '" href="' + n.file + '"' + (n.isNew ? " data-new" : "") + '>' +
         icon(n.icon, 18) + "<span>" + n.label + "</span>" + (n.count ? '<span class="count">' + n.count + "</span>" : "") + "</a>";
     }).join("");
-    return '<nav class="nav"><div class="brand">' + logo(20) + "<span>Переименование PDF</span></div>" + items +
-      '<div class="bottom"><a class="item' + (active === "about" ? " current" : "") + '" href="08-about.html">' + icon("Info", 18) +
+    return '<nav class="nav"><div class="brand">' + logo(20) + "<span>Распознавание текста документов</span></div>" + items +
+      '<div class="bottom"><a class="item' + (active === "about" ? " current" : "") + '" href="06-about.html">' + icon("Info", 18) +
       "<span>О программе</span></a><div class=\"version\">Версия " + VERSION + "</div></div></nav>";
   }
   function logo(size) {
@@ -66,7 +63,7 @@
   }
   function frame(screen) {
     var bare = screen.hasAttribute("data-bare");
-    var title = screen.dataset.title || "Переименование PDF";
+    var title = screen.dataset.title || "Распознавание текста документов";
     var win = document.createElement("div");
     win.className = "win" + (bare ? " dialog-window" : "");
     if (screen.dataset.width) win.style.width = screen.dataset.width + "px";
@@ -98,7 +95,7 @@
     var options = BOARDS.map(function (b) {
       return '<option value="' + b.file + '"' + (b.file === file ? " selected" : "") + ">" + b.n + " · " + b.title + "</option>";
     }).join("");
-    bar.innerHTML = '<a class="home" href="' + root + 'index.html">Переименование PDF · макет</a>' +
+    bar.innerHTML = '<a class="home" href="' + root + 'index.html">Распознавание текста документов · макет</a>' +
       (i >= 0 ? '<select aria-label="Доска">' + options + "</select>" +
         (i > 0 ? '<a class="step" href="' + BOARDS[i - 1].file + '">← ' + BOARDS[i - 1].title + "</a>" : "") +
         (i < BOARDS.length - 1 ? '<a class="step" href="' + BOARDS[i + 1].file + '">' + BOARDS[i + 1].title + " →</a>" : "") : "") +
