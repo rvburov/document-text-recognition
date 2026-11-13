@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 namespace DocumentTextRecognition.Tests.Samples;
 
 /// <summary>
-/// Где плагин поставляется с OCR и OpenCV: Windows x64 и Linux x64. На macOS и ARM готовых
+/// Где программа работает с OCR и OpenCV: Windows x64 и Linux x64. На macOS и ARM готовых
 /// библиотек OpenCV/Paddle для поставки нет — там тесты распознавания и обработки картинок
 /// пропускаются с этой причиной (ограничение первой версии, описано в документации).
 /// </summary>
@@ -12,10 +12,10 @@ public static class OcrPlatform
     public static bool Supported =>
         RuntimeInformation.OSArchitecture == Architecture.X64 && (OperatingSystem.IsWindows() || OperatingSystem.IsLinux());
 
-    public const string Reason = "OCR-часть плагина в первой версии поставляется только для Windows x64 и Linux x64";
+    public const string Reason = "распознавание проверяется только на Windows x64 и Linux x64";
 }
 
-/// <summary>Тест обработки картинок и OCR: пропускается там, где плагин без OCR.</summary>
+/// <summary>Тест обработки картинок и OCR: пропускается там, где нет OCR.</summary>
 public sealed class OcrFactAttribute : FactAttribute
 {
     public OcrFactAttribute()

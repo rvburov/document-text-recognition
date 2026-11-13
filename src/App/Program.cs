@@ -38,9 +38,14 @@ public static class Program
     public static AppBuilder BuildAvaloniaApp() =>
         AppBuilder.Configure<App>().UsePlatformDetect().LogToTrace();
 
+    [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+    private static extern bool AttachConsole(int processId);
+
     /// <summary>Проверка компонентов распознавания: оба способа должны запуститься.</summary>
     private static int Check()
     {
+        // Программа оконная: чтобы текст был виден в консоли, из которой ее запустили.
+        if (OperatingSystem.IsWindows()) AttachConsole(-1);
         var problems = OcrComponents.CheckReady();
         Console.WriteLine(problems.Count == 0
             ? "Компоненты распознавания готовы: Tesseract и PaddleOCR."

@@ -25,7 +25,15 @@ public partial class MainWindow : Window
         Processing.Attach(this);
         SettingsView.Attach(this);
         About.Attach(this);
-        Opened += async (_, _) => await About.CheckOnStartup();
+        Opened += async (_, _) =>
+        {
+            // Обновление не удалось: работает прежняя версия, сказать почему.
+            var i = Array.IndexOf(Program.Args, "--update-failed");
+            if (i >= 0 && i + 1 < Program.Args.Length)
+                await Ask.Info(this, "Обновление не установлено", $"{Program.Args[i + 1]} Работает прежняя версия {AppInfo.Version}.");
+            else
+                await About.CheckOnStartup();
+        };
         Closing += OnClosing;
     }
 

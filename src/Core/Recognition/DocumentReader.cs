@@ -8,7 +8,7 @@ using DocumentTextRecognition.Core.Templates;
 namespace DocumentTextRecognition.Core.Recognition;
 
 /// <summary>Пара движков одного рабочего потока. Пороги уверенности — у каждого свои
-/// (шкалы несравнимы); подобраны на синтетических образцах, см. документацию расширения.</summary>
+/// (шкалы несравнимы); подобраны на синтетических образцах, описание в docs/recognition.md.</summary>
 internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
 {
     public IOcrEngine First { get; } = first;

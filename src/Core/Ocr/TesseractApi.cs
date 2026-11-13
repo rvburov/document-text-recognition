@@ -9,7 +9,7 @@ namespace DocumentTextRecognition.Core.Ocr;
 /// </summary>
 internal static class TesseractApi
 {
-    /// <summary>Условное имя библиотеки; реальный путь подставляет загрузчик плагина.</summary>
+    /// <summary>Условное имя библиотеки; реальный путь подставляет загрузчик программы.</summary>
     public const string Library = "tesseract";
 
     // Режимы разбиения страницы (TessPageSegMode).

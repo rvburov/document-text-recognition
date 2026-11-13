@@ -8,7 +8,7 @@ namespace DocumentTextRecognition.Core.Ocr;
 /// <summary>
 /// PaddleOCR v5 на движке Paddle Inference (CPU): детектор строк <c>mobile_zh_det</c>
 /// (многоязычный) и распознавание <c>eslav_PP_OCRv5_mobile_rec</c> (русский, латиница, цифры).
-/// Модели лежат в папке плагина <c>ocr/paddle</c>. Найденные фрагменты собираются в строки
+/// Модели лежат в папке программы <c>ocr/paddle</c>. Найденные фрагменты собираются в строки
 /// по вертикальному перекрытию.
 /// </summary>
 internal sealed class PaddleEngine : IOcrEngine
@@ -17,7 +17,7 @@ internal sealed class PaddleEngine : IOcrEngine
 
     /// <summary>Во сколько раз расширять найденную рамку строки перед распознаванием. 2.0 —
     /// значение PaddleOCR по умолчанию; 2.5 и 3.0 на синтетических сканах читали наименования
-    /// хуже (замер — в документации расширения).</summary>
+    /// хуже (замер на синтетических сканах).</summary>
     public const float UnclipRatio = 2.0f;
 
     public string Name => "PaddleOCR";

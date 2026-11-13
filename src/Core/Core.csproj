@@ -16,13 +16,6 @@
     <AssemblyName>DocumentTextRecognition.Core</AssemblyName>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <_DtrArch>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLowerInvariant())</_DtrArch>
-    <OcrRid Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</OcrRid>
-    <OcrRid Condition="'$(OcrRid)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">win-$(_DtrArch)</OcrRid>
-    <OcrRid Condition="'$(OcrRid)' == '' and $([MSBuild]::IsOSPlatform('Linux'))">linux-$(_DtrArch)</OcrRid>
-  </PropertyGroup>
-
   <ItemGroup>
     <InternalsVisibleTo Include="DocumentTextRecognition.Tests" />
     <InternalsVisibleTo Include="DocumentTextRecognition" />
@@ -42,16 +35,17 @@
     <PackageReference Include="TesseractOCR" Version="5.5.2" ExcludeAssets="all" GeneratePathProperty="true" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(OcrRid)' == 'win-x64'">
+  <!-- Нативные части для обеих платформ: публикация под win-x64 берет только свои
+       (runtimes/win-x64/native), Linux нужен для проверок. -->
+  <ItemGroup>
     <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.13.0.20261107" />
     <PackageReference Include="Sdcb.PaddleInference.runtime.win64.openblas" Version="3.3.1.70" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(OcrRid)' == 'linux-x64'">
     <PackageReference Include="OpenCvSharp4.official.runtime.linux-x64" Version="4.13.0.20261107" />
     <PackageReference Include="Sdcb.PaddleInference.runtime.linux-x64.openblas" Version="3.3.1.70" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(OcrRid)' == 'win-x64'">
+  <!-- Tesseract для Windows кладется в ocr\tesseract (грузится только на Windows). -->
+  <ItemGroup>
     <None Include="$(PkgTesseractOCR)\x64\tesseract55.dll" Link="ocr\tesseract\tesseract55.dll"
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Include="$(PkgTesseractOCR)\x64\leptonica-1.85.0.dll" Link="ocr\tesseract\leptonica-1.85.0.dll"
@@ -61,7 +55,6 @@
   <ItemGroup>
     <None Include="..\..\ocr\tessdata\*.traineddata" Link="ocr\tessdata\%(Filename)%(Extension)"
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <None Include="THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <!--

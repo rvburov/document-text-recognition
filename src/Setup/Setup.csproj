@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Установщик «Распознавание текста документов-Setup.exe»: одна небольшая программа, в конец
+    которой сборка дописывает архив с папкой программы (scripts\build.ps1). Установка для
+    одного пользователя, без прав администратора; режим обновления (ключ update) ставит новую версию поверх
+    старой, когда программа закрылась.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>DocumentTextRecognition.Setup</RootNamespace>
+    <AssemblyName>DocumentTextRecognition.Setup</AssemblyName>
+    <ApplicationIcon>..\App\Assets\app.ico</ApplicationIcon>
+    <ApplicationManifest>..\App\app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.2.3" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.2.3" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Ui\Ui.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="..\App\Assets\app.ico" Link="Assets\app.ico" />
+  </ItemGroup>
+
+</Project>

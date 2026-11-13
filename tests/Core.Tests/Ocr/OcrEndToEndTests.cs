@@ -11,7 +11,7 @@ namespace DocumentTextRecognition.Tests.Ocr;
 /// Группы ТЗ 8, 9, 10, 13 и сквозной прогон — с НАСТОЯЩИМИ Tesseract и PaddleOCR на
 /// синтетических сканах. Главное свойство: документ либо переименован верно, либо пропущен;
 /// неверного имени не бывает. Точность на реальных сканах эти тесты не подтверждают — для
-/// этого нужны образцы (см. документацию расширения).
+/// этого нужны образцы (описание в docs/recognition.md).
 /// </summary>
 [Collection("OCR")]
 public sealed class OcrEndToEndTests(OcrFixture ocr) : IDisposable

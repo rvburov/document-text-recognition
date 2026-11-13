@@ -42,4 +42,12 @@
     <InternalsVisibleTo Include="DocumentTextRecognition.App.Tests" />
   </ItemGroup>
 
+  <!-- Видео OpenCV программе не нужно: модуль ffmpeg (28 МБ) из публикации убирается. -->
+  <Target Name="DtrTrimPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <_DtrUnneeded Include="$(PublishDir)opencv_videoio_ffmpeg*.dll" />
+    </ItemGroup>
+    <Delete Files="@(_DtrUnneeded)" />
+  </Target>
+
 </Project>

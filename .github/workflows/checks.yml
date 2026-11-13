@@ -1,0 +1,57 @@
+# Проверки: тесты ядра и окна на Linux (настоящее распознавание на синтетических сканах) и сборка
+# установщика на Windows тем же сценарием, что на ПК (scripts/build.ps1). Установщик выкладывается
+# файлом сборки (Actions → запуск → Artifacts) на 14 дней; выпусков (Releases) нет.
+name: checks
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  tests:
+    name: Тесты (Linux)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Tesseract и шрифт для тестов
+        run: scripts/ci-ocr-deps.sh
+      - name: Тесты ядра
+        run: dotnet test tests/Core.Tests -c Release
+      - name: Тесты окна и установщика
+        run: dotnet test tests/App.Tests -c Release
+
+  setup:
+    name: Установщик (Windows)
+    runs-on: windows-2022
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Сборка (scripts\build.ps1)
+        shell: pwsh
+        run: ./scripts/build.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: setup
+          path: dist/*.exe
+          retention-days: 14
+          compression-level: 0
