@@ -1,0 +1,106 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="using:DocumentTextRecognition.Ui"
+             x:Class="DocumentTextRecognition.Pages.SettingsPage">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Margin="16,0,16,24" Spacing="8">
+      <TextBlock Classes="h1" Text="Настройки" Margin="0,16,0,4" />
+
+      <TextBlock Classes="group" Text="Распознавание" Margin="0,8,0,0" />
+      <Border Classes="card" Padding="12,2">
+        <StackPanel>
+          <Border Classes="setting">
+            <Grid ColumnDefinitions="*,Auto" ui:Gap.Columns="16">
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock FontWeight="Medium" Text="Одновременно файлов" />
+                <TextBlock Classes="hint" Text="Больше потоков: быстрее, но выше загрузка компьютера. «Авто»: по числу ядер." />
+              </StackPanel>
+              <ComboBox Name="WorkersBox" Grid.Column="1" MinWidth="180" VerticalAlignment="Center" />
+            </Grid>
+          </Border>
+          <Border Classes="setting sep">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock FontWeight="Medium" Text="Искать в подпапках по умолчанию" VerticalAlignment="Center" />
+              <ToggleSwitch Name="RecursiveSwitch" Grid.Column="1" />
+            </Grid>
+          </Border>
+        </StackPanel>
+      </Border>
+
+      <TextBlock Classes="group" Text="Имя файла" Margin="0,8,0,0" />
+      <Border Classes="card" Padding="12,2">
+        <StackPanel>
+          <Border Classes="setting">
+            <Grid ColumnDefinitions="*,Auto" ui:Gap.Columns="16">
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock FontWeight="Medium" Text="Вид имени" />
+                <TextBlock Classes="hint" Text="Пример: «АБВГ.466229.001 Плата Спецификация.pdf». Если тип документа на скане не написан, ставится «Спецификация». Если в имени недопустимые в Windows символы или оно слишком длинное, файл пропускается с причиной." />
+              </StackPanel>
+              <TextBlock Grid.Column="1" Classes="mono" VerticalAlignment="Center" Text="Обозначение␣Наименование␣Тип документа.pdf" />
+            </Grid>
+          </Border>
+          <Border Classes="setting sep">
+            <Grid ColumnDefinitions="*,Auto" ui:Gap.Columns="16">
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock FontWeight="Medium" Text="Если имя уже занято" />
+                <TextBlock Classes="hint" Text="Другим файлом в той же папке. Содержимое файлов не меняется никогда." />
+              </StackPanel>
+              <ComboBox Name="TakenBox" Grid.Column="1" MinWidth="240" VerticalAlignment="Center">
+                <ComboBoxItem Content="Пропустить файл" />
+                <ComboBoxItem Content="Добавить номер: «… (2).pdf»" />
+              </ComboBox>
+            </Grid>
+          </Border>
+        </StackPanel>
+      </Border>
+
+      <TextBlock Classes="group" Text="Вид" Margin="0,8,0,0" />
+      <Border Classes="card" Padding="12,2">
+        <StackPanel>
+          <Border Classes="setting">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock FontWeight="Medium" Text="Размер шрифта" VerticalAlignment="Center" />
+              <Border Grid.Column="1" Background="{DynamicResource Brush.Divider}" CornerRadius="7" Padding="3">
+                <StackPanel Orientation="Horizontal" Name="FontSegments">
+                  <RadioButton Theme="{StaticResource Segment}" GroupName="font" Content="100%" Tag="100" Click="OnFontScale" />
+                  <RadioButton Theme="{StaticResource Segment}" GroupName="font" Content="115%" Tag="115" Click="OnFontScale" />
+                  <RadioButton Theme="{StaticResource Segment}" GroupName="font" Content="125%" Tag="125" Click="OnFontScale" />
+                  <RadioButton Theme="{StaticResource Segment}" GroupName="font" Content="150%" Tag="150" Click="OnFontScale" />
+                </StackPanel>
+              </Border>
+            </Grid>
+          </Border>
+          <Border Classes="setting sep">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock FontWeight="Medium" Text="Уведомление Windows по окончании" VerticalAlignment="Center" />
+              <ToggleSwitch Name="NotifySwitch" Grid.Column="1" />
+            </Grid>
+          </Border>
+        </StackPanel>
+      </Border>
+
+      <TextBlock Classes="group" Text="Данные" Margin="0,8,0,0" />
+      <Border Classes="card" Padding="12,2">
+        <StackPanel>
+          <Border Classes="setting">
+            <Grid ColumnDefinitions="*,Auto" ui:Gap.Columns="16">
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock FontWeight="Medium" Text="Журнал работы программы" />
+                <TextBlock Classes="hint" Text="Для разбора ошибок: что делала программа, без содержимого файлов." />
+              </StackPanel>
+              <Button Grid.Column="1" Click="OnOpenLog">
+                <StackPanel Orientation="Horizontal" Spacing="8"><ui:Icon Kind="Folder" /><TextBlock Text="Открыть папку" VerticalAlignment="Center" /></StackPanel>
+              </Button>
+            </Grid>
+          </Border>
+          <Border Classes="setting sep">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock FontWeight="Medium" Text="Сбросить настройки" VerticalAlignment="Center" />
+              <Button Grid.Column="1" Content="Сбросить…" Click="OnReset" />
+            </Grid>
+          </Border>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

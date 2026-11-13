@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Оформление программы и установщика: цвета и размеры из макета (docs/design), шрифты
+       Golos Text и JetBrains Mono (SIL OFL 1.1), стили кнопок, полей, флажков, списков и полосы
+       прокрутки, значки. -->
+  <PropertyGroup>
+    <RootNamespace>DocumentTextRecognition.Ui</RootNamespace>
+    <AssemblyName>DocumentTextRecognition.Ui</AssemblyName>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.2.3" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+</Project>

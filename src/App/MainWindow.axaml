@@ -1,0 +1,63 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="using:DocumentTextRecognition.Ui"
+        xmlns:pages="using:DocumentTextRecognition.Pages"
+        x:Class="DocumentTextRecognition.MainWindow"
+        Title="Распознавание текста документов"
+        Icon="avares://DocumentTextRecognition/Assets/app.ico"
+        Width="1180" Height="760" MinWidth="760" MinHeight="560"
+        WindowStartupLocation="CenterScreen">
+  <LayoutTransformControl Name="Zoom">
+    <Grid ColumnDefinitions="240,*">
+      <!-- Панель разделов: название программы только в заголовке окна. -->
+      <Border Background="{DynamicResource Brush.Side}" BorderBrush="#D6DCE4" BorderThickness="0,0,1,0" Padding="10,14,6,10">
+        <DockPanel>
+          <StackPanel DockPanel.Dock="Bottom" Spacing="2">
+            <RadioButton Name="NavAbout" GroupName="nav" Theme="{StaticResource NavItem}" Click="OnNav">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <ui:Icon Kind="Info" />
+                <TextBlock Text="О программе" VerticalAlignment="Center" />
+              </StackPanel>
+            </RadioButton>
+            <TextBlock Name="VersionText" Classes="hint" Margin="10,8,0,0" Foreground="{DynamicResource Brush.Faint}" />
+          </StackPanel>
+          <StackPanel Spacing="2">
+            <RadioButton Name="NavProcessing" GroupName="nav" Theme="{StaticResource NavItem}" IsChecked="True" Click="OnNav">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <ui:Icon Kind="ScanText" />
+                <TextBlock Text="Обработка" VerticalAlignment="Center" />
+              </StackPanel>
+            </RadioButton>
+            <RadioButton Name="NavTemplates" GroupName="nav" Theme="{StaticResource NavItem}" Click="OnNav">
+              <Grid ColumnDefinitions="Auto,*,Auto">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                  <ui:Icon Kind="Template" />
+                  <TextBlock Text="Шаблоны" VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock Name="TemplatesCount" Grid.Column="2" Classes="hint" FontWeight="Normal" VerticalAlignment="Center" Margin="0,0,4,0" />
+              </Grid>
+            </RadioButton>
+            <RadioButton Name="NavSettings" GroupName="nav" Theme="{StaticResource NavItem}" Click="OnNav">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <ui:Icon Kind="Settings" />
+                <TextBlock Text="Настройки" VerticalAlignment="Center" />
+              </StackPanel>
+            </RadioButton>
+          </StackPanel>
+        </DockPanel>
+      </Border>
+
+      <Panel Grid.Column="1">
+        <pages:ProcessingPage Name="Processing" />
+        <pages:TemplatesPage Name="Templates" IsVisible="False" />
+        <pages:SettingsPage Name="SettingsView" IsVisible="False" />
+        <pages:AboutPage Name="About" IsVisible="False" />
+        <!-- Всплывающее сообщение вверху рабочей области. -->
+        <Border Name="ToastBox" IsVisible="False" Background="{DynamicResource Brush.Toast}" CornerRadius="10" Padding="14,8"
+                HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,12,0,0">
+          <TextBlock Name="ToastText" Foreground="{DynamicResource Brush.ToastText}" />
+        </Border>
+      </Panel>
+    </Grid>
+  </LayoutTransformControl>
+</Window>

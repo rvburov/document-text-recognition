@@ -1,0 +1,101 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="using:DocumentTextRecognition.Ui"
+             x:Class="DocumentTextRecognition.Pages.AboutPage">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Margin="16,0,16,24" Spacing="8">
+      <TextBlock Classes="h1" Text="О программе" Margin="0,16,0,4" />
+
+      <Border Classes="card">
+        <Grid ColumnDefinitions="Auto,*" ui:Gap.Columns="16">
+          <Viewbox Width="56" Height="56">
+            <Canvas Width="24" Height="24">
+              <Path Data="{StaticResource Logo.Sheet}" Fill="#FDF1EF" Stroke="#B42318" StrokeThickness="1.2" />
+              <Path Data="{StaticResource Logo.Lines}" Stroke="#B42318" StrokeThickness="1.2" StrokeLineCap="Round" />
+              <Ellipse Canvas.Left="12" Canvas.Top="12" Width="10" Height="10" Fill="#1F5FD1" />
+              <Path Data="{StaticResource Logo.Tick}" Stroke="White" StrokeThickness="1.4" StrokeLineCap="Round" StrokeJoin="Round" />
+            </Canvas>
+          </Viewbox>
+          <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="Распознавание текста документов" />
+            <TextBlock Name="VersionLine" Classes="muted" />
+            <TextBlock Classes="hint" Text="Распознает обозначение, наименование и тип документа в штампе скана и переименовывает файл." />
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <TextBlock Classes="group" Text="Обновление" Margin="0,8,0,0" />
+      <Border Classes="card" Padding="12,2">
+        <StackPanel>
+          <!-- Строка состояния: есть обновление, копирование или последняя версия. -->
+          <Border Classes="setting" Name="StateRow">
+            <Grid ColumnDefinitions="*,Auto" ui:Gap.Columns="16">
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock Name="StateTitle" FontWeight="SemiBold" />
+                <TextBlock Name="StateHint" Classes="hint" />
+              </StackPanel>
+              <Button Name="InstallButton" Grid.Column="1" Classes="accent" Click="OnInstall" IsVisible="False">
+                <StackPanel Orientation="Horizontal" Spacing="8"><ui:Icon Kind="Download" /><TextBlock Text="Установить" VerticalAlignment="Center" /></StackPanel>
+              </Button>
+              <Button Name="CheckButton" Grid.Column="1" Click="OnCheck">
+                <StackPanel Orientation="Horizontal" Spacing="8"><ui:Icon Kind="Refresh" /><TextBlock Text="Проверить" VerticalAlignment="Center" /></StackPanel>
+              </Button>
+            </Grid>
+          </Border>
+          <Border Name="CopyRow" Classes="setting" IsVisible="False">
+            <StackPanel>
+              <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Name="CopyTitle" FontWeight="SemiBold" />
+                <TextBlock Name="CopySize" Grid.Column="1" Classes="muted" />
+              </Grid>
+              <ProgressBar Name="CopyBar" Minimum="0" Maximum="1" Margin="0,10" />
+              <TextBlock Classes="hint" Text="После копирования программа закроется, установит новую версию и откроется снова. Настройки сохранятся." />
+              <Button Content="Отмена" HorizontalAlignment="Right" Margin="0,10,0,0" Click="OnCancelCopy" />
+            </StackPanel>
+          </Border>
+          <Border Classes="setting sep">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock FontWeight="Medium" Text="Проверять обновления при запуске" VerticalAlignment="Center" />
+              <ToggleSwitch Name="CheckSwitch" Grid.Column="1" />
+            </Grid>
+          </Border>
+          <Border Classes="setting sep">
+            <Grid ColumnDefinitions="*,Auto,Auto" ui:Gap.Columns="16">
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock FontWeight="Medium" Text="Папка обновлений" />
+                <TextBlock Classes="hint" Text="Туда администратор кладет новый установщик «Распознавание текста документов-Setup.exe». Задается при установке." />
+              </StackPanel>
+              <TextBlock Name="FolderText" Grid.Column="1" Classes="muted" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="360" />
+              <Button Grid.Column="2" Content="Изменить…" Click="OnChangeFolder" VerticalAlignment="Center" />
+            </Grid>
+          </Border>
+        </StackPanel>
+      </Border>
+
+      <TextBlock Classes="group" Text="Сведения" Margin="0,8,0,0" />
+      <Border Classes="card" Padding="12,2">
+        <StackPanel>
+          <Border Classes="setting">
+            <Grid ColumnDefinitions="*,Auto" ui:Gap.Columns="16">
+              <TextBlock FontWeight="Medium" Text="Компоненты распознавания" VerticalAlignment="Center" />
+              <Border Name="ComponentsPill" Grid.Column="1" Classes="pill"><TextBlock Name="ComponentsText" Text="проверяются…" /></Border>
+            </Grid>
+          </Border>
+          <TextBlock Name="ComponentsProblem" Classes="hint" Foreground="{DynamicResource Brush.Red}" IsVisible="False" Margin="0,0,0,8" />
+          <Border Classes="setting sep">
+            <Grid ColumnDefinitions="Auto,*" ui:Gap.Columns="16">
+              <TextBlock FontWeight="Medium" Text="Папка программы" VerticalAlignment="Center" />
+              <TextBlock Name="ProgramDir" Grid.Column="1" Classes="muted" HorizontalAlignment="Right" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+            </Grid>
+          </Border>
+          <Border Classes="setting sep">
+            <Grid ColumnDefinitions="Auto,*" ui:Gap.Columns="16">
+              <TextBlock FontWeight="Medium" Text="Данные (настройки)" VerticalAlignment="Center" />
+              <TextBlock Name="DataDir" Grid.Column="1" Classes="muted" HorizontalAlignment="Right" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+            </Grid>
+          </Border>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

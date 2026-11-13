@@ -108,7 +108,7 @@ internal static class TemplateLibrary
                 }
 
                 if (marked is null || layout is null || page is null)
-                    return new TemplateLoad(file, null, "не найдено цветных рамок (синяя, зеленая или красно-оранжевая)");
+                    return new TemplateLoad(file, null, "не найдено цветных рамок (синяя, зеленая, желтая или красная)");
                 if (!layout.IsValid)
                     return new TemplateLoad(file, null, $"стр. {marked + 1}: {layout.Problem}");
 

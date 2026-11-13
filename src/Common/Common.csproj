@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Общее для программы и установщика: пути, настройки, журнал работы, ярлыки и запись в
+       «Установленные приложения», чтение версии из папки обновлений. Окна здесь нет. -->
+  <PropertyGroup>
+    <RootNamespace>DocumentTextRecognition.Common</RootNamespace>
+    <AssemblyName>DocumentTextRecognition.Common</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="DocumentTextRecognition.App.Tests" />
+  </ItemGroup>
+</Project>

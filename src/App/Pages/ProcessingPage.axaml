@@ -1,0 +1,219 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="using:DocumentTextRecognition.Ui"
+             xmlns:s="using:DocumentTextRecognition.Services"
+             x:Class="DocumentTextRecognition.Pages.ProcessingPage">
+  <Grid RowDefinitions="*,Auto">
+    <ScrollViewer Name="Scroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
+      <Grid Name="Body" Margin="16,0,16,16" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
+        <TextBlock Classes="h1" Text="Обработка" Margin="0,16,0,12" />
+
+        <!-- Первый запуск: подсказка по шагам. -->
+        <Border Name="StartHint" Grid.Row="1" Classes="banner accent" Margin="0,0,0,12" IsVisible="False">
+          <Grid ColumnDefinitions="Auto,*,Auto" ui:Gap.Columns="10">
+            <ui:Icon Kind="Info" Foreground="{DynamicResource Brush.AccentText}" VerticalAlignment="Top" Margin="0,1,0,0" />
+            <TextBlock Grid.Column="1" Text="С чего начать. 1) Выберите папку шаблонов: PDF-образцы с цветными рамками. 2) Выберите папку со сканами. 3) Нажмите «Запустить»." />
+            <Button Grid.Column="2" Classes="link" Content="Как сделать шаблон" Click="OnHowTo" VerticalAlignment="Center" />
+          </Grid>
+        </Border>
+
+        <StackPanel Grid.Row="2" Spacing="12" Name="Folders">
+          <Border Classes="card">
+            <StackPanel Spacing="6">
+              <TextBlock Classes="group" Text="1. Папка шаблонов" />
+              <Grid ColumnDefinitions="*,Auto" ui:Gap.Columns="8">
+                <TextBox Name="TemplatesBox" Classes="path" Watermark="Выберите папку с шаблонами…" />
+                <Button Grid.Column="1" Content="Обзор…" Click="OnBrowseTemplates" />
+              </Grid>
+              <WrapPanel Orientation="Horizontal">
+                <TextBlock Classes="hint" Text="Рамки на шаблоне:" Margin="0,0,14,0" />
+                <StackPanel Orientation="Horizontal" Spacing="5" Margin="0,0,14,0">
+                  <Border Width="12" Height="12" CornerRadius="2" Background="{DynamicResource Brush.FrameDesignation}" />
+                  <TextBlock Classes="hint" Text="синяя: обозначение" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="5" Margin="0,0,14,0">
+                  <Border Width="12" Height="12" CornerRadius="2" Background="{DynamicResource Brush.FrameName}" />
+                  <TextBlock Classes="hint" Text="зеленая: наименование" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="5" Margin="0,0,14,0">
+                  <Border Width="12" Height="12" CornerRadius="2" Background="{DynamicResource Brush.FrameType}" />
+                  <TextBlock Classes="hint" Text="желтая: тип документа" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                  <Border Width="12" Height="12" CornerRadius="2" Background="{DynamicResource Brush.FrameAll}" />
+                  <TextBlock Classes="hint" Text="красная: все поля вместе" />
+                </StackPanel>
+              </WrapPanel>
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <TextBlock Name="TemplatesNote" Classes="hint" />
+                <Button Name="OpenTemplatesLink" Classes="link" FontSize="12" Content="Открыть шаблоны" Click="OnOpenTemplates" IsVisible="False" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+
+          <Border Classes="card">
+            <StackPanel Spacing="6">
+              <TextBlock Classes="group" Text="2. Папка с PDF" />
+              <Grid ColumnDefinitions="*,Auto" ui:Gap.Columns="8">
+                <TextBox Name="SourceBox" Classes="path" Watermark="Выберите папку с PDF-файлами…" />
+                <Button Grid.Column="1" Content="Обзор…" Click="OnBrowseSource" />
+              </Grid>
+              <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,2,0,0">
+                <CheckBox Name="RecursiveBox" Content="Искать в подпапках" />
+                <TextBlock Name="FoundNote" Grid.Column="2" Classes="muted" VerticalAlignment="Center" />
+              </Grid>
+              <!-- Зона перетаскивания: пунктирная рамка 1,5. -->
+              <Panel Name="DropZone" Background="Transparent" DragDrop.AllowDrop="True" Margin="0,4,0,0">
+                <Rectangle Name="DropFrame" Stroke="{DynamicResource Brush.Line}" StrokeThickness="1.5" StrokeDashArray="4,3"
+                           RadiusX="8" RadiusY="8" Fill="Transparent" />
+                <StackPanel Orientation="Horizontal" Spacing="8" Margin="12,10">
+                  <ui:Icon Kind="Download" Foreground="{DynamicResource Brush.Muted}" />
+                  <TextBlock Name="DropText" Classes="muted" Text="Папку можно перетащить сюда из Проводника" />
+                </StackPanel>
+              </Panel>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+
+        <!-- Ход работы и счетчики. -->
+        <Border Name="RunCard" Grid.Row="3" Classes="card" Margin="0,12,0,0">
+          <StackPanel>
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Name="RunTitle" Classes="strong" Text="Готов к работе" />
+              <TextBlock Name="RunRight" Grid.Column="1" Classes="muted" />
+            </Grid>
+            <ProgressBar Name="Bar" Minimum="0" Maximum="1" Value="0" Margin="0,10,0,12" />
+            <UniformGrid Columns="5" ui:Gap.Columns="10">
+              <Border Classes="counter"><StackPanel><TextBlock Name="CFound" Classes="num" Text="0" /><TextBlock Classes="lbl" Text="НАЙДЕНО" /></StackPanel></Border>
+              <Border Classes="counter"><StackPanel><TextBlock Name="CProcessed" Classes="num" Text="0" /><TextBlock Classes="lbl" Text="ОБРАБОТАНО" /></StackPanel></Border>
+              <Border Classes="counter"><StackPanel><TextBlock Name="CRenamed" Classes="num" Text="0" /><TextBlock Classes="lbl" Text="ПЕРЕИМЕНОВАНО" /></StackPanel></Border>
+              <Border Classes="counter"><StackPanel><TextBlock Name="CSkipped" Classes="num" Text="0" /><TextBlock Classes="lbl" Text="ПРОПУЩЕНО" /></StackPanel></Border>
+              <Border Classes="counter"><StackPanel><TextBlock Name="CErrors" Classes="num" Text="0" /><TextBlock Classes="lbl" Text="ОШИБКИ" /></StackPanel></Border>
+            </UniformGrid>
+          </StackPanel>
+        </Border>
+
+        <!-- Сообщение об ошибке до запуска или итог. -->
+        <Border Name="Notice" Grid.Row="4" Classes="banner" Margin="0,12,0,0" IsVisible="False">
+          <Grid ColumnDefinitions="Auto,*,Auto" ui:Gap.Columns="10">
+            <ui:Icon Name="NoticeIcon" Kind="CheckCheck" VerticalAlignment="Top" Margin="0,1,0,0" />
+            <TextBlock Name="NoticeText" Grid.Column="1" />
+            <Button Name="NoticeButton" Grid.Column="2" IsVisible="False" Click="OnNoticeButton" VerticalAlignment="Center" />
+          </Grid>
+        </Border>
+
+        <!-- Результат: таблица на всю оставшуюся высоту, строки прокручиваются внутри рамки. -->
+        <Grid Grid.Row="5" Name="ResultsArea" RowDefinitions="Auto,*" Margin="0,16,0,0">
+          <Grid ColumnDefinitions="*,Auto,Auto,Auto" ui:Gap.Columns="8" Margin="0,0,0,8">
+            <TextBlock Classes="group" Text="Результат" VerticalAlignment="Center" />
+            <TextBox Name="SearchBox" Grid.Column="1" Width="220" Watermark="Поиск по имени файла" />
+            <ComboBox Name="StatusBox" Grid.Column="2" MinWidth="210" SelectedIndex="0" />
+            <Button Name="DownloadButton" Grid.Column="3" Classes="accent" Click="OnDownload" IsEnabled="False">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <ui:Icon Kind="Download" />
+                <TextBlock Text="Скачать файл" VerticalAlignment="Center" />
+              </StackPanel>
+            </Button>
+          </Grid>
+
+          <Border Name="EmptyResults" Grid.Row="1" Classes="card" MinHeight="140" BorderBrush="{DynamicResource Brush.Line}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+              <ui:Icon Kind="Files" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Muted}" />
+              <TextBlock Name="EmptyText" Classes="muted" TextAlignment="Center" TextWrapping="Wrap"
+                         Text="Здесь появится таблица: какой файл как переименован и почему пропущен." />
+            </StackPanel>
+          </Border>
+
+          <Grid Name="TableArea" Grid.Row="1" ColumnDefinitions="*,Auto" IsVisible="False" MinHeight="300">
+            <Border Classes="frame">
+              <Grid RowDefinitions="Auto,*">
+                <Border BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,0,0,1" Height="34">
+                  <Grid ColumnDefinitions="1*,34,1.6*,150" Margin="0,0,14,0">
+                    <TextBlock Text="БЫЛО" Classes="muted" FontSize="11" FontWeight="SemiBold" Margin="10,0" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="2" Text="СТАЛО" Classes="muted" FontSize="11" FontWeight="SemiBold" Margin="10,0" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="3" Text="СТАТУС" Classes="muted" FontSize="11" FontWeight="SemiBold" Margin="10,0" VerticalAlignment="Center" />
+                  </Grid>
+                </Border>
+                <ListBox Name="Table" Grid.Row="1" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="s:ResultRow">
+                      <Border Height="40" BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,0,0,1">
+                        <Grid ColumnDefinitions="1*,34,1.6*,150">
+                          <TextBlock Text="{Binding Was}" Classes="mono muted" FontSize="11.5" Margin="10,0" VerticalAlignment="Center"
+                                     TextTrimming="CharacterEllipsis" Cursor="Hand" Tapped="OnFileTapped" ToolTip.Tip="{Binding Was}" />
+                          <TextBlock Grid.Column="1" Text="→" Classes="muted" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                          <TextBlock Grid.Column="2" Text="{Binding Became}" Margin="10,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                     Classes.muted="{Binding !IsNamed}" Cursor="Hand" Tapped="OnFileTapped" ToolTip.Tip="{Binding Became}" />
+                          <Border Grid.Column="3" Classes="pill" Margin="10,0"
+                                  Classes.success="{Binding IsRenamed}" Classes.warning="{Binding IsSkipped}" Classes.danger="{Binding IsError}">
+                            <TextBlock Text="{Binding StatusText}" />
+                          </Border>
+                        </Grid>
+                      </Border>
+                    </DataTemplate>
+                  </ListBox.ItemTemplate>
+                </ListBox>
+              </Grid>
+            </Border>
+
+            <!-- Карточка файла: статус, наименование документа, причина. -->
+            <Border Name="FileCard" Grid.Column="1" Classes="card" Width="310" Margin="16,0,0,0" VerticalAlignment="Top" IsVisible="False">
+              <StackPanel>
+                <Border BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,0,0,1" Padding="0,0,0,10">
+                  <Grid ColumnDefinitions="Auto,*" ui:Gap.Columns="8">
+                    <ui:Icon Kind="FileText" Foreground="{DynamicResource Brush.Text2}" VerticalAlignment="Top" Margin="0,1,0,0" />
+                    <TextBlock Name="CardTitle" Grid.Column="1" FontWeight="SemiBold" FontSize="13.5" TextWrapping="Wrap" />
+                  </Grid>
+                </Border>
+                <Border Classes="kv">
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Text="Статус" Classes="muted" VerticalAlignment="Center" />
+                    <Border Name="CardPill" Grid.Column="1" Classes="pill"><TextBlock Name="CardStatus" /></Border>
+                  </Grid>
+                </Border>
+                <Border Classes="kv">
+                  <StackPanel Spacing="4">
+                    <TextBlock Text="Наименование документа" Classes="muted" />
+                    <TextBlock Name="CardName" TextWrapping="Wrap" />
+                  </StackPanel>
+                </Border>
+                <Border Name="CardReasonRow" Classes="kv">
+                  <StackPanel Spacing="4">
+                    <TextBlock Text="Причина" Classes="muted" />
+                    <TextBlock Name="CardReason" TextWrapping="Wrap" />
+                  </StackPanel>
+                </Border>
+                <UniformGrid Columns="2" ui:Gap.Columns="8" Margin="0,12,0,0">
+                  <Button Classes="full" Content="Открыть PDF" Click="OnCardOpen" />
+                  <Button Classes="full" Content="Показать в папке" Click="OnCardShow" />
+                </UniformGrid>
+                <Button Name="CardManual" Classes="full" Content="Ввести имя вручную…" Margin="0,8,0,0" Click="OnCardManual" />
+              </StackPanel>
+            </Border>
+          </Grid>
+        </Grid>
+      </Grid>
+    </ScrollViewer>
+
+    <!-- Нижняя строка: кнопки одной ширины. -->
+    <Border Grid.Row="1" Background="{DynamicResource Brush.Card}" BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,1,0,0"
+            Padding="16,10" MinHeight="52">
+      <Grid ColumnDefinitions="*,Auto,Auto" ui:Gap.Columns="10">
+        <TextBlock Name="FootText" Classes="muted" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                   Text="Файлы не удаляются: только переименовываются на месте." />
+        <Button Name="StopButton" Grid.Column="1" Classes="big" IsEnabled="False" Click="OnStop">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <ui:Icon Kind="Stop" />
+            <TextBlock Text="Стоп" VerticalAlignment="Center" />
+          </StackPanel>
+        </Button>
+        <Button Name="RunButton" Grid.Column="2" Classes="big accent" Click="OnRun">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <ui:Icon Kind="Play" />
+            <TextBlock Name="RunButtonText" Text="Запустить" VerticalAlignment="Center" />
+          </StackPanel>
+        </Button>
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>
