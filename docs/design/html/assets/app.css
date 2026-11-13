@@ -9,15 +9,18 @@ body {
   font-family: var(--pr-font);
   font-size: var(--pr-size-base);
   color: var(--pr-text);
-  padding: 64px 32px 48px;
+  padding-block: 64px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ── Страница доски ─────────────────────────────────────────────────────── */
 .pr-toolbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 20px; background: var(--pr-bg);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+  padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-top: calc(10px + env(safe-area-inset-top, 0px)); background: var(--pr-bg);
   border-bottom: var(--pr-border) solid var(--pr-separator);
 }
 .pr-toolbar .home { font-weight: var(--pr-weight-bold); color: var(--pr-text); text-decoration: none; }
@@ -36,7 +39,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-size: 13px; color: var(--pr-text);
 }
 .pr-board-note b { font-weight: var(--pr-weight-bold); }
-.pr-screens { display: flex; flex-direction: column; align-items: center; gap: 48px; }
+.pr-screens { display: flex; flex-direction: column; align-items: safe center; gap: 48px; max-width: 100%; overflow-x: auto; padding-bottom: 8px; }
+.win, .ds { flex: none; }
 .pr-screens.row { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
 .pr-caption { text-align: center; color: var(--pr-text-secondary); margin: 0 0 10px; font-size: 13px; }
 .pr-zoomable { transform-origin: top center; }
