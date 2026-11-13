@@ -1,0 +1,14 @@
+<Project>
+  <!-- Общие настройки всех проектов: результаты сборки в папке artifacts\ в корне, а не в bin\ и obj\ у каждого проекта. -->
+  <PropertyGroup>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Version>1.0.0</Version>
+    <Company>Roman Burov</Company>
+    <Product>Распознавание текста документов</Product>
+    <SatelliteResourceLanguages>ru</SatelliteResourceLanguages>
+  </PropertyGroup>
+</Project>

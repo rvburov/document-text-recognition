@@ -1,0 +1,6 @@
+artifacts/
+dist/
+*.user
+.vs/
+.idea/
+TestResults/

@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Тесты ядра: рамки шаблона, совмещение, разбор полей, сверка, имя файла, прогон.
+       Запуск: dotnet test tests/Core.Tests -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>DocumentTextRecognition.Tests</RootNamespace>
+    <AssemblyName>DocumentTextRecognition.Tests</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+    <!-- Синтетические сканы и шаблоны для тестов: PDF рисует PDFsharp, картинку SkiaSharp. -->
+    <PackageReference Include="PDFsharp" Version="6.2.4" />
+    <PackageReference Include="SkiaSharp" Version="2.88.9" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.9" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Core\Core.csproj" />
+  </ItemGroup>
+
+</Project>
