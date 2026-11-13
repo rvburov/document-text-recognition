@@ -533,7 +533,7 @@ i[data-icon] svg, .nav .item svg, .win-title .ctl svg { width: 16px; height: 16p
 .frame.type { border-color: var(--pr-frame-type); }
 
 /* Строка «Результат»: выбор итога (выпадающий список) той же высоты 32, что кнопка «Скачать файл». */
-.results-head { gap: 8px; margin: 4px 0 8px; }
+.results-head { gap: 8px; margin: 4px 0 -4px; }
 .select.status { min-width: 210px; height: 32px; }
 .select.status .popup { min-width: 100%; }
 
@@ -562,3 +562,49 @@ tr[data-pending] { display: none !important; }
 .file-actions .btn { width: 100%; }
 .file-card .btn.full { width: 100%; margin-top: 8px; }
 .file-card .btn.full[data-new] { margin-top: 14px; }
+
+/* Таблица результата с прокруткой внутри скругленной рамки. Строк могут быть тысячи: таблица занимает
+   оставшуюся высоту окна, шапка столбцов стоит на месте, прокручиваются только строки.
+   Полоса прокрутки прилегает к правому краю рамки без зазора и идет от верхнего края блока (на уровне
+   шапки) до нижнего; рамка со скруглением рисуется поверх полосы и срезает ее углы. */
+.page.fill { display: flex; flex-direction: column; position: relative; }
+.page.fill > .stack { flex: 1 0 auto; }
+.results { display: flex; flex-direction: column; gap: 12px; flex: 1 0 auto; }
+.table-fill { flex: 1 0 0; min-height: 300px; position: relative; }
+.table-fill > .table-wrap, .table-split > .table-col > .table-wrap { position: absolute; inset: 0; }
+.table-split { flex: 1 0 0; min-height: 300px; align-items: stretch; }
+.table-split > .table-col { position: relative; }
+.table-split > .card-col { width: 310px; flex: none; }
+.table-wrap { display: flex; flex-direction: column; overflow: hidden; }
+.table-scroll { flex: 1; min-height: 0; overflow-x: hidden; overflow-y: auto; }
+table.table { border-collapse: separate; border-spacing: 0; }
+.table thead th { position: sticky; top: 0; z-index: 1; }
+.table tbody tr:last-child td { border-bottom: var(--pr-border) solid var(--pr-divider); }
+
+/* Полоса: 14, дорожка #EDEDF0 во всю высоту, стрелки 12 × 6 линией 1,5, ползунок 10 с круглыми торцами. */
+.table-scroll::-webkit-scrollbar { width: var(--pr-scroll-size); height: var(--pr-scroll-size); background: var(--pr-scroll-track); }
+.table-scroll::-webkit-scrollbar-track { background: var(--pr-scroll-track); }
+.table-scroll::-webkit-scrollbar-thumb {
+  background: var(--pr-scroll-thumb); background-clip: padding-box;
+  border: solid transparent; border-width: 0 2px; border-radius: 7px / 5px; min-height: var(--pr-scroll-thumb-min);
+}
+.table-scroll::-webkit-scrollbar-thumb:hover { background-color: var(--pr-scroll-thumb-hover); }
+.table-scroll::-webkit-scrollbar-thumb:active { background-color: var(--pr-scroll-thumb-pressed); }
+.table-scroll::-webkit-scrollbar-button:single-button {
+  display: block; width: var(--pr-scroll-size); height: var(--pr-scroll-size);
+  background-color: var(--pr-scroll-track); background-repeat: no-repeat; background-position: center; background-size: 12px 6px;
+}
+/* Цвет шеврона в картинке равен --pr-scroll-arrow (переменные внутрь картинки не передаются). */
+.table-scroll::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 8'%3E%3Cpath d='M2 6 L8 2 L14 6' fill='none' stroke='%237A7A80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.table-scroll::-webkit-scrollbar-button:single-button:vertical:increment {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 8'%3E%3Cpath d='M2 2 L8 6 L14 2' fill='none' stroke='%237A7A80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.table-scroll::-webkit-scrollbar-button:vertical:start:increment,
+.table-scroll::-webkit-scrollbar-button:vertical:end:decrement { display: none; }
+/* Браузеры без ::-webkit-scrollbar (Firefox): те же цвета, стрелок нет. */
+@supports not selector(::-webkit-scrollbar) {
+  .table-scroll { scrollbar-color: var(--pr-scroll-thumb) var(--pr-scroll-track); }
+}
+.file-card.empty { padding: 32px 16px; }

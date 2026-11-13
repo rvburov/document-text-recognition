@@ -91,6 +91,15 @@
   --pr-scrim: rgba(24, 32, 43, 0.32);
   --pr-shadow: 0 12px 32px rgba(20, 32, 52, 0.16), 0 1px 3px rgba(20, 32, 52, 0.10);
   --pr-page: #DCE1E8;
+  /* Полоса прокрутки таблицы: классическая, дорожка видна всегда, стрелки сверху и снизу,
+     ползунок-пилюля уже дорожки на 2 с каждого бока. */
+  --pr-scroll-size: 14px;
+  --pr-scroll-track: #EDEDF0;
+  --pr-scroll-thumb: #A0A0A6;
+  --pr-scroll-thumb-hover: #7A7A80;
+  --pr-scroll-thumb-pressed: #5A5A5E;
+  --pr-scroll-arrow: #7A7A80;
+  --pr-scroll-thumb-min: 28px;
 }
 
 @font-face { font-family: "Golos Text"; font-weight: 400; src: url("fonts/GolosText-Regular.ttf") format("truetype"); font-display: swap; }

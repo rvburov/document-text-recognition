@@ -6,7 +6,7 @@
   var BOARDS = [
     { file: "01-main.html", n: 1, title: "Обработка", group: "Основные экраны", sub: "Главный экран: папки, запуск, результат" },
     { file: "02-run.html", n: 2, title: "Идет распознавание", group: "Основные экраны", sub: "Ход работы, счетчики, остановка" },
-    { file: "03-results.html", n: 3, title: "Результат", group: "Основные экраны", sub: "Таблица файлов, фильтр по итогу, подробности" },
+    { file: "03-results.html", n: 3, title: "Результат", group: "Основные экраны", sub: "Таблица файлов, поиск, статус, карточка файла" },
     { file: "04-templates.html", n: 4, title: "Шаблоны", group: "Основные экраны", sub: "Список шаблонов и рамки на странице" },
     { file: "05-settings.html", n: 5, title: "Настройки", group: "Основные экраны", sub: "Распознавание, имя файла, вид, обновление" },
     { file: "06-about.html", n: 6, title: "О программе и обновление", group: "Основные экраны", sub: "Версия, проверка и установка обновления" },
@@ -167,6 +167,14 @@
     var rows = Array.prototype.slice.call(win.querySelectorAll("[data-run-row]"));
     rows.forEach(function (r) { r.setAttribute("data-pending", ""); });
     setRun(win, "running");
+    // Ход работы и таблица на виду: раздел прокручивается так, чтобы карточка хода работы была вверху.
+    // Таблица при этом дотягивается до низа окна (не ниже 300), строки прокручиваются внутри нее.
+    var page = win.querySelector(".page.fill"), card = win.querySelector("[data-run-card]");
+    var fill = win.querySelector(".results .table-fill");
+    if (page && card) {
+      if (fill) fill.style.minHeight = Math.max(300, page.clientHeight - (fill.offsetTop - card.offsetTop + 12) - 16) + "px";
+      page.scrollTo({ top: Math.max(0, card.offsetTop - 12), behavior: "smooth" });
+    }
     clearInterval(win._timer);
     win._timer = setInterval(function () {
       done = Math.min(total, done + Math.ceil(total / 24));
@@ -179,7 +187,7 @@
       win.querySelectorAll("[data-percent]").forEach(function (p) { p.textContent = Math.round(part * 100) + "%"; });
       var visible = Math.round(rows.length * part);
       rows.forEach(function (r, k) { r.toggleAttribute("data-pending", k >= visible); });
-      if (done >= total) { clearInterval(win._timer); setRun(win, "done"); toast(win, "Готово: переименовано 231 из 248"); }
+      if (done >= total) { clearInterval(win._timer); setRun(win, "done"); toast(win, "Готово: переименовано " + (win.querySelector('[data-counter="renamed"]') || {}).textContent + " из " + total); }
     }, 220);
   }
   function stopRun(win) { clearInterval(win._timer); setRun(win, "stopped"); toast(win, "Остановлено: файлы в работе дочитаны и не переименованы"); }
@@ -256,13 +264,50 @@
       var names = (r.cells[0].textContent + " " + r.cells[2].textContent).toLowerCase();
       r.hidden = (!!status && r.dataset.status !== status) || (!!query && names.indexOf(query) < 0);
     });
+    // Выбранный файл скрыт отбором: карточка переходит на первый видимый файл (или пустеет).
+    var host = win.querySelector("[data-detail-host]");
+    var sel = win.querySelector("tr.selected");
+    if (host && (!sel || sel.hidden)) {
+      var first = win.querySelector("tr[data-status]:not([hidden])");
+      if (first) select(win, first);
+      else { if (sel) sel.classList.remove("selected"); host.innerHTML = '<div class="card file-card empty">Нет файлов по этому отбору.</div>'; }
+    }
   }
   function filterRows(win, status) { win.dataset.filter = status; applyFilters(win); }
   function select(win, row) {
     var list = row.closest("tbody, .list");
     list.querySelectorAll(".selected, .current").forEach(function (r) { r.classList.remove("selected", "current"); });
     row.classList.add(row.tagName === "TR" ? "selected" : "current");
+    if (showCard(win, row)) return;
     win.querySelectorAll("[data-detail-panel]").forEach(function (p) { p.hidden = p.dataset.detailPanel !== row.dataset.detail; });
+  }
+
+  /* ── Карточка файла справа от таблицы: статус, наименование документа, причина ── */
+  function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
+  function kv(k, v, cls, stacked) {
+    return '<div class="kv' + (stacked ? " stacked" : "") + '"><span class="k">' + k + '</span><span class="v' + (cls ? " " + cls : "") + '">' + v + "</span></div>";
+  }
+  function fileCard(row) {
+    var kind = row.dataset.status;
+    var named = kind === "done" || kind === "same";       // новое имя есть, если документ распознан
+    var stalo = row.cells[2].textContent;                  // новое имя или причина пропуска
+    var link = row.querySelector("[data-file]");
+    return '<div class="card file-card">' +
+      '<div class="file-title"><i data-icon="FileText"></i><span>' + esc(row.cells[0].textContent) + "</span></div>" +
+      kv("Статус", row.cells[3].innerHTML) +
+      kv("Наименование документа", named ? esc(stalo) : "нет", "", true) +
+      (named ? "" : kv("Причина", esc(stalo), kind === "error" ? "t-danger" : "", true)) +
+      '<div class="file-actions"><button class="btn" data-file="' + esc(link ? link.dataset.file : "") + '">Открыть PDF</button>' +
+      '<button class="btn" data-toast="Папка открыта в Проводнике, файл выделен">Показать в папке</button></div>' +
+      (named ? "" : '<button class="btn full" data-new data-open="manual">Ввести имя вручную…</button>') +
+      "</div>";
+  }
+  function showCard(win, row) {
+    var host = win.querySelector("[data-detail-host]");
+    if (!host || row.tagName !== "TR") return false;
+    host.innerHTML = fileCard(row);
+    renderIcons(host);
+    return true;
   }
 
   /* ── Галерея ── */
@@ -287,6 +332,10 @@
       var win = frame(s);
       if (s.dataset.run) setRun(win, s.dataset.run);
       if (s.dataset.total) win.dataset.total = s.dataset.total;
+    });
+    document.querySelectorAll("[data-detail-host]").forEach(function (h) {
+      var win = winOf(h), row = win.querySelector("tr.selected");
+      if (row) showCard(win, row);
     });
     var host = document.querySelector("[data-gallery-host]");
     if (host) gallery(host);
