@@ -1,57 +1,58 @@
-/* Токены оформления: строгий стиль Windows 11 (белое окно, светло-серые панели, темно-синий акцент,
-   шрифт Segoe UI). Те же значения переносятся в стили программы. Цвет — только через var(--pr-…). */
+/* Токены оформления: тот же стиль, что у программы резервного копирования организации (Backup App,
+   docs/UI_DESIGN.md): шрифт Golos Text, синий акцент #1F5FD1, серо-голубые фоны, белые карточки.
+   Цвет в макете — только через var(--pr-…). */
 :root {
   /* Фоны */
   --pr-bg: #FFFFFF;
-  --pr-bg-secondary: #F3F3F3;
-  --pr-bg-inactive: #F9F9F9;
-  --pr-bg-activity: #EBEBEB;
+  --pr-bg-secondary: #ECEFF4;
+  --pr-bg-inactive: #F7F9FB;
+  --pr-bg-activity: #ECEFF4;
   --pr-bg-card: #FFFFFF;
-  --pr-hover: #EAEAEA;
+  --pr-hover: #F1F4F8;
   /* Линии */
-  --pr-separator: #E5E5E5;
-  --pr-line-strong: #D1D1D1;
+  --pr-separator: #DDE2E9;
+  --pr-line-strong: #C9D0DA;
   /* Текст */
-  --pr-text: #1B1B1B;
-  --pr-text-secondary: #616161;
+  --pr-text: #18202B;
+  --pr-text-secondary: #5A6573;
   --pr-text-on-accent: #FFFFFF;
   /* Акценты и смысловые цвета */
-  --pr-accent: #0F4C81;
-  --pr-accent-light: #E8EEF4;
-  --pr-red: #C42B1C;
-  --pr-red-light: #FDE7E9;
-  --pr-green: #107C10;
-  --pr-green-light: #DFF6DD;
-  --pr-orange: #9D5D00;
-  --pr-orange-light: #FFF4CE;
-  --pr-highlight: #FFF4CE;
-  --pr-code: #0F4C81;
-  --pr-pdf: #C42B1C;
-  --pr-pdf-light: #FDE7E9;
+  --pr-accent: #1F5FD1;
+  --pr-accent-light: #E8EFFC;
+  --pr-red: #B42318;
+  --pr-red-light: #FDF1EF;
+  --pr-green: #17803D;
+  --pr-green-light: #E7F4EC;
+  --pr-orange: #9A5A06;
+  --pr-orange-light: #FDF3E1;
+  --pr-highlight: #FFF1C2;
+  --pr-code: #3A4552;
+  --pr-pdf: #B42318;
+  --pr-pdf-light: #FDF1EF;
   /* Рамки шаблонов (как в разметке шаблона: синяя, зеленая, красно-оранжевая) */
   --pr-frame-designation: #2F6FE4;
   --pr-frame-name: #2E9E44;
   --pr-frame-both: #F0502A;
   /* Шрифты */
-  --pr-font: "Segoe UI Variable Text", "Segoe UI", system-ui, Arial, sans-serif;
-  --pr-font-mono: "Cascadia Mono", Consolas, "Courier New", monospace;
-  --pr-size-small: 11px;
+  --pr-font: "Golos Text", "Segoe UI", system-ui, Arial, sans-serif;
+  --pr-font-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+  --pr-size-small: 12px;
   --pr-size-base: 13px;
   --pr-size-mono: 12px;
-  --pr-size-h3: 15px;
-  --pr-size-medium: 18px;
-  --pr-size-large: 24px;
+  --pr-size-h3: 13.5px;
+  --pr-size-medium: 15px;
+  --pr-size-large: 18px;
   --pr-weight-bold: 600;
   /* Скругления */
-  --pr-radius-xs: 3px;
-  --pr-radius-small: 4px;
-  --pr-radius-base: 4px;
-  --pr-radius-medium: 4px;
+  --pr-radius-xs: 4px;
+  --pr-radius-small: 5px;
+  --pr-radius-base: 6px;
+  --pr-radius-medium: 6px;
   --pr-radius-large: 8px;
-  --pr-radius-pill: 12px;
+  --pr-radius-pill: 9px;
   /* Размеры */
-  --pr-control-height: 30px;
-  --pr-row-height: 36px;
+  --pr-control-height: 32px;
+  --pr-row-height: 40px;
   --pr-border: 1px;
   --pr-icon-small: 16px;
   --pr-icon-medium: 18px;
@@ -62,10 +63,35 @@
   --pr-dialog-wide: 800px;
   --pr-dialog-padding-y: 16px;
   --pr-dialog-padding-x: 20px;
-  --pr-window-width: 1100px;
-  --pr-window-height: 720px;
+  --pr-window-width: 1180px;
+  --pr-window-height: 760px;
+  /* Дополнительные цвета */
+  --pr-window: #F5F7FA;
+  --pr-text2: #3A4552;
+  --pr-faint: #8A94A3;
+  --pr-divider: #EEF1F5;
+  --pr-ring: #D3DAE3;
+  --pr-side-hover: #DFE4EB;
+  --pr-seg-hover: #E3E8EF;
+  --pr-ghost-hover: #E6EAF0;
+  --pr-input-hover: #B7C0CC;
+  --pr-note: #F4F6F9;
+  --pr-accent-hover: #174FB3;
+  --pr-accent-soft-text: #1F4FA8;
+  --pr-danger-border: #E9B8B2;
+  --pr-danger-hover: #971D14;
+  --pr-notice-text: #8E1C12;
+  --pr-warn-icon: #B26A00;
+  --pr-switch-off: #B4BDC9;
+  --pr-toast: #1F2733;
+  --pr-toast-text: #D5DBE4;
   /* Затемнение под диалогом, тень окна */
-  --pr-scrim: rgba(0, 0, 0, 0.3);
-  --pr-shadow: 0 8px 16px rgba(0, 0, 0, 0.14), 0 0 2px rgba(0, 0, 0, 0.12);
-  --pr-page: #E9E9E9;
+  --pr-scrim: rgba(24, 32, 43, 0.32);
+  --pr-shadow: 0 12px 32px rgba(20, 32, 52, 0.16), 0 1px 3px rgba(20, 32, 52, 0.10);
+  --pr-page: #DCE1E8;
 }
+
+@font-face { font-family: "Golos Text"; font-weight: 400; src: url("fonts/GolosText-Regular.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Golos Text"; font-weight: 500; src: url("fonts/GolosText-Medium.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Golos Text"; font-weight: 600; src: url("fonts/GolosText-SemiBold.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; font-weight: 400; src: url("fonts/JetBrainsMono-Regular.ttf") format("truetype"); font-display: swap; }
