@@ -645,3 +645,13 @@ svg.sheet { display: block; width: 100%; height: 100%; filter: var(--pr-sheet-sh
 .sheet .fr.name { stroke: var(--pr-frame-name); }
 .sheet .fr.type { stroke: var(--pr-frame-type); }
 .sheet .fr.both { stroke: var(--pr-frame-both); }
+
+/* «О программе», обновление: строка состояния меняется (есть версия, копирование, последняя версия),
+   ниже всегда «Проверять обновления при запуске» и папка обновлений. */
+.setting.sep { border-top: var(--pr-border) solid var(--pr-divider); }
+.upd-copy { padding: 8px 0 12px; }
+
+/* Таблица размеров в дизайн-системе: подпись слева постоянной ширины, значение справа переносится. */
+.card.spec .setting { align-items: flex-start; }
+.card.spec .setting .text { flex: none; width: 220px; }
+.card.spec .setting > span { flex: 1; min-width: 0; }

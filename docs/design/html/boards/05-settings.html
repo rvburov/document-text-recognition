@@ -10,14 +10,13 @@
 <script src="../assets/app.js" defer></script>
 </head>
 <body>
-<p class="pr-board-note"><b>Настройки</b> хранятся в самой программе, а не в чужом окне: распознавание, вид имени, вид окна, обновление, данные. Списки и переключатели нажимаются. Метки «предложение» отмечают новые настройки; без меток то, что сейчас зашито в программу (показано для наглядности).</p>
+<p class="pr-board-note"><b>Настройки</b> хранятся в самой программе, в профиле пользователя Windows: распознавание, вид имени, вид окна, данные. Карточки на всю ширину окна. Способ распознавания не выбирается: программа всегда читает поле обоими способами и сверяет их. Обновление в разделе «О программе». Списки и переключатели нажимаются. Метки «предложение» отмечают новые настройки; без меток то, что сейчас зашито в программу (показано для наглядности).</p>
 <div class="pr-screens">
 <section class="pr-screen" data-active="settings" data-caption="Настройки хранятся в самой программе, в профиле пользователя Windows">
 <div class="page-head"><h1>Настройки</h1></div>
-<div class="page" style="max-width:780px">
+<div class="page">
 <div class="group-label">Распознавание</div>
 <div class="card">
-<div class="setting"><div class="text">Движки распознавания<div class="hint">Оба движка читают поле, имя ставится только при совпадении: так ошибка одного не попадает в имя файла.</div></div><div class="select" data-open="eng"><span data-select-label>Tesseract и PaddleOCR, сверка</span><i data-icon="ChevronDown" data-size="14"></i><div class="popup" id="eng"><div class="option current">Tesseract и PaddleOCR, сверка</div><div class="option">Только Tesseract</div><div class="option">Только PaddleOCR</div></div></div></div>
 <div class="setting" data-new><div class="text">Одновременно файлов<div class="hint">Больше потоков: быстрее, но выше загрузка компьютера. «Авто»: по числу ядер.</div></div><div class="select" data-open="thr"><span data-select-label>Авто (4)</span><i data-icon="ChevronDown" data-size="14"></i><div class="popup" id="thr"><div class="option current">Авто (4)</div><div class="option">1</div><div class="option">2</div><div class="option">4</div><div class="option">8</div></div></div></div>
 <div class="setting"><div class="text">Искать в подпапках по умолчанию</div><span class="switch on"></span></div>
 </div>
@@ -30,11 +29,6 @@
 <div class="card">
 <div class="setting"><div class="text">Размер шрифта</div><div class="segments"><span class="segment current">100%</span><span class="segment">115%</span><span class="segment">125%</span><span class="segment">150%</span></div></div>
 <div class="setting"><div class="text">Уведомление Windows по окончании</div><span class="switch on"></span></div>
-</div>
-<div class="group-label">Обновление</div>
-<div class="card">
-<div class="setting"><div class="text">Проверять обновления при запуске</div><span class="switch on"></span></div>
-<div class="setting"><div class="text">Откуда брать обновления<div class="hint">Задается при установке; уточняется по способу обновления, принятому в программах организации.</div></div><span class="t-muted">\\fileserver\Программы\document-text-recognition</span></div>
 </div>
 <div class="group-label">Данные</div>
 <div class="card">
