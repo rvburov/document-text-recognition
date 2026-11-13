@@ -19,7 +19,7 @@
   <div class="field"><label>1. Папка шаблонов</label>
     <div class="path"><input class="input on-card" value="\\fileserver\КД\Шаблоны" placeholder="Выберите папку с шаблонами…"><button class="btn" data-open="pick">Обзор…</button></div>
     <div class="legend" style="margin-top:4px"><span>Рамки на шаблоне:</span><span><i class="swatch designation"></i>синяя: обозначение</span><span><i class="swatch name"></i>зеленая: наименование</span><span><i class="swatch type"></i>желтая: тип документа</span><span><i class="swatch both"></i>красная: все поля вместе</span></div>
-    <div class="hint">Готовы 6 шаблонов из 6 · <a class="btn-link" href="04-templates.html">Открыть шаблоны</a></div>
+    <div class="hint">Распознано 11 шаблонов из 13 · <a class="btn-link" href="04-templates.html">Открыть шаблоны</a></div>
   </div>
 </div>
 <div class="card">
@@ -41,7 +41,7 @@
 <div data-run-show="idle"><div class="group-label">Результат</div><div class="empty card white"><i data-icon="Files" data-size="32"></i><div>Здесь появится таблица: какой файл как переименован и почему пропущен.</div></div></div>
 <div class="results" data-run-show="running done stopped" hidden>
   <div class="row results-head"><span class="t-strong grow">Результат</span><input class="input search" data-search style="width:220px" placeholder="Поиск по имени файла"><div class="select status" data-open="flt1"><span data-select-label>Все файлы</span><i data-icon="ChevronDown" data-size="14"></i><div class="popup" id="flt1"><div class="option current" data-filter="">Все файлы</div><div class="option" data-filter="done">Переименованы</div><div class="option" data-filter="same">Имя уже верное</div><div class="option" data-filter="skip">Пропущены</div><div class="option" data-filter="error">Ошибки</div></div></div><button class="btn accent" data-open="download" data-run-enable="done stopped" disabled><i data-icon="Download"></i>Скачать файл</button></div>
-  <div class="table-fill"><div class="table-wrap"><div class="table-scroll"><table class="table">
+  <div class="table-fill"><div class="table-wrap"><div class="table-scroll scroll-y"><table class="table">
 <colgroup><col style="width:25%"><col style="width:34px"><col><col style="width:150px"></colgroup>
 <thead><tr><th>Было</th><th></th><th>Стало</th><th>Статус</th></tr></thead>
 <tbody>

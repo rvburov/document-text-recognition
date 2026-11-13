@@ -7,7 +7,7 @@
     { file: "01-main.html", n: 1, title: "Обработка", group: "Основные экраны", sub: "Главный экран: папки, запуск, результат" },
     { file: "02-run.html", n: 2, title: "Идет распознавание", group: "Основные экраны", sub: "Ход работы, счетчики, остановка" },
     { file: "03-results.html", n: 3, title: "Результат", group: "Основные экраны", sub: "Таблица файлов, поиск, статус, карточка файла" },
-    { file: "04-templates.html", n: 4, title: "Шаблоны", group: "Основные экраны", sub: "Список шаблонов и рамки на странице" },
+    { file: "04-templates.html", n: 4, title: "Шаблоны", group: "Основные экраны", sub: "Поиск, список, сведения и страница шаблона" },
     { file: "05-settings.html", n: 5, title: "Настройки", group: "Основные экраны", sub: "Распознавание, имя файла, вид, обновление" },
     { file: "06-about.html", n: 6, title: "О программе и обновление", group: "Основные экраны", sub: "Версия, проверка и установка обновления" },
     { file: "07-first-run.html", n: 7, title: "Первый запуск", group: "Сценарии и состояния", sub: "Пустые папки, подсказки по шагам" },
@@ -19,7 +19,7 @@
   ];
   var NAV = [
     { id: "rename", label: "Обработка", icon: "ScanText", file: "01-main.html" },
-    { id: "templates", label: "Шаблоны", icon: "Template", file: "04-templates.html", count: "6" },
+    { id: "templates", label: "Шаблоны", icon: "Template", file: "04-templates.html", count: "11" },
     { id: "settings", label: "Настройки", icon: "Settings", file: "05-settings.html" }
   ];
   var VERSION = "1.0.0";
@@ -273,6 +273,19 @@
       else { if (sel) sel.classList.remove("selected"); host.innerHTML = '<div class="card file-card empty">Нет файлов по этому отбору.</div>'; }
     }
   }
+  // Поиск по списку (шаблоны): по имени файла; если выбранный скрыт, выбирается первый видимый.
+  function filterList(win, q) {
+    q = q.trim().toLowerCase();
+    win.querySelectorAll(".li[data-detail]").forEach(function (li) {
+      var name = (li.querySelector(".li-name") || li).textContent.toLowerCase();
+      li.hidden = !!q && name.indexOf(q) < 0;
+    });
+    var cur = win.querySelector(".li.current");
+    if (!cur || cur.hidden) {
+      var first = win.querySelector(".li[data-detail]:not([hidden])");
+      if (first) select(win, first);
+    }
+  }
   function filterRows(win, status) { win.dataset.filter = status; applyFilters(win); }
   function select(win, row) {
     var list = row.closest("tbody, .list");
@@ -344,6 +357,8 @@
     applyZoom(+(store.get("zoom") || 1));
     document.addEventListener("click", onClick);
     document.addEventListener("input", function (e) {
+      var lf = e.target.closest("input[data-search-list]");
+      if (lf) { filterList(winOf(lf), lf.value); return; }
       var field = e.target.closest("input[data-search]");
       if (!field) return;
       var win = winOf(field);

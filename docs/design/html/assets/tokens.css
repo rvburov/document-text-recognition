@@ -100,6 +100,8 @@
   --pr-scroll-thumb-pressed: #5A5A5E;
   --pr-scroll-arrow: #7A7A80;
   --pr-scroll-thumb-min: 28px;
+  /* Тень страницы шаблона в просмотре */
+  --pr-sheet-shadow: drop-shadow(0 1px 3px rgba(20, 32, 52, 0.18));
 }
 
 @font-face { font-family: "Golos Text"; font-weight: 400; src: url("fonts/GolosText-Regular.ttf") format("truetype"); font-display: swap; }
