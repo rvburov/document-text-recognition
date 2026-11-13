@@ -1,54 +1,54 @@
-/* Токены оформления: те же значения, что в Colors.axaml, Typography.axaml, Controls.axaml и
-   WindowMetrics.axaml программы. Цвет в макете — только через var(--pr-…). */
+/* Токены оформления: строгий стиль Windows 11 (белое окно, светло-серые панели, темно-синий акцент,
+   шрифт Segoe UI). Те же значения переносятся в стили программы. Цвет — только через var(--pr-…). */
 :root {
   /* Фоны */
   --pr-bg: #FFFFFF;
-  --pr-bg-secondary: #F2F2F7;
-  --pr-bg-inactive: #FAFAFA;
+  --pr-bg-secondary: #F3F3F3;
+  --pr-bg-inactive: #F9F9F9;
   --pr-bg-activity: #EBEBEB;
-  --pr-bg-card: #F2F2F7;
-  --pr-hover: #E5E5EA;
+  --pr-bg-card: #FFFFFF;
+  --pr-hover: #EAEAEA;
   /* Линии */
-  --pr-separator: #E5E5EA;
-  --pr-line-strong: #C7C7CC;
+  --pr-separator: #E5E5E5;
+  --pr-line-strong: #D1D1D1;
   /* Текст */
-  --pr-text: #1C1C1E;
-  --pr-text-secondary: #8E8E93;
+  --pr-text: #1B1B1B;
+  --pr-text-secondary: #616161;
   --pr-text-on-accent: #FFFFFF;
   /* Акценты и смысловые цвета */
-  --pr-accent: #007AFF;
-  --pr-accent-light: #E5F0FF;
-  --pr-red: #FF3B30;
-  --pr-red-light: #FFE9E7;
-  --pr-green: #34C759;
-  --pr-green-light: #E3F7E9;
-  --pr-orange: #FF9500;
-  --pr-orange-light: #FFF1DE;
-  --pr-highlight: #FFF0B3;
-  --pr-code: #4E9A8C;
-  --pr-pdf: #D0342C;
-  --pr-pdf-light: #F9E8E6;
+  --pr-accent: #0F4C81;
+  --pr-accent-light: #E8EEF4;
+  --pr-red: #C42B1C;
+  --pr-red-light: #FDE7E9;
+  --pr-green: #107C10;
+  --pr-green-light: #DFF6DD;
+  --pr-orange: #9D5D00;
+  --pr-orange-light: #FFF4CE;
+  --pr-highlight: #FFF4CE;
+  --pr-code: #0F4C81;
+  --pr-pdf: #C42B1C;
+  --pr-pdf-light: #FDE7E9;
   /* Рамки шаблонов (как в разметке шаблона: синяя, зеленая, красно-оранжевая) */
   --pr-frame-designation: #2F6FE4;
   --pr-frame-name: #2E9E44;
   --pr-frame-both: #F0502A;
   /* Шрифты */
-  --pr-font: "Helvetica Neue", Arial, sans-serif;
-  --pr-font-mono: Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace;
-  --pr-size-small: 10px;
-  --pr-size-base: 12px;
-  --pr-size-mono: 11px;
-  --pr-size-h3: 14px;
-  --pr-size-medium: 16px;
-  --pr-size-large: 20px;
+  --pr-font: "Segoe UI Variable Text", "Segoe UI", system-ui, Arial, sans-serif;
+  --pr-font-mono: "Cascadia Mono", Consolas, "Courier New", monospace;
+  --pr-size-small: 11px;
+  --pr-size-base: 13px;
+  --pr-size-mono: 12px;
+  --pr-size-h3: 15px;
+  --pr-size-medium: 18px;
+  --pr-size-large: 24px;
   --pr-weight-bold: 600;
   /* Скругления */
-  --pr-radius-xs: 4px;
-  --pr-radius-small: 5px;
-  --pr-radius-base: 6px;
-  --pr-radius-medium: 8px;
-  --pr-radius-large: 12px;
-  --pr-radius-pill: 15px;
+  --pr-radius-xs: 3px;
+  --pr-radius-small: 4px;
+  --pr-radius-base: 4px;
+  --pr-radius-medium: 4px;
+  --pr-radius-large: 8px;
+  --pr-radius-pill: 12px;
   /* Размеры */
   --pr-control-height: 30px;
   --pr-row-height: 36px;
@@ -65,7 +65,7 @@
   --pr-window-width: 1100px;
   --pr-window-height: 720px;
   /* Затемнение под диалогом, тень окна */
-  --pr-scrim: rgba(0, 0, 0, 0.18);
-  --pr-shadow: 0 8px 28px rgba(0, 0, 0, 0.18), 0 1px 3px rgba(0, 0, 0, 0.12);
-  --pr-page: #DADCE2;
+  --pr-scrim: rgba(0, 0, 0, 0.3);
+  --pr-shadow: 0 8px 16px rgba(0, 0, 0, 0.14), 0 0 2px rgba(0, 0, 0, 0.12);
+  --pr-page: #E9E9E9;
 }

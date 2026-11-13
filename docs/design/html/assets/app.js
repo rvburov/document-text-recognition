@@ -60,8 +60,8 @@
       "<span>О программе</span></a><div class=\"version\">Версия " + VERSION + "</div></div></nav>";
   }
   function logo(size) {
-    return '<svg class="logo" width="' + size + '" height="' + size + '" viewBox="0 0 24 24"><rect x="3" y="2" width="15" height="20" rx="2" fill="var(--pr-pdf-light)" stroke="var(--pr-pdf)" stroke-width="1.4"/>' +
-      '<path d="M7 8h7M7 12h5" stroke="var(--pr-pdf)" stroke-width="1.4" stroke-linecap="round"/><circle cx="17" cy="17" r="5" fill="var(--pr-accent)"/>' +
+    return '<svg class="logo" width="' + size + '" height="' + size + '" viewBox="0 0 24 24"><rect x="3" y="2" width="15" height="20" rx="2" fill="var(--pr-bg)" stroke="var(--pr-text)" stroke-width="1.4"/>' +
+      '<path d="M7 8h7M7 12h5" stroke="var(--pr-text)" stroke-width="1.4" stroke-linecap="round"/><circle cx="17" cy="17" r="5" fill="var(--pr-accent)"/>' +
       '<path d="M14.8 17.1l1.5 1.5 2.9-3" stroke="var(--pr-text-on-accent)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   }
   function frame(screen) {
