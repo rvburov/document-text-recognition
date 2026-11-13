@@ -203,6 +203,7 @@
       if (owner) owner.textContent = el.textContent;
       pop.classList.remove("is-open");
       if (el.dataset.goto) goto(win, el.dataset.goto);
+      if (el.dataset.filter !== undefined) filterRows(win, el.dataset.filter);
       if (el.dataset.toast) toast(win, el.dataset.toast);
       return;
     }

@@ -527,3 +527,12 @@ i[data-icon] svg, .nav .item svg, .win-title .ctl svg { width: 16px; height: 16p
 
 /* Кнопка со значком: текст ровно по центру кнопки, значок 16 слева от текста. */
 .btn.with-icon::after { content: ""; width: 16px; flex: none; }
+
+/* Рамка «тип документа» на шаблоне: желтая. */
+.swatch.type { background: var(--pr-frame-type); }
+.frame.type { border-color: var(--pr-frame-type); }
+
+/* Строка «Результат»: выбор итога (выпадающий список) той же высоты 32, что кнопка «Скачать файл». */
+.results-head { gap: 8px; margin: 4px 0 8px; }
+.select.status { min-width: 210px; height: 32px; }
+.select.status .popup { min-width: 100%; }
