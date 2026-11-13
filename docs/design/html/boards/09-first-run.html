@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9 · Первый запуск — Переименование PDF</title>
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/app.css">
+<script src="../assets/icons.js"></script>
+<script src="../assets/app.js" defer></script>
+</head>
+<body>
+<p class="pr-board-note"><b>Первый запуск</b>: ничего не выбрано. Подсказка по шагам, недоступная «Запустить» с причиной внизу, пустой раздел «Шаблоны» с объяснением, что такое шаблон. Последние выбранные папки программа запоминает: при следующем запуске они уже заполнены.</p>
+<div class="pr-screens">
+<section class="pr-screen" data-active="rename" data-caption="Первый запуск: папки не выбраны, «Запустить» недоступна и объясняет почему">
+<div class="page-head"><h1>Переименование</h1><div class="segments"><span class="segment current" data-nav="01-main.html">По содержимому (шаблоны и OCR)</span><span class="segment" data-nav="04-by-name.html">По имени файла (до первого пробела)</span></div></div>
+<div class="page"><div class="stack">
+<div class="banner accent"><i data-icon="Lightbulb"></i><div class="grow"><b>С чего начать.</b> 1) Выберите папку шаблонов — PDF-образцы с цветными рамками. 2) Выберите папку со сканами. 3) Нажмите «Запустить». <button class="btn-link" data-nav="05-templates.html">Как сделать шаблон</button></div></div>
+<div class="card">
+  <div class="field"><label>1. Папка шаблонов</label>
+    <div class="path"><input class="input on-card" value="" placeholder="Выберите папку с шаблонами…"><button class="btn" data-open="pick">Обзор…</button></div>
+    <div class="legend" style="margin-top:4px"><span>Рамки на шаблоне:</span><span><i class="swatch designation"></i>синяя — обозначение</span><span><i class="swatch name"></i>зеленая — наименование</span><span><i class="swatch both"></i>красно-оранжевая — оба поля вместе</span></div>
+    <div class="hint">Папка не выбрана</div>
+  </div>
+</div>
+<div class="card">
+  <div class="field"><label>2. Папка с PDF</label>
+    <div class="path"><input class="input on-card" value="" placeholder="Выберите папку с PDF-файлами…"><button class="btn" data-open="pick">Обзор…</button></div>
+    <div class="row" style="margin-top:4px"><span class="check"><span class="box"><i data-icon="Check" data-size="12" data-stroke="2.5"></i></span>Искать в подпапках</span><span class="grow"></span><span class="t-muted"></span></div>
+    <div class="drop" data-new><i data-icon="Download"></i>Папку можно перетащить сюда из Проводника</div>
+  </div>
+</div>
+<div class="empty card white"><i data-icon="Files" data-size="32"></i><div class="t-medium">Пока нечего переименовывать</div><div>Выберите обе папки: здесь появится число найденных PDF и готовых шаблонов.</div></div>
+</div></div>
+<div class="page-foot"><span class="t-muted">Выберите папку шаблонов и папку с PDF</span><span class="spacer"></span><button class="btn big accent" disabled><i data-icon="Play"></i>Запустить</button></div>
+<div class="dialog base" id="pick"><div class="d-title"><span class="name">Выберите папку</span><span class="btn-icon" data-close><i data-icon="Close" data-size="14"></i></span></div>
+<div class="d-body"><div class="t-muted">Здесь откроется стандартное окно выбора папки Windows.</div></div>
+<div class="d-actions"><button class="btn" data-close>Отмена</button><button class="btn accent" data-close>Выбрать папку</button></div></div>
+</section>
+<section class="pr-screen" data-active="templates" data-caption="Шаблоны до выбора папки">
+<div class="page-head"><h1>Шаблоны</h1></div>
+<div class="page"><div class="empty"><i data-icon="Template" data-size="32"></i><div class="t-medium">Папка шаблонов не выбрана</div><div>Шаблон — PDF-образец документа, где поля штампа обведены цветными рамками.<br>Имя файла шаблона — тип документа, например «Спецификация.pdf».</div>
+<div class="row"><button class="btn accent" data-open="pick">Выбрать папку…</button><button class="btn" data-nav="05-templates.html">Как сделать шаблон</button></div></div></div>
+<div class="dialog base" id="pick"><div class="d-title"><span class="name">Выберите папку</span><span class="btn-icon" data-close><i data-icon="Close" data-size="14"></i></span></div>
+<div class="d-body"><div class="t-muted">Здесь откроется стандартное окно выбора папки Windows.</div></div>
+<div class="d-actions"><button class="btn" data-close>Отмена</button><button class="btn accent" data-close>Выбрать папку</button></div></div>
+</section>
+</div>
+</body>
+</html>

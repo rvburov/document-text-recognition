@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10 · Ошибки — Переименование PDF</title>
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/app.css">
+<script src="../assets/icons.js"></script>
+<script src="../assets/app.js" defer></script>
+</head>
+<body>
+<p class="pr-board-note"><b>Ошибки</b> — все тексты, которые видит человек, сгруппированы по моменту: до запуска, компоненты распознавания, во время работы, обновление, сбой. В каждом — что случилось и одна понятная кнопка, что делать. Ошибки отдельных файлов прогон не останавливают.</p>
+<div class="pr-screens">
+<section class="pr-screen" data-active="rename" data-caption="Ошибки до запуска и во время работы: что случилось и что делать">
+<div class="page-head"><h1>Переименование</h1><div class="segments"><span class="segment current" data-nav="01-main.html">По содержимому (шаблоны и OCR)</span><span class="segment" data-nav="04-by-name.html">По имени файла (до первого пробела)</span></div></div>
+<div class="page"><div class="stack">
+<div class="group-label">До запуска (программа проверяет сама)</div>
+<div class="banner danger"><i data-icon="OctagonAlert"></i><div class="grow"><b>Папка шаблонов не найдена.</b> \\fileserver\КД\Шаблоны недоступна: сетевой диск не подключен или папку переименовали.</div><button class="btn">Выбрать другую…</button></div>
+<div class="banner danger"><i data-icon="OctagonAlert"></i><div class="grow"><b>В папке шаблонов нет пригодных шаблонов.</b> Ни в одном PDF не найдено цветных рамок. Обведите поля синей и зеленой рамкой.</div><button class="btn" data-nav="05-templates.html">Открыть шаблоны</button></div>
+<div class="banner warning"><i data-icon="TriangleAlert"></i><div class="grow"><b>В папке с PDF нет PDF-файлов.</b> Проверьте папку или включите «Искать в подпапках».</div></div>
+<div class="group-label">Компоненты распознавания</div>
+<div class="banner danger"><i data-icon="OctagonAlert"></i><div class="grow"><b>Не найдены компоненты распознавания (tesseract55.dll).</b> Программа установлена не полностью. Переустановите ее из папки обновлений.</div><button class="btn">Подробнее</button></div>
+<div class="banner danger"><i data-icon="OctagonAlert"></i><div class="grow"><b>Нужен компонент Microsoft Visual C++ 2015–2022.</b> Без него распознавание не запускается. Попросите администратора установить его или переустановите программу.</div><button class="btn">Подробнее</button></div>
+<div class="group-label">Во время работы (не останавливают прогон)</div>
+<div class="banner warning"><i data-icon="TriangleAlert"></i><div class="grow"><b>4 файла с ошибкой, 13 пропущено.</b> Причина у каждого — в таблице результата: файл занят другой программой, движки прочитали обозначение по-разному, не подошел шаблон.</div><button class="btn" data-nav="03-results.html">Показать</button></div>
+<div class="group-label">Обновление</div>
+<div class="banner warning"><i data-icon="TriangleAlert"></i><div class="grow"><b>Обновление не установлено.</b> Не удалось заменить файлы: программа была открыта еще раз. Работает прежняя версия 1.0.0; закройте все окна и повторите.</div><button class="btn" data-nav="08-about.html">Повторить</button></div>
+<div class="banner accent"><i data-icon="Info"></i><div class="grow"><b>Папка обновлений недоступна.</b> \\fileserver\Программы\pdf-rename не открывается. Работает текущая версия, проверим при следующем запуске.</div></div>
+<div class="group-label">Сбой программы</div>
+<div class="banner danger"><i data-icon="OctagonAlert"></i><div class="grow"><b>Программа закрылась из-за ошибки.</b> Отчет сохранен в журнал работы программы. Работа не потеряна: переименованные файлы остались с новыми именами.</div><button class="btn">Открыть журнал</button></div>
+</div></div>
+</section>
+</div>
+</body>
+</html>

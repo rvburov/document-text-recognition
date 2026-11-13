@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1 · Переименование — Переименование PDF</title>
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/app.css">
+<script src="../assets/icons.js"></script>
+<script src="../assets/app.js" defer></script>
+</head>
+<body>
+<p class="pr-board-note"><b>Главный экран.</b> Режим, две папки, «Искать в подпапках», ход работы и результат на одном экране. Нажмите <b>«Запустить»</b>: подтверждение, затем идет распознавание (счетчики, полоса, строки появляются по мере готовности), «Стоп» доступен. Вместо текстового журнала — таблица «Было → Стало» с фильтром по итогу; «Сохранить журнал» — в Excel, CSV или текст. Желтые метки «предложение» — то, чего нет в нынешней версии.</p>
+<div class="pr-screens">
+<section class="pr-screen" data-active="rename" data-run="idle" data-caption="Готов к работе. Нажмите «Запустить»: подтверждение, затем ход работы и результат">
+<div class="page-head"><h1>Переименование</h1><div class="segments"><span class="segment current" data-nav="01-main.html">По содержимому (шаблоны и OCR)</span><span class="segment" data-nav="04-by-name.html">По имени файла (до первого пробела)</span></div></div>
+<div class="page"><div class="stack">
+<div class="card">
+  <div class="field"><label>1. Папка шаблонов</label>
+    <div class="path"><input class="input on-card" value="\\fileserver\КД\Шаблоны" placeholder="Выберите папку с шаблонами…"><button class="btn" data-open="pick">Обзор…</button></div>
+    <div class="legend" style="margin-top:4px"><span>Рамки на шаблоне:</span><span><i class="swatch designation"></i>синяя — обозначение</span><span><i class="swatch name"></i>зеленая — наименование</span><span><i class="swatch both"></i>красно-оранжевая — оба поля вместе</span></div>
+    <div class="hint">Готовы 6 шаблонов из 6 · <a class="btn-link" href="05-templates.html">Открыть шаблоны</a></div>
+  </div>
+</div>
+<div class="card">
+  <div class="field"><label>2. Папка с PDF</label>
+    <div class="path"><input class="input on-card" value="D:\Сканы\2026-11" placeholder="Выберите папку с PDF-файлами…"><button class="btn" data-open="pick">Обзор…</button></div>
+    <div class="row" style="margin-top:4px"><span class="check on"><span class="box"><i data-icon="Check" data-size="12" data-stroke="2.5"></i></span>Искать в подпапках</span><span class="grow"></span><span class="t-muted">248 PDF-файлов</span></div>
+    <div class="drop" data-new><i data-icon="Download"></i>Папку можно перетащить сюда из Проводника</div>
+  </div>
+</div>
+<div class="card white">
+  <div class="status-line"><span class="t-strong grow" data-run-show="idle">Готов к работе</span>
+    <span class="t-strong grow" data-run-show="running" hidden>Распознавание и переименование… <span class="t-muted" data-percent>0%</span></span>
+    <span class="t-strong grow t-success" data-run-show="done" hidden>Завершено</span>
+    <span class="t-strong grow t-warning" data-run-show="stopped" hidden>Остановлено пользователем</span>
+    <span class="t-muted" data-run-show="running" hidden>осталось около 4 мин · 4 потока</span></div>
+  <div class="progress" style="margin:10px 0 12px"><span style="width:0%"></span></div>
+  <div class="counters"><div class="counter"><div class="num" data-counter="found" data-max="248">248</div><div class="lbl">Найдено</div></div><div class="counter"><div class="num" data-counter="processed" data-max="248">0</div><div class="lbl">Обработано</div></div><div class="counter"><div class="num" data-counter="renamed" data-max="231">0</div><div class="lbl">Переименовано</div></div><div class="counter"><div class="num" data-counter="skipped" data-max="13">0</div><div class="lbl">Пропущено</div></div><div class="counter"><div class="num" data-counter="errors" data-max="4">0</div><div class="lbl">Ошибки</div></div></div>
+</div>
+<div data-run-show="idle"><div class="group-label">Результат</div><div class="empty card white"><i data-icon="Files" data-size="32"></i><div>Здесь появится таблица: какой файл как переименован и почему пропущен.</div></div></div>
+<div data-run-show="running done stopped" hidden>
+  <div class="row" style="margin:6px 0 8px"><span class="t-strong grow">Результат</span>
+    <div class="tabs" style="margin:0;border:0" data-new><span class="tab current" data-filter="">Все</span><span class="tab" data-filter="done">Переименованы</span><span class="tab" data-filter="skip">Пропущены</span><span class="tab" data-filter="error">Ошибки</span></div>
+    <button class="btn" data-run-enable="done stopped" disabled data-open="savelog">Сохранить журнал…</button></div>
+  <div class="table-wrap"><table class="table">
+<colgroup><col style="width:26%"><col style="width:34px"><col style="width:36%"><col style="width:17%"><col style="width:140px"></colgroup>
+<thead><tr><th>Было</th><th></th><th>Стало</th><th>Шаблон</th><th>Итог</th></tr></thead>
+<tbody>
+<tr data-status="done" data-detail="f0" data-run-row><td class="old">scan_0001.pdf</td><td class="arrow">→</td><td>АБВГ.301121.001 Кронштейн.pdf</td><td>Сборочный чертеж</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="done" data-detail="f1" data-run-row><td class="old">scan_0002.pdf</td><td class="arrow">→</td><td>АБВГ.301121.002 Основание.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="done" data-detail="f2" data-run-row><td class="old">scan_0003.pdf</td><td class="arrow">→</td><td>АБВГ.301121.003 Крышка.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="skip" data-detail="f3" data-run-row><td class="old">scan_0004.pdf</td><td class="arrow">→</td><td>АБВГ.301121.003 Крышка.pdf</td><td>Чертеж детали</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
+<tr data-status="done" data-detail="f4" data-run-row><td class="old">scan_0005.pdf</td><td class="arrow">→</td><td>АБВГ.304512.010 Вал приводной.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="same" data-detail="f5" data-run-row><td class="old">АБВГ.466229.001 Плата.pdf</td><td class="arrow">→</td><td>АБВГ.466229.001 Плата.pdf</td><td>Спецификация</td><td><span class="pill "><span class="dot muted"></span>Имя уже верное</span></td></tr>
+<tr data-status="skip" data-detail="f6" data-run-row><td class="old">scan_0007.pdf</td><td class="arrow">→</td><td class="t-muted">не подошел ни один шаблон</td><td>—</td><td><span class="pill warning"><span class="dot warning"></span>Пропущен</span></td></tr>
+<tr data-status="done" data-detail="f7" data-run-row><td class="old">scan_0008.pdf</td><td class="arrow">→</td><td>АБВГ.741512.002 Втулка.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="error" data-detail="f8" data-run-row><td class="old">scan_0009.pdf</td><td class="arrow">→</td><td class="t-muted">обозначение: Tesseract «АБВГ.301121.0O5», PaddleOCR «АБВГ.301121.005» — не совпали</td><td>Спецификация</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>
+<tr data-status="done" data-detail="f9" data-run-row><td class="old">Подпапка\scan_0010.pdf</td><td class="arrow">→</td><td>АБВГ.711111.004 Шайба.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="done" data-detail="f10" data-run-row><td class="old">Подпапка\scan_0011.pdf</td><td class="arrow">→</td><td>АБВГ.711111.005 Шпилька.pdf</td><td>Чертеж детали</td><td><span class="pill success"><span class="dot success"></span>Переименован</span></td></tr>
+<tr data-status="error" data-detail="f11" data-run-row><td class="old">scan_0012.pdf</td><td class="arrow">→</td><td class="t-muted">не удалось переименовать (файл занят?): файл открыт в другой программе</td><td>Сборочный чертеж</td><td><span class="pill danger"><span class="dot danger"></span>Ошибка</span></td></tr>
+</tbody></table></div>
+</div>
+</div></div>
+<div class="page-foot"><span class="t-muted">Файлы не удаляются: только переименовываются на месте.</span><span class="spacer"></span>
+  <button class="btn big" data-open="stop" data-run-enable="running" disabled><i data-icon="Stop"></i>Стоп</button>
+  <button class="btn big accent" data-open="confirm" data-run-enable="idle done stopped"><i data-icon="Play"></i>Запустить</button></div>
+<div class="dialog" id="confirm"><div class="d-title"><span class="name">Запуск</span><span class="btn-icon" data-close><i data-icon="Close" data-size="14"></i></span></div>
+<div class="d-body">Файлы в папке с PDF и ее подпапках будут переименованы на месте по распознанным обозначению и наименованию.<br><br>Содержимое файлов не меняется, ничего не удаляется; файлы, которые не удалось распознать однозначно, остаются с прежними именами.</div>
+<div class="d-actions"><button class="btn" data-close>Отмена</button><button class="btn accent" data-run-start>Запустить</button></div></div><div class="dialog" id="stop"><div class="d-title"><span class="name">Остановить</span><span class="btn-icon" data-close><i data-icon="Close" data-size="14"></i></span></div>
+<div class="d-body">Остановить переименование? Файлы, которые уже в работе, дочитаются и не будут переименованы. Уже переименованные файлы останутся с новыми именами.</div>
+<div class="d-actions"><button class="btn" data-close>Продолжить</button><button class="btn danger" data-run-stop>Остановить</button></div></div><div class="dialog base" id="pick"><div class="d-title"><span class="name">Выберите папку</span><span class="btn-icon" data-close><i data-icon="Close" data-size="14"></i></span></div>
+<div class="d-body"><div class="t-muted">Здесь откроется стандартное окно выбора папки Windows.</div></div>
+<div class="d-actions"><button class="btn" data-close>Отмена</button><button class="btn accent" data-close>Выбрать папку</button></div></div>
+<div class="dialog base" id="savelog"><div class="d-title"><span class="name">Сохранить журнал</span><span class="btn-icon" data-close><i data-icon="Close" data-size="14"></i></span></div>
+<div class="d-body"><div class="field"><label>Формат</label><div class="segments"><span class="segment current">Таблица Excel (.xlsx)</span><span class="segment">CSV</span><span class="segment">Текст (.txt)</span></div></div>
+<div class="hint">Имя файла: «Журнал переименования 2026-11-13 10-42». Откроется стандартное окно сохранения Windows.</div></div>
+<div class="d-actions"><button class="btn" data-close>Отмена</button><button class="btn accent" data-toast="Журнал сохранен">Сохранить…</button></div></div>
+</section>
+</div>
+</body>
+</html>

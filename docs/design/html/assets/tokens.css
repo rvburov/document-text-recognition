@@ -1,0 +1,71 @@
+/* Токены оформления: те же значения, что в Colors.axaml, Typography.axaml, Controls.axaml и
+   WindowMetrics.axaml программы. Цвет в макете — только через var(--pr-…). */
+:root {
+  /* Фоны */
+  --pr-bg: #FFFFFF;
+  --pr-bg-secondary: #F2F2F7;
+  --pr-bg-inactive: #FAFAFA;
+  --pr-bg-activity: #EBEBEB;
+  --pr-bg-card: #F2F2F7;
+  --pr-hover: #E5E5EA;
+  /* Линии */
+  --pr-separator: #E5E5EA;
+  --pr-line-strong: #C7C7CC;
+  /* Текст */
+  --pr-text: #1C1C1E;
+  --pr-text-secondary: #8E8E93;
+  --pr-text-on-accent: #FFFFFF;
+  /* Акценты и смысловые цвета */
+  --pr-accent: #007AFF;
+  --pr-accent-light: #E5F0FF;
+  --pr-red: #FF3B30;
+  --pr-red-light: #FFE9E7;
+  --pr-green: #34C759;
+  --pr-green-light: #E3F7E9;
+  --pr-orange: #FF9500;
+  --pr-orange-light: #FFF1DE;
+  --pr-highlight: #FFF0B3;
+  --pr-code: #4E9A8C;
+  --pr-pdf: #D0342C;
+  --pr-pdf-light: #F9E8E6;
+  /* Рамки шаблонов (как в разметке шаблона: синяя, зеленая, красно-оранжевая) */
+  --pr-frame-designation: #2F6FE4;
+  --pr-frame-name: #2E9E44;
+  --pr-frame-both: #F0502A;
+  /* Шрифты */
+  --pr-font: "Helvetica Neue", Arial, sans-serif;
+  --pr-font-mono: Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace;
+  --pr-size-small: 10px;
+  --pr-size-base: 12px;
+  --pr-size-mono: 11px;
+  --pr-size-h3: 14px;
+  --pr-size-medium: 16px;
+  --pr-size-large: 20px;
+  --pr-weight-bold: 600;
+  /* Скругления */
+  --pr-radius-xs: 4px;
+  --pr-radius-small: 5px;
+  --pr-radius-base: 6px;
+  --pr-radius-medium: 8px;
+  --pr-radius-large: 12px;
+  --pr-radius-pill: 15px;
+  /* Размеры */
+  --pr-control-height: 30px;
+  --pr-row-height: 36px;
+  --pr-border: 1px;
+  --pr-icon-small: 16px;
+  --pr-icon-medium: 18px;
+  --pr-icon-large: 24px;
+  --pr-icon-xlarge: 32px;
+  --pr-dialog-compact: 420px;
+  --pr-dialog-base: 520px;
+  --pr-dialog-wide: 800px;
+  --pr-dialog-padding-y: 16px;
+  --pr-dialog-padding-x: 20px;
+  --pr-window-width: 1100px;
+  --pr-window-height: 720px;
+  /* Затемнение под диалогом, тень окна */
+  --pr-scrim: rgba(0, 0, 0, 0.18);
+  --pr-shadow: 0 8px 28px rgba(0, 0, 0, 0.18), 0 1px 3px rgba(0, 0, 0, 0.12);
+  --pr-page: #DADCE2;
+}
