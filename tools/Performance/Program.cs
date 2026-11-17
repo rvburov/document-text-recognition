@@ -137,6 +137,7 @@ try
             SampledPeakWorkingSetBytes = sampler.PeakWorkingSet,
             SampledPeakThreads = sampler.PeakThreads,
             DocumentsPerSecond = options.Count / runClock.Elapsed.TotalSeconds,
+            SuccessfullyRenamedPerSecond = summary.Renamed / runClock.Elapsed.TotalSeconds,
             Projected8000Minutes = 8000 / (options.Count / runClock.Elapsed.TotalSeconds) / 60,
             Measured8000Minutes = options.Count == 8000 ? runClock.Elapsed.TotalMinutes : (double?)null,
             ProjectionWarning = options.Count == 8000
@@ -288,6 +289,7 @@ internal sealed class Sink(IReadOnlyDictionary<string, Sample> expected, Stopwat
     public double FoundAtMilliseconds { get; private set; }
     public double? FirstResultMilliseconds { get; private set; }
     private int _processed;
+    private int _failed;
     public void Message(string text) { }
     public void Found(int count) => FoundAtMilliseconds = clock.Elapsed.TotalMilliseconds;
     public void File(JournalEntry entry)
@@ -296,11 +298,14 @@ internal sealed class Sink(IReadOnlyDictionary<string, Sample> expected, Stopwat
         if (!expected.TryGetValue(entry.RelativePath, out var sample)) Errors.Enqueue("Unexpected source " + entry.RelativePath);
         else if (entry.Status != FileStatus.Renamed || entry.NewName != sample.ExpectedName)
         {
-            Errors.Enqueue($"{entry.RelativePath}: {entry.Status}; {entry.NewName}; {entry.Reason}");
+            var failure = $"{entry.RelativePath}: {entry.Status}; {entry.NewName}; {entry.Reason}";
+            Errors.Enqueue(failure);
+            if (++_failed <= 10 || _failed % 100 == 0)
+                Console.Error.WriteLine($"FAILURE {_failed}, elapsed {clock.Elapsed.TotalSeconds:F1}s: {failure}");
             if (entry.NewName is not null && entry.NewName != sample.ExpectedName) IncorrectNames++;
         }
         if (++_processed % Math.Max(10, expected.Count / 40) == 0)
-            Console.WriteLine($"processed {_processed}/{expected.Count}, elapsed {clock.Elapsed.TotalSeconds:F1}s");
+            Console.WriteLine($"processed {_processed}/{expected.Count}, failures {_failed}, elapsed {clock.Elapsed.TotalSeconds:F1}s");
     }
 }
 

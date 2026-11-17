@@ -61,7 +61,7 @@ internal sealed record RunSettings(string TemplatesFolder, string SourceFolder, 
     public int EffectiveWorkers => Workers > 0 ? Workers : DefaultWorkers;
 
     /// <summary>Один постоянный поток на распознаватель: нативные кэши oneDNN привязаны к потоку.</summary>
-    internal bool DedicatedWorkers { get; init; }
+    internal bool DedicatedWorkers { get; init; } = true;
 }
 
 /// <summary>Куда прогон сообщает о ходе работы. Вызывается из фоновых потоков.</summary>

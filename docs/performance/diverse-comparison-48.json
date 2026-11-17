@@ -1,0 +1,39 @@
+{
+  "RecordedUtc": "2026-11-17T22:44:27.280874+00:00",
+  "Scope": "Same 48 distinct synthetic PDFs and saved templates, fixed OpenCV RNG seed before every read. Both real OCR engines. Refused inputs retained; no sample filtering.",
+  "RngSeed": 1729,
+  "BaselineCoreSha256": "F7B0125D42549DE997EFA428D02A26E6E7DA2AA8CEACFCE3E7E41A59F19C610E",
+  "CandidateCoreSha256": "E9E72A53010EFE1CAA2FBB2F0A8B630071537F7718AB8828DDB6546ADA128B5D",
+  "Count": 48,
+  "BaselineCorrect": 44,
+  "CandidateCorrect": 44,
+  "BaselineRefused": 4,
+  "CandidateRefused": 4,
+  "BaselineIncorrectAccepted": 0,
+  "CandidateIncorrectAccepted": 0,
+  "IdenticalSampleRecords": 48,
+  "IdenticalFieldRecordsAndCropSha256": 120,
+  "IdenticalEngineReadingRecords": 240,
+  "EngineRecordScope": "Raw text, parsed text and failure message; confidence values are not present in this diagnostic format.",
+  "SameRefusals": [
+    {
+      "File": "scans/04-02-DrawingA3.pdf",
+      "Reason": "стр. 1 (шаблон «Основная надпись A3»): обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания"
+    },
+    {
+      "File": "scans/06-01-Drawing.pdf",
+      "Reason": "стр. 1 (шаблон «Основная надпись A4»): тип документа прочитано по-разному: «Габаритный чертеж» и «Габаритный й чертеж»"
+    },
+    {
+      "File": "scans/07-01-Drawing.pdf",
+      "Reason": "стр. 1 (шаблон «Основная надпись A4»): тип документа прочитано по-разному: «Габаритный чертеж» и «Габаритный й чертеж»"
+    },
+    {
+      "File": "scans/07-04-Drawing.pdf",
+      "Reason": "стр. 1 (шаблон «Основная надпись A4»): низкая уверенность распознавания обозначения; обозначение не прошло проверку формата"
+    }
+  ],
+  "Differences": [],
+  "BaselineReport": "diverse-baseline-48.json",
+  "CandidateReport": "diverse-candidate-48.json"
+}

@@ -138,9 +138,10 @@ public sealed class RunTests : IDisposable
     }
 
     private RunSummary Run(Sink sink, bool recursive = true, Func<IDocumentRecognizer>? recognizers = null,
-        CancellationToken ct = default, int workers = 2, bool dedicatedWorkers = false)
+        CancellationToken ct = default, int workers = 2, bool? dedicatedWorkers = null)
     {
-        var settings = new RunSettings(Templates, Source, recursive, workers) { DedicatedWorkers = dedicatedWorkers };
+        var settings = new RunSettings(Templates, Source, recursive, workers);
+        if (dedicatedWorkers is { } dedicated) settings = settings with { DedicatedWorkers = dedicated };
         var files = OcrRenameRun.ListSource(settings, Directory.GetFiles(Templates));
         sink.Found(files.Count);
         return OcrRenameRun.ProcessFiles(settings, files, recognizers ?? (() => new FakeRecognizer()), sink, ct);
@@ -371,7 +372,7 @@ public sealed class RunTests : IDisposable
         using var cts = new CancellationTokenSource();
         var recognizers = new List<ThreadTrackingRecognizer>();
         var reads = 0;
-        var summary = Run(new Sink(), workers: 4, dedicatedWorkers: true, ct: cts.Token, recognizers: () =>
+        var summary = Run(new Sink(), workers: 4, ct: cts.Token, recognizers: () =>
         {
             var recognizer = new ThreadTrackingRecognizer(_ =>
             {

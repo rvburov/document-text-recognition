@@ -1,0 +1,31 @@
+{
+  "Outcome": "FAILED — not a successful 8000-document recognition benchmark",
+  "CoreAssemblySha256": "F4F3AFD15BAAD213D058D8C8287F8B8ABC07A327B894148742A7A2AD1BB8DF0D",
+  "Configuration": {
+    "RequestedWorkers": 0,
+    "EffectiveWorkers": 8,
+    "RuntimeDefaultsApplied": true,
+    "ProfilePasses": 1,
+    "BatchFields": null,
+    "OneDnn": null,
+    "ReusePredictors": null,
+    "DedicatedWorkers": null,
+    "ResolvedDedicatedWorkers": false,
+    "ResolvedBatchFields": true,
+    "ResolvedOneDnn": true,
+    "ResolvedReusePredictors": true,
+    "Warmup": "One untimed read of each unique document, then optional phase profiles; new real OCR engines are still initialized inside the timed full run."
+  },
+  "WallSeconds": 1142.042278,
+  "Processed": 8000,
+  "Renamed": 7341,
+  "Skipped": 659,
+  "NativePaddleErrors": 659,
+  "FirstFailingSource": "003280/scan.pdf",
+  "Failure": "Running predictor failed with Paddle status code 3: std::exception",
+  "PeakWorkingSetBytes": 6944972800,
+  "IncorrectAcceptedNames": 0,
+  "VerifiedPdfHashes": 7341,
+  "QualityPassed": false,
+  "RawReport": "shipping-taskpool-failed-8000.json"
+}
