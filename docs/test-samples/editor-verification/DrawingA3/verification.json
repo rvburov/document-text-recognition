@@ -1,0 +1,76 @@
+{
+  "Test": "Mouse_drawn_regions_are_saved_reopened_and_used_by_both_engines_on_same_pdf",
+  "VerifiedUtc": "2026-11-17T19:15:18.5215637+00:00",
+  "DocumentKind": "DrawingA3",
+  "SamePdfForEditorAndRecognition": true,
+  "OriginalPdfSha256": "207A1D5538B056D0A4FF9E5476B8B619C8E1CC364CB0F5FDD6AC6B0CC51E3565",
+  "PdfAfterRecognitionSha256": "207A1D5538B056D0A4FF9E5476B8B619C8E1CC364CB0F5FDD6AC6B0CC51E3565",
+  "PageIndex": 0,
+  "PageWidth": 1190.52001953125,
+  "PageHeight": 842.0399780273438,
+  "TypeAbsent": false,
+  "CoordinatesDrawnByMouse": [
+    {
+      "Role": "Combined",
+      "Bounds": {
+        "X": 0.704761904761905,
+        "Y": 0.8013468013468013,
+        "Width": 0.16190476190476144,
+        "Height": 0.12794612794612792,
+        "Right": 0.8666666666666665,
+        "Bottom": 0.9292929292929292
+      }
+    }
+  ],
+  "CoordinatesReloadedFromDisk": [
+    {
+      "Role": "Combined",
+      "Bounds": {
+        "X": 0.704761904761905,
+        "Y": 0.8013468013468013,
+        "Width": 0.16190476190476144,
+        "Height": 0.12794612794612792,
+        "Right": 0.8666666666666665,
+        "Bottom": 0.9292929292929292
+      }
+    }
+  ],
+  "CropSettings": {
+    "Dpi": 300,
+    "AlignmentMarginMm": 1
+  },
+  "Fields": {
+    "Designation": "ПРМД.301261.010",
+    "Name": "Рама сварная",
+    "Type": "Сборочный чертеж"
+  },
+  "ProposedName": "ПРМД.301261.010 Рама сварная Сборочный чертеж.pdf",
+  "ReadFields": [
+    {
+      "PageNumber": 1,
+      "Role": "Combined",
+      "Bounds": {
+        "X": 0.704761904761905,
+        "Y": 0.8013468013468013,
+        "Width": 0.16190476190476144,
+        "Height": 0.12794612794612792,
+        "Right": 0.8666666666666665,
+        "Bottom": 0.9292929292929292
+      },
+      "Crop": "Combined.png",
+      "First": {
+        "Engine": "Tesseract",
+        "RawText": "ПРМД.301261.010\nРама сварная\nСборочный чертеж",
+        "ParsedText": "Обозначение: ПРМД.301261.010\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+        "Problem": null
+      },
+      "Second": {
+        "Engine": "PaddleOCR",
+        "RawText": "ПРМД.301261.010\nРама сварная\nСборочный чертеж",
+        "ParsedText": "Обозначение: ПРМД.301261.010\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+        "Problem": null
+      }
+    }
+  ],
+  "Result": "passed"
+}

@@ -1,0 +1,170 @@
+{
+  "Test": "Mouse_drawn_regions_are_saved_reopened_and_used_by_both_engines_on_same_pdf",
+  "VerifiedUtc": "2026-11-17T19:15:14.4722125+00:00",
+  "DocumentKind": "Drawing",
+  "SamePdfForEditorAndRecognition": true,
+  "OriginalPdfSha256": "62E837F05CB1060091E191792EB7AE66EEB8EBBA667F14220BCB87654C01D275",
+  "PdfAfterRecognitionSha256": "62E837F05CB1060091E191792EB7AE66EEB8EBBA667F14220BCB87654C01D275",
+  "PageIndex": 0,
+  "PageWidth": 595.4400024414062,
+  "PageHeight": 842.0399780273438,
+  "TypeAbsent": false,
+  "CoordinatesDrawnByMouse": [
+    {
+      "Role": "Designation",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.8013468013468013,
+        "Width": 0.561904761904762,
+        "Height": 0.043771043771043905,
+        "Right": 0.9714285714285713,
+        "Bottom": 0.8451178451178452
+      }
+    },
+    {
+      "Role": "Name",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.8518518518518519,
+        "Width": 0.3238095238095243,
+        "Height": 0.043771043771043905,
+        "Right": 0.7333333333333336,
+        "Bottom": 0.8956228956228958
+      }
+    },
+    {
+      "Role": "Type",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.9023569023569024,
+        "Width": 0.3238095238095243,
+        "Height": 0.026936026936026813,
+        "Right": 0.7333333333333336,
+        "Bottom": 0.9292929292929292
+      }
+    }
+  ],
+  "CoordinatesReloadedFromDisk": [
+    {
+      "Role": "Designation",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.8013468013468013,
+        "Width": 0.561904761904762,
+        "Height": 0.043771043771043905,
+        "Right": 0.9714285714285713,
+        "Bottom": 0.8451178451178452
+      }
+    },
+    {
+      "Role": "Name",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.8518518518518519,
+        "Width": 0.3238095238095243,
+        "Height": 0.043771043771043905,
+        "Right": 0.7333333333333336,
+        "Bottom": 0.8956228956228958
+      }
+    },
+    {
+      "Role": "Type",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.9023569023569024,
+        "Width": 0.3238095238095243,
+        "Height": 0.026936026936026813,
+        "Right": 0.7333333333333336,
+        "Bottom": 0.9292929292929292
+      }
+    }
+  ],
+  "CropSettings": {
+    "Dpi": 300,
+    "AlignmentMarginMm": 1
+  },
+  "Fields": {
+    "Designation": "ЮИЛГ.461411.123",
+    "Name": "Корпус",
+    "Type": "Сборочный чертеж"
+  },
+  "ProposedName": "ЮИЛГ.461411.123 Корпус Сборочный чертеж.pdf",
+  "ReadFields": [
+    {
+      "PageNumber": 1,
+      "Role": "Designation",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.8013468013468013,
+        "Width": 0.561904761904762,
+        "Height": 0.043771043771043905,
+        "Right": 0.9714285714285713,
+        "Bottom": 0.8451178451178452
+      },
+      "Crop": "Designation.png",
+      "First": {
+        "Engine": "Tesseract",
+        "RawText": "ЮИЛГ.461411.123",
+        "ParsedText": "ЮИЛГ.461411.123",
+        "Problem": null
+      },
+      "Second": {
+        "Engine": "PaddleOCR",
+        "RawText": "ЮИЛГ.461411.123",
+        "ParsedText": "ЮИЛГ.461411.123",
+        "Problem": null
+      }
+    },
+    {
+      "PageNumber": 1,
+      "Role": "Name",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.8518518518518519,
+        "Width": 0.3238095238095243,
+        "Height": 0.043771043771043905,
+        "Right": 0.7333333333333336,
+        "Bottom": 0.8956228956228958
+      },
+      "Crop": "Name.png",
+      "First": {
+        "Engine": "Tesseract",
+        "RawText": "Корпус",
+        "ParsedText": "Корпус",
+        "Problem": null
+      },
+      "Second": {
+        "Engine": "PaddleOCR",
+        "RawText": "Корпус",
+        "ParsedText": "Корпус",
+        "Problem": null
+      }
+    },
+    {
+      "PageNumber": 1,
+      "Role": "Type",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.9023569023569024,
+        "Width": 0.3238095238095243,
+        "Height": 0.026936026936026813,
+        "Right": 0.7333333333333336,
+        "Bottom": 0.9292929292929292
+      },
+      "Crop": "Type.png",
+      "First": {
+        "Engine": "Tesseract",
+        "RawText": "Сборочный чертеж",
+        "ParsedText": "Сборочный чертеж",
+        "Problem": null
+      },
+      "Second": {
+        "Engine": "PaddleOCR",
+        "RawText": "Сборочный чертеж",
+        "ParsedText": "Сборочный чертеж",
+        "Problem": null
+      }
+    }
+  ],
+  "Result": "passed"
+}

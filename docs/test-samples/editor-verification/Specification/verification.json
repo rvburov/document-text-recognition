@@ -1,0 +1,123 @@
+{
+  "Test": "Mouse_drawn_regions_are_saved_reopened_and_used_by_both_engines_on_same_pdf",
+  "VerifiedUtc": "2026-11-17T19:15:10.5392801+00:00",
+  "DocumentKind": "Specification",
+  "SamePdfForEditorAndRecognition": true,
+  "OriginalPdfSha256": "C24A6823D8EC5F8574BE127AABAC12EA656900C842DAF17F497467B86E59F81B",
+  "PdfAfterRecognitionSha256": "C24A6823D8EC5F8574BE127AABAC12EA656900C842DAF17F497467B86E59F81B",
+  "PageIndex": 0,
+  "PageWidth": 595.4400024414062,
+  "PageHeight": 842.0399780273438,
+  "TypeAbsent": true,
+  "CoordinatesDrawnByMouse": [
+    {
+      "Role": "Designation",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.8518518518518519,
+        "Width": 0.561904761904762,
+        "Height": 0.043771043771043905,
+        "Right": 0.9714285714285713,
+        "Bottom": 0.8956228956228958
+      }
+    },
+    {
+      "Role": "Name",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.9023569023569024,
+        "Width": 0.3238095238095243,
+        "Height": 0.043771043771043905,
+        "Right": 0.7333333333333336,
+        "Bottom": 0.9461279461279463
+      }
+    }
+  ],
+  "CoordinatesReloadedFromDisk": [
+    {
+      "Role": "Designation",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.8518518518518519,
+        "Width": 0.561904761904762,
+        "Height": 0.043771043771043905,
+        "Right": 0.9714285714285713,
+        "Bottom": 0.8956228956228958
+      }
+    },
+    {
+      "Role": "Name",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.9023569023569024,
+        "Width": 0.3238095238095243,
+        "Height": 0.043771043771043905,
+        "Right": 0.7333333333333336,
+        "Bottom": 0.9461279461279463
+      }
+    }
+  ],
+  "CropSettings": {
+    "Dpi": 300,
+    "AlignmentMarginMm": 1
+  },
+  "Fields": {
+    "Designation": "АБВГ.466229.001",
+    "Name": "Плата",
+    "Type": "Спецификация"
+  },
+  "ProposedName": "АБВГ.466229.001 Плата Спецификация.pdf",
+  "ReadFields": [
+    {
+      "PageNumber": 1,
+      "Role": "Designation",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.8518518518518519,
+        "Width": 0.561904761904762,
+        "Height": 0.043771043771043905,
+        "Right": 0.9714285714285713,
+        "Bottom": 0.8956228956228958
+      },
+      "Crop": "Designation.png",
+      "First": {
+        "Engine": "Tesseract",
+        "RawText": "АБВГ.466229.001",
+        "ParsedText": "АБВГ.466229.001",
+        "Problem": null
+      },
+      "Second": {
+        "Engine": "PaddleOCR",
+        "RawText": "АБВГ.466229.001",
+        "ParsedText": "АБВГ.466229.001",
+        "Problem": null
+      }
+    },
+    {
+      "PageNumber": 1,
+      "Role": "Name",
+      "Bounds": {
+        "X": 0.4095238095238093,
+        "Y": 0.9023569023569024,
+        "Width": 0.3238095238095243,
+        "Height": 0.043771043771043905,
+        "Right": 0.7333333333333336,
+        "Bottom": 0.9461279461279463
+      },
+      "Crop": "Name.png",
+      "First": {
+        "Engine": "Tesseract",
+        "RawText": "Плата",
+        "ParsedText": "Плата",
+        "Problem": null
+      },
+      "Second": {
+        "Engine": "PaddleOCR",
+        "RawText": "Плата",
+        "ParsedText": "Плата",
+        "Problem": null
+      }
+    }
+  ],
+  "Result": "passed"
+}

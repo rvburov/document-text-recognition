@@ -37,6 +37,8 @@ jobs:
           DTR_TEST_SAMPLES_OUTPUT: ${{ runner.temp }}/dtr-test-samples
         run: dotnet test tests/Core.Tests -c Release --logger trx --results-directory artifacts/test-results/core
       - name: Тесты окна и установщика
+        env:
+          DTR_EDITOR_TEST_OUTPUT: ${{ runner.temp }}/dtr-test-samples/editor
         run: dotnet test tests/App.Tests -c Release --logger trx --results-directory artifacts/test-results/app
       - name: Отчет тестов и проверенные PDF
         if: always()

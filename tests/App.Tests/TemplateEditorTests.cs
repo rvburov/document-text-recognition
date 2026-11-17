@@ -1,3 +1,6 @@
+using System.Security.Cryptography;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
@@ -6,6 +9,8 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using DocumentTextRecognition.Core.Imaging;
+using DocumentTextRecognition.Core.Recognition;
+using DocumentTextRecognition.Core.Rename;
 using DocumentTextRecognition.Core.Templates;
 using DocumentTextRecognition.Dialogs;
 using DocumentTextRecognition.Services;
@@ -114,11 +119,16 @@ public sealed class TemplateEditorTests
         }, CancellationToken.None);
     }
 
-    [OcrFact]
-    public async Task Unmarked_pdf_can_be_drawn_saved_and_reopened_with_coordinates_and_catalog_preview()
+    [OcrTheory]
+    [InlineData(FormKind.Specification, false, "АБВГ.466229.001", "Плата", null)]
+    [InlineData(FormKind.Drawing, false, "ЮИЛГ.461411.123", "Корпус", "Сборочный чертеж")]
+    [InlineData(FormKind.DrawingA3, true, "ПРМД.301261.010", "Рама сварная", "Сборочный чертеж")]
+    public async Task Mouse_drawn_regions_are_saved_reopened_and_used_by_both_engines_on_same_pdf(
+        FormKind kind, bool combined, string designation, string name, string? documentType)
     {
         using var wb = new Workbench();
-        var file = wb.AddDocument("Спецификация без рамок.pdf", FormKind.Specification, "АБВГ.466229.001", "Плата");
+        var fileName = kind == FormKind.Specification ? "Спецификация без рамок.pdf" : $"{kind} без рамок.pdf";
+        var file = wb.AddDocument(fileName, kind, designation, name, docType: documentType);
         var pdfBytes = File.ReadAllBytes(file);
         await HeadlessApp.Session.Dispatch(async () =>
         {
@@ -134,20 +144,27 @@ public sealed class TemplateEditorTests
 
             Named<ComboBox>(editor, "ZoomSelector").SelectedIndex = 0;
             Layout(editor);
-            var fields = SyntheticForms.Fields(FormKind.Specification);
-            var (widthMm, heightMm) = SyntheticForms.PageSizeMm(FormKind.Specification);
+            var fields = SyntheticForms.Fields(kind);
+            var (widthMm, heightMm) = SyntheticForms.PageSizeMm(kind);
             void Draw(FieldRole role, RectMm mm)
             {
                 Named<Button>(editor, "Draw" + role).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                 Drag(editor, surface, new Point(mm.X / widthMm * surface.Bounds.Width, mm.Y / heightMm * surface.Bounds.Height),
                     new Point((mm.X + mm.Width) / widthMm * surface.Bounds.Width, (mm.Y + mm.Height) / heightMm * surface.Bounds.Height));
             }
-            Draw(FieldRole.Designation, fields.Designation.Inflate(-1));
-            Draw(FieldRole.Name, fields.Name.Inflate(-1));
-            Named<CheckBox>(editor, "TypeAbsent").IsChecked = true;
+            if (combined) Draw(FieldRole.Combined, fields.Both.Inflate(-1));
+            else
+            {
+                Draw(FieldRole.Designation, fields.Designation.Inflate(-1));
+                Draw(FieldRole.Name, fields.Name.Inflate(-1));
+                if (documentType is not null) Draw(FieldRole.Type, fields.Type.Inflate(-1));
+            }
+            var typeAbsent = documentType is null;
+            Named<CheckBox>(editor, "TypeAbsent").IsChecked = typeAbsent;
             Layout(editor);
-            Assert.Equal(2, surface.Regions.Count);
-            Assert.Equal(2, Named<ListBox>(editor, "RegionCoordinates").ItemCount);
+            var regionCount = combined ? 1 : typeAbsent ? 2 : 3;
+            Assert.Equal(regionCount, surface.Regions.Count);
+            Assert.Equal(regionCount, Named<ListBox>(editor, "RegionCoordinates").ItemCount);
             Assert.True(Named<Button>(editor, "SaveTemplate").IsEnabled);
             var expected = surface.Regions;
             Named<Button>(editor, "SaveTemplate").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
@@ -155,7 +172,7 @@ public sealed class TemplateEditorTests
 
             var stored = TemplateMarkupStore.Load(file);
             Assert.Null(stored.Problem);
-            Assert.True(stored.Markup!.TypeAbsent);
+            Assert.Equal(typeAbsent, stored.Markup!.TypeAbsent);
             Assert.Equal(expected, stored.Markup.Regions);
             Assert.Equal(pdfBytes, File.ReadAllBytes(file));
 
@@ -175,17 +192,103 @@ public sealed class TemplateEditorTests
             var secondSurface = Named<TemplateRegionSurface>(reopened, "RegionSurface");
             await Until(() => secondSurface.IsEnabled && secondSurface.Width > 0);
             Assert.Equal(expected, secondSurface.Regions);
-            Assert.True(Named<CheckBox>(reopened, "TypeAbsent").IsChecked);
-            Named<ScrollViewer>(reopened, "PageScroll").Offset = new Vector(0, 1000);
-            Shot(reopened, "07-template-editor");
-            reopened.Width = 800;
-            reopened.Height = 650;
-            Layout(reopened);
-            Named<ScrollViewer>(reopened, "PageScroll").Offset = new Vector(0, 1000);
-            Shot(reopened, "08-template-editor-small");
+            Assert.Equal(typeAbsent, Named<CheckBox>(reopened, "TypeAbsent").IsChecked);
+            if (kind == FormKind.Specification)
+            {
+                Named<ScrollViewer>(reopened, "PageScroll").Offset = new Vector(0, 1000);
+                Shot(reopened, "07-template-editor");
+                reopened.Width = 800;
+                reopened.Height = 650;
+                Layout(reopened);
+                Named<ScrollViewer>(reopened, "PageScroll").Offset = new Vector(0, 1000);
+                Shot(reopened, "08-template-editor-small");
+            }
             reopened.Close();
             owner.Close();
+
+            // The same entry point as the check dialog loads the sidecar afresh. The PDF
+            // used as template is exactly the PDF whose text is being recognized here.
+            var report = await Task.Run(() => CheckScanDialog.Recognize(wb.Templates, file, file));
+            Assert.True(report.Result.Values is not null, report.Result.Problem);
+            var values = new FieldValues(designation, name, documentType ?? "Спецификация");
+            Assert.Equal(values, report.Result.Values);
+            var proposed = FileNames.Build(report.Result.Values!);
+            Assert.Null(proposed.Problem);
+            Assert.Equal($"{designation} {name} {values.Type}.pdf", proposed.Name);
+            var readFields = report.Diagnostics.Where(d => d.Field is not null).Select(d => d.Field!).ToArray();
+            Assert.Equal(regionCount, readFields.Length);
+            foreach (var region in expected)
+            {
+                var read = Assert.Single(readFields, f => f.Role == region.Role);
+                Assert.Equal(region.Bounds, read.Bounds);
+                Assert.NotEmpty(read.CropPng);
+                Assert.Equal("Tesseract", read.First.Engine);
+                Assert.Equal("PaddleOCR", read.Second.Engine);
+                Assert.Null(read.First.Problem);
+                Assert.Null(read.Second.Problem);
+                if (region.Role == FieldRole.Combined)
+                {
+                    foreach (var engine in new[] { read.First, read.Second })
+                    {
+                        Assert.Contains(designation, engine.ParsedText);
+                        Assert.Contains(name, engine.ParsedText);
+                        Assert.Contains(values.Type, engine.ParsedText);
+                    }
+                }
+                else
+                {
+                    var expectedText = region.Role switch
+                    {
+                        FieldRole.Designation => designation,
+                        FieldRole.Name => name,
+                        _ => values.Type,
+                    };
+                    Assert.Equal(expectedText, read.First.ParsedText);
+                    Assert.Equal(expectedText, read.Second.ParsedText);
+                }
+            }
+            Assert.Equal(pdfBytes, File.ReadAllBytes(file));
+            RecordSamePdfCheck(file, pdfBytes, kind, expected, stored.Markup, report, proposed.Name!);
             return 0;
         }, CancellationToken.None);
+    }
+
+    private static void RecordSamePdfCheck(string file, byte[] original, FormKind kind,
+        IReadOnlyList<TemplateRegion> drawn, TemplateMarkup saved, CheckScanDialog.CheckReport report, string proposedName)
+    {
+        var output = Environment.GetEnvironmentVariable("DTR_EDITOR_TEST_OUTPUT");
+        if (string.IsNullOrWhiteSpace(output)) return;
+        var folder = Path.Combine(output, kind.ToString());
+        Directory.CreateDirectory(folder);
+        File.Copy(file, Path.Combine(folder, "document.pdf"), overwrite: true);
+        File.Copy(TemplateMarkupStore.PathFor(file), Path.Combine(folder, "document.pdf.template.json"), overwrite: true);
+        var record = new
+        {
+            Test = "Mouse_drawn_regions_are_saved_reopened_and_used_by_both_engines_on_same_pdf",
+            VerifiedUtc = DateTimeOffset.UtcNow,
+            DocumentKind = kind.ToString(),
+            SamePdfForEditorAndRecognition = true,
+            OriginalPdfSha256 = Convert.ToHexString(SHA256.HashData(original)),
+            PdfAfterRecognitionSha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(file))),
+            saved.PageIndex,
+            saved.PageWidth,
+            saved.PageHeight,
+            saved.TypeAbsent,
+            CoordinatesDrawnByMouse = drawn.Select(r => new { Role = r.Role.ToString(), r.Bounds }),
+            CoordinatesReloadedFromDisk = saved.Regions.Select(r => new { Role = r.Role.ToString(), r.Bounds }),
+            CropSettings = new { Dpi = FieldCrop.OcrDpi, AlignmentMarginMm = FieldCrop.MarginMm },
+            Fields = report.Result.Values,
+            ProposedName = proposedName,
+            ReadFields = report.Diagnostics.Where(d => d.Field is not null).Select(d =>
+            {
+                var field = d.Field!;
+                var crop = field.Role + ".png";
+                File.WriteAllBytes(Path.Combine(folder, crop), field.CropPng);
+                return new { d.PageNumber, Role = field.Role.ToString(), field.Bounds, Crop = crop, field.First, field.Second };
+            }).ToArray(),
+            Result = "passed",
+        };
+        File.WriteAllText(Path.Combine(folder, "verification.json"), JsonSerializer.Serialize(record,
+            new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }) + Environment.NewLine);
     }
 }
