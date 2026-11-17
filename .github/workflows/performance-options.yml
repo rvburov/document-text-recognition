@@ -1,0 +1,68 @@
+name: performance-options
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['.github/workflows/performance-options.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: performance-options-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  windows:
+    name: Сравнение вариантов на одном Windows-стенде
+    runs-on: windows-2022
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Сборка измерителя
+        run: dotnet build tools/Performance -c Release
+      - name: Сравнение 8 вариантов с профилем этапов
+        shell: pwsh
+        run: |
+          $env:DTR_BENCHMARK_CPU = @(Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name) -join '; '
+          $reports = Join-Path '${{ runner.temp }}' 'performance-options'
+          New-Item -ItemType Directory -Force -Path $reports | Out-Null
+          $passed = @()
+          foreach ($oneDnn in @('true', 'false')) {
+            foreach ($batch in @('true', 'false')) {
+              foreach ($workers in @(4, 8)) {
+                $label = "windows-dnn-$oneDnn-batch-$batch-workers-$workers"
+                $output = Join-Path $reports "$label.json"
+                dotnet run --project tools/Performance -c Release --no-build -- --count 100 --workers $workers --one-dnn $oneDnn --batch-fields $batch --profile-passes 2 --label $label --output $output
+                $code = $LASTEXITCODE
+                if (Test-Path $output) {
+                  $result = Get-Content $output -Raw | ConvertFrom-Json
+                  if ($code -eq 0 -and $result.Quality.Passed) {
+                    $passed += [pscustomobject]@{Label=$label; Seconds=$result.Measurement.WallSeconds; Workers=$workers; OneDnn=$oneDnn; Batch=$batch}
+                  }
+                }
+                if ($code -ne 0) { Write-Warning "$label failed quality; retained its report and continuing other variants." }
+              }
+            }
+          }
+          if ($passed.Count -eq 0) { throw 'No configuration passed all expected names and PDF hashes.' }
+          $ranked = @($passed | Sort-Object Seconds)
+          $ranked | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $reports 'short-ranking.json')
+          $best = $ranked[0]
+          dotnet run --project tools/Performance -c Release --no-build -- --count 1000 --workers $best.Workers --one-dnn $best.OneDnn --batch-fields $best.Batch --profile-passes 1 --label windows-best-long --output (Join-Path $reports 'windows-best-long.json')
+          if ($LASTEXITCODE -ne 0) { throw 'Selected configuration failed the 1000-PDF confirmation.' }
+      - name: Все отчеты сравнения
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-options-windows
+          path: ${{ runner.temp }}/performance-options
+          retention-days: 14

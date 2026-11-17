@@ -94,7 +94,7 @@ try
             DotNet = RuntimeInformation.FrameworkDescription,
             Architecture = RuntimeInformation.ProcessArchitecture.ToString(),
             LogicalProcessors = Environment.ProcessorCount,
-            Cpu = CpuName(),
+            Cpu = Environment.GetEnvironmentVariable("DTR_BENCHMARK_CPU") ?? CpuName(),
             CgroupCpuMax = ReadText("/sys/fs/cgroup/cpu.max"),
             CgroupMemoryMax = ReadText("/sys/fs/cgroup/memory.max"),
             GcAvailableMemoryBytes = GC.GetGCMemoryInfo().TotalAvailableMemoryBytes,
