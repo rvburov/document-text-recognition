@@ -1,0 +1,58 @@
+name: performance
+
+on:
+  workflow_dispatch:
+    inputs:
+      count:
+        description: Число PDF для настоящего OCR
+        type: choice
+        options: ['100', '1000', '8000']
+        default: '8000'
+      workers:
+        description: Одновременные файлы (0 — Авто)
+        type: choice
+        options: ['0', '1', '2', '4', '8']
+        default: '0'
+  # Первый прогон и проверка изменений самого измерения; обычные изменения кода
+  # запускают короткий OCR в checks. Длинный прогон можно повторить вручную.
+  push:
+    branches: [master]
+    paths: ['.github/workflows/performance.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: performance-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  windows:
+    name: Полный OCR (Windows)
+    runs-on: windows-2022
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Сборка измерителя
+        run: dotnet build tools/Performance -c Release
+      - name: Все PDF через оба движка, проверка имен и содержимого
+        shell: pwsh
+        env:
+          PDF_COUNT: ${{ inputs.count || '8000' }}
+          OCR_WORKERS: ${{ inputs.workers || '0' }}
+        run: |
+          dotnet run --project tools/Performance -c Release --no-build -- --count $env:PDF_COUNT --workers $env:OCR_WORKERS --profile-passes 0 --label windows-full --output "${{ runner.temp }}/performance-windows.json"
+      - name: Отчет полного прогона
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-windows
+          path: ${{ runner.temp }}/performance-windows.json
+          retention-days: 14
