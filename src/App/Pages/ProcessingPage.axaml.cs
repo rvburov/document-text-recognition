@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -24,10 +23,13 @@ public partial class ProcessingPage : UserControl
     private RunSession? _session;
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromMilliseconds(200) };
     private readonly List<ResultRow> _all = [];
-    private readonly ObservableCollection<ResultRow> _view = [];
+    private readonly ResultRows _view = [];
+    private readonly int[] _statusCounts = new int[4];
     private CancellationTokenSource? _countCts;
     private bool _loading;
     private DateTime _finishedAt;
+    private bool _runActive;
+    private bool _completing;
 
     private static readonly string[] Filters = ["Все файлы", "Переименованы", "Имя уже верное", "Пропущены", "Ошибки"];
 
@@ -38,7 +40,7 @@ public partial class ProcessingPage : UserControl
         _timer.Tick += (_, _) => Pump();
     }
 
-    public bool IsRunning => _session?.IsRunning == true;
+    public bool IsRunning => _runActive;
     public (int Done, int Total) Progress => (_session?.Processed ?? 0, Math.Max(0, _session?.Found ?? 0));
 
     public void Attach(MainWindow main)
@@ -54,8 +56,8 @@ public partial class ProcessingPage : UserControl
             _main.SaveSettings();
             CountPdf();
         };
-        SearchBox.TextChanged += (_, _) => ApplyFilter();
-        StatusBox.SelectionChanged += (_, _) => ApplyFilter();
+        SearchBox.TextChanged += (_, _) => { if (!_loading) ApplyFilter(); };
+        StatusBox.SelectionChanged += (_, _) => { if (!_loading) ApplyFilter(); };
         Table.SelectionChanged += (_, _) => ShowCard(Table.SelectedItem as ResultRow);
         DropZone.AddHandler(DragDrop.DragOverEvent, OnDragOver);
         DropZone.AddHandler(DragDrop.DropEvent, OnDrop);
@@ -254,15 +256,46 @@ public partial class ProcessingPage : UserControl
 
     private void Start()
     {
+        var session = new RunSession();
+        BeginSession(session);
+        _ = RunAndCompleteAsync(session);
+    }
+
+    /// <summary>Подключить поток результатов: одинаковый путь для рабочего прогона и проверки большой таблицы.</summary>
+    internal void BeginSession(RunSession session)
+    {
+        _timer.Stop();
         _all.Clear();
         _view.Clear();
+        Array.Clear(_statusCounts);
+        _finishedAt = default;
         ShowCard(null);
         Notice.IsVisible = false;
-        _session = new RunSession();
+        _session = session;
+        _runActive = true;
+        _completing = false;
         SetRunning(true);
-        _session.Start(_main.Settings).ContinueWith(_ => Dispatcher.UIThread.Post(Finish), TaskScheduler.Default);
+        UpdateStatusItems();
         _timer.Start();
         Dispatcher.UIThread.Post(ScrollToRun, DispatcherPriority.Background);
+    }
+
+    private async Task RunAndCompleteAsync(RunSession session)
+    {
+        try
+        {
+            await session.Start(_main.Settings);
+            if (ReferenceEquals(_session, session)) await CompleteSessionAsync();
+        }
+        catch (Exception ex)
+        {
+            AppLog.Error("Не удалось завершить показ результатов", ex);
+            if (!ReferenceEquals(_session, session)) return;
+            _timer.Stop();
+            _runActive = false;
+            SetRunning(false);
+            ShowNotice("danger", "OctagonAlert", $"Не удалось показать все результаты: {ex.Message}");
+        }
     }
 
     private void SetRunning(bool running)
@@ -304,16 +337,22 @@ public partial class ProcessingPage : UserControl
         while (IsRunning) await Task.Delay(100);
     }
 
-    private void Pump()
+    internal int Pump()
     {
-        if (_session is null) return;
+        if (_session is null) return 0;
         var rows = _session.Drain();
         if (rows.Count > 0)
         {
             _all.AddRange(rows);
             var query = (SearchBox.Text ?? "").Trim();
+            var filter = Math.Max(0, StatusBox.SelectedIndex);
+            var visible = new List<ResultRow>(rows.Count);
             foreach (var r in rows)
-                if (Fits(r, query, StatusBox.SelectedIndex)) _view.Add(r);
+            {
+                _statusCounts[(int)r.Kind]++;
+                if (Fits(r, query, filter)) visible.Add(r);
+            }
+            _view.AddRange(visible);
         }
         var found = Math.Max(0, _session.Found);
         CFound.Text = found.ToString();
@@ -329,10 +368,11 @@ public partial class ProcessingPage : UserControl
             RunRight.Text = Remaining(part) is { } left ? $"осталось около {left} · {Workers()} потока" : $"{Workers()} потока";
         }
         UpdateStatusItems();
+        return rows.Count;
     }
 
     private string Workers() =>
-        (_main.Settings.Workers > 0 ? _main.Settings.Workers : Math.Clamp(Environment.ProcessorCount / 2, 1, 4)).ToString();
+        (_main.Settings.Workers > 0 ? _main.Settings.Workers : RunSettings.DefaultWorkers).ToString();
 
     private string? Remaining(double part)
     {
@@ -341,16 +381,33 @@ public partial class ProcessingPage : UserControl
         return left.TotalMinutes >= 1 ? $"{Math.Ceiling(left.TotalMinutes)} мин" : "минуты";
     }
 
-    private void Finish()
+    internal async Task CompleteSessionAsync()
     {
-        if (_session is null) return;
+        if (_session is null || _completing) return;
+        _completing = true;
+        var s = _session;
+        var stopped = s.Stopped;
         _timer.Stop();
-        Pump();
-        // После окончания строки по алфавиту, как в папке.
-        _all.Sort((a, b) => string.Compare(a.Was, b.Was, StringComparison.CurrentCultureIgnoreCase));
+        StopButton.IsEnabled = false;
+        RunTitle.Text = "Подготовка результата…";
+        // Завершение не выгружает накопившиеся тысячи строк одним блокирующим вызовом.
+        // Между порциями обрабатываются ввод пользователя и отрисовка.
+        do
+        {
+            Pump();
+            if (s.HasPendingRows) await Task.Delay(1);
+        } while (s.HasPendingRows && ReferenceEquals(_session, s));
+        if (!ReferenceEquals(_session, s)) return;
+        // Сортируется снимок ссылок в фоне; таблица и выбранная карточка пока доступны.
+        var sorted = _all.ToArray();
+        await Task.Run(() => Array.Sort(sorted, (a, b) => string.Compare(a.Was, b.Was, StringComparison.CurrentCultureIgnoreCase)));
+        if (!ReferenceEquals(_session, s)) return;
+        _all.Clear();
+        _all.AddRange(sorted);
         ApplyFilter();
         _finishedAt = DateTime.Now;
-        var s = _session;
+        _runActive = false;
+        _completing = false;
         SetRunning(false);
         RunRight.Text = $"{_finishedAt:dd.MM.yyyy HH:mm}";
         if (s.Fatal is not null)
@@ -359,7 +416,7 @@ public partial class ProcessingPage : UserControl
             RunTitle.Classes.Add("warning");
             ShowNotice("danger", "OctagonAlert", s.Fatal, s.Fatal.Contains("шаблон") ? "Открыть шаблоны" : null, "open-templates");
         }
-        else if (s.Stopped)
+        else if (stopped)
         {
             RunTitle.Text = "Остановлено пользователем";
             RunTitle.Classes.Add("warning");
@@ -460,9 +517,10 @@ public partial class ProcessingPage : UserControl
         var query = (SearchBox.Text ?? "").Trim();
         var filter = Math.Max(0, StatusBox.SelectedIndex);
         var selected = Table.SelectedItem as ResultRow;
-        _view.Clear();
+        var visible = new List<ResultRow>(_all.Count);
         foreach (var r in _all)
-            if (Fits(r, query, filter)) _view.Add(r);
+            if (Fits(r, query, filter)) visible.Add(r);
+        _view.ReplaceAll(visible);
         // Выбранный файл скрыт отбором: карточка переходит на первый видимый файл.
         if (selected is not null)
             Table.SelectedItem = _view.Contains(selected) ? selected : _view.FirstOrDefault();
@@ -473,15 +531,19 @@ public partial class ProcessingPage : UserControl
         var index = Math.Max(0, StatusBox.SelectedIndex);
         var counts = new[]
         {
-            _all.Count, _all.Count(r => r.Kind == StatusKind.Renamed), _all.Count(r => r.Kind == StatusKind.AlreadyNamed),
-            _all.Count(r => r.Kind == StatusKind.Skipped), _all.Count(r => r.Kind == StatusKind.Error),
+            _all.Count, _statusCounts[(int)StatusKind.Renamed], _statusCounts[(int)StatusKind.AlreadyNamed],
+            _statusCounts[(int)StatusKind.Skipped], _statusCounts[(int)StatusKind.Error],
         };
         var items = Filters.Select((f, i) => _all.Count > 0 ? $"{f} ({counts[i]})" : f).ToList();
         if (StatusBox.Items.Count == items.Count && StatusBox.Items.Cast<object>().Select(o => o.ToString()).SequenceEqual(items)) return;
+        var loading = _loading;
         _loading = true;
-        StatusBox.ItemsSource = items;
-        StatusBox.SelectedIndex = index;
-        _loading = false;
+        try
+        {
+            StatusBox.ItemsSource = items;
+            StatusBox.SelectedIndex = index;
+        }
+        finally { _loading = loading; }
     }
 
     private void OnFileTapped(object? sender, TappedEventArgs e)
@@ -536,11 +598,11 @@ public partial class ProcessingPage : UserControl
             return;
         }
         AppLog.Info($"{row.Was}: имя введено вручную, «{newName}»");
+        _statusCounts[(int)row.Kind]--;
         row.ApplyManual(newName, full);
-        var index = _view.IndexOf(row);
-        if (index >= 0) _view[index] = row;
-        Table.SelectedItem = row;
-        ShowCard(row);
+        _statusCounts[(int)row.Kind]++;
+        ApplyFilter();
+        ShowCard(Table.SelectedItem as ResultRow);
         UpdateStatusItems();
         _main.Toast("Файл переименован");
     }

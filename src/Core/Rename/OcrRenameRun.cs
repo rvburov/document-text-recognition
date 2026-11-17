@@ -36,9 +36,32 @@ internal sealed record RunSettings(string TemplatesFolder, string SourceFolder, 
     /// <summary>Наибольший номер при занятом имени.</summary>
     public const int MaxNumber = 99;
 
-    /// <summary>Рабочих потоков по умолчанию: половина ядер, от 1 до 4 — у каждого свои
-    /// движки (PaddleOCR — около 150–250 МБ), память ограничена.</summary>
-    public int EffectiveWorkers => Workers > 0 ? Workers : Math.Clamp(Environment.ProcessorCount / 2, 1, 4);
+    /// <summary>Автоматический параллелизм по процессорам и доступному ОС/контейнеру объему
+    /// памяти. У каждого обработчика свои модели и нативные буферы; их память не управляется GC.</summary>
+    public static int DefaultWorkers => RecommendWorkers(Environment.ProcessorCount, GC.GetGCMemoryInfo().TotalAvailableMemoryBytes);
+
+    internal static int RecommendWorkers(int processorCount, long totalAvailableMemoryBytes)
+    {
+        var processors = Math.Max(1, processorCount);
+        // Если лимит памяти неизвестен, сохраняем консервативный предел четырех моделей.
+        if (totalAvailableMemoryBytes <= 0) return Math.Min(processors, 4);
+
+        // Один/два процессора не перегружаем. От трех процессоров небольшое перекрытие
+        // рендеринга, OCR и файловых операций быстрее в замере; максимум — восемь файлов.
+        var cpuBudget = processors <= 2 ? processors : Math.Min(processors, 4) * 2;
+        const long gibibyte = 1024L * 1024 * 1024;
+        // Пороги оставляют запас на ОС и приложение: примерно ПК с 16/8/4 ГБ памяти.
+        var memoryBudget = totalAvailableMemoryBytes >= 12 * gibibyte ? 8
+            : totalAvailableMemoryBytes >= 6 * gibibyte ? 4
+            : totalAvailableMemoryBytes >= 3 * gibibyte ? 2
+            : 1;
+        return Math.Min(cpuBudget, memoryBudget);
+    }
+
+    public int EffectiveWorkers => Workers > 0 ? Workers : DefaultWorkers;
+
+    /// <summary>Один постоянный поток на распознаватель: нативные кэши oneDNN привязаны к потоку.</summary>
+    internal bool DedicatedWorkers { get; init; }
 }
 
 /// <summary>Куда прогон сообщает о ходе работы. Вызывается из фоновых потоков.</summary>
@@ -168,7 +191,8 @@ internal static class OcrRenameRun
     /// <see cref="RunSettings.EffectiveWorkers"/> потоках (у каждого свой распознаватель),
     /// переименование — по одному в вызывающем потоке.</summary>
     internal static RunSummary ProcessFiles(RunSettings settings, IReadOnlyList<string> files,
-        Func<IDocumentRecognizer> recognizers, IRunSink sink, CancellationToken ct)
+        Func<IDocumentRecognizer> recognizers, IRunSink sink, CancellationToken ct,
+        Func<Action, Task>? launchDedicatedWorker = null)
     {
         // Движки создаются заранее: не поднялся хоть один — честно сообщаем, а не работаем
         // одним движком или меньшим числом потоков.
@@ -190,36 +214,84 @@ internal static class OcrRenameRun
         var planned = Channel.CreateBounded<Planned>(new BoundedChannelOptions(64) { SingleReader = true });
         int processed = 0, renamed = 0, already = 0, skipped = 0;
 
-        var producer = Task.Run(async () =>
+        using var pipelineStop = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        var workToken = pipelineStop.Token;
+        var workers = new List<Task>(pairs.Count);
+        var producer = Task.CompletedTask;
+        try
         {
-            try
-            {
-                foreach (var f in files)
-                {
-                    if (ct.IsCancellationRequested) break;
-                    await queue.Writer.WriteAsync(f, ct).ConfigureAwait(false);
-                }
-            }
-            catch (OperationCanceledException) { }
-            finally { queue.Writer.TryComplete(); }
-        });
-
-        var workers = pairs.Select(pair => Task.Run(async () =>
-        {
-            using (pair)
+            producer = Task.Run(async () =>
             {
                 try
                 {
-                    await foreach (var path in queue.Reader.ReadAllAsync(ct).ConfigureAwait(false))
+                    foreach (var f in files)
                     {
-                        var item = Recognize(path, settings.SourceFolder, pair, ct);
-                        if (item is null) break; // остановка посреди файла
-                        await planned.Writer.WriteAsync(item, ct).ConfigureAwait(false);
+                        if (workToken.IsCancellationRequested) break;
+                        await queue.Writer.WriteAsync(f, workToken).ConfigureAwait(false);
                     }
                 }
                 catch (OperationCanceledException) { }
+                finally { queue.Writer.TryComplete(); }
+            });
+
+            foreach (var pair in pairs)
+            {
+                Task worker;
+                if (settings.DedicatedWorkers)
+                {
+                    Action dedicatedWork = () =>
+                    {
+                        using (pair)
+                        {
+                            try
+                            {
+                                foreach (var path in queue.Reader.ReadAllAsync(workToken).ToBlockingEnumerable())
+                                {
+                                    var item = Recognize(path, settings.SourceFolder, pair, workToken);
+                                    if (item is null) break;
+                                    var write = planned.Writer.WriteAsync(item, workToken);
+                                    if (write.IsCompletedSuccessfully) write.GetAwaiter().GetResult();
+                                    else write.AsTask().GetAwaiter().GetResult();
+                                }
+                            }
+                            catch (OperationCanceledException) { }
+                        }
+                    };
+                    worker = launchDedicatedWorker is not null ? launchDedicatedWorker(dedicatedWork)
+                        : Task.Factory.StartNew(dedicatedWork, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                }
+                else
+                {
+                    worker = Task.Run(async () =>
+                    {
+                        using (pair)
+                        {
+                            try
+                            {
+                                await foreach (var path in queue.Reader.ReadAllAsync(workToken).ConfigureAwait(false))
+                                {
+                                    var item = Recognize(path, settings.SourceFolder, pair, workToken);
+                                    if (item is null) break;
+                                    await planned.Writer.WriteAsync(item, workToken).ConfigureAwait(false);
+                                }
+                            }
+                            catch (OperationCanceledException) { }
+                        }
+                    });
+                }
+                workers.Add(worker);
             }
-        })).ToArray();
+        }
+        catch (Exception ex)
+        {
+            // Если ОС не создала очередной поток, остановить и дождаться уже запущенных
+            // работников до освобождения шаблонов. Неназначенные движки тоже освобождаются.
+            pipelineStop.Cancel();
+            try { Task.WhenAll(workers).GetAwaiter().GetResult(); } catch (Exception) { }
+            try { producer.GetAwaiter().GetResult(); } catch (Exception) { }
+            foreach (var pair in pairs.Skip(workers.Count)) pair.Dispose();
+            return Fatal(sink, $"Не удалось запустить обработчики OCR: {Ocr.OcrComponents.Explain(ex)}");
+        }
 
         var all = Task.WhenAll(workers).ContinueWith(_ => planned.Writer.TryComplete(), TaskScheduler.Default);
 

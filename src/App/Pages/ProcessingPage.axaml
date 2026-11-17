@@ -135,6 +135,9 @@
                   </Grid>
                 </Border>
                 <ListBox Name="Table" Grid.Row="1" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate><VirtualizingStackPanel /></ItemsPanelTemplate>
+                  </ListBox.ItemsPanel>
                   <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="s:ResultRow">
                       <Border Height="40" BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,0,0,1">

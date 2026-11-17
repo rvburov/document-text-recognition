@@ -103,6 +103,19 @@ public sealed class RunTests : IDisposable
         public void Dispose() { }
     }
 
+    private sealed class ThreadTrackingRecognizer(Action<string> during) : IDocumentRecognizer
+    {
+        private readonly FakeRecognizer _inner = new(during);
+        public ConcurrentDictionary<int, bool> Threads { get; } = new();
+        public bool Disposed { get; private set; }
+        public DocumentResult Read(string path, CancellationToken ct)
+        {
+            Threads.TryAdd(Environment.CurrentManagedThreadId, Thread.CurrentThread.IsThreadPoolThread);
+            return _inner.Read(path, ct);
+        }
+        public void Dispose() { Disposed = true; _inner.Dispose(); }
+    }
+
     private sealed class Sink : IRunSink
     {
         public readonly ConcurrentQueue<JournalEntry> Entries = new();
@@ -125,9 +138,9 @@ public sealed class RunTests : IDisposable
     }
 
     private RunSummary Run(Sink sink, bool recursive = true, Func<IDocumentRecognizer>? recognizers = null,
-        CancellationToken ct = default, int workers = 2)
+        CancellationToken ct = default, int workers = 2, bool dedicatedWorkers = false)
     {
-        var settings = new RunSettings(Templates, Source, recursive, workers);
+        var settings = new RunSettings(Templates, Source, recursive, workers) { DedicatedWorkers = dedicatedWorkers };
         var files = OcrRenameRun.ListSource(settings, Directory.GetFiles(Templates));
         sink.Found(files.Count);
         return OcrRenameRun.ProcessFiles(settings, files, recognizers ?? (() => new FakeRecognizer()), sink, ct);
@@ -346,5 +359,67 @@ public sealed class RunTests : IDisposable
         Assert.False(summary.Stopped);
         Assert.True(after - before < 64L * 1024 * 1024, $"память выросла на {(after - before) / 1024 / 1024} МБ");
         Assert.True(watch.Elapsed < TimeSpan.FromMinutes(2), $"очередь и переименование: {watch.Elapsed}");
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Dedicated_recognizers_keep_thread_affinity_and_are_disposed_on_completion_or_stop(bool stop)
+    {
+        const int count = 120;
+        for (var i = 0; i < count; i++) Doc($"f{i:D3}.pdf", $"АБВГ.123456.{i:D3}", "Деталь");
+        using var cts = new CancellationTokenSource();
+        var recognizers = new List<ThreadTrackingRecognizer>();
+        var reads = 0;
+        var summary = Run(new Sink(), workers: 4, dedicatedWorkers: true, ct: cts.Token, recognizers: () =>
+        {
+            var recognizer = new ThreadTrackingRecognizer(_ =>
+            {
+                if (stop && Interlocked.Increment(ref reads) == 30) cts.Cancel();
+                Thread.Sleep(1);
+            });
+            recognizers.Add(recognizer);
+            return recognizer;
+        });
+
+        Assert.Equal(4, recognizers.Count);
+        Assert.All(recognizers, r =>
+        {
+            Assert.True(r.Disposed);
+            if (r.Threads.IsEmpty) return; // остановка могла прийти до первого файла
+            var thread = Assert.Single(r.Threads);
+            Assert.False(thread.Value); // постоянный поток, а не продолжение в пуле
+        });
+        Assert.Equal(stop, summary.Stopped);
+        if (!stop) Assert.Equal(count, summary.Processed);
+        else Assert.InRange(summary.Processed, 0, count - 1);
+    }
+
+    [Fact]
+    public void Failed_worker_launch_stops_started_threads_and_disposes_unstarted_recognizers()
+    {
+        for (var i = 0; i < 120; i++) Doc($"f{i:D3}.pdf", $"АБВГ.123456.{i:D3}", "Деталь");
+        var settings = new RunSettings(Templates, Source, Recursive: true, Workers: 4) { DedicatedWorkers = true };
+        var files = OcrRenameRun.ListSource(settings, []);
+        var recognizers = new List<ThreadTrackingRecognizer>();
+        var launches = 0;
+        var sink = new Sink();
+
+        var summary = OcrRenameRun.ProcessFiles(settings, files, () =>
+        {
+            var recognizer = new ThreadTrackingRecognizer(_ => Thread.Sleep(1));
+            recognizers.Add(recognizer);
+            return recognizer;
+        }, sink, CancellationToken.None, work =>
+        {
+            if (++launches == 2) throw new InvalidOperationException("Поток не создан ОС");
+            return Task.Factory.StartNew(work, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+        });
+
+        Assert.Contains("Поток не создан ОС", summary.Fatal);
+        Assert.Equal(4, recognizers.Count);
+        Assert.All(recognizers, r => Assert.True(r.Disposed));
+        Assert.Empty(sink.Entries);
+        Assert.All(files, file => Assert.True(File.Exists(file))); // переименование не начиналось
     }
 }

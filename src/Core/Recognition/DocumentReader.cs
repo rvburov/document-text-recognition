@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using OpenCvSharp;
 using DocumentTextRecognition.Core.Imaging;
 using DocumentTextRecognition.Core.Matching;
@@ -14,6 +15,8 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
     public IOcrEngine First { get; } = first;
     public IOcrEngine Second { get; } = second;
 
+    internal bool BatchFields { get; set; } = true;
+
     public static double MinConfidence(IOcrEngine engine) => engine switch
     {
         TesseractEngine => 0.30,
@@ -22,8 +25,12 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
     };
 
     /// <summary>Настоящая пара: Tesseract и PaddleOCR из папки программы.</summary>
-    public static OcrPair CreateReal(string tessdata) =>
-        new(new TesseractEngine(tessdata), new PaddleEngine(OcrComponents.PaddleDir));
+    public static OcrPair CreateReal(string tessdata, bool useOneDnn = true, bool reusePredictors = true)
+    {
+        var first = new TesseractEngine(tessdata);
+        try { return new OcrPair(first, new PaddleEngine(OcrComponents.PaddleDir, useOneDnn, reusePredictors)); }
+        catch { first.Dispose(); throw; }
+    }
 
     public void Dispose()
     {
@@ -53,8 +60,9 @@ internal static class DocumentReader
     public const int MaxPages = 10;
 
     public static DocumentResult Read(string path, IReadOnlyList<DocTemplate> templates, OcrPair ocr, CancellationToken ct,
-        Action<RecognitionDiagnostic>? diagnostic = null)
+        Action<RecognitionDiagnostic>? diagnostic = null, Action<string, TimeSpan>? timing = null)
     {
+        var started = timing is null ? 0 : Stopwatch.GetTimestamp();
         PdfDocument pdf;
         try { pdf = PdfDocument.Open(path); }
         catch (PdfOpenException ex)
@@ -63,6 +71,7 @@ internal static class DocumentReader
             return DocumentResult.Fail(ex.Message);
         }
 
+        Measure("pdf.open", ref started, timing);
         using (pdf)
         {
             var checkedPages = Math.Min(pdf.PageCount, MaxPages);
@@ -77,16 +86,21 @@ internal static class DocumentReader
                 PageFeatures features;
                 try
                 {
+                    started = timing is null ? 0 : Stopwatch.GetTimestamp();
                     size = pdf.GetPageSize(i);
                     using var render = pdf.RenderPage(i, PageFeatures.LongSide);
+                    Measure("pdf.render", ref started, timing);
                     var gray = PageImage.ToGray(render);
                     features = PageFeatures.Build(gray, gray.Width / size.Width);
+                    Measure("features", ref started, timing);
                 }
                 catch (PdfOpenException ex) { return DocumentResult.Fail($"стр. {i + 1}: {ex.Message}"); }
 
                 using (features)
                 {
+                    started = timing is null ? 0 : Stopwatch.GetTimestamp();
                     var outcome = TemplateMatcher.Match(features, size, templates);
+                    Measure("match", ref started, timing);
                     if (outcome.Ambiguous)
                     {
                         diagnostic?.Invoke(new("Совмещение", i + 1, outcome.Problem ?? "Подходят несколько шаблонов."));
@@ -101,7 +115,7 @@ internal static class DocumentReader
 
                     var match = outcome.Match;
                     diagnostic?.Invoke(new("Совмещение", i + 1, $"Шаблон «{match.Template.Name}»: совпадение формы {match.Score:P0}."));
-                    var (values, problem) = ReadFields(pdf, i, size, features, match, ocr, ct, diagnostic);
+                    var (values, problem) = ReadFields(pdf, i, size, features, match, ocr, ct, diagnostic, timing);
                     if (values is null)
                         return DocumentResult.Fail($"стр. {i + 1} (шаблон «{match.Template.Name}»): {problem}");
                     confirmed.Add((i, values, match.Template.Name));
@@ -131,24 +145,32 @@ internal static class DocumentReader
     /// <summary>Вырезать поля страницы и прочитать их обоими движками; сверить.</summary>
     public static (FieldValues? Values, string? Problem) ReadFields(PdfDocument pdf, int pageIndex, PageSize size,
         PageFeatures features, PageMatch match, OcrPair ocr, CancellationToken ct,
-        Action<RecognitionDiagnostic>? diagnostic = null)
+        Action<RecognitionDiagnostic>? diagnostic = null, Action<string, TimeSpan>? timing = null)
     {
+        var started = timing is null ? 0 : Stopwatch.GetTimestamp();
         var frames = match.Template.Frames;
         var combined = frames.FirstOrDefault(f => f.Role == FieldRole.Combined);
         EngineFields first, second;
         if (combined is not null)
         {
-            using var crop = FieldCrop.Extract(pdf, pageIndex, size, features, match, combined.Inner);
+            using var crop = FieldCrop.Extract(pdf, pageIndex, size, features, match, combined.Inner, timing);
+            Measure("crop", ref started, timing);
             ct.ThrowIfCancellationRequested();
-            var a = ocr.First.Read(crop);
+            var a = ReadEngine(ocr.First, crop, timing);
+            if (timing is not null) Measure("ocr." + ocr.First.Name, ref started, timing);
             ct.ThrowIfCancellationRequested();
-            var b = ocr.Second.Read(crop);
+            var b = ReadEngine(ocr.Second, crop, timing);
+            if (timing is not null) Measure("ocr." + ocr.Second.Name, ref started, timing);
             first = ParseCombined(ocr.First, a);
             second = ParseCombined(ocr.Second, b);
             if (diagnostic is not null)
                 diagnostic(new("Распознавание", pageIndex + 1, "Все поля вместе", new FieldDiagnostic(
                     combined.Role, combined.Inner, crop.ToBytes(".png"),
                     DescribeCombined(a, first), DescribeCombined(b, second))));
+        }
+        else if (ocr.BatchFields && (ocr.First is PaddleEngine || ocr.Second is PaddleEngine))
+        {
+            (first, second) = ReadSeparateBatch(pdf, pageIndex, size, features, match, ocr, ct, diagnostic, timing);
         }
         else
         {
@@ -174,13 +196,18 @@ internal static class DocumentReader
 
         (Parsed First, Parsed Second) ReadField(FieldRole role, Func<OcrReading, double, Parsed> parse)
         {
+            started = timing is null ? 0 : Stopwatch.GetTimestamp();
             var frame = frames.First(f => f.Role == role);
-            using var crop = FieldCrop.Extract(pdf, pageIndex, size, features, match, frame.Inner);
+            using var crop = FieldCrop.Extract(pdf, pageIndex, size, features, match, frame.Inner, timing);
+            Measure("crop", ref started, timing);
             ct.ThrowIfCancellationRequested();
-            var a = ocr.First.Read(crop);
+            var a = ReadEngine(ocr.First, crop, timing);
+            if (timing is not null) Measure("ocr." + ocr.First.Name, ref started, timing);
             var parsedA = parse(a, OcrPair.MinConfidence(ocr.First));
             ct.ThrowIfCancellationRequested();
-            var b = ocr.Second.Read(crop);
+            started = timing is null ? 0 : Stopwatch.GetTimestamp();
+            var b = ReadEngine(ocr.Second, crop, timing);
+            if (timing is not null) Measure("ocr." + ocr.Second.Name, ref started, timing);
             var parsedB = parse(b, OcrPair.MinConfidence(ocr.Second));
             if (diagnostic is not null)
                 diagnostic(new("Распознавание", pageIndex + 1, FieldName(role), new FieldDiagnostic(
@@ -189,6 +216,82 @@ internal static class DocumentReader
                     new EngineDiagnostic(b.Engine, b.Text, parsedB.Value ?? "", parsedB.Problem))));
             return (parsedA, parsedB);
         }
+    }
+
+    private static (EngineFields First, EngineFields Second) ReadSeparateBatch(PdfDocument pdf, int pageIndex,
+        PageSize size, PageFeatures features, PageMatch match, OcrPair ocr, CancellationToken ct,
+        Action<RecognitionDiagnostic>? diagnostic, Action<string, TimeSpan>? timing)
+    {
+        var roles = match.Template.TypeAbsent
+            ? new[] { FieldRole.Designation, FieldRole.Name }
+            : new[] { FieldRole.Designation, FieldRole.Name, FieldRole.Type };
+        var frames = roles.Select(role => match.Template.Frames.First(f => f.Role == role)).ToArray();
+        var crops = new List<Mat>();
+        try
+        {
+            foreach (var frame in frames)
+            {
+                ct.ThrowIfCancellationRequested();
+                var started = timing is null ? 0 : Stopwatch.GetTimestamp();
+                crops.Add(FieldCrop.Extract(pdf, pageIndex, size, features, match, frame.Inner, timing));
+                Measure("crop", ref started, timing);
+            }
+            var a = ReadEngine(ocr.First);
+            var b = ReadEngine(ocr.Second);
+            var parsedA = new Parsed[3];
+            var parsedB = new Parsed[3];
+            for (var i = 0; i < roles.Length; i++)
+            {
+                parsedA[i] = Parse(roles[i], a[i], OcrPair.MinConfidence(ocr.First));
+                parsedB[i] = Parse(roles[i], b[i], OcrPair.MinConfidence(ocr.Second));
+                if (diagnostic is not null)
+                    diagnostic(new("Распознавание", pageIndex + 1, FieldName(roles[i]), new FieldDiagnostic(
+                        roles[i], frames[i].Inner, crops[i].ToBytes(".png"),
+                        new EngineDiagnostic(a[i].Engine, a[i].Text, parsedA[i].Value ?? "", parsedA[i].Problem),
+                        new EngineDiagnostic(b[i].Engine, b[i].Text, parsedB[i].Value ?? "", parsedB[i].Problem))));
+            }
+            if (match.Template.TypeAbsent)
+            {
+                parsedA[2] = parsedB[2] = Parsed.Ok("");
+                diagnostic?.Invoke(new("Области", pageIndex + 1,
+                    $"Тип документа отсутствует по настройке шаблона: «{DocTypes.WhenMissing}»."));
+            }
+            return (new EngineFields(ocr.First.Name, parsedA[0], parsedA[1], parsedA[2]),
+                new EngineFields(ocr.Second.Name, parsedB[0], parsedB[1], parsedB[2]));
+
+            OcrReading[] ReadEngine(IOcrEngine engine)
+            {
+                ct.ThrowIfCancellationRequested();
+                var started = timing is null ? 0 : Stopwatch.GetTimestamp();
+                var readings = engine is PaddleEngine paddle ? paddle.ReadMany(crops, timing) : crops.Select(c =>
+                {
+                    ct.ThrowIfCancellationRequested();
+                    return engine.Read(c);
+                }).ToArray();
+                if (timing is not null) Measure("ocr." + engine.Name, ref started, timing);
+                return readings;
+            }
+        }
+        finally { foreach (var crop in crops) crop.Dispose(); }
+    }
+
+    private static Parsed Parse(FieldRole role, OcrReading reading, double confidence) => role switch
+    {
+        FieldRole.Designation => FieldParser.ParseDesignation(reading, confidence),
+        FieldRole.Name => FieldParser.ParseName(reading, confidence),
+        FieldRole.Type => FieldParser.ParseType(reading, confidence),
+        _ => throw new ArgumentOutOfRangeException(nameof(role)),
+    };
+
+    private static OcrReading ReadEngine(IOcrEngine engine, Mat crop, Action<string, TimeSpan>? timing) =>
+        engine is PaddleEngine paddle ? paddle.Read(crop, timing) : engine.Read(crop);
+
+    private static void Measure(string phase, ref long started, Action<string, TimeSpan>? timing)
+    {
+        if (timing is null) return;
+        var finished = Stopwatch.GetTimestamp();
+        timing(phase, Stopwatch.GetElapsedTime(started, finished));
+        started = Stopwatch.GetTimestamp();
     }
 
     private static EngineFields ParseCombined(IOcrEngine engine, OcrReading reading)

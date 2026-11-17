@@ -1,0 +1,38 @@
+{
+  "Test": "Twenty_thousand_results_keep_virtualized_rows_selection_search_and_dispatcher_working",
+  "VerifiedUtc": "2026-11-17T21:30:41.5510207+00:00",
+  "Runtime": ".NET 10.0.15",
+  "Platform": "Ubuntu 24.04.5 LTS",
+  "Rows": 20000,
+  "OcrInvoked": false,
+  "WindowWidth": 1180,
+  "WindowHeight": 760,
+  "EnqueueMilliseconds": 113.8188,
+  "IngestionMilliseconds": 263.6578,
+  "PumpCount": 77,
+  "MaximumBatch": 256,
+  "PumpMilliseconds": {
+    "Maximum": 4.4866,
+    "P95": 1.0296,
+    "Total": 45.13270000000001
+  },
+  "DispatcherHeartbeatMilliseconds": {
+    "Maximum": 33.8623,
+    "P95": 9.1022
+  },
+  "IncrementalCollectionNotifications": 79,
+  "CollectionResetsDuringIngestion": 0,
+  "MaximumRealizedRowsDuringIngestion": 12,
+  "RealizedRowsAtEnd": 13,
+  "CompletionAndSortMilliseconds": 41.8388,
+  "ScrollToLastMilliseconds": 3.382,
+  "SearchOldNameMilliseconds": 48.695,
+  "SearchNewNameMilliseconds": 75.6852,
+  "StatusFilterMilliseconds": [
+    68.1776,
+    33.0585,
+    32.2398,
+    56.243
+  ],
+  "Result": "passed"
+}

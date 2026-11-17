@@ -1,4 +1,7 @@
 using OpenCvSharp;
+using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Runtime.Intrinsics.X86;
 using DocumentTextRecognition.Core.Imaging;
 using DocumentTextRecognition.Core.Pdf;
 using DocumentTextRecognition.Core.Templates;
@@ -49,7 +52,7 @@ internal static class TemplateMatcher
     public const double Margin = 0.08;
 
     /// <summary>Допуск совпадения линий, точек картинки сопоставления.</summary>
-    private const int LineTolerance = 3;
+    internal const int LineTolerance = 3;
 
     public static MatchOutcome Match(PageFeatures page, PageSize pageSize, IReadOnlyList<DocTemplate> templates)
     {
@@ -59,12 +62,27 @@ internal static class TemplateMatcher
 
         var passed = new List<PageMatch>();
         PageMatch? bestRejected = null;
-        foreach (var template in templates)
+        var bestRejectedIndex = int.MaxValue;
+        // При наличии прошедшего проверку шаблона того же физического размера остальные
+        // размеры все равно исключаются ниже. Проверяем эту группу первой; к другой
+        // переходим только при отсутствии совпадений, сохраняя допуск к неверному размеру PDF.
+        foreach (var matchingSize in new[] { true, false })
         {
-            var m = TryMatch(page, pageSize, template);
-            if (m is null) continue;
-            if (m.GlobalScore >= MinGlobal && m.LocalScore >= MinLocal) passed.Add(m);
-            else if (bestRejected is null || m.Score > bestRejected.Score) bestRejected = m;
+            for (var index = 0; index < templates.Count; index++)
+            {
+                var template = templates[index];
+                if (PhysicalSizeAgrees(pageSize, template) != matchingSize) continue;
+                var m = TryMatch(page, pageSize, template);
+                if (m is null) continue;
+                if (m.GlobalScore >= MinGlobal && m.LocalScore >= MinLocal) passed.Add(m);
+                else if (bestRejected is null || m.Score > bestRejected.Score ||
+                         m.Score == bestRejected.Score && index < bestRejectedIndex)
+                {
+                    bestRejected = m;
+                    bestRejectedIndex = index;
+                }
+            }
+            if (passed.Count > 0) break;
         }
 
         if (passed.Count == 0)
@@ -95,15 +113,15 @@ internal static class TemplateMatcher
         var t = template.Features;
         if (t.Descriptors.Empty() || t.KeyPoints.Length < MinInliers) return null;
 
-        using var matcher = new BFMatcher(NormTypes.Hamming);
-        var knn = matcher.KnnMatch(page.Descriptors, t.Descriptors, 2);
+        var knn = NearestTwo(page.Descriptors, t.Descriptors);
         var src = new List<Point2f>();
         var dst = new List<Point2f>();
-        foreach (var pair in knn)
+        for (var query = 0; query < knn.Length; query++)
         {
-            if (pair.Length < 2 || pair[0].Distance >= 0.8f * pair[1].Distance) continue;
-            src.Add(page.KeyPoints[pair[0].QueryIdx].Pt);
-            dst.Add(t.KeyPoints[pair[0].TrainIdx].Pt);
+            var pair = knn[query];
+            if (pair.SecondIndex < 0 || pair.FirstDistance >= 0.8f * pair.SecondDistance) continue;
+            src.Add(page.KeyPoints[query].Pt);
+            dst.Add(t.KeyPoints[pair.FirstIndex].Pt);
         }
         if (src.Count < MinInliers) return null;
 
@@ -137,17 +155,95 @@ internal static class TemplateMatcher
         Cv2.WarpAffine(page.Gray, warpedGray, affine, new Size(t.Width, t.Height), InterpolationFlags.Linear,
             BorderTypes.Constant, Scalar.All(255));
         using var warped = PageFeatures.LineMaskOf(warpedGray);
+        using var grown = PageFeatures.GrowLines(warped);
 
         var whole = new Rect(0, 0, t.Width, t.Height);
-        var global = LineAgreement(warped, t.Lines, whole);
-        var local = LineAgreement(warped, t.Lines, FieldsNeighborhood(template));
-
-        var templateLong = Math.Max(template.PageSize.Width, template.PageSize.Height);
-        var pageLong = Math.Max(pageSize.Width, pageSize.Height);
-        var sizeAgrees = Math.Abs(Math.Log(templateLong / pageLong)) < Math.Log(1.12);
+        var global = LineAgreement(warped, t.Lines, grown, t.GrownLines, whole);
+        var local = LineAgreement(warped, t.Lines, grown, t.GrownLines, FieldsNeighborhood(template));
 
         return new PageMatch(template, m, (global + 2 * local) / 3, global, local, inlierCount,
-            angle, ratio, sizeAgrees);
+            angle, ratio, PhysicalSizeAgrees(pageSize, template));
+    }
+
+    private static bool PhysicalSizeAgrees(PageSize pageSize, DocTemplate template)
+    {
+        var templateLong = Math.Max(template.PageSize.Width, template.PageSize.Height);
+        var pageLong = Math.Max(pageSize.Width, pageSize.Height);
+        return Math.Abs(Math.Log(templateLong / pageLong)) < Math.Log(1.12);
+    }
+
+    internal readonly record struct NearestDescriptor(int FirstIndex, int FirstDistance, int SecondIndex, int SecondDistance);
+
+    /// <summary>Те же два точных ближайших соседа по Hamming, что у BFMatcher. ORB дает
+    /// 32 байта: четыре XOR + POPCNT обходятся без тысяч маленьких DMatch[] и внутреннего
+    /// пула потоков OpenCV. При равных расстояниях сохраняется порядок строк шаблона.
+    /// На CPU без POPCNT и для других размеров дескриптора используется исходный BFMatcher.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+    internal static unsafe NearestDescriptor[] NearestTwo(Mat query, Mat train)
+    {
+        if (query.Empty()) return [];
+        var queryCount = query.Rows;
+        var result = new NearestDescriptor[queryCount];
+        if (train.Empty())
+        {
+            Array.Fill(result, new NearestDescriptor(-1, int.MaxValue, -1, int.MaxValue));
+            return result;
+        }
+        if (!Popcnt.X64.IsSupported || query.Type() != MatType.CV_8UC1 || train.Type() != MatType.CV_8UC1 ||
+            query.Cols != 32 || train.Cols != 32)
+        {
+            using var matcher = new BFMatcher(NormTypes.Hamming);
+            var matches = matcher.KnnMatch(query, train, 2);
+            for (var row = 0; row < matches.Length; row++)
+            {
+                var pair = matches[row];
+                result[row] = new NearestDescriptor(pair.Length > 0 ? pair[0].TrainIdx : -1,
+                    pair.Length > 0 ? (int)pair[0].Distance : int.MaxValue,
+                    pair.Length > 1 ? pair[1].TrainIdx : -1,
+                    pair.Length > 1 ? (int)pair[1].Distance : int.MaxValue);
+            }
+            return result;
+        }
+
+        var trainCount = train.Rows;
+        var queryStep = query.Step();
+        var trainStep = train.Step();
+        var queryData = (byte*)query.Data;
+        var trainData = (byte*)train.Data;
+        for (var row = 0; row < queryCount; row++)
+        {
+            var q = queryData + row * queryStep;
+            var q0 = Unsafe.ReadUnaligned<ulong>(q);
+            var q1 = Unsafe.ReadUnaligned<ulong>(q + 8);
+            var q2 = Unsafe.ReadUnaligned<ulong>(q + 16);
+            var q3 = Unsafe.ReadUnaligned<ulong>(q + 24);
+            int first = -1, second = -1, firstDistance = int.MaxValue, secondDistance = int.MaxValue;
+            for (var candidate = 0; candidate < trainCount; candidate++)
+            {
+                var t = trainData + candidate * trainStep;
+                var distance = BitOperations.PopCount(q0 ^ Unsafe.ReadUnaligned<ulong>(t)) +
+                               BitOperations.PopCount(q1 ^ Unsafe.ReadUnaligned<ulong>(t + 8)) +
+                               BitOperations.PopCount(q2 ^ Unsafe.ReadUnaligned<ulong>(t + 16)) +
+                               BitOperations.PopCount(q3 ^ Unsafe.ReadUnaligned<ulong>(t + 24));
+                if (distance < firstDistance)
+                {
+                    secondDistance = firstDistance;
+                    second = first;
+                    firstDistance = distance;
+                    first = candidate;
+                }
+                else if (distance < secondDistance)
+                {
+                    secondDistance = distance;
+                    second = candidate;
+                }
+            }
+            result[row] = new NearestDescriptor(first, firstDistance, second, secondDistance);
+        }
+        // Mat владеют неуправляемой памятью; удерживаем их до последнего чтения указателей.
+        GC.KeepAlive(query);
+        GC.KeepAlive(train);
+        return result;
     }
 
     /// <summary>Окрестность размеченных полей: их общий прямоугольник, расширенный на свой
@@ -176,17 +272,23 @@ internal static class TemplateMatcher
     /// странице, и доля линий страницы, которые есть в шаблоне (с допуском).</summary>
     public static double LineAgreement(Mat pageLines, Mat templateLines, Rect area)
     {
+        using var pGrown = PageFeatures.GrowLines(pageLines);
+        using var tGrown = PageFeatures.GrowLines(templateLines);
+        return LineAgreement(pageLines, templateLines, pGrown, tGrown, area);
+    }
+
+    /// <summary>Тот же подсчет с готовыми расширенными масками: допуск одинаков для
+    /// всей страницы и окрестности полей, поэтому расширять их повторно не нужно.</summary>
+    internal static double LineAgreement(Mat pageLines, Mat templateLines, Mat pageGrown, Mat templateGrown, Rect area)
+    {
         using var p = new Mat(pageLines, area);
         using var t = new Mat(templateLines, area);
         var pCount = Cv2.CountNonZero(p);
         var tCount = Cv2.CountNonZero(t);
         if (pCount == 0 || tCount == 0) return 0;
 
-        using var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(2 * LineTolerance + 1, 2 * LineTolerance + 1));
-        using var pGrown = new Mat();
-        using var tGrown = new Mat();
-        Cv2.Dilate(p, pGrown, k);
-        Cv2.Dilate(t, tGrown, k);
+        using var pGrown = new Mat(pageGrown, area);
+        using var tGrown = new Mat(templateGrown, area);
         using var hitT = new Mat();
         using var hitP = new Mat();
         Cv2.BitwiseAnd(t, pGrown, hitT);

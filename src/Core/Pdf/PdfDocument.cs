@@ -30,6 +30,11 @@ internal sealed class PdfDocument : IDisposable
     private static bool _initialized;
     private IntPtr _buffer;
     private IntPtr _doc;
+    // PDFium держит декодированное изображение в странице. Предпросмотр и несколько полей
+    // одного листа используют его повторно; при переходе на другой лист память освобождается.
+    // Кэш ограничен одной страницей на документ, все обращения — только под Gate.
+    private IntPtr _page;
+    private int _pageIndex = -1;
 
     public int PageCount { get; }
 
@@ -141,27 +146,19 @@ internal sealed class PdfDocument : IDisposable
         lock (Gate)
         {
             ObjectDisposedException.ThrowIf(_doc == IntPtr.Zero, this);
-            var page = PdfiumApi.FPDF_LoadPage(_doc, index);
-            if (page == IntPtr.Zero) throw new PdfOpenException($"не открывается страница {index + 1}");
+            var page = GetPage(index);
+            var bitmap = PdfiumApi.FPDFBitmap_CreateEx(w, h, PdfiumApi.BitmapBgra, bgra.Data, (int)bgra.Step());
+            if (bitmap == IntPtr.Zero) throw new PdfOpenException("не хватает памяти на отрисовку страницы");
             try
             {
-                var bitmap = PdfiumApi.FPDFBitmap_CreateEx(w, h, PdfiumApi.BitmapBgra, bgra.Data, (int)bgra.Step());
-                if (bitmap == IntPtr.Zero) throw new PdfOpenException("не хватает памяти на отрисовку страницы");
-                try
-                {
-                    PdfiumApi.FPDF_RenderPageBitmap(bitmap, page,
-                        -(int)Math.Round(x * scale), -(int)Math.Round(y * scale),
-                        (int)Math.Round(size.Width * scale), (int)Math.Round(size.Height * scale),
-                        0, PdfiumApi.RenderAnnotations);
-                }
-                finally
-                {
-                    PdfiumApi.FPDFBitmap_Destroy(bitmap);
-                }
+                PdfiumApi.FPDF_RenderPageBitmap(bitmap, page,
+                    -(int)Math.Round(x * scale), -(int)Math.Round(y * scale),
+                    (int)Math.Round(size.Width * scale), (int)Math.Round(size.Height * scale),
+                    0, PdfiumApi.RenderAnnotations);
             }
             finally
             {
-                PdfiumApi.FPDF_ClosePage(page);
+                PdfiumApi.FPDFBitmap_Destroy(bitmap);
             }
         }
         var bgr = new Mat();
@@ -169,14 +166,33 @@ internal sealed class PdfDocument : IDisposable
         return bgr;
     }
 
+    /// <summary>Вызывается только под Gate. Держим лишь текущую страницу, а не все листы PDF.</summary>
+    private IntPtr GetPage(int index)
+    {
+        if (_pageIndex == index && _page != IntPtr.Zero) return _page;
+        ClosePage();
+        _page = PdfiumApi.FPDF_LoadPage(_doc, index);
+        if (_page == IntPtr.Zero) throw new PdfOpenException($"не открывается страница {index + 1}");
+        _pageIndex = index;
+        return _page;
+    }
+
+    private void ClosePage()
+    {
+        if (_page != IntPtr.Zero) PdfiumApi.FPDF_ClosePage(_page);
+        _page = IntPtr.Zero;
+        _pageIndex = -1;
+    }
+
     public void Dispose()
     {
         lock (Gate)
         {
+            ClosePage();
             if (_doc != IntPtr.Zero) PdfiumApi.FPDF_CloseDocument(_doc);
             _doc = IntPtr.Zero;
+            if (_buffer != IntPtr.Zero) Marshal.FreeHGlobal(_buffer);
+            _buffer = IntPtr.Zero;
         }
-        if (_buffer != IntPtr.Zero) Marshal.FreeHGlobal(_buffer);
-        _buffer = IntPtr.Zero;
     }
 }

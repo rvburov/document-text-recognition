@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Threading;
 using DocumentTextRecognition.Common;
+using DocumentTextRecognition.Core.Ocr;
 using DocumentTextRecognition.Services;
 using DocumentTextRecognition.Tests.Samples;
 
@@ -11,10 +12,13 @@ namespace DocumentTextRecognition.AppTests;
 /// <summary>Окно программы без экрана: Skia рисует кадры, их можно сохранить картинками.</summary>
 public static class HeadlessApp
 {
-    public static AppBuilder BuildAvaloniaApp() =>
-        AppBuilder.Configure<global::DocumentTextRecognition.App>()
+    public static AppBuilder BuildAvaloniaApp()
+    {
+        if (OcrPlatform.Supported) OcrComponents.ConfigureRuntime();
+        return AppBuilder.Configure<global::DocumentTextRecognition.App>()
             .UseSkia()
             .UseHeadless(new AvaloniaHeadlessPlatformOptions { UseHeadlessDrawing = false });
+    }
 
     private static HeadlessUnitTestSession? _session;
     public static HeadlessUnitTestSession Session => _session ??= HeadlessUnitTestSession.StartNew(typeof(HeadlessApp));

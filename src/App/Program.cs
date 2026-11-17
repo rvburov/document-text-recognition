@@ -25,6 +25,17 @@ public static class Program
         AppLog.Info($"Запуск {AppInfo.Title} {AppInfo.Version}");
         try
         {
+            // До создания окна: оно сразу запускает фоновые предпросмотры шаблонов.
+            // Удаление должно работать даже при поврежденных библиотеках OCR.
+            if (!args.Contains("--uninstall"))
+            {
+                try { OcrComponents.ConfigureRuntime(); }
+                catch (Exception ex)
+                {
+                    // Окно и встроенная проверка компонентов нужны и при поврежденной установке.
+                    AppLog.Error("Не удалось подготовить компоненты распознавания", ex);
+                }
+            }
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
             return 0;
         }
@@ -46,7 +57,13 @@ public static class Program
     {
         // Программа оконная: чтобы текст был виден в консоли, из которой ее запустили.
         if (OperatingSystem.IsWindows()) AttachConsole(-1);
-        var problems = OcrComponents.CheckReady();
+        IReadOnlyList<string> problems;
+        try
+        {
+            OcrComponents.ConfigureRuntime();
+            problems = OcrComponents.CheckReady();
+        }
+        catch (Exception ex) { problems = [$"Не удалось подготовить распознавание: {OcrComponents.Explain(ex)}"]; }
         Console.WriteLine(problems.Count == 0
             ? "Компоненты распознавания готовы: Tesseract и PaddleOCR."
             : string.Join(Environment.NewLine, problems));

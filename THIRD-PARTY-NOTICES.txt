@@ -16,16 +16,21 @@ PaddleOCR (модели PP-OCRv5: mobile_zh_det, eslav_PP_OCRv5_mobile_rec)
   Apache License 2.0: Copyright (c) PaddlePaddle Authors
   https://github.com/PaddlePaddle/PaddleOCR
 
-Paddle Inference (нативные библиотеки, сборка OpenBLAS; в составе
-Sdcb.PaddleInference.runtime.*.openblas)
+Paddle Inference (нативные библиотеки, сборка MKL/oneDNN; в составе
+Sdcb.PaddleInference.runtime.*.mkl)
   Apache License 2.0: Copyright (c) PaddlePaddle Authors
   https://github.com/PaddlePaddle/Paddle
-  Включает OpenBLAS (BSD 3-Clause), protobuf (BSD 3-Clause), ONNX Runtime (MIT),
+  Включает oneDNN (Apache 2.0), Intel MKLML и Intel OpenMP Runtime
+  (лицензии Intel), protobuf (BSD 3-Clause), ONNX Runtime (MIT),
   Paddle2ONNX (Apache 2.0) и другие компоненты, перечисленные их авторами.
 
 Sdcb.PaddleOCR, Sdcb.PaddleInference, Sdcb.PaddleOCR.Models.LocalV5
   Apache License 2.0: Copyright (c) sdcb
   https://github.com/sdcb/PaddleSharp
+  WorkerPaddleDetector.cs и WorkerPaddleRecognizer.cs адаптированы из ревизии
+  139bc184a6d86c0c60bb8b8a90fb641b21c0b0e6: постоянный предиктор на рабочий
+  поток вместо клонирования при каждом вызове, освобождение временных ресурсов.
+  Полный текст Apache 2.0: licenses/PaddleSharp-Apache-2.0.txt.
 
 Tesseract OCR (Windows: tesseract55.dll из пакета TesseractOCR 5.5.2)
   Apache License 2.0: Copyright (c) Tesseract OCR authors

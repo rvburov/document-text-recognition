@@ -20,8 +20,13 @@ internal sealed class PageFeatures : IDisposable
 
     /// <summary>Маска линий — считается по требованию (нужна шаблонам; у сканов линии
     /// ищутся после переноса в координаты шаблона).</summary>
-    public Mat Lines => _lines ??= LineMaskOf(Gray);
-    private Mat? _lines;
+    public Mat Lines => _lines.Value;
+    private readonly Lazy<Mat> _lines;
+
+    /// <summary>Маска линий с допуском для проверки совпадения. У шаблона одна на все
+    /// документы и потоки; после создания больше не изменяется.</summary>
+    public Mat GrownLines => _grownLines.Value;
+    private readonly Lazy<Mat> _grownLines;
     public KeyPoint[] KeyPoints { get; }
     public Mat Descriptors { get; }
 
@@ -37,6 +42,8 @@ internal sealed class PageFeatures : IDisposable
         KeyPoints = keyPoints;
         Descriptors = descriptors;
         Scale = scale;
+        _lines = new(() => LineMaskOf(Gray), LazyThreadSafetyMode.ExecutionAndPublication);
+        _grownLines = new(() => GrowLines(Lines), LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
     /// <summary>Подготовить серую картинку страницы (длинная сторона — <see cref="LongSide"/>).
@@ -56,10 +63,20 @@ internal sealed class PageFeatures : IDisposable
         return PageImage.LineMask(ink, Math.Max(20, Math.Max(gray.Width, gray.Height) / 40));
     }
 
+    public static Mat GrowLines(Mat lines)
+    {
+        using var kernel = Cv2.GetStructuringElement(MorphShapes.Rect,
+            new Size(2 * TemplateMatcher.LineTolerance + 1, 2 * TemplateMatcher.LineTolerance + 1));
+        var grown = new Mat();
+        Cv2.Dilate(lines, grown, kernel);
+        return grown;
+    }
+
     public void Dispose()
     {
         Gray.Dispose();
-        _lines?.Dispose();
+        if (_lines.IsValueCreated) _lines.Value.Dispose();
+        if (_grownLines.IsValueCreated) _grownLines.Value.Dispose();
         Descriptors.Dispose();
     }
 }

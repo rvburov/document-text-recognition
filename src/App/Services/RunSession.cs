@@ -26,12 +26,25 @@ public sealed class RunSession : IRunSinkPublic
     public TimeSpan Elapsed => _clock.Elapsed;
     public int Found => Volatile.Read(ref _found);
     public string? Fatal { get; private set; }
+    public bool HasPendingRows => !_rows.IsEmpty;
 
-    /// <summary>Строки, пришедшие с прошлого вызова.</summary>
-    public List<ResultRow> Drain()
+    /// <summary>Одна порция для окна, независимо от размера накопившейся очереди.</summary>
+    public const int DefaultDrainLimit = 256;
+    private static readonly TimeSpan DefaultDrainBudget = TimeSpan.FromMilliseconds(4);
+
+    /// <summary>Забрать ограниченную порцию; остальное останется до следующего такта интерфейса.</summary>
+    public List<ResultRow> Drain(int maxItems = DefaultDrainLimit, TimeSpan? timeBudget = null)
     {
-        var list = new List<ResultRow>();
-        while (_rows.TryDequeue(out var r)) list.Add(r);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxItems);
+        var budget = timeBudget ?? DefaultDrainBudget;
+        if (budget <= TimeSpan.Zero) throw new ArgumentOutOfRangeException(nameof(timeBudget));
+        var list = new List<ResultRow>(Math.Min(maxItems, DefaultDrainLimit));
+        var started = Stopwatch.GetTimestamp();
+        while (list.Count < maxItems && _rows.TryDequeue(out var r))
+        {
+            list.Add(r);
+            if (Stopwatch.GetElapsedTime(started) >= budget) break;
+        }
         return list;
     }
 

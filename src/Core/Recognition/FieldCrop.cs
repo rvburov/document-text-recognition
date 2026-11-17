@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using OpenCvSharp;
 using DocumentTextRecognition.Core.Imaging;
 using DocumentTextRecognition.Core.Matching;
@@ -25,7 +26,8 @@ internal static class FieldCrop
     /// <summary>Наибольшая сторона картинки области, точек.</summary>
     private const int MaxSide = 5000;
 
-    public static Mat Extract(PdfDocument pdf, int pageIndex, PageSize pageSize, PageFeatures page, PageMatch match, NormRect field)
+    public static Mat Extract(PdfDocument pdf, int pageIndex, PageSize pageSize, PageFeatures page, PageMatch match, NormRect field,
+        Action<string, TimeSpan>? timing = null)
     {
         var t = match.Template.Features;
         var m = match.Transform;
@@ -56,7 +58,9 @@ internal static class FieldCrop
         var rb = Math.Min(pageSize.Height, corners.Max(c => c.Y) + 2);
         if (rr - rx < 1 || rb - ry < 1) throw new InvalidOperationException("область поля вне страницы");
 
+        var started = timing is null ? 0 : Stopwatch.GetTimestamp();
         using var region = pdf.RenderRegion(pageIndex, r, rx, ry, rr - rx, rb - ry);
+        timing?.Invoke("crop.render", Stopwatch.GetElapsedTime(started));
 
         // Точка результата (ox, oy) → точка шаблона → точка страницы → пункты → точка фрагмента.
         var q = r / (page.Scale * k);
@@ -71,7 +75,10 @@ internal static class FieldCrop
         using var upright = new Mat();
         Cv2.WarpAffine(region, upright, map, new Size(outW, outH),
             InterpolationFlags.Linear | InterpolationFlags.WarpInverseMap, BorderTypes.Constant, Scalar.All(255));
-        return Prepare(upright);
+        started = timing is null ? 0 : Stopwatch.GetTimestamp();
+        var prepared = Prepare(upright);
+        timing?.Invoke("crop.prepare", Stopwatch.GetElapsedTime(started));
+        return prepared;
     }
 
     /// <summary>

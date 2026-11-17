@@ -39,7 +39,10 @@ jobs:
       - name: Тесты окна и установщика
         env:
           DTR_EDITOR_TEST_OUTPUT: ${{ runner.temp }}/dtr-test-samples/editor
+          DTR_UI_PERFORMANCE_OUTPUT: ${{ runner.temp }}/dtr-performance/ui
         run: dotnet test tests/App.Tests -c Release --logger trx --results-directory artifacts/test-results/app
+      - name: Замер полного OCR на PDF-образцах
+        run: dotnet run --project tools/Performance -c Release -- --count 32 --workers 0 --profile-passes 0 --label ci-defaults --output "${{ runner.temp }}/dtr-performance/ocr.json"
       - name: Отчет тестов и проверенные PDF
         if: always()
         uses: actions/upload-artifact@v4
@@ -48,6 +51,7 @@ jobs:
           path: |
             artifacts/test-results
             ${{ runner.temp }}/dtr-test-samples
+            ${{ runner.temp }}/dtr-performance
           retention-days: 14
 
   setup:
@@ -62,6 +66,16 @@ jobs:
       - name: Сборка (scripts\build.ps1)
         shell: pwsh
         run: ./scripts/build.ps1
+      - name: Проверка чтения PDF на Windows
+        shell: pwsh
+        run: dotnet run --project tools/Performance -c Release -- --count 4 --workers 1 --profile-passes 0 --label windows-smoke --output "${{ runner.temp }}/ocr-windows.json"
+      - name: Отчет OCR на Windows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocr-windows
+          path: ${{ runner.temp }}/ocr-windows.json
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         with:
           name: setup

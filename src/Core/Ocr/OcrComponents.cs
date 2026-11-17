@@ -1,6 +1,8 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using OpenCvSharp;
 
 namespace DocumentTextRecognition.Core.Ocr;
 
@@ -36,6 +38,66 @@ internal static class OcrComponents
     public static string PaddleDir => AsciiDirectory(Path.Combine(ProgramDir, "ocr", "paddle"));
 
     private static int _resolverSet;
+
+    private static readonly Lazy<bool> RuntimeSetup = new(() =>
+    {
+        // Параллельность дает прогон документов. Вложенные пулы библиотек иначе создают
+        // десятки вычислительных потоков на каждый рабочий поток и мешают друг другу.
+        SetDefaultEnvironmentVariable("OMP_THREAD_LIMIT", "1");
+        SetDefaultEnvironmentVariable("OMP_NUM_THREADS", "1");
+        SetDefaultEnvironmentVariable("OPENBLAS_NUM_THREADS", "1");
+        RegisterNativeResolver();
+        ConfigureOpenCvThreads();
+        return true;
+    }, LazyThreadSafetyMode.ExecutionAndPublication);
+
+    /// <summary>
+    /// Настройка процесса один раз, ДО первой обработки изображений и запуска фоновых задач.
+    /// OpenCV меняет общий пул потоков: вызывать эту настройку впервые из работающего OCR нельзя.
+    /// Явно заданные переменные среды OpenMP/OpenBLAS сохраняются.
+    /// </summary>
+    public static void ConfigureRuntime() => _ = RuntimeSetup.Value;
+
+    // Не даем JIT загрузить нативную OpenCV при подготовке метода, задающего переменные:
+    // OpenMP/OpenBLAS читают часть параметров уже при загрузке своих библиотек.
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static void ConfigureOpenCvThreads() => Cv2.SetNumThreads(1);
+
+    /// <summary>Управляемая и нативная среды не всегда синхронизированы (.NET на Unix,
+    /// CRT на Windows). Значение по умолчанию видят сами библиотеки, а не только .NET.</summary>
+    internal static void SetDefaultEnvironmentVariable(string name, string value)
+    {
+        var managed = Environment.GetEnvironmentVariable(name);
+        var native = GetNativeEnvironmentVariable(name);
+        var effective = managed ?? native ?? value;
+        if (managed is null) Environment.SetEnvironmentVariable(name, effective);
+        if (native is not null) return;
+
+        var result = OperatingSystem.IsWindows()
+            ? PutEnvWindows(name, effective)
+            : SetEnvUnix(name, effective, 0);
+        if (result != 0)
+            throw new InvalidOperationException($"не удалось настроить переменную среды {name}");
+    }
+
+    internal static string? GetNativeEnvironmentVariable(string name)
+    {
+        var pointer = OperatingSystem.IsWindows() ? GetEnvWindows(name) : GetEnvUnix(name);
+        return pointer == IntPtr.Zero ? null : Marshal.PtrToStringUTF8(pointer);
+    }
+
+    [DllImport("libc", EntryPoint = "getenv", CallingConvention = CallingConvention.Cdecl)]
+    private static extern IntPtr GetEnvUnix([MarshalAs(UnmanagedType.LPUTF8Str)] string name);
+
+    [DllImport("libc", EntryPoint = "setenv", CallingConvention = CallingConvention.Cdecl)]
+    private static extern int SetEnvUnix([MarshalAs(UnmanagedType.LPUTF8Str)] string name,
+        [MarshalAs(UnmanagedType.LPUTF8Str)] string value, int overwrite);
+
+    [DllImport("ucrtbase.dll", EntryPoint = "getenv", CallingConvention = CallingConvention.Cdecl)]
+    private static extern IntPtr GetEnvWindows(string name);
+
+    [DllImport("ucrtbase.dll", EntryPoint = "_putenv_s", CallingConvention = CallingConvention.Cdecl)]
+    private static extern int PutEnvWindows(string name, string value);
 
     /// <summary>Подсказать загрузчику, где искать Tesseract: в папке программы (Windows) или в
     /// системе (Linux).</summary>

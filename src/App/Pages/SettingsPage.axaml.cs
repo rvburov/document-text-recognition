@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using DocumentTextRecognition.Common;
+using DocumentTextRecognition.Core.Rename;
 using DocumentTextRecognition.Dialogs;
 
 namespace DocumentTextRecognition.Pages;
@@ -17,7 +18,7 @@ public partial class SettingsPage : UserControl
     public void Attach(MainWindow main)
     {
         _main = main;
-        var auto = Math.Clamp(Environment.ProcessorCount / 2, 1, 4);
+        var auto = RunSettings.DefaultWorkers;
         WorkersBox.ItemsSource = WorkerChoices.Select(w => w == 0 ? $"Авто ({auto})" : w.ToString()).ToList();
         Reload();
         WorkersBox.SelectionChanged += (_, _) => Save(s => s.Workers = WorkerChoices[Math.Max(0, WorkersBox.SelectedIndex)]);

@@ -28,6 +28,7 @@
 | Сборка на ПК, установка, обновление | [docs/pc.md](docs/pc.md) |
 | Редактор шаблонов, правила распознавания, типы, статусы | [docs/recognition.md](docs/recognition.md) |
 | Созданные PDF и результаты настоящего OCR-теста | [docs/test-samples/README.md](docs/test-samples/README.md) |
+| Скорость OCR, виртуализация и воспроизводимые замеры | [docs/performance/README.md](docs/performance/README.md) |
 | Макет интерфейса (утвержден 13.11.2026) | [docs/design/README.md](docs/design/README.md) |
 | Лицензии сторонних компонентов | [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt) |
 
