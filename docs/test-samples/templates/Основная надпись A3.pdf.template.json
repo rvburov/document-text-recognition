@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "pageIndex": 0,
+  "pageWidth": 1190.52001953125,
+  "pageHeight": 842.0399780273438,
+  "pdfSha256": "16A7C9E8F420804C9CF73DD7FA78B5D6FF0A31D18E87D703B3D8BB6A53C174DF",
+  "typeAbsent": false,
+  "regions": [
+    {
+      "role": "Combined",
+      "bounds": {
+        "x": 0.705952380952381,
+        "y": 0.803030303030303,
+        "width": 0.1595238095238095,
+        "height": 0.12457912457912458,
+        "right": 0.8654761904761905,
+        "bottom": 0.9276094276094276
+      }
+    }
+  ]
+}

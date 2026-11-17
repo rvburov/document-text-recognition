@@ -61,6 +61,9 @@ public static class TemplateCatalog
                 item.PageSize = DescribeSize(pdf.GetPageSize(item.PageIndex));
                 IReadOnlyList<ColorFrame> frames = load.Template?.Frames ?? DetectFrames(pdf, item.PageIndex);
                 item.Frames = DescribeFrames(frames.Select(f => f.Role));
+                if (load.Template?.TypeAbsent == true) item.Frames += "; тип отсутствует";
+                if (load.Template is not null && File.Exists(TemplateMarkupStore.PathFor(item.FilePath)))
+                    item.Sub = "Распознан: области сохранены";
             }
             catch (Exception ex) when (ex is PdfOpenException or OpenCVException or IOException)
             {
@@ -100,12 +103,29 @@ public static class TemplateCatalog
     }
 
     /// <summary>Страница шаблона картинкой PNG для просмотра (длинная сторона в точках).</summary>
-    public static byte[]? RenderPng(string file, int page, int longSide = 1800)
+    public static byte[]? RenderPng(string file, int page, int longSide = 1800, bool showRegions = false)
     {
         try
         {
             using var pdf = PdfDocument.Open(file);
             using var render = pdf.RenderPage(Math.Clamp(page, 0, pdf.PageCount - 1), longSide);
+            if (showRegions)
+            {
+                var manual = TemplateMarkupStore.Load(file);
+                if (manual.Problem is null && manual.Markup is { } markup && markup.PageIndex == page)
+                    foreach (var region in markup.Regions)
+                    {
+                        var r = region.Bounds.ToPixels(render.Width, render.Height);
+                        var color = region.Role switch
+                        {
+                            FieldRole.Designation => new Scalar(228, 111, 47),
+                            FieldRole.Name => new Scalar(68, 158, 46),
+                            FieldRole.Type => new Scalar(0, 190, 240),
+                            _ => new Scalar(32, 45, 217),
+                        };
+                        Cv2.Rectangle(render, new Rect((int)r.X, (int)r.Y, (int)r.Width, (int)r.Height), color, Math.Max(2, longSide / 600));
+                    }
+            }
             Cv2.ImEncode(".png", render, out var png);
             return png;
         }

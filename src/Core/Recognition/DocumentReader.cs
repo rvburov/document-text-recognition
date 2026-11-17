@@ -52,15 +52,21 @@ internal static class DocumentReader
 {
     public const int MaxPages = 10;
 
-    public static DocumentResult Read(string path, IReadOnlyList<DocTemplate> templates, OcrPair ocr, CancellationToken ct)
+    public static DocumentResult Read(string path, IReadOnlyList<DocTemplate> templates, OcrPair ocr, CancellationToken ct,
+        Action<RecognitionDiagnostic>? diagnostic = null)
     {
         PdfDocument pdf;
         try { pdf = PdfDocument.Open(path); }
-        catch (PdfOpenException ex) { return DocumentResult.Fail(ex.Message); }
+        catch (PdfOpenException ex)
+        {
+            diagnostic?.Invoke(new("Открытие PDF", 0, ex.Message));
+            return DocumentResult.Fail(ex.Message);
+        }
 
         using (pdf)
         {
             var checkedPages = Math.Min(pdf.PageCount, MaxPages);
+            diagnostic?.Invoke(new("Открытие PDF", 0, $"Страниц: {pdf.PageCount}; проверяются первые {checkedPages}."));
             var confirmed = new List<(int Page, FieldValues Values, string Template)>();
             string? firstMiss = null;
 
@@ -81,15 +87,21 @@ internal static class DocumentReader
                 using (features)
                 {
                     var outcome = TemplateMatcher.Match(features, size, templates);
-                    if (outcome.Ambiguous) return DocumentResult.Fail($"стр. {i + 1}: {outcome.Problem}");
+                    if (outcome.Ambiguous)
+                    {
+                        diagnostic?.Invoke(new("Совмещение", i + 1, outcome.Problem ?? "Подходят несколько шаблонов."));
+                        return DocumentResult.Fail($"стр. {i + 1}: {outcome.Problem}");
+                    }
                     if (outcome.Match is null)
                     {
                         firstMiss ??= $"стр. {i + 1}: {outcome.Problem}";
+                        diagnostic?.Invoke(new("Совмещение", i + 1, outcome.Problem ?? "Подходящий шаблон не найден."));
                         continue;
                     }
 
                     var match = outcome.Match;
-                    var (values, problem) = ReadFields(pdf, i, size, features, match, ocr, ct);
+                    diagnostic?.Invoke(new("Совмещение", i + 1, $"Шаблон «{match.Template.Name}»: совпадение формы {match.Score:P0}."));
+                    var (values, problem) = ReadFields(pdf, i, size, features, match, ocr, ct, diagnostic);
                     if (values is null)
                         return DocumentResult.Fail($"стр. {i + 1} (шаблон «{match.Template.Name}»): {problem}");
                     confirmed.Add((i, values, match.Template.Name));
@@ -118,44 +130,89 @@ internal static class DocumentReader
 
     /// <summary>Вырезать поля страницы и прочитать их обоими движками; сверить.</summary>
     public static (FieldValues? Values, string? Problem) ReadFields(PdfDocument pdf, int pageIndex, PageSize size,
-        PageFeatures features, PageMatch match, OcrPair ocr, CancellationToken ct)
+        PageFeatures features, PageMatch match, OcrPair ocr, CancellationToken ct,
+        Action<RecognitionDiagnostic>? diagnostic = null)
     {
         var frames = match.Template.Frames;
         var combined = frames.FirstOrDefault(f => f.Role == FieldRole.Combined);
+        EngineFields first, second;
         if (combined is not null)
         {
             using var crop = FieldCrop.Extract(pdf, pageIndex, size, features, match, combined.Inner);
             ct.ThrowIfCancellationRequested();
-            var a = ReadCombined(ocr.First, crop);
-            var b = ReadCombined(ocr.Second, crop);
-            return EngineAgreement.Combine(a, b);
+            var a = ocr.First.Read(crop);
+            ct.ThrowIfCancellationRequested();
+            var b = ocr.Second.Read(crop);
+            first = ParseCombined(ocr.First, a);
+            second = ParseCombined(ocr.Second, b);
+            if (diagnostic is not null)
+                diagnostic(new("Распознавание", pageIndex + 1, "Все поля вместе", new FieldDiagnostic(
+                    combined.Role, combined.Inner, crop.ToBytes(".png"),
+                    DescribeCombined(a, first), DescribeCombined(b, second))));
+        }
+        else
+        {
+            var designation = ReadField(FieldRole.Designation, FieldParser.ParseDesignation);
+            var name = ReadField(FieldRole.Name, FieldParser.ParseName);
+            (Parsed First, Parsed Second) type;
+            if (match.Template.TypeAbsent)
+            {
+                // Это явная настройка сохраненного шаблона, а не вывод из отсутствия рамки.
+                type = (Parsed.Ok(""), Parsed.Ok(""));
+                diagnostic?.Invoke(new("Области", pageIndex + 1,
+                    $"Тип документа отсутствует по настройке шаблона: «{DocTypes.WhenMissing}»."));
+            }
+            else type = ReadField(FieldRole.Type, FieldParser.ParseType);
+            first = new EngineFields(ocr.First.Name, designation.First, name.First, type.First);
+            second = new EngineFields(ocr.Second.Name, designation.Second, name.Second, type.Second);
         }
 
-        var designationFrame = frames.First(f => f.Role == FieldRole.Designation);
-        var nameFrame = frames.First(f => f.Role == FieldRole.Name);
-        var typeFrame = frames.First(f => f.Role == FieldRole.Type);
-        using var designationCrop = FieldCrop.Extract(pdf, pageIndex, size, features, match, designationFrame.Inner);
-        using var nameCrop = FieldCrop.Extract(pdf, pageIndex, size, features, match, nameFrame.Inner);
-        using var typeCrop = FieldCrop.Extract(pdf, pageIndex, size, features, match, typeFrame.Inner);
-        ct.ThrowIfCancellationRequested();
-        var first = ReadSeparate(ocr.First, designationCrop, nameCrop, typeCrop);
-        var second = ReadSeparate(ocr.Second, designationCrop, nameCrop, typeCrop);
-        return EngineAgreement.Combine(first, second);
+        var result = EngineAgreement.Combine(first, second);
+        diagnostic?.Invoke(new("Сверка движков", pageIndex + 1,
+            result.Problem ?? "Все поля подтверждены обоими способами распознавания."));
+        return result;
+
+        (Parsed First, Parsed Second) ReadField(FieldRole role, Func<OcrReading, double, Parsed> parse)
+        {
+            var frame = frames.First(f => f.Role == role);
+            using var crop = FieldCrop.Extract(pdf, pageIndex, size, features, match, frame.Inner);
+            ct.ThrowIfCancellationRequested();
+            var a = ocr.First.Read(crop);
+            var parsedA = parse(a, OcrPair.MinConfidence(ocr.First));
+            ct.ThrowIfCancellationRequested();
+            var b = ocr.Second.Read(crop);
+            var parsedB = parse(b, OcrPair.MinConfidence(ocr.Second));
+            if (diagnostic is not null)
+                diagnostic(new("Распознавание", pageIndex + 1, FieldName(role), new FieldDiagnostic(
+                    role, frame.Inner, crop.ToBytes(".png"),
+                    new EngineDiagnostic(a.Engine, a.Text, parsedA.Value ?? "", parsedA.Problem),
+                    new EngineDiagnostic(b.Engine, b.Text, parsedB.Value ?? "", parsedB.Problem))));
+            return (parsedA, parsedB);
+        }
     }
 
-    private static EngineFields ReadCombined(IOcrEngine engine, Mat crop)
+    private static EngineFields ParseCombined(IOcrEngine engine, OcrReading reading)
     {
-        var reading = engine.Read(crop);
         var (designation, name, type) = FieldParser.ParseCombined(reading, OcrPair.MinConfidence(engine));
         return new EngineFields(engine.Name, designation, name, type);
     }
 
-    private static EngineFields ReadSeparate(IOcrEngine engine, Mat designationCrop, Mat nameCrop, Mat typeCrop)
+    private static EngineDiagnostic DescribeCombined(OcrReading reading, EngineFields fields) => new(
+        reading.Engine, reading.Text,
+        $"Обозначение: {fields.Designation.Value}\nНаименование: {fields.Name.Value}\nТип: {fields.Type.Value}",
+        JoinProblems(fields.Designation.Problem, fields.Name.Problem, fields.Type.Problem));
+
+    private static string? JoinProblems(params string?[] problems)
     {
-        var min = OcrPair.MinConfidence(engine);
-        var designation = FieldParser.ParseDesignation(engine.Read(designationCrop), min);
-        var name = FieldParser.ParseName(engine.Read(nameCrop), min);
-        var type = FieldParser.ParseType(engine.Read(typeCrop), min);
-        return new EngineFields(engine.Name, designation, name, type);
+        var distinct = problems.Where(p => p is not null).Distinct().ToArray();
+        return distinct.Length == 0 ? null : string.Join("; ", distinct);
     }
+
+    internal static string FieldName(FieldRole role) => role switch
+    {
+        FieldRole.Designation => "Обозначение",
+        FieldRole.Name => "Наименование",
+        FieldRole.Type => "Тип документа",
+        _ => "Все поля вместе",
+    };
 }

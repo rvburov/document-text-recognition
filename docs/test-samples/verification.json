@@ -1,0 +1,534 @@
+{
+  "Test": "Saved_regions_read_specification_drawing_and_schematic_and_record_sample_pdfs",
+  "VerifiedUtc": "2026-11-17T18:37:58.6346996+00:00",
+  "Environment": {
+    "OperatingSystem": "Ubuntu 24.04.5 LTS",
+    "DotNet": ".NET 10.0.15",
+    "Tesseract": "5.3.4",
+    "NativeLibraryPreload": []
+  },
+  "Scope": "Синтетические PDF; чтение настоящими Tesseract и PaddleOCR. Не оценка точности на реальных сканах.",
+  "Samples": [
+    {
+      "File": "scans/01-specification-a4.pdf",
+      "Template": "templates/Спецификация A4.pdf",
+      "ExpectedName": "ВКЕМ.461411.200 Модуль связи Спецификация.pdf",
+      "ActualName": "ВКЕМ.461411.200 Модуль связи Спецификация.pdf",
+      "Fields": {
+        "Designation": "ВКЕМ.461411.200",
+        "Name": "Модуль связи",
+        "Type": "Спецификация"
+      },
+      "Engines": [
+        "Tesseract",
+        "PaddleOCR"
+      ],
+      "ReadingDetails": [
+        {
+          "PageNumber": 1,
+          "Role": "Designation",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "Crop": "crops/01-specification-a4-Designation.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.200",
+            "ParsedText": "ВКЕМ.461411.200",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.200",
+            "ParsedText": "BКЕМ.461411.200",
+            "Problem": null
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Name",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "Crop": "crops/01-specification-a4-Name.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «Спецификация A4»: совпадение формы 100 %."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование"
+        },
+        {
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация»."
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "Все поля подтверждены обоими способами распознавания."
+        }
+      ],
+      "RecognitionRequired": true,
+      "Result": "recognized",
+      "Problem": null
+    },
+    {
+      "File": "scans/02-assembly-a4.pdf",
+      "Template": "templates/Основная надпись A4.pdf",
+      "ExpectedName": "ЮИЛГ.461411.123 Корпус Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461411.123 Корпус Сборочный чертеж.pdf",
+      "Fields": {
+        "Designation": "ЮИЛГ.461411.123",
+        "Name": "Корпус",
+        "Type": "Сборочный чертеж"
+      },
+      "Engines": [
+        "Tesseract",
+        "PaddleOCR"
+      ],
+      "ReadingDetails": [
+        {
+          "PageNumber": 1,
+          "Role": "Designation",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.803030303030303,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8434343434343434
+          },
+          "Crop": "crops/02-assembly-a4-Designation.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461411.123",
+            "ParsedText": "ЮИЛГ.461411.123",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461411.123",
+            "ParsedText": "ЮИЛГ.461411.123",
+            "Problem": null
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Name",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.8939393939393939
+          },
+          "Crop": "crops/02-assembly-a4-Name.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Type",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.02356902356902357,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9276094276094277
+          },
+          "Crop": "crops/02-assembly-a4-Type.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «Основная надпись A4»: совпадение формы 88 %."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Тип документа"
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "Все поля подтверждены обоими способами распознавания."
+        }
+      ],
+      "RecognitionRequired": true,
+      "Result": "recognized",
+      "Problem": null
+    },
+    {
+      "File": "scans/03-schematic-a4.pdf",
+      "Template": "templates/Основная надпись A4.pdf",
+      "ExpectedName": "ЮИЛГ.461411.124 Блок питания Схема электрическая.pdf",
+      "ActualName": "ЮИЛГ.461411.124 Блок питания Схема электрическая.pdf",
+      "Fields": {
+        "Designation": "ЮИЛГ.461411.124",
+        "Name": "Блок питания",
+        "Type": "Схема электрическая"
+      },
+      "Engines": [
+        "Tesseract",
+        "PaddleOCR"
+      ],
+      "ReadingDetails": [
+        {
+          "PageNumber": 1,
+          "Role": "Designation",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.803030303030303,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8434343434343434
+          },
+          "Crop": "crops/03-schematic-a4-Designation.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461411.124",
+            "ParsedText": "ЮИЛГ.461411.124",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461411.124",
+            "ParsedText": "ЮИЛГ.461411.124",
+            "Problem": null
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Name",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.8939393939393939
+          },
+          "Crop": "crops/03-schematic-a4-Name.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Type",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.02356902356902357,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9276094276094277
+          },
+          "Crop": "crops/03-schematic-a4-Type.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «Основная надпись A4»: совпадение формы 88 %."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Тип документа"
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "Все поля подтверждены обоими способами распознавания."
+        }
+      ],
+      "RecognitionRequired": true,
+      "Result": "recognized",
+      "Problem": null
+    },
+    {
+      "File": "scans/04-assembly-a3.pdf",
+      "Template": "templates/Основная надпись A3.pdf",
+      "ExpectedName": "ПРМД.301261.010 Рама сварная Сборочный чертеж.pdf",
+      "ActualName": "ПРМД.301261.010 Рама сварная Сборочный чертеж.pdf",
+      "Fields": {
+        "Designation": "ПРМД.301261.010",
+        "Name": "Рама сварная",
+        "Type": "Сборочный чертеж"
+      },
+      "Engines": [
+        "Tesseract",
+        "PaddleOCR"
+      ],
+      "ReadingDetails": [
+        {
+          "PageNumber": 1,
+          "Role": "Combined",
+          "Bounds": {
+            "X": 0.705952380952381,
+            "Y": 0.803030303030303,
+            "Width": 0.1595238095238095,
+            "Height": 0.12457912457912458,
+            "Right": 0.8654761904761905,
+            "Bottom": 0.9276094276094276
+          },
+          "Crop": "crops/04-assembly-a3-Combined.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ПРМД.301261.010\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.010\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ПРМД.301261.010\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.010\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «Основная надпись A3»: совпадение формы 92 %."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Все поля вместе"
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "Все поля подтверждены обоими способами распознавания."
+        }
+      ],
+      "RecognitionRequired": true,
+      "Result": "recognized",
+      "Problem": null
+    },
+    {
+      "File": "scans/05-screenshot-like-specification.pdf",
+      "Template": "templates/Спецификация A4.pdf",
+      "ExpectedName": "АЦИЕ.202132.004 Э(Т)О МОЭА Спецификация.pdf",
+      "ActualName": null,
+      "Fields": null,
+      "Engines": [
+        "Tesseract",
+        "PaddleOCR"
+      ],
+      "ReadingDetails": [
+        {
+          "PageNumber": 1,
+          "Role": "Designation",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "Crop": "crops/05-screenshot-like-specification-Designation.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "АЦИЕ.202132.004",
+            "ParsedText": "АЦИЕ.202132.004",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "АЦИЕ.202132.004",
+            "ParsedText": "АЦИЕ.202132.004",
+            "Problem": null
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Name",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "Crop": "crops/05-screenshot-like-specification-Name.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Э(Т)О МОЭА",
+            "ParsedText": "Э(Т)О МОЭА",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Э(ТО МОЭА",
+            "ParsedText": "Э(ТО МОЭА",
+            "Problem": null
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «Спецификация A4»: совпадение формы 100 %."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование"
+        },
+        {
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация»."
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "наименование прочитано по-разному: «Э(Т)О МОЭА» и «Э(ТО МОЭА»"
+        }
+      ],
+      "RecognitionRequired": false,
+      "Result": "skipped",
+      "Problem": "стр. 1 (шаблон «Спецификация A4»): наименование прочитано по-разному: «Э(Т)О МОЭА» и «Э(ТО МОЭА»"
+    }
+  ]
+}

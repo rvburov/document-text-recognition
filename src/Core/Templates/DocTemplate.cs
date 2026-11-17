@@ -18,6 +18,9 @@ internal sealed class DocTemplate : IDisposable
     public required PageSize PageSize { get; init; }
     public required IReadOnlyList<ColorFrame> Frames { get; init; }
     public required PageFeatures Features { get; init; }
+    /// <summary>Пользователь явно указал, что типа на скане нет: подставляется «Спецификация».</summary>
+    public bool TypeAbsent { get; init; }
+    public bool IsManual { get; init; }
 
     /// <summary>Отношение сторон страницы (ширина / высота).</summary>
     public double Aspect => PageSize.Width / PageSize.Height;
@@ -35,8 +38,9 @@ internal sealed record TemplateLoad(string FilePath, DocTemplate? Template, stri
 
 /// <summary>
 /// Чтение шаблонов из папки. Каждый запуск читает файлы заново: изменили разметку — новая
-/// учтется сразу, устаревших координат из кэша не бывает. Шаблон — первая страница PDF с
-/// цветными рамками; рамки на нескольких страницах — ошибка (непонятно, какая страница — образец).
+/// учтется сразу, устаревших координат из кэша не бывает. Сначала читается ручная разметка
+/// рядом с PDF. Без нее используется первая страница с цветными рамками; рамки на нескольких
+/// страницах — ошибка (непонятно, какая страница — образец).
 /// </summary>
 internal static class TemplateLibrary
 {
@@ -81,7 +85,34 @@ internal static class TemplateLibrary
         if (name.Length == 0) return new TemplateLoad(file, null, "у файла нет названия типа документа");
         try
         {
+            var manual = TemplateMarkupStore.Load(file);
+            if (manual.Problem is not null)
+                return new TemplateLoad(file, null, manual.Problem);
             using var pdf = PdfDocument.Open(file);
+            if (manual.Markup is { } markup)
+            {
+                using var rendered = pdf.RenderPage(markup.PageIndex, FrameLongSide);
+                var size = pdf.GetPageSize(markup.PageIndex);
+                var frames = markup.Regions.Select(r =>
+                {
+                    var rect = r.Bounds.ToPixels(rendered.Width, rendered.Height);
+                    var outer = new Rect((int)Math.Floor(rect.X), (int)Math.Floor(rect.Y),
+                        Math.Max(1, (int)Math.Ceiling(rect.Width)), Math.Max(1, (int)Math.Ceiling(rect.Height)))
+                        .Intersect(new Rect(0, 0, rendered.Width, rendered.Height));
+                    return new ColorFrame(r.Role, r.Bounds, outer, 0);
+                }).ToArray();
+                return new TemplateLoad(file, new DocTemplate
+                {
+                    Name = name,
+                    FilePath = file,
+                    PageIndex = markup.PageIndex,
+                    PageSize = size,
+                    Frames = frames,
+                    Features = BuildFeatures(rendered, new FrameLayout(frames, null), size),
+                    TypeAbsent = markup.TypeAbsent,
+                    IsManual = true,
+                }, null);
+            }
             int? marked = null;
             FrameLayout? layout = null;
             Mat? page = null;

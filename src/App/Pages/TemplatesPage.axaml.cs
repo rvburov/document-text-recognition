@@ -22,6 +22,7 @@ public partial class TemplatesPage : UserControl
     private readonly ObservableCollection<TemplateItem> _view = [];
     private CancellationTokenSource? _cts;
     private int _previewToken;
+    private Bitmap? _previewBitmap;
 
     public TemplatesPage()
     {
@@ -73,7 +74,7 @@ public partial class TemplatesPage : UserControl
                 {
                     if (cts.IsCancellationRequested) return;
                     item.Changed();
-                    if (List.SelectedItem == item) ShowInfo(item);
+                    if (List.SelectedItem == item) Select(item);
                     Report(done: items.All(i => i.Recognized is not null));
                 });
             }
@@ -98,25 +99,33 @@ public partial class TemplatesPage : UserControl
         List.SelectedItem = selected is TemplateItem t && _view.Contains(t) ? t : _view.FirstOrDefault();
     }
 
-    private void Select(TemplateItem? item)
+    private async void Select(TemplateItem? item)
     {
+        var token = ++_previewToken;
         ShowInfo(item);
         Preview.Source = null;
+        _previewBitmap?.Dispose();
+        _previewBitmap = null;
         PreviewNote.Text = item is null ? "" : "Загружается…";
         if (item is null) return;
-        var token = ++_previewToken;
         var (file, page) = (item.FilePath, item.PageIndex);
-        Task.Run(() => TemplateCatalog.RenderPng(file, page)).ContinueWith(t => Dispatcher.UIThread.Post(() =>
+        try
         {
+            var png = await Task.Run(() => TemplateCatalog.RenderPng(file, page, showRegions: true));
             if (token != _previewToken) return;
-            if (t.Result is { } png)
+            if (png is not null)
             {
                 using var ms = new MemoryStream(png);
-                Preview.Source = new Bitmap(ms);
+                Preview.Source = _previewBitmap = new Bitmap(ms);
                 PreviewNote.Text = "";
             }
             else PreviewNote.Text = "Страница не открывается";
-        }));
+        }
+        catch (Exception ex)
+        {
+            if (token == _previewToken) PreviewNote.Text = "Страница не открывается";
+            AppLog.Error("Предпросмотр шаблона не открыт", ex);
+        }
     }
 
     private void ShowInfo(TemplateItem? item)
@@ -125,6 +134,7 @@ public partial class TemplatesPage : UserControl
         InfoSize.Text = item?.PageSize ?? "";
         InfoFrames.Text = item is null ? "" : item.Recognized is null ? "проверяется…" : item.Frames;
         OpenButton.IsEnabled = item is not null;
+        EditButton.IsEnabled = item is not null;
         CheckButton.IsEnabled = item?.Recognized == true;
     }
 
@@ -158,6 +168,14 @@ public partial class TemplatesPage : UserControl
         if (List.SelectedItem is TemplateItem item && File.Exists(item.FilePath)) WindowsShell.Open(item.FilePath);
     }
 
+    private async void OnEditTemplate(object? sender, RoutedEventArgs e)
+    {
+        if (List.SelectedItem is not TemplateItem item) return;
+        await TemplateEditorDialog.Show(_main, item.FilePath, _main.Settings.SourceFolder);
+        Refresh(force: true);
+        List.SelectedItem = _view.FirstOrDefault(t => t.FilePath == item.FilePath);
+    }
+
     private async void OnCheckScan(object? sender, RoutedEventArgs e) =>
-        await CheckScanDialog.Show(_main, _folder, _main.Settings.SourceFolder);
+        await CheckScanDialog.Show(_main, _folder, _main.Settings.SourceFolder, (List.SelectedItem as TemplateItem)?.FilePath);
 }

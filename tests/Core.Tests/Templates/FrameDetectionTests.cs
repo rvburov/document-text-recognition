@@ -171,6 +171,98 @@ public sealed class FrameDetectionTests
     }
 
     [OcrFact]
+    public void Touching_blue_and_green_are_found_even_when_the_shared_edge_is_overpainted()
+    {
+        using var page = new Mat(1400, 1000, MatType.CV_8UC3, Scalar.All(255));
+        Frame(page, new Rect(560, 1105, 380, 50), Rgb(0, 0, 255));
+        // Зеленая рамка шире синей и полностью перекрашивает ее нижнюю сторону.
+        // Общая маска цветов образует один непрямоугольный внешний контур.
+        Frame(page, new Rect(480, 1154, 460, 70), Rgb(0, 170, 0));
+
+        var layout = ColorFrames.Detect(page);
+
+        Assert.Equal("нет желтой рамки (тип документа)", layout.Problem);
+        Assert.Single(layout.Frames, f => f.Role == FieldRole.Designation);
+        Assert.Single(layout.Frames, f => f.Role == FieldRole.Name);
+    }
+
+    [OcrTheory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Adjacent_field_frames_can_share_an_edge(bool jpegCompression)
+    {
+        using var page = new Mat(1400, 1000, MatType.CV_8UC3, Scalar.All(255));
+        Frame(page, new Rect(560, 1105, 380, 50), Rgb(0, 0, 255));
+        Frame(page, new Rect(480, 1154, 460, 70), Rgb(0, 170, 0));
+        Frame(page, Third, Yellow);
+        using var image = jpegCompression ? Jpeg(page, 75) : page.Clone();
+
+        var layout = ColorFrames.Detect(image);
+
+        Assert.True(layout.IsValid, layout.Problem);
+        Assert.Equal(3, layout.Frames.Count);
+        var blue = layout.Frames.Single(f => f.Role == FieldRole.Designation);
+        var green = layout.Frames.Single(f => f.Role == FieldRole.Name);
+        Assert.False(blue.Inner.Intersects(green.Inner));
+        Assert.InRange(blue.Outer.Width, 375, 390);
+        Assert.InRange(green.Outer.Width, 455, 470);
+    }
+
+    [OcrTheory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Middle_frame_can_share_both_opposite_edges(bool horizontal)
+    {
+        using var page = new Mat(1400, 1000, MatType.CV_8UC3, Scalar.All(255));
+        var green = new Rect(400, 600, 180, 80);
+        var blue = horizontal ? new Rect(221, 600, 180, 80) : new Rect(400, 521, 180, 80);
+        var yellow = horizontal ? new Rect(579, 600, 180, 80) : new Rect(400, 679, 180, 80);
+        Frame(page, green, Rgb(0, 170, 0));
+        Frame(page, blue, Rgb(0, 0, 255));
+        Frame(page, yellow, Yellow);
+
+        var layout = ColorFrames.Detect(page);
+
+        Assert.True(layout.IsValid, layout.Problem);
+        Assert.Equal(3, layout.Frames.Count);
+        Assert.InRange(layout.Frames.Single(f => f.Role == FieldRole.Name).Outer.X, green.X - 3, green.X + 3);
+        Assert.InRange(layout.Frames.Single(f => f.Role == FieldRole.Name).Outer.Y, green.Y - 3, green.Y + 3);
+    }
+
+    [OcrFact]
+    public void Touching_unknown_color_is_still_reported()
+    {
+        using var page = new Mat(1400, 1000, MatType.CV_8UC3, Scalar.All(255));
+        Frame(page, new Rect(560, 1105, 380, 50), Rgb(0, 0, 255));
+        Frame(page, new Rect(480, 1154, 460, 70), Rgb(160, 32, 240));
+
+        Assert.Contains("непонятного цвета", ColorFrames.Detect(page).Problem);
+    }
+
+    [OcrFact]
+    public void A_single_mixed_color_frame_is_not_split_into_fields()
+    {
+        using var page = new Mat(1400, 1000, MatType.CV_8UC3, Scalar.All(255));
+        var box = new Rect(500, 1000, 200, 200);
+        Frame(page, box, Rgb(0, 0, 255));
+        Cv2.Line(page, new Point(box.X, box.Bottom - 1), new Point(box.Right - 1, box.Bottom - 1), Rgb(0, 170, 0), 4);
+        Cv2.Line(page, new Point(box.Right - 1, box.Y), new Point(box.Right - 1, box.Bottom - 1), Rgb(0, 170, 0), 4);
+
+        Assert.Contains("смесь цветов", ColorFrames.Detect(page).Problem);
+    }
+
+    [OcrFact]
+    public void Separate_color_detection_does_not_allow_overlapping_field_interiors()
+    {
+        using var page = new Mat(1400, 1000, MatType.CV_8UC3, Scalar.All(255));
+        Frame(page, new Rect(560, 1000, 350, 120), Rgb(0, 0, 255));
+        Frame(page, new Rect(600, 1060, 350, 120), Rgb(0, 170, 0));
+        Frame(page, Third, Yellow);
+
+        Assert.Equal("рамки перекрываются", ColorFrames.Detect(page).Problem);
+    }
+
+    [OcrFact]
     public void Two_blue_frames_are_ambiguous()
     {
         using var page = Page();

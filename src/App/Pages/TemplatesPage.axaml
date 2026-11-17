@@ -9,8 +9,8 @@
       <Button Grid.Column="1" Click="OnRefresh">
         <StackPanel Orientation="Horizontal" Spacing="8"><ui:Icon Kind="Refresh" /><TextBlock Text="Обновить" VerticalAlignment="Center" /></StackPanel>
       </Button>
-      <Button Grid.Column="2" Click="OnOpenFolder">
-        <StackPanel Orientation="Horizontal" Spacing="8"><ui:Icon Kind="Folder" /><TextBlock Text="Открыть папку" VerticalAlignment="Center" /></StackPanel>
+      <Button Grid.Column="2" Click="OnChooseFolder">
+        <StackPanel Orientation="Horizontal" Spacing="8"><ui:Icon Kind="Folder" /><TextBlock Text="Выбрать папку…" VerticalAlignment="Center" /></StackPanel>
       </Button>
       <Button Grid.Column="3" Click="OnHowTo">
         <StackPanel Orientation="Horizontal" Spacing="8"><ui:Icon Kind="BookOpen" /><TextBlock Text="Как сделать шаблон" VerticalAlignment="Center" /></StackPanel>
@@ -32,7 +32,7 @@
       <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8" MaxWidth="460">
         <TextBlock Name="EmptyTitle" FontSize="15" FontWeight="SemiBold" TextAlignment="Center" />
         <TextBlock Classes="muted" TextAlignment="Center" TextWrapping="Wrap"
-                   Text="Шаблон: PDF-образец документа, где поля штампа обведены цветными рамками. Синяя рамка: обозначение, зеленая: наименование, желтая: тип документа, красная: все поля вместе." />
+                   Text="Выберите папку с PDF-образцами документов. Откройте «Разметить области» и выделите поля штампа прямо в программе: обозначение, наименование и тип документа." />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8" Margin="0,6,0,0">
           <Button Content="Выбрать папку…" Click="OnChooseFolder" />
           <Button Content="Как сделать шаблон" Click="OnHowTo" />
@@ -68,6 +68,7 @@
             <Border Classes="kv"><Grid ColumnDefinitions="Auto,*" ui:Gap.Columns="12"><TextBlock Classes="muted" Text="Размер страницы" /><TextBlock Name="InfoSize" Grid.Column="1" TextAlignment="Right" /></Grid></Border>
             <Border Classes="kv"><Grid ColumnDefinitions="Auto,*" ui:Gap.Columns="12"><TextBlock Classes="muted" Text="Рамки" /><TextBlock Name="InfoFrames" Grid.Column="1" TextAlignment="Right" TextWrapping="Wrap" /></Grid></Border>
             <StackPanel Spacing="8" Margin="0,12,0,0">
+              <Button Name="EditButton" Classes="full accent" Click="OnEditTemplate" Content="Разметить области…" />
               <Button Name="OpenButton" Classes="full" Click="OnOpenTemplate">
                 <StackPanel Orientation="Horizontal" Spacing="8"><ui:Icon Kind="FileText" /><TextBlock Text="Открыть шаблон" VerticalAlignment="Center" /></StackPanel>
               </Button>

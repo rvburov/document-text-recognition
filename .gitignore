@@ -4,3 +4,5 @@ dist/
 .vs/
 .idea/
 TestResults/
+
+.avalonia-build-tasks/

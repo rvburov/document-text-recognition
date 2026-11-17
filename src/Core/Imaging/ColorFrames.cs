@@ -111,6 +111,20 @@ internal static class ColorFrames
             {
                 var box = Cv2.BoundingRect(contour);
                 if (box.Width < minSide || box.Height < minSide) continue;
+                // Разноцветные рамки могут касаться: общая маска тогда дает один внешний
+                // контур (часто Г-образный). Восстанавливаем прямоугольники по каждому цвету.
+                // Общую сторону проверяем по полной маске: соседняя рамка могла перекрасить ее.
+                var separate = SeparateTouching(hsv, closed, box, minSide);
+                if (separate.Select(f => f.Role).Distinct().Count() > 1)
+                {
+                    foreach (var candidate in separate)
+                    {
+                        if (candidate.Role is not { } candidateRole)
+                            problems.Add("рамка непонятного цвета (нужен синий, зеленый, желтый или красный)");
+                        else AddFrame(candidateRole, candidate.Box, candidate.Stroke);
+                    }
+                    continue;
+                }
                 if (!LooksLikeFrame(closed, box, out var stroke, out var filled))
                 {
                     if (filled && box.Width > minSide * 2 && box.Height > minSide)
@@ -127,12 +141,17 @@ internal static class ColorFrames
                     continue;
                 }
 
+                AddFrame(role.Value, box, stroke);
+            }
+
+            void AddFrame(FieldRole role, Rect box, int stroke)
+            {
                 var inner = new Rect(box.X + stroke, box.Y + stroke, box.Width - 2 * stroke, box.Height - 2 * stroke);
-                if (inner.Width < 4 || inner.Height < 4) continue;
-                frames.Add(new ColorFrame(role.Value, NormRect.FromPixels(inner, bgr.Width, bgr.Height), box, stroke));
+                if (inner.Width < 4 || inner.Height < 4) return;
+                frames.Add(new ColorFrame(role, NormRect.FromPixels(inner, bgr.Width, bgr.Height), box, stroke));
 
                 if (CrossesText(bgr, closed, box, stroke))
-                    problems.Add($"{Describe(role.Value)} рамка проходит по тексту (рамка не должна закрывать буквы и цифры)");
+                    problems.Add($"{Describe(role)} рамка проходит по тексту (рамка не должна закрывать буквы и цифры)");
             }
 
             return Validate(frames, problems, bgr.Width, bgr.Height);
@@ -172,7 +191,8 @@ internal static class ColorFrames
         {
             for (var i = 0; i < frames.Count && problem is null; i++)
                 for (var j = i + 1; j < frames.Count && problem is null; j++)
-                    if (frames[i].Outer.IntersectsWith(frames[j].Outer))
+                    // Линии соседних рамок могут совпадать, области текста — нет.
+                    if (frames[i].Inner.Intersects(frames[j].Inner))
                         problem = "рамки перекрываются";
         }
         if (problem is null && frames.Any(f => f.Inner.Width * f.Inner.Height > 0.5))
@@ -188,29 +208,9 @@ internal static class ColorFrames
         stroke = 0;
         filled = false;
         using var roi = new Mat(mask, box);
-        var band = Math.Clamp((int)(Math.Min(box.Width, box.Height) * 0.12), 3, 25);
-
-        double Coverage(Func<int, (int x, int y)> origin, int length, bool horizontal, int depthSign)
-        {
-            var covered = 0;
-            for (var i = 0; i < length; i++)
-            {
-                var (x0, y0) = origin(i);
-                for (var d = 0; d < band; d++)
-                {
-                    var x = horizontal ? x0 : x0 + d * depthSign;
-                    var y = horizontal ? y0 + d * depthSign : y0;
-                    if (roi.At<byte>(y, x) != 0) { covered++; break; }
-                }
-            }
-            return covered / (double)length;
-        }
+        var sides = SideCoverage(roi);
 
         int w = box.Width, h = box.Height;
-        var top = Coverage(i => (i, 0), w, true, 1);
-        var bottom = Coverage(i => (i, h - 1), w, true, -1);
-        var left = Coverage(i => (0, i), h, false, 1);
-        var right = Coverage(i => (w - 1, i), h, false, -1);
 
         // Толщина: медиана длины сплошной линии от левого и верхнего края.
         var runs = new List<int>();
@@ -238,7 +238,89 @@ internal static class ColorFrames
         }
         filled = fill > 0.5;
 
-        return top >= 0.85 && bottom >= 0.85 && left >= 0.85 && right >= 0.85 && fill < 0.15;
+        return sides.All(s => s >= 0.85) && fill < 0.15;
+    }
+
+    private static double[] SideCoverage(Mat roi)
+    {
+        int w = roi.Width, h = roi.Height;
+        var band = Math.Clamp((int)(Math.Min(w, h) * 0.12), 3, Math.Min(25, Math.Min(w, h)));
+
+        double Coverage(Func<int, (int x, int y)> origin, int length, bool horizontal, int depthSign)
+        {
+            var covered = 0;
+            for (var i = 0; i < length; i++)
+            {
+                var (x0, y0) = origin(i);
+                for (var d = 0; d < band; d++)
+                {
+                    var x = horizontal ? x0 : x0 + d * depthSign;
+                    var y = horizontal ? y0 + d * depthSign : y0;
+                    if (roi.At<byte>(y, x) != 0) { covered++; break; }
+                }
+            }
+            return covered / (double)length;
+        }
+
+        var top = Coverage(i => (i, 0), w, true, 1);
+        var bottom = Coverage(i => (i, h - 1), w, true, -1);
+        var left = Coverage(i => (0, i), h, false, 1);
+        var right = Coverage(i => (w - 1, i), h, false, -1);
+
+        return [top, bottom, left, right];
+    }
+
+    private sealed record FrameCandidate(FieldRole? Role, Rect Box, int Stroke);
+
+    /// <summary>Кандидаты разных цветов внутри одного связного контура. У каждого не менее
+    /// трех собственных сторон либо две противоположные; остальные могут быть общими. Неизвестные цвета
+    /// сохраняются для диагностики, а не приписываются ближайшей известной роли.</summary>
+    private static List<FrameCandidate> SeparateTouching(Mat hsv, Mat colored, Rect component, int minSide)
+    {
+        using var roi = new Mat(hsv, component);
+        var masks = Enumerable.Range(0, 5).Select(_ => new Mat(component.Height, component.Width, MatType.CV_8UC1, Scalar.All(0))).ToArray();
+        try
+        {
+            int width = roi.Width, height = roi.Height;
+            for (var y = 0; y < height; y++)
+                for (var x = 0; x < width; x++)
+                {
+                    var pixel = roi.At<Vec3b>(y, x);
+                    if (pixel.Item1 < MinSaturation || pixel.Item2 < MinValue) continue;
+                    var role = RoleOfHue(pixel.Item0);
+                    masks[role is null ? 4 : (int)role.Value].Set(y, x, (byte)255);
+                }
+
+            var candidates = new List<FrameCandidate>();
+            using var kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5));
+            for (var color = 0; color < masks.Length; color++)
+            {
+                using var closed = new Mat();
+                Cv2.MorphologyEx(masks[color], closed, MorphTypes.Close, kernel);
+                Cv2.FindContours(closed, out var contours, out _, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
+                var boxes = contours.Select(c => Cv2.BoundingRect(c)).ToList();
+                // У среднего поля верхняя и нижняя стороны могут быть перекрашены соседями:
+                // оставшиеся боковые линии тогда образуют два отдельных контура.
+                if (contours.Length > 1) boxes.Add(Cv2.BoundingRect(contours.SelectMany(c => c).ToArray()));
+                foreach (var local in boxes.Distinct())
+                {
+                    if (local.Width < minSide || local.Height < minSide) continue;
+                    using var ownBorder = new Mat(closed, local);
+                    var sides = SideCoverage(ownBorder);
+                    if (sides.Count(s => s >= 0.85) < 3 &&
+                        !(sides[0] >= 0.85 && sides[1] >= 0.85) &&
+                        !(sides[2] >= 0.85 && sides[3] >= 0.85)) continue;
+                    var box = new Rect(component.X + local.X, component.Y + local.Y, local.Width, local.Height);
+                    if (!LooksLikeFrame(colored, box, out var stroke, out _)) continue;
+                    candidates.Add(new FrameCandidate(color == 4 ? null : (FieldRole)color, box, stroke));
+                }
+            }
+            return candidates;
+        }
+        finally
+        {
+            foreach (var mask in masks) mask.Dispose();
+        }
     }
 
     /// <summary>Роль по преобладающему тону точек рамки. share &lt; 0 — преобладает «непонятный»
