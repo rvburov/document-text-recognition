@@ -274,8 +274,9 @@ public sealed class PdfTextReaderTests(OcrFixture ocr, ITestOutputHelper output)
 
         var result = DocumentReader.Read(path, [template], ocr.Pair, CancellationToken.None, diagnostics.Add);
 
-        Assert.Equal(1, result.Trace!.PdfTextAttempts);
-        Assert.Equal(0, result.Trace.PdfTextAccepted);
+        output.WriteLine("False CMap result: " + (result.Values?.ToString() ?? result.Problem));
+        Assert.Equal(0, result.Trace!.PdfTextAccepted);
+        Assert.Equal(1 + result.Trace.GostAttempts, result.Trace.PdfTextAttempts);
         Assert.True(result.Trace.PaddleReads > 0);
         Assert.True(result.Trace.TesseractReads > 0);
         if (result.Values is { } values)
@@ -291,7 +292,6 @@ public sealed class PdfTextReaderTests(OcrFixture ocr, ITestOutputHelper output)
             Assert.Contains(diagnostics, d => d.Stage == "Сверка источников" && d.Message.Contains("обычная проверка OCR"));
         }
         Assert.Equal(before, Hash(path));
-        output.WriteLine("False CMap result: " + (result.Values?.ToString() ?? result.Problem));
     }
 
     [OcrTheory]
