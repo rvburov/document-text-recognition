@@ -24,7 +24,7 @@ bool? knownLines = options.TryGetValue("--known-lines", out var lines) ? bool.Pa
 bool? onnx = options.TryGetValue("--onnx", out var backend) ? bool.Parse(backend) : null;
 var onnxModels = options.GetValueOrDefault("--onnx-models");
 if (onnxModels is not null && onnx != true) throw new ArgumentException("--onnx-models requires --onnx true.");
-bool? resolvedKnownLines = null, resolvedUsesOnnx = null;
+bool? resolvedKnownLines = null, resolvedUsesOnnx = null, resolvedBatchFields = null;
 var output = Path.GetFullPath(args[1]);
 Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 typeof(OcrComponents).GetMethod("ConfigureRuntime", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(null, null);
@@ -45,6 +45,7 @@ try
     if (onnxModels is not null && parameters.Length > 4) arguments[4] = onnxModels;
     using var pair = (OcrPair)factory.Invoke(null, arguments)!;
     resolvedUsesOnnx = pair.Second.GetType().GetProperty("UsesOnnx", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(pair.Second) as bool?;
+    resolvedBatchFields = typeof(OcrPair).GetProperty("BatchFields", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(pair) as bool?;
     var knownLinesProperty = typeof(OcrPair).GetProperty("PreferKnownLines", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
     if (knownLines is { } preferKnownLines)
     {
@@ -75,7 +76,7 @@ try
 finally { foreach (var t in templates) t.Dispose(); }
 File.WriteAllText(output, JsonSerializer.Serialize(new {
     RecordedUtc = DateTimeOffset.UtcNow, CoreSha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(typeof(OcrPair).Assembly.Location))),
-    Configuration = new { KnownLines = knownLines, ResolvedKnownLines = resolvedKnownLines, Onnx = onnx, OnnxModels = onnxModels, ResolvedUsesOnnx = resolvedUsesOnnx },
+    Configuration = new { KnownLines = knownLines, ResolvedKnownLines = resolvedKnownLines, Onnx = onnx, OnnxModels = onnxModels, ResolvedUsesOnnx = resolvedUsesOnnx, ResolvedBatchFields = resolvedBatchFields },
     RngSeed = 1729, Correct = correct, Rejected = rejected, Incorrect = incorrect, Samples = results
 }, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
 Console.WriteLine($"Correct={correct}; refused={rejected}; incorrect={incorrect}");

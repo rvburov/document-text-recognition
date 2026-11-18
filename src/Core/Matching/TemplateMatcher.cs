@@ -54,8 +54,8 @@ internal static class TemplateMatcher
     /// <summary>Допуск совпадения линий, точек картинки сопоставления.</summary>
     internal const int LineTolerance = 3;
 
-    /// <summary>Experimental process-wide selector, set before workers start. Default off.</summary>
-    internal static bool UseAvx2 { get; set; }
+    /// <summary>Точный SIMD-поиск; CPU без AVX2 используют прежний расчет.</summary>
+    internal static bool UseAvx2 { get; set; } = true;
     internal static bool HammingAvx2Available => Avx2.IsSupported;
 
     public static MatchOutcome Match(PageFeatures page, PageSize pageSize, IReadOnlyList<DocTemplate> templates)

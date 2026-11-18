@@ -1,0 +1,17 @@
+{
+  "WorkflowRun": "https://github.com/rvburov/document-text-recognition/actions/runs/44263084515",
+  "SourceCommit": "9cd15e3085c4d622a69048238161013bf4f705b6",
+  "SourceCommitUrl": "https://github.com/rvburov/document-text-recognition/commit/9cd15e3085c4d622a69048238161013bf4f705b6",
+  "Scope": "Four 500-PDF runs and the selected actual 8000-PDF run on one Windows VM; the selected explicit flags match the v1.3.1 defaults. Source PDF and template assets are unchanged. This benchmark commit predates the unrelated Tesseract Cyrillic-path fix and default selectors.",
+  "SelectedConfiguration": {
+    "Workers": 8,
+    "Onnx": true,
+    "KnownLines": true,
+    "DedicatedWorkers": true,
+    "HammingAvx2": true,
+    "BatchFields": false,
+    "ProcessWorkers": false,
+    "OpenCvThreads": 1
+  },
+  "RawReportsPreserved": true
+}

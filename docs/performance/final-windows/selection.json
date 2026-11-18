@@ -1,0 +1,106 @@
+{
+  "SelectedLabel": "thread-8-avx2-separate-500",
+  "SelectedWorkers": 8,
+  "SelectedProcesses": false,
+  "SelectedAvx2": true,
+  "SelectedBatchFields": false,
+  "ControlSeconds": 89.3254747,
+  "SelectedSeconds": 82.5591906,
+  "RelativeTimeReduction": 0.07574864978579299,
+  "CoreAssemblySha256": "44C2D7388EE40E94804B15485C4AC8291A6824C90F081F600E4DC339CFBD7518",
+  "DatasetSha256": "052983CD7285A565EACD0649E8B43042F1073D1086D70E6FF7B00D6700DD577F",
+  "RankedRuns": [
+    {
+      "Label": "thread-8-avx2-separate-500",
+      "Processes": false,
+      "Workers": 8,
+      "Avx2": true,
+      "Batch": false,
+      "WallSeconds": 82.5591906,
+      "ChildCpuSeconds": 0.0,
+      "PeakAggregateRssBytes": 1879035904,
+      "QualityPassed": true
+    },
+    {
+      "Label": "thread-8-avx2-batch-500",
+      "Processes": false,
+      "Workers": 8,
+      "Avx2": true,
+      "Batch": true,
+      "WallSeconds": 83.0054096,
+      "ChildCpuSeconds": 0.0,
+      "PeakAggregateRssBytes": 1858895872,
+      "QualityPassed": true
+    },
+    {
+      "Label": "process-4-avx2-separate-500",
+      "Processes": true,
+      "Workers": 4,
+      "Avx2": true,
+      "Batch": false,
+      "WallSeconds": 86.4797138,
+      "ChildCpuSeconds": 301.578125,
+      "PeakAggregateRssBytes": 1563885568,
+      "QualityPassed": true
+    },
+    {
+      "Label": "thread-8-scalar-batch-500",
+      "Processes": false,
+      "Workers": 8,
+      "Avx2": false,
+      "Batch": true,
+      "WallSeconds": 89.3254747,
+      "ChildCpuSeconds": 0.0,
+      "PeakAggregateRssBytes": 1876049920,
+      "QualityPassed": true
+    }
+  ],
+  "Runs": [
+    {
+      "Label": "thread-8-scalar-batch-500",
+      "Processes": false,
+      "Workers": 8,
+      "Avx2": false,
+      "Batch": true,
+      "WallSeconds": 89.3254747,
+      "ChildCpuSeconds": 0.0,
+      "PeakAggregateRssBytes": 1876049920,
+      "QualityPassed": true
+    },
+    {
+      "Label": "thread-8-avx2-batch-500",
+      "Processes": false,
+      "Workers": 8,
+      "Avx2": true,
+      "Batch": true,
+      "WallSeconds": 83.0054096,
+      "ChildCpuSeconds": 0.0,
+      "PeakAggregateRssBytes": 1858895872,
+      "QualityPassed": true
+    },
+    {
+      "Label": "thread-8-avx2-separate-500",
+      "Processes": false,
+      "Workers": 8,
+      "Avx2": true,
+      "Batch": false,
+      "WallSeconds": 82.5591906,
+      "ChildCpuSeconds": 0.0,
+      "PeakAggregateRssBytes": 1879035904,
+      "QualityPassed": true
+    },
+    {
+      "Label": "process-4-avx2-separate-500",
+      "Processes": true,
+      "Workers": 4,
+      "Avx2": true,
+      "Batch": false,
+      "WallSeconds": 86.4797138,
+      "ChildCpuSeconds": 301.578125,
+      "PeakAggregateRssBytes": 1563885568,
+      "QualityPassed": true
+    }
+  ],
+  "Reason": "Choose the lowest measured valid 500-document time, without a minimum-gain gate; always verify the winner on 8000.",
+  "Scope": "One-VM short-run selection, including different startup costs. This is not a measured 8000 result or formal significance test. Aggregate RSS repeats shared pages."
+}

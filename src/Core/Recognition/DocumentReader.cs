@@ -16,7 +16,7 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
     public IOcrEngine First { get; } = first;
     public IOcrEngine Second { get; } = second;
 
-    internal bool BatchFields { get; set; } = true;
+    internal bool BatchFields { get; set; }
 
     /// <summary>Чтение одиночных строк без детектора с обязательной независимой сверкой;
     /// сомнительные поля возвращаются к полному детектору.</summary>

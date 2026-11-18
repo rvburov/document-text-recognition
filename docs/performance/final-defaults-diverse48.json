@@ -1,0 +1,2370 @@
+{
+  "RecordedUtc": "2026-11-18T08:13:45.6609711+00:00",
+  "CoreSha256": "BCF5D225FEA2B2FEA777C735447D80A8AE44D440E1027D23BC64BF537E45BA9C",
+  "Configuration": {
+    "KnownLines": null,
+    "ResolvedKnownLines": true,
+    "Onnx": null,
+    "OnnxModels": null,
+    "ResolvedUsesOnnx": true,
+    "ResolvedBatchFields": false
+  },
+  "RngSeed": 1729,
+  "Correct": 44,
+  "Rejected": 4,
+  "Incorrect": 0,
+  "Samples": [
+    {
+      "File": "scans/01-01-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461411.200 Модуль связи Спецификация.pdf",
+      "ActualName": "ВКЕМ.461411.200 Модуль связи Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.200",
+            "ParsedText": "ВКЕМ.461411.200",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.200",
+            "ParsedText": "BКЕМ.461411.200",
+            "Problem": null
+          },
+          "CropSha256": "DB95B1516FFCCEAB62F7BF7CBF11E82CEDC9CB64457B0B2A5EF0B339F7230823"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "CropSha256": "8F5726EF91B8174A61002585895481DDB107678DBCFEEDB9426607A30C607BD4"
+        }
+      ]
+    },
+    {
+      "File": "scans/01-02-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461411.201 Модуль связи Спецификация.pdf",
+      "ActualName": "ВКЕМ.461411.201 Модуль связи Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.201",
+            "ParsedText": "ВКЕМ.461411.201",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.201",
+            "ParsedText": "BКЕМ.461411.201",
+            "Problem": null
+          },
+          "CropSha256": "21B63F2236F33458AE8E952A0F5ADFEA99954C23526FE2F1E643EE585B2F6D0A"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "CropSha256": "28F06AC9432D14F737608770D0F54A82BA1DE92C254AACC23AECF2F0474BB212"
+        }
+      ]
+    },
+    {
+      "File": "scans/01-03-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461411.202 Модуль связи Спецификация.pdf",
+      "ActualName": "ВКЕМ.461411.202 Модуль связи Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.202",
+            "ParsedText": "ВКЕМ.461411.202",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.202",
+            "ParsedText": "BКЕМ.461411.202",
+            "Problem": null
+          },
+          "CropSha256": "FF0F6C19DB1EEB00ECF093309714830B485C5F20D7D09AEA755595BA20F20199"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "CropSha256": "2A48EF09F5473AB04AB47ECECBE12D33E3A9E991104B865671B693C221C7CA0D"
+        }
+      ]
+    },
+    {
+      "File": "scans/01-04-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461411.203 Модуль связи Спецификация.pdf",
+      "ActualName": "ВКЕМ.461411.203 Модуль связи Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.203",
+            "ParsedText": "ВКЕМ.461411.203",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKЕM.461411.203",
+            "ParsedText": "BКЕМ.461411.203",
+            "Problem": null
+          },
+          "CropSha256": "D8711D46C3D6015636BF2D856392F7CE1D295E0AD3118A96019B11DDDB010F7C"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "CropSha256": "4D44E2799857ED22B839E4B33E050A6A57A18DD3CBCB0A6D4A305C3CF34809E8"
+        }
+      ]
+    },
+    {
+      "File": "scans/01-05-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461411.204 Модуль связи Спецификация.pdf",
+      "ActualName": "ВКЕМ.461411.204 Модуль связи Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.204",
+            "ParsedText": "ВКЕМ.461411.204",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.204",
+            "ParsedText": "BКЕМ.461411.204",
+            "Problem": null
+          },
+          "CropSha256": "36D138DA6955821072288B98A561A8CB3FDDC2BFEAB90C90FC31D4D4D74231CA"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "CropSha256": "E2285EEF26C6D962D181BD26F15B8E7FA58B7BEA868CA5B0137AA5EC1F308359"
+        }
+      ]
+    },
+    {
+      "File": "scans/01-06-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461411.205 Модуль связи Спецификация.pdf",
+      "ActualName": "ВКЕМ.461411.205 Модуль связи Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.205",
+            "ParsedText": "ВКЕМ.461411.205",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.205",
+            "ParsedText": "BКЕМ.461411.205",
+            "Problem": null
+          },
+          "CropSha256": "4E9145E53F8D5391334B75B8E0279E65B85FFCBB0F60CDFBE33D833D98D48CFC"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "CropSha256": "067AF6C7125E8C984DCDDB094C430FEC4016B50FDDE6570129F4EF9D9CB115A3"
+        }
+      ]
+    },
+    {
+      "File": "scans/02-01-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461411.120 Корпус Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461411.120 Корпус Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461411.120",
+            "ParsedText": "ЮИЛГ.461411.120",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461411.120",
+            "ParsedText": "ЮИЛГ.461411.120",
+            "Problem": null
+          },
+          "CropSha256": "29F1FB5202E07EEBA30DA696AE32F200BF1BD453891D07E21948E19953B63339"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "FB5B0685BB2E7F95D6FA11BF3474D9C21F61E2309818D7AFC9E6183E58567D92"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "B4C0061AFAFCA7E819EEE510DA300E51D89C70049088E281E261523EDD988547"
+        }
+      ]
+    },
+    {
+      "File": "scans/02-02-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461411.121 Корпус Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461411.121 Корпус Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461411.121",
+            "ParsedText": "ЮИЛГ.461411.121",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "юИЛГ.461411.121",
+            "ParsedText": "ЮИЛГ.461411.121",
+            "Problem": null
+          },
+          "CropSha256": "19BC61DA7116557E66232019854F97A8DCA8DB3DB0361F5DF3159FB35FE9083A"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "B961C49917F5F6A7480956F22F7F330B8531E435389EA2E5B8E19954A5903542"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "3645F584C7BF950C5AC4483A08D64FCB430C3C542BAB65974A0101713F4C3A52"
+        }
+      ]
+    },
+    {
+      "File": "scans/02-03-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461411.122 Корпус Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461411.122 Корпус Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461411.122",
+            "ParsedText": "ЮИЛГ.461411.122",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "юИЛГ.461411.122",
+            "ParsedText": "ЮИЛГ.461411.122",
+            "Problem": null
+          },
+          "CropSha256": "381D107BF1F957F258854767E29E68E5C1CD3936D9EDC63255C296BC8AA04C43"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "3472E14C42DFF86BCCA398297BFE8B0C604828A75E3280C2BA426B012B53B8F0"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "65D3A5C49D0EB45B6565970DEF3F8BC9019FF6A00528BF7EEA1235F050831EA0"
+        }
+      ]
+    },
+    {
+      "File": "scans/02-04-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461411.123 Корпус Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461411.123 Корпус Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461411.123",
+            "ParsedText": "ЮИЛГ.461411.123",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461411.123",
+            "ParsedText": "ЮИЛГ.461411.123",
+            "Problem": null
+          },
+          "CropSha256": "608DE9DF86F7B189E47972D8B5B13DD788457E361FC8FA7C70CCF2EDB7FE45D8"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "87499FBB430FF5756241928D0CD68BE928CA535CF0EC6D41D2692CF17EDEEF2F"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "334D75DAECBF8D2D3ECA00B78F060539DCBE912C5A380290C6782160DE0C71EA"
+        }
+      ]
+    },
+    {
+      "File": "scans/02-05-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461411.124 Корпус Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461411.124 Корпус Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461411.124",
+            "ParsedText": "ЮИЛГ.461411.124",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461411.124",
+            "ParsedText": "ЮИЛГ.461411.124",
+            "Problem": null
+          },
+          "CropSha256": "702FCD2CA645D9FFC93A323A569B094E545242675D4F67542714F493BC3CFBBE"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "BDF426CAE51FEDFFEC3480A10D12252C2FCAD36C4722307040CB9D70BF6B9B77"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "9A9395D5A3324A007CB2A1C39BF9D0694B02DC52DD9A82D1EF8A016B39F1C7BF"
+        }
+      ]
+    },
+    {
+      "File": "scans/02-06-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461411.125 Корпус Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461411.125 Корпус Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461411.125",
+            "ParsedText": "ЮИЛГ.461411.125",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461411.125",
+            "ParsedText": "ЮИЛГ.461411.125",
+            "Problem": null
+          },
+          "CropSha256": "E8C943D113F2FB739F6E2E91F31D9F816A96E1C764B99F3E9B70F9460780D848"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "9B72113764019E65AEB5D35355DE5C98D71F72E87F10FD7C8A85B97E98507DC4"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "DAE2045E8AECFABA853D16B397E517F6835B02B7BA7CC89A27864C04B1727DDD"
+        }
+      ]
+    },
+    {
+      "File": "scans/03-01-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461412.130 Блок питания Схема электрическая.pdf",
+      "ActualName": "ЮИЛГ.461412.130 Блок питания Схема электрическая.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461412.130",
+            "ParsedText": "ЮИЛГ.461412.130",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461412.130",
+            "ParsedText": "ЮИЛГ.461412.130",
+            "Problem": null
+          },
+          "CropSha256": "0B447B4AA6F25BD3A6EC4CFF0EA23FD4EE14FD7C4DE8EE7E746A7AAA823AD78D"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "CropSha256": "C9C5EB805A5C6EF7AC5BB0734E639BF21B5D556DA180EC03BD4E3EA9D4D9628D"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "CropSha256": "E3887C6C3A6FF5D21B67F6584CD87B9CB83C028A63A2E739231F9F4C7B3C3191"
+        }
+      ]
+    },
+    {
+      "File": "scans/03-02-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461412.131 Блок питания Схема электрическая.pdf",
+      "ActualName": "ЮИЛГ.461412.131 Блок питания Схема электрическая.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461412.131",
+            "ParsedText": "ЮИЛГ.461412.131",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461412.131",
+            "ParsedText": "ЮИЛГ.461412.131",
+            "Problem": null
+          },
+          "CropSha256": "A115E31327BC2AC799A5F93D4F06BBAE1F62A2CE1452002BFA2F11A8875ADE98"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "CropSha256": "848C2EB1E6A64F4FBBA043322B234781529CF95686DC5216573670981225A178"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "CropSha256": "7B2B2E8BE1F0145BF46B6C8EB61A375E9F88D24FE4DCB07C4008E3CA5217A735"
+        }
+      ]
+    },
+    {
+      "File": "scans/03-03-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461412.132 Блок питания Схема электрическая.pdf",
+      "ActualName": "ЮИЛГ.461412.132 Блок питания Схема электрическая.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461412.132",
+            "ParsedText": "ЮИЛГ.461412.132",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "юИЛГ.461412.132",
+            "ParsedText": "ЮИЛГ.461412.132",
+            "Problem": null
+          },
+          "CropSha256": "D4EB4F624362C780391E89D07E0A78B8AE2E97E9B6783E19640BB211F4C8014B"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "CropSha256": "25748832BFFAB1B24AB4D3FE6F70C35F21C35C1DA7DC1A4CEC233E00A63BF378"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "CropSha256": "304CA5ECE3D99CF1817A48750C9D3E311A966EC3B4C58D1389E31512ADFCBD29"
+        }
+      ]
+    },
+    {
+      "File": "scans/03-04-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461412.133 Блок питания Схема электрическая.pdf",
+      "ActualName": "ЮИЛГ.461412.133 Блок питания Схема электрическая.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461412.133",
+            "ParsedText": "ЮИЛГ.461412.133",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461412.133",
+            "ParsedText": "ЮИЛГ.461412.133",
+            "Problem": null
+          },
+          "CropSha256": "3F4C749633AEF1D58A38C6256B024AC61750082B50557B5D1A3E7E904F96CDB0"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "CropSha256": "4EFFEC5899F70CE4E4EDD7E6409E293DCB21D43B833379380A92AC2B196B0098"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "CropSha256": "D18E96D4DC55D30A753CC36C817F2F175083C36CCF0999396416FA27FDBDCE24"
+        }
+      ]
+    },
+    {
+      "File": "scans/03-05-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461412.134 Блок питания Схема электрическая.pdf",
+      "ActualName": "ЮИЛГ.461412.134 Блок питания Схема электрическая.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461412.134",
+            "ParsedText": "ЮИЛГ.461412.134",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461412.134",
+            "ParsedText": "ЮИЛГ.461412.134",
+            "Problem": null
+          },
+          "CropSha256": "8B9E641F4899F759643E942EE96D542D0C56EAFB4A1BAE64CD831B31A6D2E1B7"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "CropSha256": "32B9D6B4DD3B49E4C46B61291E80E6234F4647FB5F050166ED3F39907C7250E9"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "CropSha256": "5CA6540E1BA9802F208D136D7CDE95C23B7554AAE33CD11857ECD5C10C625B5B"
+        }
+      ]
+    },
+    {
+      "File": "scans/03-06-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461412.135 Блок питания Схема электрическая.pdf",
+      "ActualName": "ЮИЛГ.461412.135 Блок питания Схема электрическая.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461412.135",
+            "ParsedText": "ЮИЛГ.461412.135",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461412.135",
+            "ParsedText": "ЮИЛГ.461412.135",
+            "Problem": null
+          },
+          "CropSha256": "5A095A638A3650DCBABB7312684A679EDAF0F32544CB883C4EA5CBF4C852D51C"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "CropSha256": "B952D5FE20E76C50238DEAE5F090BCDA1BD8CB5885CCBB1A424A0BEEFA9AC881"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "CropSha256": "CBCA66A71C3BBC29483ECB400EF1E02F02AA53E7E72BDC7EB02A299F29B9FE77"
+        }
+      ]
+    },
+    {
+      "File": "scans/04-01-DrawingA3.pdf",
+      "ExpectedName": "ПРМД.301261.010 Рама сварная Сборочный чертеж.pdf",
+      "ActualName": "ПРМД.301261.010 Рама сварная Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Combined",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ПРМД.301261.010\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.010\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ПРМД.301261.010\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.010\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "5AA51D91528EAEFA8CFB67A9C38135474E498505335E55145B021C9C8BA268F6"
+        }
+      ]
+    },
+    {
+      "File": "scans/04-02-DrawingA3.pdf",
+      "ExpectedName": "ПРМД.301261.011 Рама сварная Сборочный чертеж.pdf",
+      "ActualName": null,
+      "Correct": false,
+      "Problem": "стр. 1 (шаблон «Основная надпись A3»): обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания",
+      "ReadingDetails": [
+        {
+          "Role": "Combined",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ПРМД.301261.011\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.011\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ПРМД.301261.011\nРама сварная\nСборочный чертеж 1",
+            "ParsedText": "Обозначение: \nНаименование: \nТип: ",
+            "Problem": "низкая уверенность распознавания"
+          },
+          "CropSha256": "6E29D3D79F484526A4AE2305D881A6CB8B365E5CFACF7BD1DD6BC381D5122A53"
+        }
+      ]
+    },
+    {
+      "File": "scans/04-03-DrawingA3.pdf",
+      "ExpectedName": "ПРМД.301261.012 Рама сварная Сборочный чертеж.pdf",
+      "ActualName": "ПРМД.301261.012 Рама сварная Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Combined",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ПРМД.301261.012\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.012\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ПРМД.301261.012\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.012\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "045F847AF00E486743A3B46084C22096F34D071D8792AAD6597081D5555C8E49"
+        }
+      ]
+    },
+    {
+      "File": "scans/04-04-DrawingA3.pdf",
+      "ExpectedName": "ПРМД.301261.013 Рама сварная Сборочный чертеж.pdf",
+      "ActualName": "ПРМД.301261.013 Рама сварная Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Combined",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ПРМД.301261.013\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.013\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ПРМД.301261.013\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.013\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "6133B15CBDEC1BE88F7E0D7BF0E4EABE4C8EFCD229CF5525F11C2210EA93333E"
+        }
+      ]
+    },
+    {
+      "File": "scans/04-05-DrawingA3.pdf",
+      "ExpectedName": "ПРМД.301261.014 Рама сварная Сборочный чертеж.pdf",
+      "ActualName": "ПРМД.301261.014 Рама сварная Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Combined",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ПРМД.301261.014\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.014\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ПРМД.301261.014\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.014\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "8DF6741102229F0B96E2295471C345C1B61595D20CA44D8BCA82849580727926"
+        }
+      ]
+    },
+    {
+      "File": "scans/04-06-DrawingA3.pdf",
+      "ExpectedName": "ПРМД.301261.015 Рама сварная Сборочный чертеж.pdf",
+      "ActualName": "ПРМД.301261.015 Рама сварная Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Combined",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ПРМД.301261.015\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.015\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ПРМД.301261.015\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.015\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "E8FC52CDEB8A86CC38BA302C5D26967598BED0EDBCA18641D2B37934DC749EE9"
+        }
+      ]
+    },
+    {
+      "File": "scans/05-01-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.301318.100 Плата управления Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.301318.100 Плата управления Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.301318.100",
+            "ParsedText": "ЮИЛГ.301318.100",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.301318.100",
+            "ParsedText": "ЮИЛГ.301318.100",
+            "Problem": null
+          },
+          "CropSha256": "84FAF26E0CCAFEAA39526F4A9872CD86C2148F8D10EE1544AE5E10FA90D76C54"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "CropSha256": "F178DA726D1267FB061FC8A7AE40B0D587144F7C5E985EFC7F0EB11724B5B212"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "B4C0061AFAFCA7E819EEE510DA300E51D89C70049088E281E261523EDD988547"
+        }
+      ]
+    },
+    {
+      "File": "scans/05-02-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.301318.101 Плата управления Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.301318.101 Плата управления Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.301318.101",
+            "ParsedText": "ЮИЛГ.301318.101",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.301318.101",
+            "ParsedText": "ЮИЛГ.301318.101",
+            "Problem": null
+          },
+          "CropSha256": "2E0E872B6C165811464546D2269248BB20FC1AC703EBD3890264A208E35ADB39"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "CropSha256": "6C8E80C30A4D2FD4543E4CBD18F7F49ADFE6469F9AE024ACC2F385B6488A1DB9"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "6C2B2DCCA330E0F861C906D0C97482FBD7199617E8C6EC49A888411BFDA4A6E8"
+        }
+      ]
+    },
+    {
+      "File": "scans/05-03-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.301318.102 Плата управления Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.301318.102 Плата управления Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.301318.102",
+            "ParsedText": "ЮИЛГ.301318.102",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "юИЛГ.301318.102",
+            "ParsedText": "ЮИЛГ.301318.102",
+            "Problem": null
+          },
+          "CropSha256": "C9179DF5E85F9D5BFBE4BFA2912C1F19FFB9889CDFA3B9B9555C573E5C892A35"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "CropSha256": "1146B204816C79A1B8932C75E9306EF0DC1FABEFC860D55BC6E96182289964AF"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "0B674FE43D7EA777142425328F325EB3DF0BE2C02CEFD1CB056ADFB7BC66A2C2"
+        }
+      ]
+    },
+    {
+      "File": "scans/05-04-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.301318.103 Плата управления Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.301318.103 Плата управления Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.301318.103",
+            "ParsedText": "ЮИЛГ.301318.103",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.301318.103",
+            "ParsedText": "ЮИЛГ.301318.103",
+            "Problem": null
+          },
+          "CropSha256": "1F3743164BA0AC59F496B52F5DFC7EA509AE3AA0E6F73FD886CA2A88ECB337FC"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "CropSha256": "29858A77F3287FE4E84211661A6F5FFC26AEF4CBD77EF4AC407917324A232860"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "6184FF7649035E084F81931276233B67F0D4858A608ABF942B50CC730977AEE7"
+        }
+      ]
+    },
+    {
+      "File": "scans/05-05-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.301318.104 Плата управления Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.301318.104 Плата управления Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.301318.104",
+            "ParsedText": "ЮИЛГ.301318.104",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.301318.104",
+            "ParsedText": "ЮИЛГ.301318.104",
+            "Problem": null
+          },
+          "CropSha256": "54CA2ADDC6481514D936CF226CFFCD37318A921A3DF5863BE8E4243365D3FA82"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "CropSha256": "BE75A16F264F20AFBB63FAB5913076DA8AE7DA4A2F88A36768B689914DC81A68"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "E40565E99B34A166014C251184D5094C63A66CA8588C895E33F8C6632B9B1B7A"
+        }
+      ]
+    },
+    {
+      "File": "scans/05-06-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.301318.105 Плата управления Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.301318.105 Плата управления Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.301318.105",
+            "ParsedText": "ЮИЛГ.301318.105",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "юИЛГ.301318.105",
+            "ParsedText": "ЮИЛГ.301318.105",
+            "Problem": null
+          },
+          "CropSha256": "19AC9EE7A773060BFDAAB60682147C206AB6D7AC1C9CC8374EA4D29B9E3CA2DC"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата управления",
+            "ParsedText": "Плата управления",
+            "Problem": null
+          },
+          "CropSha256": "EFF40FD245D3E59D283E8E84CF134D0844A8B9A84C7A9D4214D78B48F06BB12C"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "D043E76B73196CECE8E9FB03E5A08B5E5038E5F3F277AF4112BBE84341679CB3"
+        }
+      ]
+    },
+    {
+      "File": "scans/06-01-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461413.140 Крышка верхняя Габаритный чертеж.pdf",
+      "ActualName": null,
+      "Correct": false,
+      "Problem": "стр. 1 (шаблон «Основная надпись A4»): тип документа прочитано по-разному: «Габаритный чертеж» и «Габаритный й чертеж»",
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461413.140",
+            "ParsedText": "ЮИЛГ.461413.140",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461413.140",
+            "ParsedText": "ЮИЛГ.461413.140",
+            "Problem": null
+          },
+          "CropSha256": "76853A7B60BC07FF0DEFB26CE9CD924D8284B5604862A5690619FF3C68EAE5F6"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "CropSha256": "3CEB57E6BDA7BF5F695094D2C298ABC17797B4A639879D5D6632C25BCE73EA48"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный й чертеж",
+            "ParsedText": "Габаритный й чертеж",
+            "Problem": null
+          },
+          "CropSha256": "36B8283C19508FF9E6B94CE4DD1BFAA3DCA0691A1A51538031B04CE31C9671CD"
+        }
+      ]
+    },
+    {
+      "File": "scans/06-02-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461413.141 Крышка верхняя Габаритный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461413.141 Крышка верхняя Габаритный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461413.141",
+            "ParsedText": "ЮИЛГ.461413.141",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461413.141",
+            "ParsedText": "ЮИЛГ.461413.141",
+            "Problem": null
+          },
+          "CropSha256": "A44C2026D76A142249F4019E95DC448BE2EEBDB3A7CE4A5E2AC555F1C1CF3661"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "CropSha256": "123DA1872A38810205926F14BF58A86695F12931525D0416B00376223472CA4C"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "B4E32FBEA71429BF6059EB582F7FBD547E8886E481E320B21AC1EC54C9199648"
+        }
+      ]
+    },
+    {
+      "File": "scans/06-03-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461413.142 Крышка верхняя Габаритный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461413.142 Крышка верхняя Габаритный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461413.142",
+            "ParsedText": "ЮИЛГ.461413.142",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "юИЛГ.461413.142",
+            "ParsedText": "ЮИЛГ.461413.142",
+            "Problem": null
+          },
+          "CropSha256": "8B6F7CFC60D4147476CAB6795CBE7E02117233AAC38BADD699608389F287C1E1"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "CropSha256": "E27C485039D4FC07346DB01C9107C2AC1AB4E7C466D5F9DDF98299EA0592A9AB"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "772442E3DFDD067448D0C5709ED5F845058C85E3B47B80421566820C34AB8BB0"
+        }
+      ]
+    },
+    {
+      "File": "scans/06-04-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461413.143 Крышка верхняя Габаритный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461413.143 Крышка верхняя Габаритный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461413.143",
+            "ParsedText": "ЮИЛГ.461413.143",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461413.143",
+            "ParsedText": "ЮИЛГ.461413.143",
+            "Problem": null
+          },
+          "CropSha256": "DFC12EE6E2C0573461042C37F54DA1BB028C74959DB065528CCAD1C2CE298DE7"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "CropSha256": "6F78361DB5CB71411EB7E550BB88C6E01582B5D27A8FD1002F9992C70B949CC2"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "DB47611CE77E1250AFDBB4649A4514052596A393C2DEFDF38193EE980EF3C9A3"
+        }
+      ]
+    },
+    {
+      "File": "scans/06-05-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461413.144 Крышка верхняя Габаритный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461413.144 Крышка верхняя Габаритный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461413.144",
+            "ParsedText": "ЮИЛГ.461413.144",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461413.144",
+            "ParsedText": "ЮИЛГ.461413.144",
+            "Problem": null
+          },
+          "CropSha256": "30308BBAA4647BBD71F52A6E0B569E0DE1AAC833A3685BFB30AF1CB7049178DF"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "CropSha256": "B75A64A6D08AC5EF261657DA63C99074B9CECE5D8E497E834D434A6E90713266"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "3699708DF61166F45474FB3C099DAA7E9E0B5E353225A0B92BA3C10D4A7B6D88"
+        }
+      ]
+    },
+    {
+      "File": "scans/06-06-Drawing.pdf",
+      "ExpectedName": "ЮИЛГ.461413.145 Крышка верхняя Габаритный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461413.145 Крышка верхняя Габаритный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461413.145",
+            "ParsedText": "ЮИЛГ.461413.145",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461413.145",
+            "ParsedText": "ЮИЛГ.461413.145",
+            "Problem": null
+          },
+          "CropSha256": "81A3044A68699EFE4AB264B59B2A5E2C970495813C2C061440490243FD74912A"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Крышка\nверхняя",
+            "ParsedText": "Крышка верхняя",
+            "Problem": null
+          },
+          "CropSha256": "E955240E8EE40E35F8A383C9D9186E739576E41F7C7743A46CA7172D0ABCC8FE"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "A4913BD7AA37CADB6F3C89CF264E8C8CC7B21420AA1067E6805D181297A7B1DB"
+        }
+      ]
+    },
+    {
+      "File": "scans/07-01-Drawing.pdf",
+      "ExpectedName": "ВКЕМ.461411.150 Корпус Габаритный чертеж.pdf",
+      "ActualName": null,
+      "Correct": false,
+      "Problem": "стр. 1 (шаблон «Основная надпись A4»): тип документа прочитано по-разному: «Габаритный чертеж» и «Габаритный й чертеж»",
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.150",
+            "ParsedText": "ВКЕМ.461411.150",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.150",
+            "ParsedText": "BКЕМ.461411.150",
+            "Problem": null
+          },
+          "CropSha256": "19479587F371749A5EED71CD61CF47D6E85D91A9813B679852865264F9205CA6"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "FB5B0685BB2E7F95D6FA11BF3474D9C21F61E2309818D7AFC9E6183E58567D92"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный й чертеж",
+            "ParsedText": "Габаритный й чертеж",
+            "Problem": null
+          },
+          "CropSha256": "36B8283C19508FF9E6B94CE4DD1BFAA3DCA0691A1A51538031B04CE31C9671CD"
+        }
+      ]
+    },
+    {
+      "File": "scans/07-02-Drawing.pdf",
+      "ExpectedName": "ВКЕМ.461411.151 Корпус Габаритный чертеж.pdf",
+      "ActualName": "ВКЕМ.461411.151 Корпус Габаритный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.151",
+            "ParsedText": "ВКЕМ.461411.151",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.151",
+            "ParsedText": "BКЕМ.461411.151",
+            "Problem": null
+          },
+          "CropSha256": "9AD87E4AA3E9B3D9D7AE9A50D26D370BC85DA5D86E6D12A3D42E5A97B504103A"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "FDD161F532CBF781E3387BDE7DC26645B2691E1868100852163BA19B1664C25C"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "6BD50FE5E106BD32C929C048A05C8AE8AF250AD3AF8DCA3FEAC19DD8D64E9241"
+        }
+      ]
+    },
+    {
+      "File": "scans/07-03-Drawing.pdf",
+      "ExpectedName": "ВКЕМ.461411.152 Корпус Габаритный чертеж.pdf",
+      "ActualName": "ВКЕМ.461411.152 Корпус Габаритный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.152",
+            "ParsedText": "ВКЕМ.461411.152",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.152",
+            "ParsedText": "BКЕМ.461411.152",
+            "Problem": null
+          },
+          "CropSha256": "B399A7729F3C34026311AD3199587C389F5D84459FE9ADF9942C0CE7EA95E91E"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "0590D4ADC2325336B6766F80D466B9B65AFEC080D3242007AE207B94C8C24133"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "EFA2732BF8FB60A97D1371AF10768B4891DD4C50F3EECAD784AE08B4F779F446"
+        }
+      ]
+    },
+    {
+      "File": "scans/07-04-Drawing.pdf",
+      "ExpectedName": "ВКЕМ.461411.153 Корпус Габаритный чертеж.pdf",
+      "ActualName": null,
+      "Correct": false,
+      "Problem": "стр. 1 (шаблон «Основная надпись A4»): низкая уверенность распознавания обозначения; обозначение не прошло проверку формата",
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "BKEM.4624.1.153",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения"
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.4614:1.153",
+            "ParsedText": "",
+            "Problem": "обозначение не прошло проверку формата"
+          },
+          "CropSha256": "D7D1F90497CB43A4F87F1B0ADEFDF2B3E872189E4355645D27D087A405157956"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "0254A9BC3568587D06491D5D916841355D2458752D792031AE098449C6FB2B9B"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "48EAACBF7259DA0CF76DBCB73F4479C0D79307D52D9D1D8BFFB4361796E3027B"
+        }
+      ]
+    },
+    {
+      "File": "scans/07-05-Drawing.pdf",
+      "ExpectedName": "ВКЕМ.461411.154 Корпус Габаритный чертеж.pdf",
+      "ActualName": "ВКЕМ.461411.154 Корпус Габаритный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.154",
+            "ParsedText": "ВКЕМ.461411.154",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.154",
+            "ParsedText": "BКЕМ.461411.154",
+            "Problem": null
+          },
+          "CropSha256": "6E9C9AD48C8B7D659709A69323A2947859E7B045A23C87B141E5B023315D8318"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "CA9FE897C00290D2976BAE9902D2D7826DE43A31128DF94F8C367979E70C56FF"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "39A4F881CB4D30EC7391C48B0F21A9E5A50EA56C9FA3CE3FAC4109AC5076E6F7"
+        }
+      ]
+    },
+    {
+      "File": "scans/07-06-Drawing.pdf",
+      "ExpectedName": "ВКЕМ.461411.155 Корпус Габаритный чертеж.pdf",
+      "ActualName": "ВКЕМ.461411.155 Корпус Габаритный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.155",
+            "ParsedText": "ВКЕМ.461411.155",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.155",
+            "ParsedText": "BКЕМ.461411.155",
+            "Problem": null
+          },
+          "CropSha256": "0B5173831DFE450876FFD4E662825FD265C8633A48D7172E03D7EDA62C6CEE28"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "3F52C4B4C57126BE20D37DF024EC13FE441B5BB5BDC030361043A3B23BC97FAC"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Габаритный чертеж",
+            "ParsedText": "Габаритный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "45F2D97788EDD141864298317B650A0022563BE56D1945EF7AFF2AE7A8B09BE7"
+        }
+      ]
+    },
+    {
+      "File": "scans/08-01-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461412.210 Корпус Спецификация.pdf",
+      "ActualName": "ВКЕМ.461412.210 Корпус Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461412.210",
+            "ParsedText": "ВКЕМ.461412.210",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461412.210",
+            "ParsedText": "BКЕМ.461412.210",
+            "Problem": null
+          },
+          "CropSha256": "5F5279FB79B819226CDA26959089EDAFAFD68F3BA0392E63555FD4A6807AC14B"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "EFBEDD1D0FCD8B1D7458C209DFE05B3AB5CA09B0A0EA475ED76F40CCBA8E0C3E"
+        }
+      ]
+    },
+    {
+      "File": "scans/08-02-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461412.211 Корпус Спецификация.pdf",
+      "ActualName": "ВКЕМ.461412.211 Корпус Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461412.211",
+            "ParsedText": "ВКЕМ.461412.211",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461412.211",
+            "ParsedText": "BКЕМ.461412.211",
+            "Problem": null
+          },
+          "CropSha256": "A235F87CBD018AAB601F40E65D33537AE01F9273C8A8D91F5C84F87322FC8549"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "6DB1C0EBC1DAA63B8E44B210EB2B7B36F6EBEB5F2A82319DE01B9AA5F24ED97A"
+        }
+      ]
+    },
+    {
+      "File": "scans/08-03-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461412.212 Корпус Спецификация.pdf",
+      "ActualName": "ВКЕМ.461412.212 Корпус Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461412.212",
+            "ParsedText": "ВКЕМ.461412.212",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461412.212",
+            "ParsedText": "BКЕМ.461412.212",
+            "Problem": null
+          },
+          "CropSha256": "1FE5D65D1F850DE430E233D9D677E82412CB143738BA28E5C20F8AF6B29513F8"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "9A5EEAA739B8E013964401BCC3E93FB90FEBD0F480252B32979BE11092A23162"
+        }
+      ]
+    },
+    {
+      "File": "scans/08-04-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461412.213 Корпус Спецификация.pdf",
+      "ActualName": "ВКЕМ.461412.213 Корпус Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461412.213",
+            "ParsedText": "ВКЕМ.461412.213",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461412.213",
+            "ParsedText": "BКЕМ.461412.213",
+            "Problem": null
+          },
+          "CropSha256": "A492CB2628E4AC640238A1653A0AF67EEFEF1CB6E3699BA1B7B9DE2073B49696"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "FC15FC280457F9F82BA7797EB13E3348A5395334D1EFF31715FD57EC077CCDDD"
+        }
+      ]
+    },
+    {
+      "File": "scans/08-05-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461412.214 Корпус Спецификация.pdf",
+      "ActualName": "ВКЕМ.461412.214 Корпус Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461412.214",
+            "ParsedText": "ВКЕМ.461412.214",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461412.214",
+            "ParsedText": "BКЕМ.461412.214",
+            "Problem": null
+          },
+          "CropSha256": "CD7FC2BECD22A08A3BC771D86CA9D15A09EF029059C0FCB8C5D31CE8AEC9D6E8"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "7E6AE9364F070C39E820FBB3A19AA71DB17C03DC518248A04CB213D70C8742D6"
+        }
+      ]
+    },
+    {
+      "File": "scans/08-06-Specification.pdf",
+      "ExpectedName": "ВКЕМ.461412.215 Корпус Спецификация.pdf",
+      "ActualName": "ВКЕМ.461412.215 Корпус Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461412.215",
+            "ParsedText": "ВКЕМ.461412.215",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461412.215",
+            "ParsedText": "BКЕМ.461412.215",
+            "Problem": null
+          },
+          "CropSha256": "5F03965CEDA9B2CF312649E7D5C43019CEE37B0D11D56FDF176C792C3B98E366"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "84866E71DBD1F2877B4650AC269D74E1B60933C11BD5712C5A481B74127107FB"
+        }
+      ]
+    }
+  ]
+}
