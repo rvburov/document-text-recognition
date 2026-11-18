@@ -36,8 +36,10 @@ public sealed class PredictorReuseTests
         // Проверяем выбранный производственный backend явно: новый PaddleConfig по умолчанию
         // еще не включает oneDNN и иначе незаметно проверялся бы только запасной BLAS-путь.
         const bool oneDnn = true;
-        using var original = OcrPair.CreateReal(OcrComponents.FindTessdata()!, useOneDnn: oneDnn, reusePredictors: false);
-        using var reused = OcrPair.CreateReal(OcrComponents.FindTessdata()!, useOneDnn: oneDnn, reusePredictors: true);
+        using var original = OcrPair.CreateReal(OcrComponents.FindTessdata()!, useOneDnn: oneDnn, reusePredictors: false, useOnnx: false);
+        using var reused = OcrPair.CreateReal(OcrComponents.FindTessdata()!, useOneDnn: oneDnn, reusePredictors: true, useOnnx: false);
+        original.PreferKnownLines = false;
+        reused.PreferKnownLines = false;
         var before = new List<RecognitionDiagnostic>();
         var after = new List<RecognitionDiagnostic>();
         // Одинаковое состояние RANSAC: сравниваем OCR на одинаковых вырезанных пикселях.
@@ -65,8 +67,8 @@ public sealed class PredictorReuseTests
     [OcrFact]
     public void Persistent_recognition_keeps_confidence_and_boxes_when_input_shapes_change()
     {
-        using var original = new PaddleEngine(OcrComponents.PaddleDir, useOneDnn: true, reusePredictors: false);
-        using var reused = new PaddleEngine(OcrComponents.PaddleDir, useOneDnn: true, reusePredictors: true);
+        using var original = new PaddleEngine(OcrComponents.PaddleDir, useOneDnn: true, reusePredictors: false, useOnnx: false);
+        using var reused = new PaddleEngine(OcrComponents.PaddleDir, useOneDnn: true, reusePredictors: true, useOnnx: false);
         using var page = SyntheticForms.Render(FormKind.Drawing, "ЮИЛГ.461411.123", "Корпус", 250, docType: "Сборочный чертеж");
         var fields = SyntheticForms.Fields(FormKind.Drawing);
         var regions = new[] { fields.Designation, fields.Name, fields.Type, fields.Name, fields.Designation };

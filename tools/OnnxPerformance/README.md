@@ -1,6 +1,6 @@
 # Isolated ONNX backend comparison
 
-This tool tests the same PaddleOCR V5 FP32 models through ONNX Runtime. It does not change the production OCR backend. No model binaries belong in Git.
+This tool tests the same PaddleOCR V5 FP32 models through ONNX Runtime. It does not change the production OCR backend. Verified converted graphs are bundled in `ocr/onnx` with SHA-256 provenance; conversion below reproduces them and is unnecessary for a normal build.
 
 The first proof used Ubuntu 24.04, Python 3.12.3, `paddlepaddle==3.3.1`, `paddle2onnx==2.1.0`, `onnx==1.17.0`, .NET 10, managed ONNX Runtime 1.11.0 and **native ONNX Runtime 1.11.1 already bundled with Paddle 3.3.1.70**. Only the managed ONNX package is added, preventing a second native runtime from overwriting Paddle's DLLs. Paddle preprocessing, detector thresholds and geometry, recognition resizing, CTC decoding and confidence calculation are retained under the upstream Apache-2.0 license. Both backends use one CPU math thread.
 

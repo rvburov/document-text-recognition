@@ -35,6 +35,7 @@ jobs:
       - name: Тесты ядра
         env:
           DTR_TEST_SAMPLES_OUTPUT: ${{ runner.temp }}/dtr-test-samples
+          DTR_ONNX_MODELS_DIR: ${{ github.workspace }}/ocr/onnx
         run: dotnet test tests/Core.Tests -c Release --logger trx --results-directory artifacts/test-results/core
       - name: Тесты окна и установщика
         env:
@@ -69,12 +70,23 @@ jobs:
       - name: Проверка чтения PDF на Windows
         shell: pwsh
         run: dotnet run --project tools/Performance -c Release -- --count 4 --workers 1 --profile-passes 0 --label windows-smoke --output "${{ runner.temp }}/ocr-windows.json"
+      - name: Сверка двух backend на исходных PDF и фрагментах
+        shell: pwsh
+        env:
+          DTR_ONNX_MODELS_DIR: ${{ github.workspace }}/ocr/onnx
+        run: dotnet test tests/Core.Tests -c Release --filter FullyQualifiedName~OnnxBackendTests --logger trx --results-directory artifacts/test-results/onnx-windows
+      - name: Проверка опубликованной поставки в папке с кириллицей
+        shell: pwsh
+        run: ./scripts/check-published-ocr.ps1 -PublishedDirectory ./artifacts/setup/app -ReportsDirectory "${{ runner.temp }}/published-ocr-smoke"
       - name: Отчет OCR на Windows
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ocr-windows
-          path: ${{ runner.temp }}/ocr-windows.json
+          path: |
+            ${{ runner.temp }}/ocr-windows.json
+            ${{ runner.temp }}/published-ocr-smoke
+            artifacts/test-results/onnx-windows
           retention-days: 14
       - uses: actions/upload-artifact@v4
         with:

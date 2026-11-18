@@ -32,7 +32,7 @@ using var referenceDetector = new WorkerPaddleDetector(model.DetectionModel, dev
 using var referenceRecognizer = new WorkerPaddleRecognizer(model.RecognizationModel, device);
 using var detector = new OnnxDetector(model.DetectionModel, Path.Combine(args[2], "det.onnx")) { UnclipRatio = PaddleEngine.UnclipRatio };
 using var recognizer = new OnnxRecognizer(model.RecognizationModel, Path.Combine(args[2], "rec.onnx"));
-using var paddleBatch = new PaddleEngine(args[0], useOneDnn: true, reusePredictors: true);
+using var paddleBatch = new PaddleEngine(args[0], useOneDnn: true, reusePredictors: true, useOnnx: false);
 using var onnxBatch = new OnnxEngine(model, args[2]);
 var images = files.Select(f => Cv2.ImRead(f, ImreadModes.Color)).ToArray();
 var grays = files.Select(f => Cv2.ImRead(f, ImreadModes.Grayscale)).ToArray();

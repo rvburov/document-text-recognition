@@ -24,8 +24,10 @@ public sealed class BatchedFieldsTests(OcrFixture ocr)
         var file = wb.AddDocument("scan.pdf", kind, "ЮИЛГ.461411.123", name,
             new ScanOptions { QuarterTurns = turns, Dpi = 250, SkewDegrees = turns == 0 ? 0 : 1.2 }, docType: type);
         var original = ocr.Pair.BatchFields;
+        var originalKnownLines = ocr.Pair.PreferKnownLines;
         try
         {
+            ocr.Pair.PreferKnownLines = false;
             ocr.Pair.BatchFields = false;
             OpenCvSharp.Cv2.SetTheRNG(1729UL);
             var separate = DocumentReader.Read(file, [template], ocr.Pair, CancellationToken.None);
@@ -39,7 +41,11 @@ public sealed class BatchedFieldsTests(OcrFixture ocr)
             Assert.Equal(new FieldValues("ЮИЛГ.461411.123", name.Replace('\n', ' '),
                 string.IsNullOrEmpty(type) ? DocTypes.WhenMissing : type), batch.Values);
         }
-        finally { ocr.Pair.BatchFields = original; }
+        finally
+        {
+            ocr.Pair.BatchFields = original;
+            ocr.Pair.PreferKnownLines = originalKnownLines;
+        }
     }
 
     [OcrFact]
@@ -51,14 +57,20 @@ public sealed class BatchedFieldsTests(OcrFixture ocr)
         var file = wb.AddDocument("scan.pdf", FormKind.Drawing, "АБРС.713656.909", "Корпус",
             new ScanOptions { Dpi = 150, Noise = 0.04, Blur = 0.6, SkewDegrees = 1.5 });
         var original = ocr.Pair.BatchFields;
+        var originalKnownLines = ocr.Pair.PreferKnownLines;
         try
         {
+            ocr.Pair.PreferKnownLines = false;
             ocr.Pair.BatchFields = true;
             var result = DocumentReader.Read(file, [template], ocr.Pair, CancellationToken.None);
             if (result.Values is { } values)
                 Assert.Equal(new FieldValues("АБРС.713656.909", "Корпус", DocTypes.WhenMissing), values);
             else Assert.False(string.IsNullOrWhiteSpace(result.Problem));
         }
-        finally { ocr.Pair.BatchFields = original; }
+        finally
+        {
+            ocr.Pair.BatchFields = original;
+            ocr.Pair.PreferKnownLines = originalKnownLines;
+        }
     }
 }

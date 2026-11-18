@@ -67,6 +67,31 @@
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <!-- Готовые FP32-модели включены в исходную поставку: обычной сборке/установке
+       Python, конвертер и сеть для моделей не нужны. Эксперимент остается выключенным. -->
+  <ItemGroup>
+    <_DtrOnnxModel Include="$(MSBuildProjectDirectory)/../../ocr/onnx/det.onnx"
+                   ExpectedSha256="47A9BC12FA4CCCC90CDD2FA1F2F65FDADAF6B2F053FAA1658F27A88B3287D1CF" />
+    <_DtrOnnxModel Include="$(MSBuildProjectDirectory)/../../ocr/onnx/rec.onnx"
+                   ExpectedSha256="B8784A5B71140B5D8FB96A8B608AE54C9855F794FE43D938FEA9951D723BC35D" />
+    <None Include="@(_DtrOnnxModel)" Link="ocr/onnx/%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="../../ocr/onnx/model-manifest.json" Link="ocr/onnx/model-manifest.json"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Target Name="DtrCheckOnnxModels" BeforeTargets="AssignTargetPaths">
+    <Error Condition="!Exists('%(_DtrOnnxModel.Identity)')"
+           Text="Missing packaged ONNX model: %(_DtrOnnxModel.Identity). Restore the complete repository; models are not downloaded at runtime." />
+    <Error Condition="!Exists('$(MSBuildProjectDirectory)/../../ocr/onnx/model-manifest.json')"
+           Text="Missing ONNX model provenance manifest: ocr/onnx/model-manifest.json." />
+    <GetFileHash Files="@(_DtrOnnxModel)" Algorithm="SHA256" HashEncoding="hex">
+      <Output TaskParameter="Items" ItemName="_DtrOnnxModelHash" />
+    </GetFileHash>
+    <Error Condition="'%(_DtrOnnxModelHash.FileHash)' != '%(_DtrOnnxModelHash.ExpectedSha256)'"
+           Text="Packaged ONNX model checksum mismatch: %(_DtrOnnxModelHash.Identity). Restore the verified model file." />
+  </Target>
+
   <!--
     Модели PaddleOCR: из пакета Sdcb.PaddleOCR.Models.LocalV5 вынимаются детектор mobile_zh_det
     и распознавание eslav_PP_OCRv5_mobile_rec (русский, латиница, цифры), около 13 МБ вместо 116.

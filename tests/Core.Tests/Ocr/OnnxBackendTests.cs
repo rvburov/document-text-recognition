@@ -23,11 +23,11 @@ public sealed class OnnxBackendTests
     private const double ScoreTolerance = 1e-5;
 
     [OcrFact]
-    public void Default_native_backend_reads_without_onnx_model_files()
+    public void Explicit_native_backend_reads_without_onnx_model_files()
     {
         OcrComponents.ConfigureRuntime();
         var unavailableModels = Path.Combine(Path.GetTempPath(), "dtr-no-onnx-" + Guid.NewGuid().ToString("N"));
-        using var engine = new PaddleEngine(OcrComponents.PaddleDir, onnxModelsDir: unavailableModels);
+        using var engine = new PaddleEngine(OcrComponents.PaddleDir, useOnnx: false, onnxModelsDir: unavailableModels);
         Assert.False(engine.UsesOnnx);
         using var crop = LoadCrop(Path.Combine(TrackedSamples(), "crops", "02-assembly-a4-Name.png"));
 
@@ -57,7 +57,7 @@ public sealed class OnnxBackendTests
     {
         OcrComponents.ConfigureRuntime();
         var modelDirectory = RequiredModelDirectory();
-        using var native = new PaddleEngine(OcrComponents.PaddleDir);
+        using var native = new PaddleEngine(OcrComponents.PaddleDir, useOnnx: false);
         using var onnx = new PaddleEngine(OcrComponents.PaddleDir, useOnnx: true, onnxModelsDir: modelDirectory);
         Assert.False(native.UsesOnnx);
         Assert.True(onnx.UsesOnnx);
@@ -117,7 +117,7 @@ public sealed class OnnxBackendTests
         {
             Assert.NotEmpty(templates);
             Assert.All(loads, l => Assert.True(l.Template is not null, l.Problem));
-            using var native = OcrPair.CreateReal(OcrComponents.FindTessdata()!);
+            using var native = OcrPair.CreateReal(OcrComponents.FindTessdata()!, useOnnx: false);
             using var onnx = OcrPair.CreateReal(OcrComponents.FindTessdata()!, useOnnx: true, onnxModelsDir: modelDirectory);
             native.PreferKnownLines = onnx.PreferKnownLines = knownLines;
             Assert.False(Assert.IsType<PaddleEngine>(native.Second).UsesOnnx);

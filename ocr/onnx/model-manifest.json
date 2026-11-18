@@ -1,0 +1,78 @@
+{
+  "SchemaVersion": 1,
+  "SourcePackage": {
+    "Id": "Sdcb.PaddleOCR.Models.LocalV5",
+    "Version": "3.3.1",
+    "NuGetSha512": "adDrRHN3vMjGCZWtAZ2cLCTIv8Z1mDGGX15kwRffUJJ1k6kRyeT19/R8vWHHShFfTPzEDDYKS27BfoU82HZBdg==",
+    "Extraction": "tools/ExtractPaddleModels.cs"
+  },
+  "ModelLicense": "Apache-2.0; PaddlePaddle Authors; https://github.com/PaddlePaddle/PaddleOCR",
+  "ConversionScript": "tools/OnnxPerformance/convert_models.py",
+  "ConversionScriptSha256": "63e2e4575d13a650223267279e0f60c2d9898b7ab1cd567fc44f0986300e6db7",
+  "Conversion": "FP32; no quantization; no optional optimizer; checked ONNX opset14/IR8",
+  "Python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "Packages": {
+    "paddlepaddle": "3.3.1",
+    "paddle2onnx": "2.1.0",
+    "onnx": "1.17.0"
+  },
+  "ConversionEnvironmentNote": "Original conversion used Python 3.12.3 and no optional optimizer. Clean CI requirements additionally pin packaging==25.0; it is not used in model math.",
+  "ValidatedRuntime": {
+    "Managed": "Microsoft.ML.OnnxRuntime.Managed 1.11.0",
+    "Native": "ONNX Runtime 1.11.1 bundled in Sdcb.PaddleInference.runtime.*.mkl 3.3.1.70",
+    "Precision": "FP32"
+  },
+  "Validation": {
+    "WindowsWorkflowRun": "https://github.com/rvburov/document-text-recognition/actions/runs/44209527611",
+    "SourceCommit": "5b1d5bb8281272f8a6e0f353f8fc6623e5e26087",
+    "Scope": "The Linux and Windows crop/batch differential probes used these same output SHA-256 hashes; this is not a claim of production-document coverage."
+  },
+  "Models": [
+    {
+      "SourceModel": "mobile_zh_det",
+      "Inputs": [
+        {
+          "File": "inference.json",
+          "Sha256": "05feef1acb00aa4cd7362b15f7f501fc4f99d7b1fa73c1c871e0c7b1504b0f5c"
+        },
+        {
+          "File": "inference.pdiparams",
+          "Sha256": "afa1820cb16c1fd0dad589d0f8b389139061c1ef6d68019685fd07be997dda5b"
+        }
+      ],
+      "Output": "det.onnx",
+      "Sha256": "47a9bc12fa4cccc90cdd2fa1f2f65fdadaf6b2f053faa1658f27a88b3287d1cf",
+      "IrVersion": 8,
+      "Opset": 14,
+      "Metadata": {
+        "File": "inference.yml",
+        "Sha256": "17b4976d629ddbef66bf2a9bb8ef5ca002e92d2c8cd37e4c731c4650c1df9dc4",
+        "Purpose": "Original Paddle preprocessing/character dictionary metadata remains in ocr/paddle."
+      },
+      "Bytes": 4766440
+    },
+    {
+      "SourceModel": "eslav_PP_OCRv5_mobile_rec",
+      "Inputs": [
+        {
+          "File": "inference.json",
+          "Sha256": "3fb6e2e658f5139ff16e35260de8f0577f106a9505c902e1dfc1f4f1d03cc9cb"
+        },
+        {
+          "File": "inference.pdiparams",
+          "Sha256": "f11057b05d8517868bca505271278973d706600d9dcc184cbcf5c4512091c32b"
+        }
+      ],
+      "Output": "rec.onnx",
+      "Sha256": "b8784a5b71140b5d8fb96a8b608ae54c9855f794fe43d938fea9951d723bc35d",
+      "IrVersion": 8,
+      "Opset": 14,
+      "Metadata": {
+        "File": "inference.yml",
+        "Sha256": "025039bac23eb4a308efcefa4d58eab3af440767815c6ba6938468bf6353ee5a",
+        "Purpose": "Original Paddle preprocessing/character dictionary metadata remains in ocr/paddle."
+      },
+      "Bytes": 7889909
+    }
+  ]
+}
