@@ -29,10 +29,11 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
     };
 
     /// <summary>Настоящая пара: Tesseract и PaddleOCR из папки программы.</summary>
-    public static OcrPair CreateReal(string tessdata, bool useOneDnn = true, bool reusePredictors = true)
+    public static OcrPair CreateReal(string tessdata, bool useOneDnn = true, bool reusePredictors = true,
+        bool useOnnx = false, string? onnxModelsDir = null)
     {
         var first = new TesseractEngine(tessdata);
-        try { return new OcrPair(first, new PaddleEngine(OcrComponents.PaddleDir, useOneDnn, reusePredictors)); }
+        try { return new OcrPair(first, new PaddleEngine(OcrComponents.PaddleDir, useOneDnn, reusePredictors, useOnnx, onnxModelsDir)); }
         catch { first.Dispose(); throw; }
     }
 

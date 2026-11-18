@@ -1,0 +1,101 @@
+name: performance-integrated
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['.github/workflows/performance-integrated.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: performance-integrated-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  convert:
+    name: Те же FP32-модели без квантования
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: dotnet build src/Core -c Release
+      - run: python -m pip install --no-cache-dir -r tools/OnnxPerformance/requirements.txt
+      - run: python tools/OnnxPerformance/convert_models.py artifacts/ocr-models/paddle-v5 "${{ runner.temp }}/onnx-models"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: integrated-same-models-onnx
+          path: ${{ runner.temp }}/onnx-models
+          retention-days: 14
+
+  windows:
+    name: Полный OCR — выбор режима и 8000 PDF (Windows)
+    needs: convert
+    runs-on: windows-2022
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - uses: actions/download-artifact@v4
+        with:
+          name: integrated-same-models-onnx
+          path: ${{ runner.temp }}/onnx-models
+      - name: Сборка производственного конвейера и проверок
+        shell: pwsh
+        run: |
+          dotnet build tools/Performance -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet build tools/PerformanceVerify -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Все пять PDF, включая скобки
+        shell: pwsh
+        run: |
+          $reports = Join-Path '${{ runner.temp }}' 'integrated'
+          New-Item -ItemType Directory -Force -Path $reports | Out-Null
+          dotnet run --project tools/PerformanceVerify -c Release --no-build -- docs/test-samples (Join-Path $reports 'five-onnx-known-lines.json') --known-lines true --onnx true --onnx-models '${{ runner.temp }}/onnx-models'
+          if ($LASTEXITCODE -ne 0) { throw 'Candidate accepted an incorrect name.' }
+          $result = Get-Content (Join-Path $reports 'five-onnx-known-lines.json') -Raw | ConvertFrom-Json
+          if ($result.Correct -ne 5 -or $result.Rejected -ne 0 -or !$result.Configuration.ResolvedUsesOnnx) { throw 'Expected five exact names using ONNX.' }
+      - name: Три режима по 1000 PDF на одной машине
+        shell: pwsh
+        run: |
+          $env:DTR_BENCHMARK_CPU = @(Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name) -join '; '
+          $reports = Join-Path '${{ runner.temp }}' 'integrated'
+          foreach ($mode in @(@{Onnx='false'; Workers=4}, @{Onnx='true'; Workers=4}, @{Onnx='true'; Workers=8})) {
+            $label = "onnx-$($mode.Onnx)-known-lines-workers-$($mode.Workers)"
+            $backend = @('--onnx', $mode.Onnx)
+            if ($mode.Onnx -eq 'true') { $backend += @('--onnx-models', '${{ runner.temp }}/onnx-models') }
+            dotnet run --project tools/Performance -c Release --no-build -- --count 1000 --workers $mode.Workers --known-lines true @backend --profile-passes 1 --label $label --output (Join-Path $reports "$label.json")
+            if ($LASTEXITCODE -ne 0) { throw "$label failed names/hashes validation." }
+          }
+          $candidates = @(Get-ChildItem $reports -Filter 'onnx-true-*.json' | ForEach-Object { Get-Content $_ -Raw | ConvertFrom-Json })
+          $winner = $candidates | Sort-Object { $_.Measurement.WallSeconds } | Select-Object -First 1
+          if ($candidates.Count -ne 2 -or !$winner.Quality.Passed) { throw 'Expected two valid ONNX candidates.' }
+          "SELECTED_WORKERS=$($winner.Configuration.EffectiveWorkers)" | Out-File -FilePath $env:GITHUB_ENV -Append
+          $winner | ConvertTo-Json -Depth 30 | Set-Content (Join-Path $reports 'selected-1000.json')
+      - name: Фактические 8000 PDF с полной проверкой имён и байтов
+        shell: pwsh
+        run: |
+          $env:DTR_BENCHMARK_CPU = @(Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name) -join '; '
+          dotnet run --project tools/Performance -c Release --no-build -- --count 8000 --workers $env:SELECTED_WORKERS --known-lines true --onnx true --onnx-models '${{ runner.temp }}/onnx-models' --profile-passes 1 --label windows-onnx-known-lines-8000 --output '${{ runner.temp }}/integrated/windows-onnx-known-lines-8000.json'
+          if ($LASTEXITCODE -ne 0) { throw '8000-document names/hashes validation failed.' }
+      - name: Полные отчеты
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-integrated-windows
+          path: ${{ runner.temp }}/integrated
+          retention-days: 14

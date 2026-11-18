@@ -17,6 +17,11 @@ internal sealed class PaddleEngine : IOcrEngine
     private PaddleOcrAll? _ocr;
     private WorkerPaddleDetector? _detector;
     private WorkerPaddleRecognizer? _recognizer;
+    private WorkerOnnxDetector? _onnxDetector;
+    private WorkerOnnxRecognizer? _onnxRecognizer;
+
+    /// <summary>Выбранный backend; эксперимент ONNX включается только явно.</summary>
+    internal bool UsesOnnx { get; }
 
     /// <summary>Во сколько раз расширять найденную рамку строки перед распознаванием. 2.0 —
     /// значение PaddleOCR по умолчанию; 2.5 и 3.0 на синтетических сканах читали наименования
@@ -25,7 +30,8 @@ internal sealed class PaddleEngine : IOcrEngine
 
     public string Name => "PaddleOCR";
 
-    public PaddleEngine(string modelsDir, bool useOneDnn = true, bool reusePredictors = true)
+    public PaddleEngine(string modelsDir, bool useOneDnn = true, bool reusePredictors = true,
+        bool useOnnx = false, string? onnxModelsDir = null)
     {
         var det = Path.Combine(modelsDir, OcrComponents.PaddleDetector);
         var rec = Path.Combine(modelsDir, OcrComponents.PaddleRecognizer);
@@ -36,6 +42,20 @@ internal sealed class PaddleEngine : IOcrEngine
         var model = new FullOcrModel(
             DetectionModel.FromDirectory(det, ModelVersion.V5),
             RecognizationModel.FromDirectoryV5(rec));
+        if (useOnnx)
+        {
+            var directory = onnxModelsDir ?? Path.Combine(OcrComponents.ProgramDir, "ocr", "onnx");
+            var detectorFile = Path.Combine(directory, "det.onnx");
+            var recognizerFile = Path.Combine(directory, "rec.onnx");
+            foreach (var path in new[] { detectorFile, recognizerFile })
+                if (!File.Exists(path)) throw new FileNotFoundException($"нет экспериментальной ONNX-модели {path}", path);
+            _onnxDetector = new WorkerOnnxDetector(detectorFile) { UnclipRatio = UnclipRatio };
+            try { _onnxRecognizer = new WorkerOnnxRecognizer(model.RecognizationModel, recognizerFile); }
+            catch { _onnxDetector.Dispose(); _onnxDetector = null; throw; }
+            UsesOnnx = true;
+            return;
+        }
+        // При выключенном эксперименте ONNX среда и модели ONNX не загружаются.
         // Один поток вычислений на движок: параллельность дают рабочие потоки прогона.
         Action<PaddleConfig> device = useOneDnn ? config =>
         {
@@ -79,8 +99,8 @@ internal sealed class PaddleEngine : IOcrEngine
 
     internal OcrReading Read(Mat gray, Action<string, TimeSpan>? timing)
     {
-        if (timing is not null || _detector is not null) return ReadMany([gray], timing)[0];
-        ObjectDisposedException.ThrowIf(_ocr is null && _detector is null, this);
+        if (timing is not null || _detector is not null || _onnxDetector is not null) return ReadMany([gray], timing)[0];
+        ObjectDisposedException.ThrowIf(_ocr is null && _detector is null && _onnxDetector is null, this);
         using var bgr = new Mat();
         Cv2.CvtColor(gray, bgr, ColorConversionCodes.GRAY2BGR);
         var result = _ocr!.Run(bgr);
@@ -105,7 +125,7 @@ internal sealed class PaddleEngine : IOcrEngine
     private OcrReading[] ReadManyCore(IReadOnlyList<Mat> grays, bool[]? knownLines,
         Action<string, TimeSpan>? timing, CancellationToken ct)
     {
-        ObjectDisposedException.ThrowIf(_ocr is null && _detector is null, this);
+        ObjectDisposedException.ThrowIf(_ocr is null && _detector is null && _onnxDetector is null, this);
         var images = new List<Mat>();
         var lines = new List<Mat>();
         var locations = new List<(int Field, RotatedRect Rect)>();
@@ -133,7 +153,7 @@ internal sealed class PaddleEngine : IOcrEngine
                     }
                 }
                 var started = timing is null ? 0 : Stopwatch.GetTimestamp();
-                var rectangles = _detector is not null ? _detector.Run(bgr) : _ocr!.Detector.Run(bgr);
+                var rectangles = Detect(bgr);
                 timing?.Invoke("paddle.detect", Stopwatch.GetElapsedTime(started));
                 ct.ThrowIfCancellationRequested();
                 foreach (var rect in rectangles)
@@ -147,7 +167,7 @@ internal sealed class PaddleEngine : IOcrEngine
             }
             ct.ThrowIfCancellationRequested();
             var recognitionStarted = timing is null ? 0 : Stopwatch.GetTimestamp();
-            var recognized = _recognizer is not null ? _recognizer.Run(lines.ToArray()) : _ocr!.Recognizer.Run(lines.ToArray());
+            var recognized = Recognize(lines.ToArray());
             timing?.Invoke("paddle.recognize", Stopwatch.GetElapsedTime(recognitionStarted));
             ct.ThrowIfCancellationRequested();
             var groups = Enumerable.Range(0, grays.Count).Select(_ => new List<PaddleOcrResultRegion>()).ToArray();
@@ -166,6 +186,12 @@ internal sealed class PaddleEngine : IOcrEngine
             foreach (var image in images) image.Dispose();
         }
     }
+
+    private RotatedRect[] Detect(Mat image) => _onnxDetector is not null ? _onnxDetector.Run(image)
+        : _detector is not null ? _detector.Run(image) : _ocr!.Detector.Run(image);
+
+    private PaddleOcrRecognizerResult[] Recognize(Mat[] lines) => _onnxRecognizer is not null ? _onnxRecognizer.Run(lines)
+        : _recognizer is not null ? _recognizer.Run(lines) : _ocr!.Recognizer.Run(lines);
 
     /// <summary>Целая строка не должна скрыть слабое слово высоким средним остальных слов.
     /// Сохраняем минимум штатного score и средних по словам; пробелы не входят в среднее слова.
@@ -238,6 +264,10 @@ internal sealed class PaddleEngine : IOcrEngine
 
     public void Dispose()
     {
+        _onnxRecognizer?.Dispose();
+        _onnxRecognizer = null;
+        _onnxDetector?.Dispose();
+        _onnxDetector = null;
         _ocr?.Dispose();
         _ocr = null;
         _recognizer?.Dispose();

@@ -30,6 +30,9 @@
     <PackageReference Include="OpenCvSharp4" Version="4.13.0.20261107" />
     <!-- PaddleOCR на движке Paddle Inference (CPU, oneDNN/MKL). -->
     <PackageReference Include="Sdcb.PaddleOCR" Version="3.3.1" />
+    <!-- Только управляемая обертка: нативная ORT 1.11.1 уже входит в Paddle runtime.
+         Необязательный эксперимент ONNX выключен по умолчанию. -->
+    <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.11.0" />
     <!-- Модели PaddleOCR v5: из пакета берутся только нужные, см. PaddleModels ниже. -->
     <PackageReference Include="Sdcb.PaddleOCR.Models.LocalV5" Version="3.3.1" ExcludeAssets="all" GeneratePathProperty="true" />
     <!-- Tesseract для Windows: готовые tesseract55.dll и leptonica (x64). -->
@@ -57,6 +60,10 @@
     <None Include="..\..\ocr\tessdata\*.traineddata" Link="ocr\tessdata\%(Filename)%(Extension)"
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Include="..\..\licenses\PaddleSharp-Apache-2.0.txt" Link="licenses\PaddleSharp-Apache-2.0.txt"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\..\licenses\OnnxRuntime-MIT.txt" Link="licenses\OnnxRuntime-MIT.txt"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\..\licenses\OnnxRuntime-ThirdPartyNotices.txt" Link="licenses\OnnxRuntime-ThirdPartyNotices.txt"
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 

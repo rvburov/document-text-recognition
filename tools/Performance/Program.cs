@@ -39,7 +39,7 @@ try
     }
 
     var startup = Stopwatch.StartNew();
-    var profile = Profile(samplesRoot, samples, templateFolder, options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines);
+    var profile = Profile(samplesRoot, samples, templateFolder, options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines, options.Onnx, options.OnnxModels);
     startup.Stop();
     Console.WriteLine($"Warmup/profile {startup.Elapsed.TotalSeconds:F2}s; documents={options.Count}, workers={options.Workers}, OpenCV={Cv2.GetNumThreads()}");
 
@@ -60,7 +60,7 @@ try
     var summary = OcrRenameRun.Execute(settings, () =>
     {
         var clock = Stopwatch.StartNew();
-        var pair = CreatePair(options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines);
+        var pair = CreatePair(options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines, options.Onnx, options.OnnxModels);
         engineInitMs += clock.Elapsed.TotalMilliseconds;
         return pair;
     }, sink, CancellationToken.None);
@@ -121,13 +121,14 @@ try
             RequestedWorkers = options.Workers,
             EffectiveWorkers = settings.EffectiveWorkers,
             RuntimeDefaultsApplied = configureRuntime is not null,
-            options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines,
+            options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines, options.Onnx, options.OnnxModels,
             options.DedicatedWorkers,
             ResolvedDedicatedWorkers = dedicatedProperty?.GetValue(settings) as bool?,
             ResolvedBatchFields = SelectedBackend.BatchFields,
             ResolvedKnownLines = SelectedBackend.KnownLines,
-            ResolvedOneDnn = FactoryFlag(1, options.OneDnn),
-            ResolvedReusePredictors = FactoryFlag(2, options.ReusePredictors),
+            ResolvedUsesOnnx = SelectedBackend.UsesOnnx,
+            ResolvedOneDnn = SelectedBackend.UsesOnnx == true ? (bool?)null : FactoryFlag(1, options.OneDnn),
+            ResolvedReusePredictors = SelectedBackend.UsesOnnx == true ? (bool?)null : FactoryFlag(2, options.ReusePredictors),
             Warmup = "One untimed read of each unique document, then optional phase profiles; new real OCR engines are still initialized inside the timed full run.",
         },
         Measurement = new
@@ -179,14 +180,14 @@ static Sample[] ReadSamples(string root)
     return samples;
 }
 
-static object Profile(string root, Sample[] samples, string templatesFolder, int passes, bool? batchFields, bool? oneDnn, bool? reusePredictors, bool? knownLines)
+static object Profile(string root, Sample[] samples, string templatesFolder, int passes, bool? batchFields, bool? oneDnn, bool? reusePredictors, bool? knownLines, bool? onnx, string? onnxModels)
 {
     var loaded = TemplateLibrary.LoadFolder(templatesFolder);
     if (loaded.Any(t => t.Template is null)) throw new InvalidOperationException(string.Join("; ", loaded.Select(t => t.Problem)));
     var templates = loaded.Select(t => t.Template!).ToArray();
     try
     {
-        using var pair = CreatePair(batchFields, oneDnn, reusePredictors, knownLines);
+        using var pair = CreatePair(batchFields, oneDnn, reusePredictors, knownLines, onnx, onnxModels);
         foreach (var sample in samples) Check(DocumentReader.Read(Path.Combine(root, sample.File), templates, pair, CancellationToken.None), sample);
         var phases = new Dictionary<string, (double Milliseconds, int Calls)>();
         Action<string, TimeSpan> timing = (key, elapsed) =>
@@ -238,15 +239,24 @@ static bool FactoryFlag(int parameter, bool? requested)
     var parameters = typeof(OcrPair).GetMethod("CreateReal", BindingFlags.Static | BindingFlags.Public)!.GetParameters();
     return parameter < parameters.Length && parameters[parameter].DefaultValue is true;
 }
-static OcrPair CreatePair(bool? batchFields, bool? oneDnn, bool? reusePredictors, bool? knownLines)
+static OcrPair CreatePair(bool? batchFields, bool? oneDnn, bool? reusePredictors, bool? knownLines, bool? onnx, string? onnxModels)
 {
     var tessdata = OcrComponents.FindTessdata() ?? throw new InvalidOperationException("tessdata missing");
     var factory = typeof(OcrPair).GetMethod("CreateReal", BindingFlags.Static | BindingFlags.Public)!;
-    var parameterCount = factory.GetParameters().Length;
+    var parameters = factory.GetParameters();
+    var parameterCount = parameters.Length;
     if (oneDnn == true && parameterCount < 2) throw new NotSupportedException("This core build has no oneDNN option.");
     if (reusePredictors == true && parameterCount < 3) throw new NotSupportedException("This core build has no persistent predictor option.");
-    object[] arguments = parameterCount >= 3 ? [tessdata, FactoryFlag(1, oneDnn), FactoryFlag(2, reusePredictors)]
-        : parameterCount == 2 ? [tessdata, FactoryFlag(1, oneDnn)] : [tessdata];
+    if (onnx == true && parameterCount < 4) throw new NotSupportedException("This core build has no ONNX option.");
+    if (onnxModels is not null && parameterCount < 5) throw new NotSupportedException("This core build has no ONNX model path option.");
+    // Reflection does not apply optional defaults automatically. Fill every declared
+    // parameter so the harness also works with older one-/two-/three-argument factories.
+    var arguments = parameters.Select(p => p.HasDefaultValue ? p.DefaultValue : null).ToArray();
+    arguments[0] = tessdata;
+    if (parameterCount > 1) arguments[1] = FactoryFlag(1, oneDnn);
+    if (parameterCount > 2) arguments[2] = FactoryFlag(2, reusePredictors);
+    if (parameterCount > 3) arguments[3] = FactoryFlag(3, onnx);
+    if (parameterCount > 4) arguments[4] = onnxModels;
     var pair = (OcrPair)factory.Invoke(null, arguments)!;
     if (batchFields is { } enabled)
     {
@@ -270,6 +280,7 @@ static OcrPair CreatePair(bool? batchFields, bool? oneDnn, bool? reusePredictors
     }
     SelectedBackend.BatchFields = typeof(OcrPair).GetProperty("BatchFields", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(pair) as bool?;
     SelectedBackend.KnownLines = knownLinesProperty?.GetValue(pair) as bool?;
+    SelectedBackend.UsesOnnx = pair.Second.GetType().GetProperty("UsesOnnx", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(pair.Second) as bool?;
     return pair;
 }
 static string HashDataset(string root) => Convert.ToHexString(SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(string.Join("\n",
@@ -280,7 +291,7 @@ static string? CpuName() => File.Exists("/proc/cpuinfo")
     ? File.ReadLines("/proc/cpuinfo").FirstOrDefault(l => l.StartsWith("model name"))?.Split(':', 2).Last().Trim() : null;
 static object[] NativeLibraries()
 {
-    var names = OperatingSystem.IsWindows() ? new[] { "paddle_inference_c.dll" } : new[] { "libpaddle_inference_c.so" };
+    var names = OperatingSystem.IsWindows() ? new[] { "paddle_inference_c.dll", "onnxruntime.dll" } : new[] { "libpaddle_inference_c.so", "libonnxruntime.so" };
     return Directory.EnumerateFiles(AppContext.BaseDirectory, "*", SearchOption.AllDirectories)
         .Where(p => names.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase))
         .Select(p => (object)new { File = Path.GetRelativePath(AppContext.BaseDirectory, p), Sha256 = Sha(p), Bytes = new FileInfo(p).Length })
@@ -293,6 +304,7 @@ internal static class SelectedBackend
 {
     public static bool? BatchFields { get; set; }
     public static bool? KnownLines { get; set; }
+    public static bool? UsesOnnx { get; set; }
 }
 
 internal sealed class Sink(IReadOnlyDictionary<string, Sample> expected, Stopwatch clock) : IRunSink
@@ -355,13 +367,13 @@ internal sealed class ResourceSampler : IDisposable
 }
 
 internal sealed record Options(string Samples, int Count, int Workers, int? OpenCvThreads, int ProfilePasses, bool? BatchFields, bool? OneDnn, bool? ReusePredictors,
-    bool? KnownLines, bool? DedicatedWorkers, string Output, string Label, bool KeepWorkdir)
+    bool? KnownLines, bool? Onnx, string? OnnxModels, bool? DedicatedWorkers, string Output, string Label, bool KeepWorkdir)
 {
     public static Options? Parse(string[] args)
     {
         if (args.Contains("--help"))
         {
-            Console.WriteLine("dotnet run --project tools/Performance -c Release -- --count 100 --workers 4 --opencv-threads 1 --profile-passes 2 --batch-fields false --label candidate --output artifacts/performance/candidate.json [--samples docs/test-samples] [--known-lines true|false] [--keep-workdir]");
+            Console.WriteLine("dotnet run --project tools/Performance -c Release -- --count 100 --workers 4 --opencv-threads 1 --profile-passes 2 --batch-fields false --label candidate --output artifacts/performance/candidate.json [--samples docs/test-samples] [--known-lines true|false] [--onnx true|false --onnx-models directory] [--keep-workdir]");
             return null;
         }
         var values = new Dictionary<string, string>();
@@ -370,10 +382,12 @@ internal sealed record Options(string Samples, int Count, int Workers, int? Open
         {
             if (args[i] == "--keep-workdir") { keep = true; continue; }
             if (!args[i].StartsWith("--") || i + 1 >= args.Length) throw new ArgumentException("Expected --option value");
-            if (args[i] is not ("--samples" or "--count" or "--workers" or "--opencv-threads" or "--profile-passes" or "--batch-fields" or "--one-dnn" or "--reuse-predictors" or "--known-lines" or "--dedicated-workers" or "--output" or "--label"))
+            if (args[i] is not ("--samples" or "--count" or "--workers" or "--opencv-threads" or "--profile-passes" or "--batch-fields" or "--one-dnn" or "--reuse-predictors" or "--known-lines" or "--onnx" or "--onnx-models" or "--dedicated-workers" or "--output" or "--label"))
                 throw new ArgumentException("Unknown option " + args[i]);
             values[args[i][2..]] = args[++i];
         }
+        if (values.ContainsKey("onnx-models") && (!values.TryGetValue("onnx", out var selected) || !bool.Parse(selected)))
+            throw new ArgumentException("--onnx-models requires --onnx true.");
         int Number(string key, int fallback, int min, int max)
         {
             var n = values.TryGetValue(key, out var s) ? int.Parse(s) : fallback;
@@ -385,6 +399,8 @@ internal sealed record Options(string Samples, int Count, int Workers, int? Open
             values.TryGetValue("one-dnn", out var oneDnn) ? bool.Parse(oneDnn) : null,
             values.TryGetValue("reuse-predictors", out var reuse) ? bool.Parse(reuse) : null,
             values.TryGetValue("known-lines", out var known) ? bool.Parse(known) : null,
+            values.TryGetValue("onnx", out var onnx) ? bool.Parse(onnx) : null,
+            values.GetValueOrDefault("onnx-models"),
             values.TryGetValue("dedicated-workers", out var dedicated) ? bool.Parse(dedicated) : null,
             values.GetValueOrDefault("output", "artifacts/performance/result.json"),
             values.GetValueOrDefault("label", "working-tree"), keep);

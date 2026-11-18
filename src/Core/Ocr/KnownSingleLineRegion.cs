@@ -9,7 +9,7 @@ namespace DocumentTextRecognition.Core.Ocr;
 /// </summary>
 internal static class KnownSingleLineRegion
 {
-    internal static bool TryGetBounds(Mat gray, out Rect expanded, CancellationToken ct = default)
+    internal static unsafe bool TryGetBounds(Mat gray, out Rect expanded, CancellationToken ct = default)
     {
         expanded = default;
         ct.ThrowIfCancellationRequested();
@@ -42,11 +42,13 @@ internal static class KnownSingleLineRegion
         // Небольшой разрыв допустим для точек/диакритики; две полосы текста не объединяем.
         var bands = 0;
         var lastInkRow = int.MinValue / 2;
+        var inkData = (byte*)ink.Data;
+        var inkStride = ink.Step();
         for (var y = bounds.Top; y < bounds.Bottom; y++)
         {
             if ((y & 127) == 0) ct.ThrowIfCancellationRequested();
-            using var row = ink.Row(y);
-            if (Cv2.CountNonZero(row) == 0) continue;
+            var row = new ReadOnlySpan<byte>(inkData + y * inkStride, ink.Width);
+            if (row.IndexOfAnyExcept((byte)0) < 0) continue;
             if (y - lastInkRow - 1 > Math.Max(2, (int)(height * .25))) bands++;
             lastInkRow = y;
         }

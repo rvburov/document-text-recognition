@@ -63,3 +63,22 @@ dotnet run --project tools/PerformanceVerify -c Release -- \
 При изменении способа OCR сравниваются все ожидаемые имена: ни один ранее правильный результат
 не должен потеряться, ошибочно принятых имён быть не должно. Улучшения и сохраняющиеся отказы
 отражаются в отчёте отдельно; строки не исключаются из набора.
+
+Для проверки экспериментального ONNX-backend добавляются `--onnx true` и
+`--onnx-models artifacts/onnx-models`. Конвертация описана в `tools/OnnxPerformance/README.md`;
+модели должны быть созданы заранее. При отсутствии `--onnx` сохраняется native backend.
+Пути и запрошенный/фактический выбор backend записываются в `Configuration`.
+
+```sh
+dotnet run --project tools/PerformanceVerify -c Release -- \
+  artifacts/performance-diverse-samples artifacts/performance/onnx-48.json \
+  --known-lines false --onnx true --onnx-models artifacts/onnx-models
+```
+
+Интеграционные тесты `OnnxBackendTests` дополнительно сравнивают native и ONNX на одинаковых
+вырезанных пикселях и при одинаковом `PreferKnownLines`. Для них явно задаётся переменная
+`DTR_ONNX_MODELS_DIR` с абсолютным путём к конвертированным моделям. Переменная
+`DTR_ONNX_DIVERSE_SAMPLES_DIR` включает отдельные проверки всех 48 PDF подготовленного набора.
+Без этих переменных экспериментальные проверки пропускаются с указанной причиной; обычные
+тесты продолжают проверять native Paddle. Если путь задан, но неверен, проверка завершается
+ошибкой и не скрывает отсутствие моделей.

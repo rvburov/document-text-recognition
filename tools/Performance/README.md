@@ -91,3 +91,17 @@ dotnet run --project tools/Performance -c Release -- \
 Это дополнительная проверка изменения размеров входа и текста, а не замена замера на реальных
 производственных документах. Если генератор завершился с ошибкой, её необходимо изучить перед
 запуском измерения; нельзя выдавать результат на оставшихся положительных файлах за весь набор.
+
+Экспериментальный backend тех же моделей включается только параметром `--onnx true`.
+`--onnx-models artifacts/onnx-models` задаёт каталог `det.onnx` и `rec.onnx`, полученных
+скриптом `tools/OnnxPerformance/convert_models.py`; без пути используется `ocr/onnx` рядом
+со сборкой ядра. Модели не скачиваются при запуске. По умолчанию сохраняется native Paddle.
+В JSON записываются запрошенный `Onnx` и фактический `ResolvedUsesOnnx`; настройки oneDNN
+и повторного использования Paddle-предикторов для ONNX неприменимы и отражаются как `null`.
+ONNX и `--known-lines` включаются независимо, чтобы сравнивать каждый вариант отдельно.
+
+```sh
+dotnet run --project tools/Performance -c Release -- \
+  --count 100 --workers 4 --known-lines false --onnx true --onnx-models artifacts/onnx-models \
+  --label onnx-experimental --output artifacts/performance/onnx-experimental.json
+```

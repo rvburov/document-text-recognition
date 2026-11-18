@@ -24,6 +24,11 @@ Sdcb.PaddleInference.runtime.*.mkl)
   (лицензии Intel), protobuf (BSD 3-Clause), ONNX Runtime (MIT),
   Paddle2ONNX (Apache 2.0) и другие компоненты, перечисленные их авторами.
 
+ONNX Runtime 1.11.1 (в составе Paddle), Microsoft.ML.OnnxRuntime.Managed 1.11.0
+  MIT: Copyright (c) Microsoft Corporation. All rights reserved.
+  https://github.com/microsoft/onnxruntime
+  licenses/OnnxRuntime-MIT.txt; licenses/OnnxRuntime-ThirdPartyNotices.txt.
+
 Sdcb.PaddleOCR, Sdcb.PaddleInference, Sdcb.PaddleOCR.Models.LocalV5
   Apache License 2.0: Copyright (c) sdcb
   https://github.com/sdcb/PaddleSharp
