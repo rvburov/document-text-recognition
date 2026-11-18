@@ -5,13 +5,14 @@ using DocumentTextRecognition.Core.Templates;
 using DocumentTextRecognition.Tests.Samples;
 using OpenCvSharp;
 using Sdcb.PaddleOCR;
+using Xunit.Abstractions;
 
 namespace DocumentTextRecognition.Tests.Ocr;
 
-/// <summary>Экспериментальный путь известной строки: геометрия, строгая сверка и возврат
+/// <summary>Путь известной строки: геометрия, строгая сверка и возврат
 /// к полному Paddle только для неподтвержденных полей. Эталонные значения заданы до OCR.</summary>
 [Collection("OCR")]
-public sealed class KnownLineTests(OcrFixture ocr)
+public sealed class KnownLineTests(OcrFixture ocr, ITestOutputHelper output)
 {
     private static readonly (string Sample, FieldRole Role, string Expected)[] Crops =
     [
@@ -30,21 +31,22 @@ public sealed class KnownLineTests(OcrFixture ocr)
     public static IEnumerable<object[]> SingleLineCrops => Crops.Select(c => new object[] { c.Sample, c.Role.ToString() });
 
     [Fact]
-    public void Experimental_path_is_disabled_by_default()
+    public void Confirmed_single_line_path_is_enabled_by_default()
     {
         using var pair = new OcrPair(new Answers(), new Answers());
-        Assert.False(pair.PreferKnownLines);
+        Assert.True(pair.PreferKnownLines);
     }
 
     [OcrTheory]
     [MemberData(nameof(SingleLineCrops))]
-    public void Single_band_keeps_every_ink_pixel_and_original_input(string sample, string roleName)
+    public void Tracked_single_lines_including_detached_accent_preserve_all_ink(string sample, string roleName)
     {
         var role = Enum.Parse<FieldRole>(roleName);
         using var crop = LoadCrop(sample, role);
         var before = crop.ToBytes(".png");
 
         Assert.True(KnownSingleLineRegion.TryGetBounds(crop, out var box));
+        Assert.Equal(before, crop.ToBytes(".png"));
 
         Assert.True(box.Width > 0 && box.Height > 0);
         Assert.InRange(box.Left, 0, crop.Width);
@@ -55,7 +57,6 @@ public sealed class KnownLineTests(OcrFixture ocr)
         Cv2.Threshold(crop, ink, 0, 255, ThresholdTypes.BinaryInv | ThresholdTypes.Otsu);
         using (var preserved = new Mat(ink, box)) preserved.SetTo(Scalar.All(0));
         Assert.Equal(0, Cv2.CountNonZero(ink)); // Including punctuation, never a selected subset of glyphs.
-        Assert.Equal(before, crop.ToBytes(".png"));
     }
 
     [OcrTheory]
@@ -74,6 +75,100 @@ public sealed class KnownLineTests(OcrFixture ocr)
         using (var bottom = new Mat(two, new Rect(8, 8 + tight.Height + gap, tight.Width, tight.Height))) tight.CopyTo(bottom);
 
         Assert.False(KnownSingleLineRegion.TryGetBounds(two, out _));
+    }
+
+    [OcrTheory]
+    [InlineData(16, false, 2)]
+    [InlineData(20, false, 2)]
+    [InlineData(4, false, 2)]
+    [InlineData(5, false, 2)]
+    [InlineData(4, true, 2)]
+    [InlineData(5, true, 2)]
+    [InlineData(4, false, 0)]
+    [InlineData(5, false, 0)]
+    [InlineData(4, true, 0)]
+    [InlineData(5, true, 0)]
+    public void Small_secondary_band_cannot_hide_below_main_glyph_height_cutoff(int smallHeight, bool above, int gap)
+    {
+        const int mainHeight = 40;
+        using var image = new Mat(80, 290, MatType.CV_8UC1, Scalar.All(255));
+        void Glyph(int x, int y, int width, int height, int stroke)
+        {
+            Cv2.Rectangle(image, new Rect(x, y, stroke, height), Scalar.All(0), -1);
+            Cv2.Rectangle(image, new Rect(x + width - stroke, y, stroke, height), Scalar.All(0), -1);
+            Cv2.Rectangle(image, new Rect(x, y + height / 2, width, stroke), Scalar.All(0), -1);
+        }
+        var mainY = above ? 8 + smallHeight + gap : 8;
+        var smallY = above ? 8 : 8 + mainHeight + gap;
+        for (var i = 0; i < 12; i++) Glyph(8 + i * 22, mainY, 14, mainHeight, 2);
+        // Keep components distinct even with no empty row between the two bands.
+        for (var i = 0; i < 4; i++) Glyph(89 + i * 22, smallY, 6, smallHeight, 1);
+        // Twelve main components keep the old 75th-percentile height at 40px. The four
+        // small components are below its 0.55 cutoff (the 4/5px cases also below 6px).
+        // The full envelope is <=1.7H and gap <=0.25H, so the old gate accepted this.
+        Assert.True(mainHeight + gap + smallHeight <= 1.7 * mainHeight);
+        Assert.False(KnownSingleLineRegion.TryGetBounds(image, out _));
+    }
+
+    [OcrTheory]
+    [InlineData(.4, false)]
+    [InlineData(.5, false)]
+    [InlineData(.4, true)]
+    [InlineData(.5, true)]
+    public void Mixed_font_name_in_actual_pdf_is_complete_or_refused_with_both_modes(double smallScale, bool above)
+    {
+        const string designation = "ЮИЛГ.461411.123", type = "Сборочный чертеж";
+        var fullName = above ? "Блок питания Корпус" : "Корпус Блок питания";
+        using var wb = new Workbench();
+        var sample = new ManualTemplateSamples.Sample("mixed.pdf", "Разный размер шрифта", FormKind.Drawing,
+            designation, fullName, type);
+        var templateFile = ManualTemplateSamples.AddTemplate(wb, sample);
+        using var template = TemplateLibrary.Load(templateFile).Template!;
+        Assert.NotNull(template);
+        using var name = MixedFontName(smallScale, above);
+        Assert.False(KnownSingleLineRegion.TryGetBounds(name, out _));
+        const int dpi = 300;
+        using var page = SyntheticForms.Render(FormKind.Drawing, designation, "", dpi, docType: type);
+        using var colorName = new Mat();
+        Cv2.CvtColor(name, colorName, ColorConversionCodes.GRAY2BGR);
+        var nameField = SyntheticForms.Fields(FormKind.Drawing).Name;
+        var x = (int)Math.Round((nameField.X + nameField.Width / 2) * dpi / 25.4) - name.Width / 2;
+        var y = (int)Math.Round((nameField.Y + nameField.Height / 2) * dpi / 25.4) - name.Height / 2;
+        using (var target = new Mat(page, new Rect(x, y, name.Width, name.Height))) colorName.CopyTo(target);
+        var file = Path.Combine(wb.Source, sample.FileName);
+        SyntheticForms.SavePdf(file, [page], dpi, jpegQuality: 95);
+        var before = File.ReadAllBytes(file);
+        var original = ocr.Pair.PreferKnownLines;
+        FieldDiagnostic? baselineName = null;
+        try
+        {
+            foreach (var fast in new[] { false, true })
+            {
+                ocr.Pair.PreferKnownLines = fast;
+                var diagnostics = new List<RecognitionDiagnostic>();
+                Cv2.SetTheRNG(1729UL);
+                var result = DocumentReader.Read(file, [template], ocr.Pair, CancellationToken.None, diagnostics.Add);
+                if (result.Values is { } values)
+                    Assert.Equal(new FieldValues(designation, fullName, type), values);
+                else
+                    Assert.False(string.IsNullOrWhiteSpace(result.Problem));
+                var reading = Assert.Single(diagnostics, d => d.Field?.Role == FieldRole.Name).Field!;
+                output.WriteLine($"scale={smallScale}, above={above}, fast={fast}, result={result.Values?.Name ?? result.Problem}; " +
+                    $"Tesseract='{reading.First.RawText}', Paddle='{reading.Second.RawText}'");
+                using var prepared = Cv2.ImDecode(reading.CropPng, ImreadModes.Grayscale);
+                Assert.False(KnownSingleLineRegion.TryGetBounds(prepared, out _));
+                if (!fast) baselineName = reading;
+                else
+                {
+                    Assert.Equal(baselineName!.First, reading.First);
+                    Assert.Equal(baselineName.Second, reading.Second);
+                    Assert.Equal(baselineName.Bounds, reading.Bounds);
+                    Assert.Equal(baselineName.CropPng, reading.CropPng);
+                }
+            }
+            Assert.Equal(before, File.ReadAllBytes(file));
+        }
+        finally { ocr.Pair.PreferKnownLines = original; }
     }
 
     [OcrTheory]
@@ -153,6 +248,16 @@ public sealed class KnownLineTests(OcrFixture ocr)
         Assert.True(float.IsNaN(PaddleEngine.KnownLineConfidence(new PaddleOcrRecognizerResult("Корпус", .99f, []))));
         Assert.True(float.IsNaN(PaddleEngine.KnownLineConfidence(new PaddleOcrRecognizerResult("Корпус", .99f,
             [new RecognizedChar("Крышка", .99f, 0)]))));
+    }
+
+    [Fact]
+    public void Nonempty_raw_punctuation_that_parses_as_empty_type_requires_full_detection()
+    {
+        var candidate = new OcrReading("PaddleOCR", [new OcrLine("---", .99, 0, 0, 100, 30)]);
+        var blank = new OcrReading("Tesseract", []);
+        Assert.Equal("", FieldParser.ParseType(candidate, .5).Value);
+        Assert.Equal("", FieldParser.ParseType(blank, .3).Value);
+        Assert.False(DocumentReader.IsKnownLineConfirmed(FieldRole.Type, candidate, .5, blank, .3));
     }
 
     [OcrFact]
@@ -331,6 +436,30 @@ public sealed class KnownLineTests(OcrFixture ocr)
         FieldRole.Type => FieldParser.ParseType(reading, confidence),
         _ => throw new ArgumentOutOfRangeException(nameof(role)),
     };
+
+    private static Mat MixedFontName(double smallScale, bool above)
+    {
+        using var main = LoadCrop("02-assembly-a4", FieldRole.Name);
+        using var secondary = LoadCrop("03-schematic-a4", FieldRole.Name);
+        using var mainInk = new Mat();
+        using var smallInk = new Mat();
+        Cv2.Threshold(main, mainInk, 0, 255, ThresholdTypes.BinaryInv | ThresholdTypes.Otsu);
+        Cv2.Threshold(secondary, smallInk, 0, 255, ThresholdTypes.BinaryInv | ThresholdTypes.Otsu);
+        using var mainText = new Mat(main, Cv2.BoundingRect(mainInk));
+        using var secondaryText = new Mat(secondary, Cv2.BoundingRect(smallInk));
+        using var resized = new Mat();
+        var smallHeight = (int)Math.Round(mainText.Height * smallScale);
+        Cv2.Resize(secondaryText, resized, new Size((int)Math.Round(secondaryText.Width * smallHeight / (double)secondaryText.Height), smallHeight),
+            interpolation: InterpolationFlags.Area);
+        const int gap = 2, padding = 8;
+        var width = Math.Max(mainText.Width, resized.Width) + 2 * padding;
+        var image = new Mat(mainText.Height + resized.Height + gap + 2 * padding, width, MatType.CV_8UC1, Scalar.All(255));
+        var mainY = above ? padding + resized.Height + gap : padding;
+        var smallY = above ? padding : padding + mainText.Height + gap;
+        using (var target = new Mat(image, new Rect((width - mainText.Width) / 2, mainY, mainText.Width, mainText.Height))) mainText.CopyTo(target);
+        using (var target = new Mat(image, new Rect((width - resized.Width) / 2, smallY, resized.Width, resized.Height))) resized.CopyTo(target);
+        return image;
+    }
 
     private static Mat LoadCrop(string sample, FieldRole role)
     {

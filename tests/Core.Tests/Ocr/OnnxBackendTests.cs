@@ -11,7 +11,7 @@ using OpenCvSharp;
 namespace DocumentTextRecognition.Tests.Ocr;
 
 /// <summary>
-/// Experimental ONNX tests use the explicitly supplied converted versions of the production
+/// Differential ONNX tests use the explicitly supplied converted versions of the production
 /// models. The optional 48-document corpus remains outside Git; an absent opt-in skips these
 /// tests, while an invalid explicitly requested model/corpus path fails them.
 /// </summary>
@@ -35,6 +35,18 @@ public sealed class OnnxBackendTests
 
         Assert.Equal("Корпус", FieldParser.ParseName(reading, OcrPair.MinConfidence(engine)).Value);
         Assert.False(Directory.Exists(unavailableModels));
+    }
+
+    [OcrFact]
+    public void Default_pair_reads_using_bundled_onnx_models_and_enables_confirmed_lines()
+    {
+        OcrComponents.ConfigureRuntime();
+        using var pair = OcrPair.CreateReal(OcrComponents.FindTessdata()!);
+        var engine = Assert.IsType<PaddleEngine>(pair.Second);
+        Assert.True(engine.UsesOnnx);
+        Assert.True(pair.PreferKnownLines);
+        using var crop = LoadCrop(Path.Combine(TrackedSamples(), "crops", "02-assembly-a4-Name.png"));
+        Assert.Equal("Корпус", FieldParser.ParseName(engine.Read(crop), OcrPair.MinConfidence(engine)).Value);
     }
 
     [OnnxTheory]
@@ -142,7 +154,7 @@ public sealed class OnnxBackendTests
                 Assert.Equal(expected.Problem, actual.Problem);
                 Assert.Equal(expected.Template, actual.Template);
                 Assert.Equal(expected.Pages, actual.Pages);
-                if (requireTrackedPositives && sample.GetProperty("RecognitionRequired").GetBoolean())
+                if (requireTrackedPositives && (knownLines || sample.GetProperty("RecognitionRequired").GetBoolean()))
                     Assert.True(actual.Values is not null, $"{context}: {actual.Problem}");
                 if (actual.Values is { } values)
                     Assert.Equal(expectedName, FileNames.Build(values).Name);

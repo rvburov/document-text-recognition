@@ -60,7 +60,7 @@ try {
   Copy-Item -LiteralPath $probe -Destination $publishedProbe
   $truth = Get-Content -LiteralPath (Join-Path $samples 'verification.json') -Raw | ConvertFrom-Json
   $modes = @(
-    @{ Name = 'default'; Flags = @(); Onnx = $null; KnownLines = $null },
+    @{ Name = 'default'; Flags = @(); Onnx = $true; KnownLines = $true },
     @{ Name = 'native'; Flags = @('--onnx', 'false', '--known-lines', 'false'); Onnx = $false; KnownLines = $false },
     @{ Name = 'onnx'; Flags = @('--onnx', 'true', '--known-lines', 'false'); Onnx = $true; KnownLines = $false },
     @{ Name = 'onnx-known-lines'; Flags = @('--onnx', 'true', '--known-lines', 'true'); Onnx = $true; KnownLines = $true }

@@ -7,9 +7,10 @@ using Sdcb.PaddleOCR.Models;
 namespace DocumentTextRecognition.Core.Ocr;
 
 /// <summary>
-/// PaddleOCR v5 на движке Paddle Inference (CPU, oneDNN): детектор строк <c>mobile_zh_det</c>
+/// PaddleOCR v5 на ONNX Runtime (CPU, FP32): детектор строк <c>mobile_zh_det</c>
 /// (многоязычный) и распознавание <c>eslav_PP_OCRv5_mobile_rec</c> (русский, латиница, цифры).
-/// Модели лежат в папке программы <c>ocr/paddle</c>. Найденные фрагменты собираются в строки
+/// Графы лежат в <c>ocr/onnx</c>, словарь и метаданные в <c>ocr/paddle</c>.
+/// Альтернативный native Paddle используется для сравнений. Найденные фрагменты собираются в строки
 /// по вертикальному перекрытию.
 /// </summary>
 internal sealed class PaddleEngine : IOcrEngine
@@ -20,7 +21,7 @@ internal sealed class PaddleEngine : IOcrEngine
     private WorkerOnnxDetector? _onnxDetector;
     private WorkerOnnxRecognizer? _onnxRecognizer;
 
-    /// <summary>Выбранный backend; эксперимент ONNX включается только явно.</summary>
+    /// <summary>Выбранный backend; native Paddle можно выбрать явно для сравнения.</summary>
     internal bool UsesOnnx { get; }
 
     /// <summary>Во сколько раз расширять найденную рамку строки перед распознаванием. 2.0 —
@@ -31,7 +32,7 @@ internal sealed class PaddleEngine : IOcrEngine
     public string Name => "PaddleOCR";
 
     public PaddleEngine(string modelsDir, bool useOneDnn = true, bool reusePredictors = true,
-        bool useOnnx = false, string? onnxModelsDir = null)
+        bool useOnnx = true, string? onnxModelsDir = null)
     {
         var det = Path.Combine(modelsDir, OcrComponents.PaddleDetector);
         var rec = Path.Combine(modelsDir, OcrComponents.PaddleRecognizer);
@@ -48,14 +49,14 @@ internal sealed class PaddleEngine : IOcrEngine
             var detectorFile = Path.Combine(directory, "det.onnx");
             var recognizerFile = Path.Combine(directory, "rec.onnx");
             foreach (var path in new[] { detectorFile, recognizerFile })
-                if (!File.Exists(path)) throw new FileNotFoundException($"нет экспериментальной ONNX-модели {path}", path);
+                if (!File.Exists(path)) throw new FileNotFoundException($"нет ONNX-модели {path}", path);
             _onnxDetector = new WorkerOnnxDetector(detectorFile) { UnclipRatio = UnclipRatio };
             try { _onnxRecognizer = new WorkerOnnxRecognizer(model.RecognizationModel, recognizerFile); }
             catch { _onnxDetector.Dispose(); _onnxDetector = null; throw; }
             UsesOnnx = true;
             return;
         }
-        // При выключенном эксперименте ONNX среда и модели ONNX не загружаются.
+        // При явно выбранном native Paddle среда и модели ONNX не загружаются.
         // Один поток вычислений на движок: параллельность дают рабочие потоки прогона.
         Action<PaddleConfig> device = useOneDnn ? config =>
         {

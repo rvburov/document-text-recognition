@@ -1,0 +1,18 @@
+{
+  "WorkflowRun": 44247207405,
+  "BenchmarkCommit": "c50941b3cd242397ef580bf4bab343331902f1fe",
+  "Models": [
+    {
+      "File": "det.onnx",
+      "BundledSha256": "47a9bc12fa4cccc90cdd2fa1f2f65fdadaf6b2f053faa1658f27a88b3287d1cf",
+      "BenchmarkedSha256": "47a9bc12fa4cccc90cdd2fa1f2f65fdadaf6b2f053faa1658f27a88b3287d1cf",
+      "Equal": true
+    },
+    {
+      "File": "rec.onnx",
+      "BundledSha256": "b8784a5b71140b5d8fb96a8b608ae54c9855f794fe43d938fea9951d723bc35d",
+      "BenchmarkedSha256": "b8784a5b71140b5d8fb96a8b608ae54c9855f794fe43d938fea9951d723bc35d",
+      "Equal": true
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "Scope": "Focused known-line geometry and confirmation guards; production source frozen after this run.",
+  "Result": "passed",
+  "TestsPassed": 49,
+  "TestsFailed": 0,
+  "ElapsedSeconds": 30.23,
+  "Evidence": "known-line-guards-verified.trx",
+  "OriginalSingleLineFieldsEligible": "10/10, including detached diacritic in 02-assembly-a4-Type",
+  "SmallSecondaryBandRejections": "10 geometry cases, including 4/5 px letters above and below with 0/2 px row separation",
+  "MixedFontPdfs": "4 actual PDFs, each read with the flag false and true; all 8 readings produced the independently declared complete name",
+  "MixedFontNames": ["Корпус Блок питания", "Блок питания Корпус"],
+  "CropCoordinatesPngAndPdfBytes": "unchanged",
+  "OriginalFivePdfRegression": "passed: requires four exact positive PDFs and permits an exact result or explicit OCR refusal for sample05; this test output does not establish five exact whole-PDF results",
+  "Sample05FastCrop": "exact Э(Т)О МОЭА required and confirmed by the independent-truth crop test",
+  "DefaultKnownLinesAtTest": false,
+  "FocusedGuards": [
+    "A parsed empty direct answer, including punctuation-only Type, requires full detection",
+    "All ink components participate in secondary-band rejection, including components shorter than 6 px",
+    "A single compact accent fully above one main glyph is permitted; allowed half-glyph width rounds up to a whole pixel",
+    "One forced field mismatch reruns exactly one detector call and does not reread the peer engine"
+  ],
+  "RemainingRisks": [
+    "Geometric qualification is a heuristic, not proof of one semantic text line",
+    "A single small superscript resembling the permitted accent can remain eligible",
+    "Two OCR engines can agree on the same incorrect transcription",
+    "Synthetic coverage does not establish accuracy for all production fonts, handwriting, faint annotations or scan damage"
+  ],
+  "CpuLease": "released; no active sessions",
+  "DocumentationPdfs": "not regenerated; DTR_TEST_SAMPLES_OUTPUT unset"
+}

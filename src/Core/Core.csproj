@@ -31,7 +31,7 @@
     <!-- PaddleOCR на движке Paddle Inference (CPU, oneDNN/MKL). -->
     <PackageReference Include="Sdcb.PaddleOCR" Version="3.3.1" />
     <!-- Только управляемая обертка: нативная ORT 1.11.1 уже входит в Paddle runtime.
-         Необязательный эксперимент ONNX выключен по умолчанию. -->
+         Штатные FP32-модели выполняются через ONNX Runtime. -->
     <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.11.0" />
     <!-- Модели PaddleOCR v5: из пакета берутся только нужные, см. PaddleModels ниже. -->
     <PackageReference Include="Sdcb.PaddleOCR.Models.LocalV5" Version="3.3.1" ExcludeAssets="all" GeneratePathProperty="true" />
@@ -68,7 +68,7 @@
   </ItemGroup>
 
   <!-- Готовые FP32-модели включены в исходную поставку: обычной сборке/установке
-       Python, конвертер и сеть для моделей не нужны. Эксперимент остается выключенным. -->
+       Python, конвертер и сеть для моделей не нужны. -->
   <ItemGroup>
     <_DtrOnnxModel Include="$(MSBuildProjectDirectory)/../../ocr/onnx/det.onnx"
                    ExpectedSha256="47A9BC12FA4CCCC90CDD2FA1F2F65FDADAF6B2F053FAA1658F27A88B3287D1CF" />

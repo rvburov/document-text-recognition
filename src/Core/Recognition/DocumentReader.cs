@@ -17,9 +17,9 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
 
     internal bool BatchFields { get; set; } = true;
 
-    /// <summary>Экспериментальное чтение заведомо одиночных строк без детектора Paddle.
-    /// По умолчанию выключено до проверки на более широком наборе сканов.</summary>
-    internal bool PreferKnownLines { get; set; }
+    /// <summary>Чтение одиночных строк без детектора с обязательной независимой сверкой;
+    /// сомнительные поля возвращаются к полному детектору.</summary>
+    internal bool PreferKnownLines { get; set; } = true;
 
     public static double MinConfidence(IOcrEngine engine) => engine switch
     {
@@ -30,7 +30,7 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
 
     /// <summary>Настоящая пара: Tesseract и PaddleOCR из папки программы.</summary>
     public static OcrPair CreateReal(string tessdata, bool useOneDnn = true, bool reusePredictors = true,
-        bool useOnnx = false, string? onnxModelsDir = null)
+        bool useOnnx = true, string? onnxModelsDir = null)
     {
         var first = new TesseractEngine(tessdata);
         try { return new OcrPair(first, new PaddleEngine(OcrComponents.PaddleDir, useOneDnn, reusePredictors, useOnnx, onnxModelsDir)); }
@@ -338,12 +338,16 @@ internal static class DocumentReader
     }
 
     internal static bool IsKnownLineConfirmed(FieldRole role, OcrReading candidate, double candidateMinConfidence,
-        OcrReading peer, double peerMinConfidence) =>
-        // Пустой прямой ответ не подтверждает отсутствие типа, даже если Tesseract тоже пуст.
-        !candidate.IsEmpty && double.IsFinite(candidate.MinConfidence) &&
-        candidate.MinConfidence >= candidateMinConfidence &&
-        EngineAgreement.AreConfirmed(Parse(role, candidate, candidateMinConfidence),
-            Parse(role, peer, peerMinConfidence));
+        OcrReading peer, double peerMinConfidence)
+    {
+        if (candidate.IsEmpty || !double.IsFinite(candidate.MinConfidence) ||
+            candidate.MinConfidence < candidateMinConfidence) return false;
+        var parsed = Parse(role, candidate, candidateMinConfidence);
+        // Даже непустой OCR-ответ (например, черточки) может разбираться как пустой тип.
+        // Отсутствие поля подтверждается только полным детектором, не прямым чтением строки.
+        return !string.IsNullOrEmpty(parsed.Value) &&
+            EngineAgreement.AreConfirmed(parsed, Parse(role, peer, peerMinConfidence));
+    }
 
     private static Parsed Parse(FieldRole role, OcrReading reading, double confidence) => role switch
     {

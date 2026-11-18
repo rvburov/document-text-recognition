@@ -39,6 +39,24 @@ internal static class KnownSingleLineRegion
         var middle = main.Select(p => p.Box.Top + p.Box.Height / 2.0).Order().ElementAt(main.Length / 2);
         if (main.Any(p => Math.Abs(p.Box.Top + p.Box.Height / 2.0 - middle) > height * .45)) return false;
 
+        // Мелкая вторая строка не попадает в main и может сливаться с первой в проекции.
+        // С обеих сторон учитываем ВСЕ компоненты, включая буквы высотой 4-5 px.
+        // Сверху допускается одиночная короткая диакритика строго над одной буквой
+        // (например, й), но не ряд мелких букв. Снизу допустим лишь след до 2x2 px.
+        var above = pieces.Where(p => p.Box.Top + p.Box.Height / 2.0 < middle - height * .5).ToArray();
+        if (above.Length > 1) return false;
+        if (above.Length == 1)
+        {
+            var mark = above[0].Box;
+            var isolatedPoint = mark.Width <= 2 && mark.Height <= 2;
+            var singleAccent = mark.Height <= height * .25 && mark.Width <= Math.Ceiling(height * .5) &&
+                main.Any(p => mark.Left >= p.Box.Left && mark.Right <= p.Box.Right &&
+                    p.Box.Top >= mark.Bottom && p.Box.Top - mark.Bottom <= height * .25);
+            if (!isolatedPoint && !singleAccent) return false;
+        }
+        var below = pieces.Where(p => p.Box.Top + p.Box.Height / 2.0 > middle + height * .5).ToArray();
+        if (below.Length > 1 || below.Any(p => p.Box.Width > 2 || p.Box.Height > 2)) return false;
+
         // Небольшой разрыв допустим для точек/диакритики; две полосы текста не объединяем.
         var bands = 0;
         var lastInkRow = int.MinValue / 2;

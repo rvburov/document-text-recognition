@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) sdcb. Derived from PaddleSharp 3.3.1:
 // https://github.com/sdcb/PaddleSharp/tree/139bc184a6d86c0c60bb8b8a90fb641b21c0b0e6/src/Sdcb.PaddleOCR
-// Modified for an experimental optional backend: execute converted FP32 models with ONNX Runtime;
+// Modified for ONNX Runtime: execute converted FP32 models with ONNX Runtime;
 // retain Paddle preprocessing, detector geometry, CTC decoding, scores and thresholds.
 // Trim unused API and dispose temporary resources on failure.
 // Full license is distributed with the application (licenses/PaddleSharp-Apache-2.0.txt).
@@ -17,11 +17,11 @@ using System.Runtime.InteropServices;
 namespace DocumentTextRecognition.Core.Ocr;
 
 /// <summary>
-/// Experimental ONNX detector. Preprocessing and geometry match WorkerPaddleDetector.
+/// ONNX detector. Preprocessing and geometry match WorkerPaddleDetector.
 /// </summary>
 internal sealed class WorkerOnnxDetector : IDisposable
 {
-    /// <summary>One sequential ONNX session for this benchmark worker.</summary>
+    /// <summary>One sequential ONNX session for this document worker.</summary>
     readonly InferenceSession _p;
 
     /// <summary>Gets or sets the maximum size for resizing the input image.</summary>

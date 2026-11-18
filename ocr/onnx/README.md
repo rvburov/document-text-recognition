@@ -10,7 +10,7 @@ To reproduce the assets, extract models by building Core, install `tools/OnnxPer
 python tools/OnnxPerformance/convert_models.py artifacts/ocr-models/paddle-v5 artifacts/onnx-models
 ```
 
-Compare output SHA-256 hashes with this manifest before replacing assets. A model update must update the manifest and Core's expected hashes together, then rerun native/ONNX differential tests. The model files are copied to build/publish outputs even while the experimental backend remains off by default.
+Compare output SHA-256 hashes with this manifest before replacing assets. A model update must update the manifest and Core's expected hashes together, then rerun native/ONNX differential tests. The model files are copied to build/publish outputs and used by default in version 1.3. The native backend remains available for controlled comparisons.
 
 For a Windows published-folder check, including a Cyrillic installation path and the payload's own Core/native DLLs:
 

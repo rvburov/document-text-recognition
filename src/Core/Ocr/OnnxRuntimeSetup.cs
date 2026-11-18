@@ -2,7 +2,7 @@ using Microsoft.ML.OnnxRuntime;
 
 namespace DocumentTextRecognition.Core.Ocr;
 
-/// <summary>Настройки только явно выбранного экспериментального ONNX backend.</summary>
+/// <summary>Настройки ONNX: один вычислительный поток на обработчик и отключенная телеметрия.</summary>
 internal static class OnnxRuntimeSetup
 {
     private static readonly Lazy<bool> TelemetryDisabled = new(() =>
