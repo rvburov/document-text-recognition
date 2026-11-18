@@ -18,16 +18,18 @@ internal sealed class TesseractEngine : IOcrEngine
 
     public TesseractEngine(string tessdata, string languages = OcrComponents.TesseractLanguages)
     {
-        TessdataDirectory = Path.GetFullPath(tessdata);
+        // GetFullPath may expand a Windows 8.3 alias back to a Cyrillic directory.
+        // Keep the exported path identical to the one accepted by native Tesseract.
+        TessdataDirectory = OcrComponents.AsciiDirectory(Path.GetFullPath(tessdata));
         Languages = languages;
         OcrComponents.RegisterNativeResolver();
         _handle = TesseractApi.TessBaseAPICreate();
         if (_handle == IntPtr.Zero) throw new InvalidOperationException("не создается экземпляр Tesseract");
-        if (TesseractApi.TessBaseAPIInit3(_handle, tessdata, languages) != 0)
+        if (TesseractApi.TessBaseAPIInit3(_handle, TessdataDirectory, languages) != 0)
         {
             TesseractApi.TessBaseAPIDelete(_handle);
             _handle = IntPtr.Zero;
-            throw new InvalidOperationException($"не загружаются языковые данные {languages} из {tessdata}");
+            throw new InvalidOperationException($"не загружаются языковые данные {languages} из {TessdataDirectory}");
         }
         // Служебные сообщения Tesseract (о разрешении и т. п.) не нужны в консоли программы.
         TesseractApi.TessBaseAPISetVariable(_handle, "debug_file", OperatingSystem.IsWindows() ? "NUL" : "/dev/null");
