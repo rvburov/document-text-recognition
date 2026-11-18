@@ -1,0 +1,166 @@
+{
+  "SchemaVersion": 1,
+  "Label": "vector-preflight",
+  "RecordedUtc": "2026-11-18T22:17:09.6746259+00:00",
+  "Environment": {
+    "OS": "Microsoft Windows 10.0.20348",
+    "DotNet": ".NET 10.0.15",
+    "Architecture": "X64",
+    "LogicalProcessors": 4,
+    "Cpu": "AMD EPYC 7763 64-Core Processor                ",
+    "CgroupCpuMax": null,
+    "CgroupMemoryMax": null,
+    "GcAvailableMemoryBytes": 17174360064,
+    "Tesseract": "5.5.0",
+    "OpenCvThreads": 1,
+    "HammingAvx2Available": true,
+    "OmpThreadLimit": "1",
+    "OmpNumThreads": "1",
+    "OpenBlasNumThreads": "1",
+    "CoreAssemblySha256": "4377FD4F749AB3BAD6EC493379C6935502C5BAB333A166779E2F134ACB21086F",
+    "PaddleNativeLibraries": [
+      {
+        "File": "runtimes\\win-x64\\native\\onnxruntime.dll",
+        "Sha256": "24CCAA3BA9C5A79D88B3EA03B4399FE6D6D5C75B826661422C09613843B78213",
+        "Bytes": 7900064
+      },
+      {
+        "File": "runtimes\\win-x64\\native\\paddle_inference_c.dll",
+        "Sha256": "8BB49CA1A503245211906DF34906DDDC96372B2F65DB5E95DD6980A83C05A018",
+        "Bytes": 93030400
+      }
+    ]
+  },
+  "Dataset": {
+    "Description": "4 synthetic test PDFs created by cycling over 4 source documents; local filesystem. Actual PDF-text/OCR paths and engine image counts are recorded in Provenance. Not distinct production scans.",
+    "Kind": "vector",
+    "VerificationManifestSha256": "BB85B614EA999C083ACD895E23A4A64F9CACAAE93D307C49636ADFA88E34BB7E",
+    "ExcludedNonRequiredSamples": [],
+    "Count": 4,
+    "UniqueDocuments": 4,
+    "Templates": 2,
+    "DatasetSha256": "F7E370B828DBFE54AB391F850F0AB6B1108B256BA0FACEAB49733157CEB4776F",
+    "Samples": [
+      {
+        "File": "scans/01-specification-multiline.pdf",
+        "ExpectedName": "УИЕС.468732.271 Плата УПЧ 1489 МГц Спецификация.pdf",
+        "Sha256": "B86118026C826A063BF259531D5D8A1DE012029D5E3F4AECCD6C98FF7E7D0B53"
+      },
+      {
+        "File": "scans/02-specification-brand.pdf",
+        "ExpectedName": "ВКЕМ.461411.200 Плата Epcos USB 1489 МГц Спецификация.pdf",
+        "Sha256": "383D5D7108CDE26A5E6AEA5541D2CBBAEE4F297A17672AA7D43B46EF01A9EB85"
+      },
+      {
+        "File": "scans/03-assembly.pdf",
+        "ExpectedName": "ЮИЛГ.461411.123 Корпус Сборочный чертеж.pdf",
+        "Sha256": "55FC78FDE0DF7016CA14CE479B02FCE0D3821DDE0C65E5C310EFFC114E50072B"
+      },
+      {
+        "File": "scans/04-schematic.pdf",
+        "ExpectedName": "АЦИЕ.202132.004 Блок питания Схема электрическая.pdf",
+        "Sha256": "F3EE6A0618D24B6C2518A671E0A443DD13D3CD2BDD46EDD49F45B8D16E227756"
+      }
+    ],
+    "CopiedBytes": 522789
+  },
+  "Configuration": {
+    "RequestedWorkers": 0,
+    "EffectiveWorkers": 8,
+    "RuntimeDefaultsApplied": true,
+    "ProfilePasses": 0,
+    "BatchFields": null,
+    "OneDnn": null,
+    "ReusePredictors": null,
+    "KnownLines": null,
+    "Onnx": null,
+    "OnnxModels": null,
+    "DedicatedWorkers": null,
+    "HammingAvx2": null,
+    "ProcessWorkers": null,
+    "PdfText": true,
+    "GostFallback": true,
+    "ExpectedSource": "pdf-text-confirmed",
+    "RequireProvenance": true,
+    "ResolvedProcessWorkers": false,
+    "ResolvedHammingAvx2": true,
+    "ResolvedDedicatedWorkers": true,
+    "ResolvedBatchFields": false,
+    "ResolvedKnownLines": true,
+    "ResolvedUsesOnnx": true,
+    "ResolvedPdfText": true,
+    "ResolvedGostFallback": true,
+    "RuntimeDescription": {
+      "BasePair": "Tesseract rus+eng and eastern-Slavic PaddleOCR; PDF text requires independent raster confirmation.",
+      "OptionalGostPair": "Lazy Tesseract rus_gost+eng and Cyrillic PaddleOCR; actual attempts/acceptances are counted in Provenance.",
+      "RouteCache": "Only the model choice for a template is cached; every new PDF is read again. Text, field values and rename answers are not cached."
+    },
+    "ResolvedOneDnn": null,
+    "ResolvedReusePredictors": null,
+    "Warmup": "One untimed read of each unique document, then optional phase profiles; new real OCR engines are still initialized inside the timed full run."
+  },
+  "Measurement": {
+    "WallSeconds": 4.5229268,
+    "CpuSeconds": 7.953125,
+    "ParentCpuSeconds": 7.953125,
+    "ChildCpuSeconds": 0,
+    "ResourceScope": "Parent plus registered OCR child processes; working sets and threads sampled together every100ms; shared file-backed pages are counted per process, not unique physical RAM. Final child CPU uses OS/report values, or the last available sample after an exit race.",
+    "WorkerProcessesStarted": 0,
+    "WorkerProcessesActiveAfterRun": 0,
+    "RetiredWorkersWithoutFinalCpu": 0,
+    "ChildResourceSampleFailures": 0,
+    "SampledPeakWorkerProcesses": 0,
+    "MeanCpuCoresUsed": 1.7584023247955285,
+    "SampledPeakWorkingSetBytes": 484024320,
+    "SampledPeakThreads": 20,
+    "DocumentsPerSecond": 0.8843830945926431,
+    "SuccessfullyRenamedPerSecond": 0.8843830945926431,
+    "Projected8000Minutes": 150.76422666666664,
+    "Measured8000Minutes": null,
+    "ProjectionWarning": "Linear extrapolation from repeated synthetic single-page files; not a measured 8000-document run.",
+    "TemplateLoadAndEnumerationMilliseconds": 256.8169,
+    "EngineInitializationMilliseconds": 2371.3226,
+    "FirstResultMilliseconds": 3252.8403,
+    "WarmupAndProfileSeconds": 4.1111235,
+    "Found": 4,
+    "Processed": 4,
+    "Renamed": 4,
+    "AlreadyNamed": 0,
+    "Skipped": 0
+  },
+  "PhaseProfile": {
+    "Instrumented": true,
+    "Documents": 0,
+    "Scope": "Sequential warmed production DocumentReader reads, with each actual PDF-text/OCR path recorded in Trace. Timing callbacks are enabled only for these profiles, not full throughput.",
+    "Stages": [],
+    "Reads": []
+  },
+  "Provenance": {
+    "ObservedDocuments": 4,
+    "MissingTrace": 0,
+    "InvalidTrace": 0,
+    "DocumentsBySource": {
+      "pdf-text-confirmed": 4
+    },
+    "DocumentsBySourceAndStatus": {
+      "pdf-text-confirmed/Renamed": 4
+    },
+    "PdfTextAttempts": 6,
+    "PdfTextAccepted": 4,
+    "TesseractReads": 8,
+    "PaddleReads": 26,
+    "EasyReads": 0,
+    "MatchedPages": 4,
+    "MatchingCalls": 4,
+    "GostAttempts": 2,
+    "GostAccepted": 2,
+    "Scope": "Only actual timed results, including skipped documents; source/status groups separate acceptance from attempts. PDF-text is confirmed by a raster peer, not claimed as dual OCR.",
+    "CounterDefinitions": "PDF-text and GOST attempts/acceptances count matched-page route attempts/successes; engine reads count field images submitted, including fallback. A Paddle batch of three fields counts three reads. MatchingCalls counts page-level matcher calls. Model choices may be cached per template; text/recognition results are not cached."
+  },
+  "Quality": {
+    "Passed": true,
+    "VerifiedPdfHashes": 4,
+    "IncorrectNames": 0,
+    "Errors": []
+  }
+}

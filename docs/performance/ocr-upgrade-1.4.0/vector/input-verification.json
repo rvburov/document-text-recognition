@@ -1,0 +1,324 @@
+{
+  "SchemaVersion": 1,
+  "GeneratedUtc": "2026-11-18T21:45:11.4203525+00:00",
+  "DatasetKind": "vector",
+  "Synthetic": true,
+  "Generator": "tools/VectorPerformanceSamples using GostTypeASamples.CreatePair",
+  "Scope": "Four fixed synthetic single-page vector PDFs with visible embedded GOST Type A text and exact saved field coordinates. Literal expected filenames are frozen before rendering. Image-only siblings are generated from the same vector pages for audit, and are not throughput inputs. No production PDFs, OCR inference, accuracy success, or benchmark performance is claimed by this manifest. All four inputs are required; a subsequent refusal or wrong name must fail verification without excluding a sample.",
+  "FilenameCanonicalization": "Collapse whitespace and fold ё→е / Ё→Е in filenames; printed source and extracted text preserve their original Unicode.",
+  "SourceFont": {
+    "File": "tests/Core.Tests/Fonts/GOST2.304-81TypeA-Slanted.ttf",
+    "Sha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+    "Family": "GOST 2.304-81 Type A Slanted",
+    "EmbeddedInVector": true,
+    "License": "tests/Core.Tests/Fonts/OFL-GOST-Type-A.txt",
+    "Source": "tests/Core.Tests/Fonts/GOST-Type-A-SOURCE.md"
+  },
+  "Environment": {
+    "OS": "Ubuntu 24.04.5 LTS",
+    "DotNet": ".NET 10.0.15"
+  },
+  "Integrity": {
+    "SavedRegionsVerified": true,
+    "EqualPhysicalPageSizeVerified": true,
+    "ExactVectorTextVerified": true,
+    "RasterFieldsHaveNoTextLayer": true,
+    "OcrRun": false
+  },
+  "Templates": [
+    {
+      "File": "templates/specification-a4.pdf",
+      "Sha256": "73156A65AF899A9563360FA03FDEB143C16BBA1247EBDBF2E0FB6098E60961D3",
+      "MarkupFile": "templates/specification-a4.pdf.template.json",
+      "MarkupSha256": "EDBDB88E23FCD6CCB2C6631E56623A08D98DA5DE5CE3132131D5D2C57055B9C1",
+      "TypeAbsent": true,
+      "UnrelatedValues": {
+        "Designation": "ОБРЗ.000000.000",
+        "Name": "Образец",
+        "PrintedType": null
+      }
+    },
+    {
+      "File": "templates/drawing-a4.pdf",
+      "Sha256": "C6149D45D124A16C8E9AFEE231F5F3E73A6550735DC9E58CE1B27367B649EB5E",
+      "MarkupFile": "templates/drawing-a4.pdf.template.json",
+      "MarkupSha256": "F3FE52C40296049FD37CEDF689A50F8D00E7106D635350899109D247D5659DF7",
+      "TypeAbsent": false,
+      "UnrelatedValues": {
+        "Designation": "ОБРЗ.000000.000",
+        "Name": "Образец",
+        "PrintedType": "Тип документа"
+      }
+    }
+  ],
+  "Samples": [
+    {
+      "File": "scans/01-specification-multiline.pdf",
+      "Sha256": "B86118026C826A063BF259531D5D8A1DE012029D5E3F4AECCD6C98FF7E7D0B53",
+      "Template": "templates/specification-a4.pdf",
+      "ExpectedName": "УИЕС.468732.271 Плата УПЧ 1489 МГц Спецификация.pdf",
+      "RecognitionRequired": true,
+      "DatasetKind": "vector",
+      "Synthetic": true,
+      "ExpectedSource": "pdf-text-confirmed",
+      "FrozenTruth": {
+        "Designation": "УИЕС.468732.271",
+        "PrintedName": "Плата УПЧ\n1489 МГц",
+        "Name": "Плата УПЧ 1489 МГц",
+        "PrintedType": null,
+        "Type": "Спецификация"
+      },
+      "Pair": {
+        "RasterFile": "paired-raster/01-specification-multiline.pdf",
+        "RasterSha256": "D99B042A6FF476BE643B4126F5DF69866116A1E623EA14059EACE3F9FF1B94B5",
+        "RasterDpi": 250,
+        "RasterIsRenderedFromVector": true,
+        "WidthPoints": 595.2755905511812,
+        "HeightPoints": 841.8897637795276
+      },
+      "Fields": [
+        {
+          "Role": "Designation",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "PrintedText": "УИЕС.468732.271",
+          "CanonicalText": "УИЕС.468732.271",
+          "ExtractedVectorText": "УИЕС.468732.271",
+          "RequiresIndependentRasterValidation": true,
+          "RasterTextStatus": "Empty"
+        },
+        {
+          "Role": "Name",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "PrintedText": "Плата УПЧ\n1489 МГц",
+          "CanonicalText": "Плата УПЧ 1489 МГц",
+          "ExtractedVectorText": "Плата УПЧ\n1489 МГц",
+          "RequiresIndependentRasterValidation": true,
+          "RasterTextStatus": "Empty"
+        }
+      ]
+    },
+    {
+      "File": "scans/02-specification-brand.pdf",
+      "Sha256": "383D5D7108CDE26A5E6AEA5541D2CBBAEE4F297A17672AA7D43B46EF01A9EB85",
+      "Template": "templates/specification-a4.pdf",
+      "ExpectedName": "ВКЕМ.461411.200 Плата Epcos USB 1489 МГц Спецификация.pdf",
+      "RecognitionRequired": true,
+      "DatasetKind": "vector",
+      "Synthetic": true,
+      "ExpectedSource": "pdf-text-confirmed",
+      "FrozenTruth": {
+        "Designation": "ВКЕМ.461411.200",
+        "PrintedName": "Плата Epcos\nUSB 1489 МГц",
+        "Name": "Плата Epcos USB 1489 МГц",
+        "PrintedType": null,
+        "Type": "Спецификация"
+      },
+      "Pair": {
+        "RasterFile": "paired-raster/02-specification-brand.pdf",
+        "RasterSha256": "6AFD9BEEA3C4DCE9744FFDC95CD9CC45583A1EB88A8A7124489191674E95A092",
+        "RasterDpi": 250,
+        "RasterIsRenderedFromVector": true,
+        "WidthPoints": 595.2755905511812,
+        "HeightPoints": 841.8897637795276
+      },
+      "Fields": [
+        {
+          "Role": "Designation",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "PrintedText": "ВКЕМ.461411.200",
+          "CanonicalText": "ВКЕМ.461411.200",
+          "ExtractedVectorText": "ВКЕМ.461411.200",
+          "RequiresIndependentRasterValidation": true,
+          "RasterTextStatus": "Empty"
+        },
+        {
+          "Role": "Name",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "PrintedText": "Плата Epcos\nUSB 1489 МГц",
+          "CanonicalText": "Плата Epcos USB 1489 МГц",
+          "ExtractedVectorText": "Плата Epcos\nUSB 1489 МГц",
+          "RequiresIndependentRasterValidation": true,
+          "RasterTextStatus": "Empty"
+        }
+      ]
+    },
+    {
+      "File": "scans/03-assembly.pdf",
+      "Sha256": "55FC78FDE0DF7016CA14CE479B02FCE0D3821DDE0C65E5C310EFFC114E50072B",
+      "Template": "templates/drawing-a4.pdf",
+      "ExpectedName": "ЮИЛГ.461411.123 Корпус Сборочный чертеж.pdf",
+      "RecognitionRequired": true,
+      "DatasetKind": "vector",
+      "Synthetic": true,
+      "ExpectedSource": "pdf-text-confirmed",
+      "FrozenTruth": {
+        "Designation": "ЮИЛГ.461411.123",
+        "PrintedName": "Корпус",
+        "Name": "Корпус",
+        "PrintedType": "Сборочный чертёж",
+        "Type": "Сборочный чертеж"
+      },
+      "Pair": {
+        "RasterFile": "paired-raster/03-assembly.pdf",
+        "RasterSha256": "8818D61B8634036998E1B802B27D89FF3D33EEDAB46E8240D225A1B40A3885BA",
+        "RasterDpi": 250,
+        "RasterIsRenderedFromVector": true,
+        "WidthPoints": 595.2755905511812,
+        "HeightPoints": 841.8897637795276
+      },
+      "Fields": [
+        {
+          "Role": "Designation",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.803030303030303,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8434343434343434
+          },
+          "PrintedText": "ЮИЛГ.461411.123",
+          "CanonicalText": "ЮИЛГ.461411.123",
+          "ExtractedVectorText": "ЮИЛГ.461411.123",
+          "RequiresIndependentRasterValidation": true,
+          "RasterTextStatus": "Empty"
+        },
+        {
+          "Role": "Name",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.8939393939393939
+          },
+          "PrintedText": "Корпус",
+          "CanonicalText": "Корпус",
+          "ExtractedVectorText": "Корпус",
+          "RequiresIndependentRasterValidation": true,
+          "RasterTextStatus": "Empty"
+        },
+        {
+          "Role": "Type",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.02356902356902357,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9276094276094277
+          },
+          "PrintedText": "Сборочный чертёж",
+          "CanonicalText": "Сборочный чертеж",
+          "ExtractedVectorText": "Сборочный чертёж",
+          "RequiresIndependentRasterValidation": true,
+          "RasterTextStatus": "Empty"
+        }
+      ]
+    },
+    {
+      "File": "scans/04-schematic.pdf",
+      "Sha256": "F3EE6A0618D24B6C2518A671E0A443DD13D3CD2BDD46EDD49F45B8D16E227756",
+      "Template": "templates/drawing-a4.pdf",
+      "ExpectedName": "АЦИЕ.202132.004 Блок питания Схема электрическая.pdf",
+      "RecognitionRequired": true,
+      "DatasetKind": "vector",
+      "Synthetic": true,
+      "ExpectedSource": "pdf-text-confirmed",
+      "FrozenTruth": {
+        "Designation": "АЦИЕ.202132.004",
+        "PrintedName": "Блок питания",
+        "Name": "Блок питания",
+        "PrintedType": "Схема электрическая",
+        "Type": "Схема электрическая"
+      },
+      "Pair": {
+        "RasterFile": "paired-raster/04-schematic.pdf",
+        "RasterSha256": "16885B07E9F5B06E19945A6EF93B56CDDBEBBA41334A8B9A63005E56C5DED9E4",
+        "RasterDpi": 250,
+        "RasterIsRenderedFromVector": true,
+        "WidthPoints": 595.2755905511812,
+        "HeightPoints": 841.8897637795276
+      },
+      "Fields": [
+        {
+          "Role": "Designation",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.803030303030303,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8434343434343434
+          },
+          "PrintedText": "АЦИЕ.202132.004",
+          "CanonicalText": "АЦИЕ.202132.004",
+          "ExtractedVectorText": "АЦИЕ.202132.004",
+          "RequiresIndependentRasterValidation": true,
+          "RasterTextStatus": "Empty"
+        },
+        {
+          "Role": "Name",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.8939393939393939
+          },
+          "PrintedText": "Блок питания",
+          "CanonicalText": "Блок питания",
+          "ExtractedVectorText": "Блок питания",
+          "RequiresIndependentRasterValidation": true,
+          "RasterTextStatus": "Empty"
+        },
+        {
+          "Role": "Type",
+          "Bounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.02356902356902357,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9276094276094277
+          },
+          "PrintedText": "Схема электрическая",
+          "CanonicalText": "Схема электрическая",
+          "ExtractedVectorText": "Схема электрическая",
+          "RequiresIndependentRasterValidation": true,
+          "RasterTextStatus": "Empty"
+        }
+      ]
+    }
+  ]
+}

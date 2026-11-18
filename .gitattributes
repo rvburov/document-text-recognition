@@ -9,3 +9,4 @@ ocr/tessdata/gost-model-manifest.json -text
 ocr/onnx/cyrillic-model-manifest.json -text
 tools/OcrComparison/input-cases.json -text
 tools/OcrComparison/convert_recognizer.py -text
+docs/performance/ocr-upgrade-1.4.0/**/*.json -text

@@ -1,0 +1,24 @@
+{
+  "Version": "1.4.0",
+  "WorkflowRunId": 44409848382,
+  "WorkflowUrl": "https://github.com/rvburov/document-text-recognition/actions/runs/44409848382",
+  "BenchmarkCommit": "7f8cddbe31b51380af3619217c63a151e466067b",
+  "CoreSourceTree": "5a0f29d69ca62d27bbcc26114e3990a782e837fa",
+  "VerifiedCommit": "e7b8dc80e9472b5b33e1b2486b421ac41c85d71f",
+  "ChecksRunId": 44410792280,
+  "ChecksConclusion": "success",
+  "RuntimeDifferenceBetweenBenchmarkAndVerifiedCommit": "None in src, ocr, tools/Performance or Directory.Build.props; only a Windows test attempt-count assertion and documentation changed.",
+  "CoreAssemblySha256": "4377FD4F749AB3BAD6EC493379C6935502C5BAB333A166779E2F134ACB21086F",
+  "Artifacts": [
+    {
+      "Kind": "raster",
+      "Id": 14478231369
+    },
+    {
+      "Kind": "vector",
+      "Id": 14477946891
+    }
+  ],
+  "Normalization": "Artifact JSON copied with UTF-8/LF line endings; original field values retained.",
+  "Scope": "8000 real reads and renames per job, each repeating four disclosed synthetic documents. No recognized-value cache. Different corpora and CPU models; these runs do not isolate an algorithmic speedup."
+}

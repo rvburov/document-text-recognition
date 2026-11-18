@@ -1,0 +1,35 @@
+{
+  "DatasetKind": "vector",
+  "Synthetic": true,
+  "Documents": 8000,
+  "WallSeconds": 1036.8920136,
+  "Measured8000Minutes": 17.28153356,
+  "Goal20MinutesMet": true,
+  "CpuSeconds": 4111.390625,
+  "SampledPeakAggregateRssBytes": 1936367616,
+  "ResourceScope": "Parent plus registered OCR child processes; working sets and threads sampled together every100ms; shared file-backed pages are counted per process, not unique physical RAM. Final child CPU uses OS/report values, or the last available sample after an exit race.",
+  "QualityPassed": true,
+  "Provenance": {
+    "ObservedDocuments": 8000,
+    "MissingTrace": 0,
+    "InvalidTrace": 0,
+    "DocumentsBySource": {
+      "pdf-text-confirmed": 8000
+    },
+    "DocumentsBySourceAndStatus": {
+      "pdf-text-confirmed/Renamed": 8000
+    },
+    "PdfTextAttempts": 8008,
+    "PdfTextAccepted": 8000,
+    "TesseractReads": 32,
+    "PaddleReads": 28048,
+    "EasyReads": 0,
+    "MatchedPages": 8000,
+    "MatchingCalls": 8000,
+    "GostAttempts": 4000,
+    "GostAccepted": 4000,
+    "Scope": "Only actual timed results, including skipped documents; source/status groups separate acceptance from attempts. PDF-text is confirmed by a raster peer, not claimed as dual OCR.",
+    "CounterDefinitions": "PDF-text and GOST attempts/acceptances count matched-page route attempts/successes; engine reads count field images submitted, including fallback. A Paddle batch of three fields counts three reads. MatchingCalls counts page-level matcher calls. Model choices may be cached per template; text/recognition results are not cached."
+  },
+  "Scope": "Repeated synthetic inputs, not original user PDFs. Vector results do not establish speed on raster scans; independent jobs may use different CPU models."
+}
