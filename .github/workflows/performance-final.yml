@@ -1,0 +1,192 @@
+name: performance-final
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['.github/workflows/performance-final.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: performance-final-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  windows:
+    name: Заключительный выбор режима и фактические 8000 PDF (Windows)
+    runs-on: windows-2022
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Сборка поставки и измерителя
+        shell: pwsh
+        run: |
+          dotnet build tools/Performance -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Четыре режима по 500 PDF на одной машине
+        shell: pwsh
+        run: |
+          $env:DTR_BENCHMARK_CPU = @(Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name) -join '; '
+          $reports = Join-Path '${{ runner.temp }}' 'final'
+          New-Item -ItemType Directory -Force -Path $reports | Out-Null
+          $binaryRoot = Join-Path (Get-Location) 'artifacts/bin/Performance/release'
+          function ModelHashes {
+            $files = @(Get-ChildItem $binaryRoot -Recurse -Filter '*.onnx' | Sort-Object FullName)
+            if ($files.Count -ne 2) { throw 'Expected exactly two supplied ONNX models.' }
+            return @($files | ForEach-Object { [ordered]@{ File=$_.Name; Sha256=(Get-FileHash $_.FullName -Algorithm SHA256).Hash } })
+          }
+          $modelHashes = ModelHashes | ConvertTo-Json -Compress
+          $modelHashes | Set-Content (Join-Path $reports 'model-hashes.json')
+          $modes = @(
+            @{Label='thread-8-scalar-batch'; Processes=$false; Workers=8; Avx2=$false; Batch=$true},
+            @{Label='thread-8-avx2-batch'; Processes=$false; Workers=8; Avx2=$true; Batch=$true},
+            @{Label='thread-8-avx2-separate'; Processes=$false; Workers=8; Avx2=$true; Batch=$false},
+            @{Label='process-4-avx2-separate'; Processes=$true; Workers=4; Avx2=$true; Batch=$false}
+          )
+          $runs = @()
+          $datasetHash = $null
+          $coreHash = $null
+          foreach ($mode in $modes) {
+            $label = "$($mode.Label)-500"
+            $file = Join-Path $reports ($label + '.json')
+            $processes = $mode.Processes.ToString().ToLowerInvariant()
+            $avx2 = $mode.Avx2.ToString().ToLowerInvariant()
+            $batch = $mode.Batch.ToString().ToLowerInvariant()
+            dotnet run --project tools/Performance -c Release --no-build -- --count 500 --workers $mode.Workers --opencv-threads 1 --known-lines true --onnx true --dedicated-workers true --hamming-avx2 $avx2 --process-workers $processes --batch-fields $batch --profile-passes 1 --label $label --output $file
+            if ($LASTEXITCODE -ne 0) { throw "$label failed complete names/hashes validation." }
+            $result = Get-Content $file -Raw | ConvertFrom-Json
+            $expectedChildren = if ($mode.Processes) { $mode.Workers } else { 0 }
+            if (!$result.Quality.Passed -or $result.Quality.VerifiedPdfHashes -ne 500 -or
+                $result.Quality.IncorrectNames -ne 0 -or $result.Quality.Errors.Count -ne 0 -or
+                $result.Measurement.Renamed -ne 500 -or $result.Measurement.Processed -ne 500 -or
+                $result.Measurement.Skipped -ne 0 -or $result.Configuration.RequestedWorkers -ne $mode.Workers -or
+                $result.Configuration.EffectiveWorkers -ne $mode.Workers -or
+                $result.Configuration.BatchFields -ne $mode.Batch -or
+                $result.Configuration.ResolvedBatchFields -ne $mode.Batch -or
+                $result.Configuration.ProcessWorkers -ne $mode.Processes -or
+                $result.Configuration.ResolvedProcessWorkers -ne $mode.Processes -or
+                $result.Configuration.HammingAvx2 -ne $mode.Avx2 -or
+                $result.Configuration.ResolvedHammingAvx2 -ne $mode.Avx2 -or
+                !$result.Environment.HammingAvx2Available -or !$result.Configuration.KnownLines -or
+                !$result.Configuration.Onnx -or !$result.Configuration.DedicatedWorkers -or
+                !$result.Configuration.ResolvedKnownLines -or !$result.Configuration.ResolvedUsesOnnx -or
+                !$result.Configuration.ResolvedDedicatedWorkers -or
+                $result.Environment.OpenCvThreads -ne 1 -or
+                $result.Measurement.WorkerProcessesStarted -ne $expectedChildren -or
+                $result.Measurement.WorkerProcessesActiveAfterRun -ne 0 -or
+                $result.Measurement.SampledPeakWorkerProcesses -gt $expectedChildren -or
+                ($mode.Processes -and $result.Measurement.SampledPeakWorkerProcesses -lt 1) -or
+                ($mode.Processes -and $result.Measurement.ChildCpuSeconds -le 0)) {
+              throw "$label did not use the declared mode, leaked children, or failed quality checks."
+            }
+            if ($null -eq $datasetHash) {
+              $datasetHash = $result.Dataset.DatasetSha256
+              $coreHash = $result.Environment.CoreAssemblySha256
+            }
+            if ($result.Dataset.DatasetSha256 -ne $datasetHash -or
+                $result.Environment.CoreAssemblySha256 -ne $coreHash -or
+                (ModelHashes | ConvertTo-Json -Compress) -ne $modelHashes) {
+              throw 'Inputs, models or Core changed between comparison runs.'
+            }
+            $runs += [pscustomobject]@{
+              Label=$label; Processes=$mode.Processes; Workers=$mode.Workers; Avx2=$mode.Avx2; Batch=$mode.Batch
+              WallSeconds=[double]$result.Measurement.WallSeconds
+              ChildCpuSeconds=[double]$result.Measurement.ChildCpuSeconds
+              PeakAggregateRssBytes=[long]$result.Measurement.SampledPeakWorkingSetBytes
+              QualityPassed=$true
+            }
+          }
+          if ($runs.Count -ne 4) { throw 'Expected all four valid configurations before selection.' }
+          $ranked = @($runs | Sort-Object WallSeconds, Label)
+          $winner = $ranked[0]
+          $control = $runs | Where-Object { $_.Label -eq 'thread-8-scalar-batch-500' }
+          [ordered]@{
+            SelectedLabel=$winner.Label; SelectedWorkers=$winner.Workers; SelectedProcesses=$winner.Processes
+            SelectedAvx2=$winner.Avx2; SelectedBatchFields=$winner.Batch
+            ControlSeconds=$control.WallSeconds; SelectedSeconds=$winner.WallSeconds
+            RelativeTimeReduction=(1 - $winner.WallSeconds / $control.WallSeconds)
+            CoreAssemblySha256=$coreHash; DatasetSha256=$datasetHash; RankedRuns=$ranked; Runs=$runs
+            Reason='Choose the lowest measured valid 500-document time, without a minimum-gain gate; always verify the winner on 8000.'
+            Scope='One-VM short-run selection, including different startup costs. This is not a measured 8000 result or formal significance test. Aggregate RSS repeats shared pages.'
+          } | ConvertTo-Json -Depth 12 | Set-Content (Join-Path $reports 'selection.json')
+          "SELECTED_WORKERS=$($winner.Workers)" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "SELECTED_PROCESSES=$($winner.Processes.ToString().ToLowerInvariant())" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "SELECTED_AVX2=$($winner.Avx2.ToString().ToLowerInvariant())" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "SELECTED_BATCH=$($winner.Batch.ToString().ToLowerInvariant())" | Out-File -FilePath $env:GITHUB_ENV -Append
+          Write-Host "Selected $($winner.Label); actual 8000 verification follows regardless of percentage gain."
+      - name: Промежуточные отчеты до длительного прогона
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-final-selection-windows
+          path: |
+            ${{ runner.temp }}/final
+          retention-days: 14
+      - name: Фактические 8000 PDF в выбранном режиме
+        shell: pwsh
+        run: |
+          $env:DTR_BENCHMARK_CPU = @(Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name) -join '; '
+          $reports = Join-Path '${{ runner.temp }}' 'final'
+          $file = Join-Path $reports 'windows-final-8000.json'
+          dotnet run --project tools/Performance -c Release --no-build -- --count 8000 --workers $env:SELECTED_WORKERS --opencv-threads 1 --known-lines true --onnx true --dedicated-workers true --hamming-avx2 $env:SELECTED_AVX2 --process-workers $env:SELECTED_PROCESSES --batch-fields $env:SELECTED_BATCH --profile-passes 1 --label windows-final-8000 --output $file
+          if ($LASTEXITCODE -ne 0) { throw '8000-document complete names/hashes validation failed.' }
+          $result = Get-Content $file -Raw | ConvertFrom-Json
+          $selection = Get-Content (Join-Path $reports 'selection.json') -Raw | ConvertFrom-Json
+          $expectedAvx2 = $env:SELECTED_AVX2 -eq 'true'
+          $expectedProcesses = $env:SELECTED_PROCESSES -eq 'true'
+          $expectedBatch = $env:SELECTED_BATCH -eq 'true'
+          $expectedChildren = if ($expectedProcesses) { [int]$env:SELECTED_WORKERS } else { 0 }
+          $binaryRoot = Join-Path (Get-Location) 'artifacts/bin/Performance/release'
+          $models = @(Get-ChildItem $binaryRoot -Recurse -Filter '*.onnx' | Sort-Object FullName)
+          $actualModels = @($models | ForEach-Object { [ordered]@{ File=$_.Name; Sha256=(Get-FileHash $_.FullName -Algorithm SHA256).Hash } })
+          $expectedModels = @(Get-Content (Join-Path $reports 'model-hashes.json') -Raw | ConvertFrom-Json)
+          if ($models.Count -ne 2 -or ($actualModels | ConvertTo-Json -Compress) -ne ($expectedModels | ConvertTo-Json -Compress)) {
+            throw 'Supplied models changed before or during the 8000-document run.'
+          }
+          if (!$result.Quality.Passed -or $result.Quality.VerifiedPdfHashes -ne 8000 -or
+              $result.Quality.IncorrectNames -ne 0 -or $result.Quality.Errors.Count -ne 0 -or
+              $result.Measurement.Processed -ne 8000 -or $result.Measurement.Renamed -ne 8000 -or
+              $result.Measurement.Skipped -ne 0 -or
+              $result.Configuration.ProcessWorkers -ne $expectedProcesses -or
+              $result.Configuration.ResolvedProcessWorkers -ne $expectedProcesses -or
+              $result.Configuration.BatchFields -ne $expectedBatch -or
+              $result.Configuration.ResolvedBatchFields -ne $expectedBatch -or
+              $result.Configuration.HammingAvx2 -ne $expectedAvx2 -or
+              $result.Configuration.ResolvedHammingAvx2 -ne $expectedAvx2 -or
+              !$result.Configuration.Onnx -or !$result.Configuration.KnownLines -or !$result.Configuration.DedicatedWorkers -or
+              !$result.Configuration.ResolvedUsesOnnx -or !$result.Configuration.ResolvedKnownLines -or
+              !$result.Configuration.ResolvedDedicatedWorkers -or $result.Environment.OpenCvThreads -ne 1 -or
+              $result.Configuration.RequestedWorkers -ne [int]$env:SELECTED_WORKERS -or
+              $result.Configuration.EffectiveWorkers -ne [int]$env:SELECTED_WORKERS -or
+              $result.Measurement.WorkerProcessesStarted -ne $expectedChildren -or
+              $result.Measurement.WorkerProcessesActiveAfterRun -ne 0 -or
+              $result.Measurement.SampledPeakWorkerProcesses -gt $expectedChildren -or
+              ($expectedProcesses -and $result.Measurement.SampledPeakWorkerProcesses -lt 1) -or
+              ($expectedProcesses -and $result.Measurement.ChildCpuSeconds -le 0) -or
+              $result.Dataset.DatasetSha256 -ne $selection.DatasetSha256 -or
+              $result.Environment.CoreAssemblySha256 -ne $selection.CoreAssemblySha256) {
+            throw '8000-document final mode, child-process lifecycle or quality checks failed.'
+          }
+          [ordered]@{
+            QualityPassed=$true; Documents=8000; MeasuredMinutes=$result.Measurement.Measured8000Minutes
+            Workers=[int]$env:SELECTED_WORKERS; Processes=$expectedProcesses; Avx2=$expectedAvx2; BatchFields=$expectedBatch
+            Goal20MinutesMet=([double]$result.Measurement.WallSeconds -le 1200)
+            Comparison='Actual current-run time; historical 22:29 is a different VM, not a controlled speedup comparison.'
+          } | ConvertTo-Json | Set-Content (Join-Path $reports 'actual-8000-summary.json')
+      - name: Все фактические отчеты и итог выбранного режима
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-final-windows
+          path: |
+            ${{ runner.temp }}/final
+          retention-days: 14
