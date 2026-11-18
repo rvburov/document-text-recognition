@@ -17,6 +17,10 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
 
     internal bool BatchFields { get; set; } = true;
 
+    /// <summary>Экспериментальное чтение заведомо одиночных строк без детектора Paddle.
+    /// По умолчанию выключено до проверки на более широком наборе сканов.</summary>
+    internal bool PreferKnownLines { get; set; }
+
     public static double MinConfidence(IOcrEngine engine) => engine switch
     {
         TesseractEngine => 0.30,
@@ -201,13 +205,23 @@ internal static class DocumentReader
             using var crop = FieldCrop.Extract(pdf, pageIndex, size, features, match, frame.Inner, timing);
             Measure("crop", ref started, timing);
             ct.ThrowIfCancellationRequested();
-            var a = ReadEngine(ocr.First, crop, timing);
-            if (timing is not null) Measure("ocr." + ocr.First.Name, ref started, timing);
+            OcrReading a, b;
+            if (ocr.PreferKnownLines)
+            {
+                var readings = ReadSeparateFields([crop], [role], ocr, ct, timing);
+                a = readings.First[0];
+                b = readings.Second[0];
+            }
+            else
+            {
+                a = ReadEngine(ocr.First, crop, timing);
+                if (timing is not null) Measure("ocr." + ocr.First.Name, ref started, timing);
+                ct.ThrowIfCancellationRequested();
+                started = timing is null ? 0 : Stopwatch.GetTimestamp();
+                b = ReadEngine(ocr.Second, crop, timing);
+                if (timing is not null) Measure("ocr." + ocr.Second.Name, ref started, timing);
+            }
             var parsedA = parse(a, OcrPair.MinConfidence(ocr.First));
-            ct.ThrowIfCancellationRequested();
-            started = timing is null ? 0 : Stopwatch.GetTimestamp();
-            var b = ReadEngine(ocr.Second, crop, timing);
-            if (timing is not null) Measure("ocr." + ocr.Second.Name, ref started, timing);
             var parsedB = parse(b, OcrPair.MinConfidence(ocr.Second));
             if (diagnostic is not null)
                 diagnostic(new("Распознавание", pageIndex + 1, FieldName(role), new FieldDiagnostic(
@@ -236,8 +250,7 @@ internal static class DocumentReader
                 crops.Add(FieldCrop.Extract(pdf, pageIndex, size, features, match, frame.Inner, timing));
                 Measure("crop", ref started, timing);
             }
-            var a = ReadEngine(ocr.First);
-            var b = ReadEngine(ocr.Second);
+            var (a, b) = ReadSeparateFields(crops, roles, ocr, ct, timing);
             var parsedA = new Parsed[3];
             var parsedB = new Parsed[3];
             for (var i = 0; i < roles.Length; i++)
@@ -259,21 +272,77 @@ internal static class DocumentReader
             return (new EngineFields(ocr.First.Name, parsedA[0], parsedA[1], parsedA[2]),
                 new EngineFields(ocr.Second.Name, parsedB[0], parsedB[1], parsedB[2]));
 
-            OcrReading[] ReadEngine(IOcrEngine engine)
-            {
-                ct.ThrowIfCancellationRequested();
-                var started = timing is null ? 0 : Stopwatch.GetTimestamp();
-                var readings = engine is PaddleEngine paddle ? paddle.ReadMany(crops, timing) : crops.Select(c =>
-                {
-                    ct.ThrowIfCancellationRequested();
-                    return engine.Read(c);
-                }).ToArray();
-                if (timing is not null) Measure("ocr." + engine.Name, ref started, timing);
-                return readings;
-            }
         }
         finally { foreach (var crop in crops) crop.Dispose(); }
     }
+
+    /// <summary>Читает неизмененные вырезки полей. Прямой ответ Paddle принимается только по
+    /// обычной политике сверки; иначе повторяется полный Paddle для этого поля, без повторного
+    /// Tesseract. Исключения движков распространяются без повторов.</summary>
+    internal static (OcrReading[] First, OcrReading[] Second) ReadSeparateFields(IReadOnlyList<Mat> crops,
+        IReadOnlyList<FieldRole> roles, OcrPair ocr, CancellationToken ct,
+        Action<string, TimeSpan>? timing = null)
+    {
+        if (crops.Count != roles.Count || roles.Any(role => role is not
+            (FieldRole.Designation or FieldRole.Name or FieldRole.Type)))
+            throw new ArgumentException("Ожидаются отдельные области обозначения, наименования и типа.", nameof(roles));
+
+        // Быстрое чтение проверяет независимый движок, а не другая копия Paddle.
+        var preferKnown = ocr.PreferKnownLines &&
+            ((ocr.First is PaddleEngine) != (ocr.Second is PaddleEngine));
+        var a = Read(ocr.First);
+        var b = Read(ocr.Second);
+        Complete(ocr.First, a, ocr.Second, b.Readings);
+        Complete(ocr.Second, b, ocr.First, a.Readings);
+        return (a.Readings, b.Readings);
+
+        (OcrReading[] Readings, bool[]? KnownLines) Read(IOcrEngine engine)
+        {
+            ct.ThrowIfCancellationRequested();
+            var started = timing is null ? 0 : Stopwatch.GetTimestamp();
+            (OcrReading[] Readings, bool[]? KnownLines) result;
+            if (engine is PaddleEngine paddle)
+                result = preferKnown ? paddle.ReadKnownLines(crops, timing, ct) :
+                    (paddle.ReadMany(crops, timing, ct), null);
+            else
+                result = (crops.Select(crop =>
+                {
+                    ct.ThrowIfCancellationRequested();
+                    return engine.Read(crop);
+                }).ToArray(), null);
+            ct.ThrowIfCancellationRequested();
+            if (timing is not null) Measure("ocr." + engine.Name, ref started, timing);
+            return result;
+        }
+
+        void Complete(IOcrEngine engine, (OcrReading[] Readings, bool[]? KnownLines) candidate,
+            IOcrEngine peerEngine, OcrReading[] peer)
+        {
+            if (candidate.KnownLines is null || engine is not PaddleEngine paddle) return;
+            var failed = Enumerable.Range(0, crops.Count).Where(i => candidate.KnownLines[i] &&
+                !IsKnownLineConfirmed(roles[i], candidate.Readings[i], OcrPair.MinConfidence(engine),
+                    peer[i], OcrPair.MinConfidence(peerEngine))).ToArray();
+            if (failed.Length == 0) return;
+            ct.ThrowIfCancellationRequested();
+            var started = timing is null ? 0 : Stopwatch.GetTimestamp();
+            var fallback = paddle.ReadMany(failed.Select(i => crops[i]).ToArray(), timing, ct);
+            if (timing is not null)
+            {
+                var elapsed = Stopwatch.GetElapsedTime(started);
+                timing("paddle.fallback", elapsed);
+                timing("ocr." + engine.Name, elapsed);
+            }
+            for (var i = 0; i < failed.Length; i++) candidate.Readings[failed[i]] = fallback[i];
+        }
+    }
+
+    internal static bool IsKnownLineConfirmed(FieldRole role, OcrReading candidate, double candidateMinConfidence,
+        OcrReading peer, double peerMinConfidence) =>
+        // Пустой прямой ответ не подтверждает отсутствие типа, даже если Tesseract тоже пуст.
+        !candidate.IsEmpty && double.IsFinite(candidate.MinConfidence) &&
+        candidate.MinConfidence >= candidateMinConfidence &&
+        EngineAgreement.AreConfirmed(Parse(role, candidate, candidateMinConfidence),
+            Parse(role, peer, peerMinConfidence));
 
     private static Parsed Parse(FieldRole role, OcrReading reading, double confidence) => role switch
     {

@@ -1,0 +1,215 @@
+{
+  "SchemaVersion": 1,
+  "Label": "windows-dnn-true-batch-false-workers-8",
+  "RecordedUtc": "2026-11-17T23:53:15.4217128+00:00",
+  "Environment": {
+    "OS": "Microsoft Windows 10.0.20348",
+    "DotNet": ".NET 10.0.15",
+    "Architecture": "X64",
+    "LogicalProcessors": 4,
+    "Cpu": "AMD EPYC 7763 64-Core Processor                ",
+    "CgroupCpuMax": null,
+    "CgroupMemoryMax": null,
+    "GcAvailableMemoryBytes": 17174360064,
+    "Tesseract": "5.5.0",
+    "OpenCvThreads": 1,
+    "OmpThreadLimit": "1",
+    "OmpNumThreads": "1",
+    "OpenBlasNumThreads": "1",
+    "CoreAssemblySha256": "440C5B7033AA61E33A9ED7CAD8BE379AE18A682B4B4360B0CE91D8EC34E64444",
+    "PaddleNativeLibraries": [
+      {
+        "File": "runtimes\\win-x64\\native\\paddle_inference_c.dll",
+        "Sha256": "8BB49CA1A503245211906DF34906DDDC96372B2F65DB5E95DD6980A83C05A018",
+        "Bytes": 93030400
+      }
+    ]
+  },
+  "Dataset": {
+    "Description": "100 synthetic PDFs created by cycling over 4 source documents; local filesystem. Each file uses both real OCR engines. Not distinct production scans.",
+    "Count": 100,
+    "UniqueDocuments": 4,
+    "Templates": 3,
+    "DatasetSha256": "052983CD7285A565EACD0649E8B43042F1073D1086D70E6FF7B00D6700DD577F",
+    "Samples": [
+      {
+        "File": "scans/01-specification-a4.pdf",
+        "ExpectedName": "ВКЕМ.461411.200 Модуль связи Спецификация.pdf",
+        "Sha256": "3F6393B17DB44B524051226325C72219B5914682637FF58FA6EB3AB6D9E35045"
+      },
+      {
+        "File": "scans/02-assembly-a4.pdf",
+        "ExpectedName": "ЮИЛГ.461411.123 Корпус Сборочный чертеж.pdf",
+        "Sha256": "AA34B669D45A52061386631C89B3F367EAC14C42B910501DC49CBE79F892ADFD"
+      },
+      {
+        "File": "scans/03-schematic-a4.pdf",
+        "ExpectedName": "ЮИЛГ.461411.124 Блок питания Схема электрическая.pdf",
+        "Sha256": "B0A062F49AD97CCA403B1F86E3248D9790242ED55AB5C334D4D8B7365661B894"
+      },
+      {
+        "File": "scans/04-assembly-a3.pdf",
+        "ExpectedName": "ПРМД.301261.010 Рама сварная Сборочный чертеж.pdf",
+        "Sha256": "33C76417A034A4567E23168795649179B443A99CF1B13FAFB16A0E27B7BB5481"
+      }
+    ],
+    "CopiedBytes": 38444925
+  },
+  "Configuration": {
+    "RequestedWorkers": 8,
+    "EffectiveWorkers": 8,
+    "RuntimeDefaultsApplied": true,
+    "ProfilePasses": 2,
+    "BatchFields": false,
+    "OneDnn": true,
+    "ReusePredictors": null,
+    "DedicatedWorkers": null,
+    "ResolvedDedicatedWorkers": true,
+    "ResolvedBatchFields": false,
+    "ResolvedOneDnn": true,
+    "ResolvedReusePredictors": true,
+    "Warmup": "One untimed read of each unique document, then optional phase profiles; new real OCR engines are still initialized inside the timed full run."
+  },
+  "Measurement": {
+    "WallSeconds": 38.3539927,
+    "CpuSeconds": 131.609375,
+    "MeanCpuCoresUsed": 3.4314387039031793,
+    "SampledPeakWorkingSetBytes": 4704321536,
+    "SampledPeakThreads": 41,
+    "DocumentsPerSecond": 2.6072904790431375,
+    "SuccessfullyRenamedPerSecond": 2.6072904790431375,
+    "Projected8000Minutes": 51.13865693333334,
+    "Measured8000Minutes": null,
+    "ProjectionWarning": "Linear extrapolation from repeated synthetic single-page files; not a measured 8000-document run.",
+    "TemplateLoadAndEnumerationMilliseconds": 563.8177,
+    "EngineInitializationMilliseconds": 4568.1705,
+    "FirstResultMilliseconds": 7365.4027,
+    "WarmupAndProfileSeconds": 11.2254012,
+    "Found": 100,
+    "Processed": 100,
+    "Renamed": 100,
+    "AlreadyNamed": 0,
+    "Skipped": 0
+  },
+  "PhaseProfile": {
+    "Instrumented": true,
+    "Documents": 8,
+    "Scope": "Sequential warmed DocumentReader reads with both real engines; timing callbacks enabled only for these profile reads, not full throughput run.",
+    "Stages": [
+      {
+        "Stage": "ocr.PaddleOCR",
+        "Calls": 18,
+        "TotalMilliseconds": 4029.190400000001,
+        "MeanMillisecondsPerDocument": 503.6488000000001
+      },
+      {
+        "Stage": "paddle.detect",
+        "Calls": 18,
+        "TotalMilliseconds": 2036.3273000000002,
+        "MeanMillisecondsPerDocument": 254.54091250000002
+      },
+      {
+        "Stage": "paddle.recognize",
+        "Calls": 18,
+        "TotalMilliseconds": 1989.1566000000003,
+        "MeanMillisecondsPerDocument": 248.64457500000003
+      },
+      {
+        "Stage": "match",
+        "Calls": 8,
+        "TotalMilliseconds": 861.1118,
+        "MeanMillisecondsPerDocument": 107.638975
+      },
+      {
+        "Stage": "pdf.render",
+        "Calls": 8,
+        "TotalMilliseconds": 669.7173,
+        "MeanMillisecondsPerDocument": 83.7146625
+      },
+      {
+        "Stage": "ocr.Tesseract",
+        "Calls": 18,
+        "TotalMilliseconds": 428.3681,
+        "MeanMillisecondsPerDocument": 53.5460125
+      },
+      {
+        "Stage": "features",
+        "Calls": 8,
+        "TotalMilliseconds": 172.61630000000002,
+        "MeanMillisecondsPerDocument": 21.577037500000003
+      },
+      {
+        "Stage": "crop",
+        "Calls": 18,
+        "TotalMilliseconds": 110.2733,
+        "MeanMillisecondsPerDocument": 13.7841625
+      },
+      {
+        "Stage": "crop.render",
+        "Calls": 18,
+        "TotalMilliseconds": 56.957100000000004,
+        "MeanMillisecondsPerDocument": 7.1196375000000005
+      },
+      {
+        "Stage": "crop.prepare",
+        "Calls": 18,
+        "TotalMilliseconds": 27.8987,
+        "MeanMillisecondsPerDocument": 3.4873375
+      },
+      {
+        "Stage": "pdf.open",
+        "Calls": 8,
+        "TotalMilliseconds": 3.3394999999999992,
+        "MeanMillisecondsPerDocument": 0.4174374999999999
+      }
+    ],
+    "Reads": [
+      {
+        "Pass": 1,
+        "File": "scans/01-specification-a4.pdf",
+        "WallMilliseconds": 699.3969
+      },
+      {
+        "Pass": 1,
+        "File": "scans/02-assembly-a4.pdf",
+        "WallMilliseconds": 856.7816
+      },
+      {
+        "Pass": 1,
+        "File": "scans/03-schematic-a4.pdf",
+        "WallMilliseconds": 804.5582
+      },
+      {
+        "Pass": 1,
+        "File": "scans/04-assembly-a3.pdf",
+        "WallMilliseconds": 800.9995
+      },
+      {
+        "Pass": 2,
+        "File": "scans/01-specification-a4.pdf",
+        "WallMilliseconds": 691.4996
+      },
+      {
+        "Pass": 2,
+        "File": "scans/02-assembly-a4.pdf",
+        "WallMilliseconds": 849.3252
+      },
+      {
+        "Pass": 2,
+        "File": "scans/03-schematic-a4.pdf",
+        "WallMilliseconds": 800.424
+      },
+      {
+        "Pass": 2,
+        "File": "scans/04-assembly-a3.pdf",
+        "WallMilliseconds": 793.1778
+      }
+    ]
+  },
+  "Quality": {
+    "Passed": true,
+    "VerifiedPdfHashes": 100,
+    "IncorrectNames": 0,
+    "Errors": []
+  }
+}

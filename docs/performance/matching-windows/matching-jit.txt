@@ -1,0 +1,414 @@
+; Assembly listing for method DocumentTextRecognition.Core.Matching.TemplateMatcher:NearestTwo(OpenCvSharp.Mat,OpenCvSharp.Mat):DocumentTextRecognition.Core.Matching.TemplateMatcher+NearestDescriptor[] (FullOpts)
+; Emitting BLENDED_CODE for generic X64 + VEX on Windows
+; FullOpts code
+; optimized code
+; optimized using Synthesized PGO
+; rbp based frame
+; fully interruptible
+; with Synthesized PGO: fgCalledCount is 100
+; No PGO data
+; 4 inlinees with PGO data; 23 single block inlinees; 4 inlinees without PGO data
+
+G_M000_IG01:                ;; offset=0x0000
+       push     rbp
+       push     r15
+       push     r14
+       push     r13
+       push     r12
+       push     rdi
+       push     rsi
+       push     rbx
+       sub      rsp, 152
+       lea      rbp, [rsp+0xD0]
+       xor      eax, eax
+       mov      qword ptr [rbp-0x98], rax
+       mov      rbx, rcx
+       mov      rsi, rdx
+ 
+G_M000_IG02:                ;; offset=0x002A
+       mov      rcx, rbx
+       cmp      dword ptr [rcx], ecx
+       call     [OpenCvSharp.Mat:Empty():bool:this]
+       test     eax, eax
+       jne      G_M000_IG39
+ 
+G_M000_IG03:                ;; offset=0x003D
+       mov      rcx, rbx
+       call     [OpenCvSharp.Mat:get_Rows():int:this]
+       mov      edi, eax
+       mov      dword ptr [rbp-0x3C], edi
+       movsxd   rdx, edi
+       mov      rcx, 0x7FFEC10CB3D0
+       call     CORINFO_HELP_NEWARR_1_VC
+       mov      r14, rax
+       mov      rcx, rsi
+       cmp      dword ptr [rcx], ecx
+       call     [OpenCvSharp.Mat:Empty():bool:this]
+       test     eax, eax
+       jne      G_M000_IG36
+ 
+G_M000_IG04:                ;; offset=0x0073
+       mov      rcx, rbx
+       call     [OpenCvSharp.Mat:Type():OpenCvSharp.MatType:this]
+       test     eax, eax
+       jne      SHORT G_M000_IG08
+ 
+G_M000_IG05:                ;; offset=0x0080
+       mov      rcx, rsi
+       call     [OpenCvSharp.Mat:Type():OpenCvSharp.MatType:this]
+       test     eax, eax
+       jne      SHORT G_M000_IG08
+ 
+G_M000_IG06:                ;; offset=0x008D
+       mov      rcx, rbx
+       call     [OpenCvSharp.Mat:get_Cols():int:this]
+       cmp      eax, 32
+       jne      SHORT G_M000_IG08
+ 
+G_M000_IG07:                ;; offset=0x009B
+       mov      rcx, rsi
+       call     [OpenCvSharp.Mat:get_Cols():int:this]
+       cmp      eax, 32
+       je       SHORT G_M000_IG09
+ 
+G_M000_IG08:                ;; offset=0x00A9
+       mov      rcx, 0x7FFEC0D229C0
+       call     CORINFO_HELP_NEWFAST
+       mov      rdi, rax
+       mov      rcx, rdi
+       mov      edx, 6
+       xor      r8d, r8d
+       call     [OpenCvSharp.BFMatcher:.ctor(int,bool):this]
+       mov      gword ptr [rbp-0x90], rdi
+       jmp      G_M000_IG22
+ 
+G_M000_IG09:                ;; offset=0x00D8
+       mov      rcx, rsi
+       call     [OpenCvSharp.Mat:get_Rows():int:this]
+       mov      r15d, eax
+       mov      rcx, rbx
+       call     [OpenCvSharp.Mat:Step():long:this]
+       mov      r13, rax
+       mov      qword ptr [rbp-0x48], r13
+       mov      rcx, rsi
+       call     [OpenCvSharp.Mat:Step():long:this]
+       mov      r12, rax
+       mov      qword ptr [rbp-0x50], r12
+       mov      rcx, rbx
+       call     [OpenCvSharp.Mat:get_DataPointer():ptr:this]
+       mov      qword ptr [rbp-0x58], rax
+       mov      rcx, rsi
+       call     [OpenCvSharp.Mat:get_DataPointer():ptr:this]
+       mov      qword ptr [rbp-0x60], rax
+       xor      ecx, ecx
+       jmp      G_M000_IG19
+ 
+G_M000_IG10:                ;; offset=0x0125
+       mov      edi, ecx
+       mov      ecx, eax
+       mov      r9d, r13d
+ 
+G_M000_IG11:                ;; offset=0x012C
+       inc      r13d
+       cmp      r13d, r15d
+       jge      SHORT G_M000_IG18
+ 
+G_M000_IG12:                ;; offset=0x0134
+       mov      dword ptr [rbp-0x6C], r8d
+       mov      r8d, r9d
+       mov      r9, qword ptr [rbp-0x68]
+       mov      r12, qword ptr [rbp-0x50]
+ 
+G_M000_IG13:                ;; offset=0x0143
+       movsxd   rax, r13d
+       imul     rax, r12
+       add      rax, qword ptr [rbp-0x60]
+       mov      r12, r10
+       xor      r12, qword ptr [rax]
+       popcnt   r12, r12
+       xor      r9, qword ptr [rax+0x08]
+       popcnt   r9, r9
+       add      r9d, r12d
+       mov      r12, r11
+       xor      r12, qword ptr [rax+0x10]
+       popcnt   r12, r12
+       add      r9d, r12d
+       mov      r12, rdx
+       xor      r12, qword ptr [rax+0x18]
+       xor      eax, eax
+       popcnt   rax, r12
+       add      eax, r9d
+       cmp      eax, ecx
+       jl       SHORT G_M000_IG10
+ 
+G_M000_IG14:                ;; offset=0x0189
+       cmp      eax, edi
+       jge      SHORT G_M000_IG16
+ 
+G_M000_IG15:                ;; offset=0x018D
+       mov      edi, eax
+       mov      eax, r13d
+       mov      r9d, r8d
+       mov      r8d, eax
+       jmp      SHORT G_M000_IG11
+ 
+G_M000_IG16:                ;; offset=0x019A
+       mov      r9d, r8d
+       mov      r8d, dword ptr [rbp-0x6C]
+       jmp      SHORT G_M000_IG11
+ 
+G_M000_IG17:                ;; offset=0x01A3
+       mov      r9d, r8d
+       mov      r8d, dword ptr [rbp-0x6C]
+ 
+G_M000_IG18:                ;; offset=0x01AA
+       mov      rax, qword ptr [rbp-0x88]
+       mov      rdx, rax
+       shl      rdx, 4
+       lea      rdx, bword ptr [r14+rdx+0x10]
+       mov      dword ptr [rdx], r9d
+       mov      dword ptr [rdx+0x04], ecx
+       mov      dword ptr [rdx+0x08], r8d
+       mov      dword ptr [rdx+0x0C], edi
+       inc      eax
+       mov      rcx, rax
+       mov      edi, dword ptr [rbp-0x3C]
+       mov      r12, qword ptr [rbp-0x50]
+       mov      r13, qword ptr [rbp-0x48]
+ 
+G_M000_IG19:                ;; offset=0x01DA
+       cmp      ecx, edi
+       jge      SHORT G_M000_IG21
+ 
+G_M000_IG20:                ;; offset=0x01DE
+       mov      qword ptr [rbp-0x88], rcx
+       movsxd   rdx, ecx
+       imul     rdx, r13
+       add      rdx, qword ptr [rbp-0x58]
+       mov      r10, qword ptr [rdx]
+       mov      r9, qword ptr [rdx+0x08]
+       mov      qword ptr [rbp-0x68], r9
+       mov      r11, qword ptr [rdx+0x10]
+       mov      rdx, qword ptr [rdx+0x18]
+       mov      r8d, -1
+       mov      dword ptr [rbp-0x6C], -1
+       mov      ecx, 0x7FFFFFFF
+       mov      edi, 0x7FFFFFFF
+       xor      r13d, r13d
+       test     r15d, r15d
+       jle      SHORT G_M000_IG17
+       jmp      G_M000_IG13
+ 
+G_M000_IG21:                ;; offset=0x0227
+       jmp      G_M000_IG37
+ 
+G_M000_IG22:                ;; offset=0x022C
+       xor      rdx, rdx
+       mov      gword ptr [rsp+0x20], rdx
+ 
+G_M000_IG23:                ;; offset=0x0233
+       mov      dword ptr [rsp+0x28], edx
+       mov      rcx, rdi
+       mov      rdx, rbx
+       mov      r8, rsi
+       mov      r9d, 2
+       call     [OpenCvSharp.DescriptorMatcher:KnnMatch(OpenCvSharp.Mat,OpenCvSharp.Mat,int,OpenCvSharp.Mat,bool):OpenCvSharp.DMatch[][]:this]
+       xor      ecx, ecx
+       mov      edx, dword ptr [rax+0x08]
+       cmp      edx, ecx
+       jg       SHORT G_M000_IG29
+ 
+G_M000_IG24:                ;; offset=0x0255
+       mov      gword ptr [rbp-0x98], r14
+       jmp      G_M000_IG33
+ 
+G_M000_IG25:                ;; offset=0x0261
+       mov      r11d, -1
+       mov      ebx, 0x7FFFFFFF
+ 
+G_M000_IG26:                ;; offset=0x026C
+       cmp      r9d, 1
+       jg       SHORT G_M000_IG31
+ 
+G_M000_IG27:                ;; offset=0x0272
+       mov      r9d, -1
+       mov      esi, 0x7FFFFFFF
+ 
+G_M000_IG28:                ;; offset=0x027D
+       cmp      ecx, dword ptr [r14+0x08]
+       jae      G_M000_IG32
+       shl      r8, 4
+       lea      r8, bword ptr [r14+r8+0x10]
+       mov      dword ptr [r8], r11d
+       mov      dword ptr [r8+0x04], ebx
+       mov      dword ptr [r8+0x08], r9d
+       mov      dword ptr [r8+0x0C], esi
+       inc      ecx
+       cmp      edx, ecx
+       jle      SHORT G_M000_IG24
+ 
+G_M000_IG29:                ;; offset=0x02A5
+       mov      r8d, ecx
+       mov      r10, gword ptr [rax+8*r8+0x10]
+       mov      r9d, dword ptr [r10+0x08]
+       test     r9d, r9d
+       je       SHORT G_M000_IG25
+ 
+G_M000_IG30:                ;; offset=0x02B6
+       lea      rbx, bword ptr [r10+0x10]
+       mov      r11d, dword ptr [rbx+0x04]
+       vmovss   xmm0, dword ptr [rbx+0x0C]
+       vcmpordss xmm1, xmm0, xmm0
+       vandps   xmm1, xmm1, xmm0
+       mov      ebx, 0x7FFFFFFF
+       vcvttss2si esi, xmm1
+       vucomiss xmm0, dword ptr [reloc @RWD00]
+       cmovb    ebx, esi
+       jmp      SHORT G_M000_IG26
+ 
+G_M000_IG31:                ;; offset=0x02E2
+       add      r10, 32
+       mov      r9d, dword ptr [r10+0x04]
+       vmovss   xmm0, dword ptr [r10+0x0C]
+       vcmpordss xmm1, xmm0, xmm0
+       vandps   xmm1, xmm1, xmm0
+       mov      r10d, 0x7FFFFFFF
+       vcvttss2si esi, xmm1
+       vucomiss xmm0, dword ptr [reloc @RWD00]
+       cmovb    r10d, esi
+       mov      esi, r10d
+       jmp      G_M000_IG28
+ 
+G_M000_IG32:                ;; offset=0x0317
+       call     CORINFO_HELP_RNGCHKFAIL
+       int3     
+ 
+G_M000_IG33:                ;; offset=0x031D
+       call     G_M000_IG43
+       nop      
+ 
+G_M000_IG34:                ;; offset=0x0323
+       mov      rax, gword ptr [rbp-0x98]
+ 
+G_M000_IG35:                ;; offset=0x032A
+       add      rsp, 152
+       pop      rbx
+       pop      rsi
+       pop      rdi
+       pop      r12
+       pop      r13
+       pop      r14
+       pop      r15
+       pop      rbp
+       ret      
+ 
+G_M000_IG36:                ;; offset=0x033E
+       mov      dword ptr [rbp-0x80], -1
+       mov      dword ptr [rbp-0x7C], 0x7FFFFFFF
+       mov      dword ptr [rbp-0x78], -1
+       mov      dword ptr [rbp-0x74], 0x7FFFFFFF
+       lea      rdx, [rbp-0x80]
+       mov      rcx, r14
+       call     [System.Array:Fill[DocumentTextRecognition.Core.Matching.TemplateMatcher+NearestDescriptor](DocumentTextRecognition.Core.Matching.TemplateMatcher+NearestDescriptor[],DocumentTextRecognition.Core.Matching.TemplateMatcher+NearestDescriptor)]
+ 
+G_M000_IG37:                ;; offset=0x0367
+       mov      rax, r14
+ 
+G_M000_IG38:                ;; offset=0x036A
+       add      rsp, 152
+       pop      rbx
+       pop      rsi
+       pop      rdi
+       pop      r12
+       pop      r13
+       pop      r14
+       pop      r15
+       pop      rbp
+       ret      
+ 
+G_M000_IG39:                ;; offset=0x037E
+       test     byte  ptr [(reloc 0x7ffec10e21d0)], 1
+       je       SHORT G_M000_IG42
+ 
+G_M000_IG40:                ;; offset=0x0387
+       mov      rax, 0x2B5B7C02040
+       mov      rax, gword ptr [rax]
+ 
+G_M000_IG41:                ;; offset=0x0394
+       add      rsp, 152
+       pop      rbx
+       pop      rsi
+       pop      rdi
+       pop      r12
+       pop      r13
+       pop      r14
+       pop      r15
+       pop      rbp
+       ret      
+ 
+G_M000_IG42:                ;; offset=0x03A8
+       mov      rcx, 0x7FFEC10E2148
+       call     [CORINFO_HELP_GET_GCSTATIC_BASE]
+       jmp      SHORT G_M000_IG40
+ 
+G_M000_IG43:                ;; offset=0x03BA
+       sub      rsp, 56
+ 
+G_M000_IG44:                ;; offset=0x03BE
+       mov      rcx, gword ptr [rbp-0x90]
+       lea      rdx, bword ptr [rcx+0x18]
+       mov      eax, 1
+       xchg     dword ptr [rdx], eax
+       test     eax, eax
+       jne      SHORT G_M000_IG49
+       mov      byte  ptr [rcx+0x1C], 1
+       cmp      byte  ptr [rcx+0x1D], 0
+       je       SHORT G_M000_IG49
+       mov      r14, gword ptr [rcx+0x28]
+       test     r14, r14
+       je       SHORT G_M000_IG48
+ 
+G_M000_IG45:                ;; offset=0x03E7
+       mov      rdx, 0x7FFEC1003D78
+       cmp      qword ptr [r14], rdx
+       jne      SHORT G_M000_IG46
+       mov      rcx, r14
+       mov      edx, 1
+       call     [System.Runtime.InteropServices.SafeHandle:InternalRelease(bool):this]
+       jmp      SHORT G_M000_IG47
+ 
+G_M000_IG46:                ;; offset=0x0406
+       mov      rcx, r14
+       mov      edx, 1
+       mov      rax, qword ptr [r14]
+       mov      rax, qword ptr [rax+0x40]
+       call     [rax+0x30]System.Runtime.InteropServices.SafeHandle:Dispose(bool):this
+ 
+G_M000_IG47:                ;; offset=0x0418
+       mov      rcx, r14
+       call     [System.GC:SuppressFinalize(System.Object)]
+ 
+G_M000_IG48:                ;; offset=0x0421
+       xor      rax, rax
+       mov      rcx, gword ptr [rbp-0x90]
+       mov      gword ptr [rcx+0x28], rax
+       call     [OpenCvSharp.DisposableObject:DisposeUnmanaged():this]
+       mov      rcx, gword ptr [rbp-0x90]
+ 
+G_M000_IG49:                ;; offset=0x043B
+       mov      rax, qword ptr [rcx]
+       test     dword ptr [rax], 0x100000
+       je       SHORT G_M000_IG50
+       call     System.GC:SuppressFinalizeInternal(System.Object)
+ 
+G_M000_IG50:                ;; offset=0x044B
+       nop      
+ 
+G_M000_IG51:                ;; offset=0x044C
+       add      rsp, 56
+       ret      
+ 
+RWD00  	dd	4F000000h		; 2.14748e+09
+
+; Total bytes of code 1105
+

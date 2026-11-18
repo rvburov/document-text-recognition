@@ -39,7 +39,7 @@ try
     }
 
     var startup = Stopwatch.StartNew();
-    var profile = Profile(samplesRoot, samples, templateFolder, options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors);
+    var profile = Profile(samplesRoot, samples, templateFolder, options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines);
     startup.Stop();
     Console.WriteLine($"Warmup/profile {startup.Elapsed.TotalSeconds:F2}s; documents={options.Count}, workers={options.Workers}, OpenCV={Cv2.GetNumThreads()}");
 
@@ -60,7 +60,7 @@ try
     var summary = OcrRenameRun.Execute(settings, () =>
     {
         var clock = Stopwatch.StartNew();
-        var pair = CreatePair(options.BatchFields, options.OneDnn, options.ReusePredictors);
+        var pair = CreatePair(options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines);
         engineInitMs += clock.Elapsed.TotalMilliseconds;
         return pair;
     }, sink, CancellationToken.None);
@@ -121,10 +121,11 @@ try
             RequestedWorkers = options.Workers,
             EffectiveWorkers = settings.EffectiveWorkers,
             RuntimeDefaultsApplied = configureRuntime is not null,
-            options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors,
+            options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines,
             options.DedicatedWorkers,
             ResolvedDedicatedWorkers = dedicatedProperty?.GetValue(settings) as bool?,
             ResolvedBatchFields = SelectedBackend.BatchFields,
+            ResolvedKnownLines = SelectedBackend.KnownLines,
             ResolvedOneDnn = FactoryFlag(1, options.OneDnn),
             ResolvedReusePredictors = FactoryFlag(2, options.ReusePredictors),
             Warmup = "One untimed read of each unique document, then optional phase profiles; new real OCR engines are still initialized inside the timed full run.",
@@ -178,14 +179,14 @@ static Sample[] ReadSamples(string root)
     return samples;
 }
 
-static object Profile(string root, Sample[] samples, string templatesFolder, int passes, bool? batchFields, bool? oneDnn, bool? reusePredictors)
+static object Profile(string root, Sample[] samples, string templatesFolder, int passes, bool? batchFields, bool? oneDnn, bool? reusePredictors, bool? knownLines)
 {
     var loaded = TemplateLibrary.LoadFolder(templatesFolder);
     if (loaded.Any(t => t.Template is null)) throw new InvalidOperationException(string.Join("; ", loaded.Select(t => t.Problem)));
     var templates = loaded.Select(t => t.Template!).ToArray();
     try
     {
-        using var pair = CreatePair(batchFields, oneDnn, reusePredictors);
+        using var pair = CreatePair(batchFields, oneDnn, reusePredictors, knownLines);
         foreach (var sample in samples) Check(DocumentReader.Read(Path.Combine(root, sample.File), templates, pair, CancellationToken.None), sample);
         var phases = new Dictionary<string, (double Milliseconds, int Calls)>();
         Action<string, TimeSpan> timing = (key, elapsed) =>
@@ -237,7 +238,7 @@ static bool FactoryFlag(int parameter, bool? requested)
     var parameters = typeof(OcrPair).GetMethod("CreateReal", BindingFlags.Static | BindingFlags.Public)!.GetParameters();
     return parameter < parameters.Length && parameters[parameter].DefaultValue is true;
 }
-static OcrPair CreatePair(bool? batchFields, bool? oneDnn, bool? reusePredictors)
+static OcrPair CreatePair(bool? batchFields, bool? oneDnn, bool? reusePredictors, bool? knownLines)
 {
     var tessdata = OcrComponents.FindTessdata() ?? throw new InvalidOperationException("tessdata missing");
     var factory = typeof(OcrPair).GetMethod("CreateReal", BindingFlags.Static | BindingFlags.Public)!;
@@ -257,7 +258,18 @@ static OcrPair CreatePair(bool? batchFields, bool? oneDnn, bool? reusePredictors
         }
         property?.SetValue(pair, enabled);
     }
+    var knownLinesProperty = typeof(OcrPair).GetProperty("PreferKnownLines", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+    if (knownLines is { } preferKnownLines)
+    {
+        if (knownLinesProperty is null && preferKnownLines)
+        {
+            pair.Dispose();
+            throw new NotSupportedException("This core build does not support known text lines.");
+        }
+        knownLinesProperty?.SetValue(pair, preferKnownLines);
+    }
     SelectedBackend.BatchFields = typeof(OcrPair).GetProperty("BatchFields", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(pair) as bool?;
+    SelectedBackend.KnownLines = knownLinesProperty?.GetValue(pair) as bool?;
     return pair;
 }
 static string HashDataset(string root) => Convert.ToHexString(SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(string.Join("\n",
@@ -280,6 +292,7 @@ internal sealed record Sample(string File, string ExpectedName, string Sha256);
 internal static class SelectedBackend
 {
     public static bool? BatchFields { get; set; }
+    public static bool? KnownLines { get; set; }
 }
 
 internal sealed class Sink(IReadOnlyDictionary<string, Sample> expected, Stopwatch clock) : IRunSink
@@ -342,13 +355,13 @@ internal sealed class ResourceSampler : IDisposable
 }
 
 internal sealed record Options(string Samples, int Count, int Workers, int? OpenCvThreads, int ProfilePasses, bool? BatchFields, bool? OneDnn, bool? ReusePredictors,
-    bool? DedicatedWorkers, string Output, string Label, bool KeepWorkdir)
+    bool? KnownLines, bool? DedicatedWorkers, string Output, string Label, bool KeepWorkdir)
 {
     public static Options? Parse(string[] args)
     {
         if (args.Contains("--help"))
         {
-            Console.WriteLine("dotnet run --project tools/Performance -c Release -- --count 100 --workers 4 --opencv-threads 1 --profile-passes 2 --batch-fields false --label candidate --output artifacts/performance/candidate.json [--samples docs/test-samples] [--keep-workdir]");
+            Console.WriteLine("dotnet run --project tools/Performance -c Release -- --count 100 --workers 4 --opencv-threads 1 --profile-passes 2 --batch-fields false --label candidate --output artifacts/performance/candidate.json [--samples docs/test-samples] [--known-lines true|false] [--keep-workdir]");
             return null;
         }
         var values = new Dictionary<string, string>();
@@ -357,7 +370,7 @@ internal sealed record Options(string Samples, int Count, int Workers, int? Open
         {
             if (args[i] == "--keep-workdir") { keep = true; continue; }
             if (!args[i].StartsWith("--") || i + 1 >= args.Length) throw new ArgumentException("Expected --option value");
-            if (args[i] is not ("--samples" or "--count" or "--workers" or "--opencv-threads" or "--profile-passes" or "--batch-fields" or "--one-dnn" or "--reuse-predictors" or "--dedicated-workers" or "--output" or "--label"))
+            if (args[i] is not ("--samples" or "--count" or "--workers" or "--opencv-threads" or "--profile-passes" or "--batch-fields" or "--one-dnn" or "--reuse-predictors" or "--known-lines" or "--dedicated-workers" or "--output" or "--label"))
                 throw new ArgumentException("Unknown option " + args[i]);
             values[args[i][2..]] = args[++i];
         }
@@ -371,6 +384,7 @@ internal sealed record Options(string Samples, int Count, int Workers, int? Open
             Number("profile-passes", 1, 0, 20), values.TryGetValue("batch-fields", out var batch) ? bool.Parse(batch) : null,
             values.TryGetValue("one-dnn", out var oneDnn) ? bool.Parse(oneDnn) : null,
             values.TryGetValue("reuse-predictors", out var reuse) ? bool.Parse(reuse) : null,
+            values.TryGetValue("known-lines", out var known) ? bool.Parse(known) : null,
             values.TryGetValue("dedicated-workers", out var dedicated) ? bool.Parse(dedicated) : null,
             values.GetValueOrDefault("output", "artifacts/performance/result.json"),
             values.GetValueOrDefault("label", "working-tree"), keep);

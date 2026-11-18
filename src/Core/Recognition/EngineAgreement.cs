@@ -16,6 +16,10 @@ internal static class EngineAgreement
     /// <summary>Сколько символов прочитанного текста показывать в причине пропуска.</summary>
     public const int QuoteLength = 60;
 
+    /// <summary>Та же проверка отдельного поля, что используется окончательной сверкой.</summary>
+    internal static bool AreConfirmed(Parsed first, Parsed second) =>
+        Field("поле", "первый", first, "второй", second).Problem is null;
+
     public static (FieldValues? Values, string? Problem) Combine(EngineFields first, EngineFields second)
     {
         var designation = Field("обозначение", first.Engine, first.Designation, second.Engine, second.Designation);

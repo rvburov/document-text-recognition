@@ -1,0 +1,198 @@
+{
+  "RecordedUtc": "2026-11-18T00:05:46.500675+00:00",
+  "WorkflowRun": 44202632537,
+  "Commit": "18860591e7dc343da7c4a6092f2887e7a891e2eb",
+  "WindowsCpu": "AMD EPYC 7763 64-Core Processor",
+  "LinuxCpu": "AMD EPYC 9V74 80-Core Processor",
+  "SameHostWindowsSweep": true,
+  "ShortRuns": 8,
+  "ShortRunDocumentsEach": 100,
+  "AllShortRunsPassed": true,
+  "ConfirmationDocuments": 1000,
+  "Rows": [
+    {
+      "Report": "windows-dnn-false-batch-true-workers-4.json",
+      "Count": 100,
+      "Workers": 4,
+      "OneDnn": false,
+      "BatchFields": true,
+      "WallSeconds": 31.6948844,
+      "DocumentsPerSecond": 3.155083285301397,
+      "CpuSecondsPerDocument": 1.0490625,
+      "PeakWorkingSetBytes": 1624727552,
+      "EngineInitializationSeconds": 2.2760234,
+      "QualityPassed": true,
+      "VerifiedPdfHashes": 100
+    },
+    {
+      "Report": "windows-dnn-true-batch-true-workers-4.json",
+      "Count": 100,
+      "Workers": 4,
+      "OneDnn": true,
+      "BatchFields": true,
+      "WallSeconds": 32.8669277,
+      "DocumentsPerSecond": 3.0425721841959694,
+      "CpuSecondsPerDocument": 1.0896875,
+      "PeakWorkingSetBytes": 1170501632,
+      "EngineInitializationSeconds": 2.3149894,
+      "QualityPassed": true,
+      "VerifiedPdfHashes": 100
+    },
+    {
+      "Report": "windows-dnn-false-batch-true-workers-8.json",
+      "Count": 100,
+      "Workers": 8,
+      "OneDnn": false,
+      "BatchFields": true,
+      "WallSeconds": 33.2614129,
+      "DocumentsPerSecond": 3.0064868350796967,
+      "CpuSecondsPerDocument": 1.14234375,
+      "PeakWorkingSetBytes": 3430207488,
+      "EngineInitializationSeconds": 4.5210592,
+      "QualityPassed": true,
+      "VerifiedPdfHashes": 100
+    },
+    {
+      "Report": "windows-dnn-true-batch-true-workers-8.json",
+      "Count": 100,
+      "Workers": 8,
+      "OneDnn": true,
+      "BatchFields": true,
+      "WallSeconds": 34.2276344,
+      "DocumentsPerSecond": 2.921615874218874,
+      "CpuSecondsPerDocument": 1.14625,
+      "PeakWorkingSetBytes": 4325728256,
+      "EngineInitializationSeconds": 4.525411499999999,
+      "QualityPassed": true,
+      "VerifiedPdfHashes": 100
+    },
+    {
+      "Report": "windows-dnn-true-batch-false-workers-8.json",
+      "Count": 100,
+      "Workers": 8,
+      "OneDnn": true,
+      "BatchFields": false,
+      "WallSeconds": 38.3539927,
+      "DocumentsPerSecond": 2.6072904790431375,
+      "CpuSecondsPerDocument": 1.31609375,
+      "PeakWorkingSetBytes": 4704321536,
+      "EngineInitializationSeconds": 4.5681705,
+      "QualityPassed": true,
+      "VerifiedPdfHashes": 100
+    },
+    {
+      "Report": "windows-dnn-false-batch-false-workers-8.json",
+      "Count": 100,
+      "Workers": 8,
+      "OneDnn": false,
+      "BatchFields": false,
+      "WallSeconds": 38.753157,
+      "DocumentsPerSecond": 2.5804349307593184,
+      "CpuSecondsPerDocument": 1.33578125,
+      "PeakWorkingSetBytes": 4999712768,
+      "EngineInitializationSeconds": 4.5533182,
+      "QualityPassed": true,
+      "VerifiedPdfHashes": 100
+    },
+    {
+      "Report": "windows-dnn-false-batch-false-workers-4.json",
+      "Count": 100,
+      "Workers": 4,
+      "OneDnn": false,
+      "BatchFields": false,
+      "WallSeconds": 39.280034,
+      "DocumentsPerSecond": 2.5458226436362046,
+      "CpuSecondsPerDocument": 1.3721875,
+      "PeakWorkingSetBytes": 1261076480,
+      "EngineInitializationSeconds": 2.3105713999999997,
+      "QualityPassed": true,
+      "VerifiedPdfHashes": 100
+    },
+    {
+      "Report": "windows-dnn-true-batch-false-workers-4.json",
+      "Count": 100,
+      "Workers": 4,
+      "OneDnn": true,
+      "BatchFields": false,
+      "WallSeconds": 39.7177546,
+      "DocumentsPerSecond": 2.517765694639747,
+      "CpuSecondsPerDocument": 1.38109375,
+      "PeakWorkingSetBytes": 1041096704,
+      "EngineInitializationSeconds": 2.3215128000000003,
+      "QualityPassed": true,
+      "VerifiedPdfHashes": 100
+    },
+    {
+      "Report": "windows-best-long.json",
+      "Count": 1000,
+      "Workers": 4,
+      "OneDnn": false,
+      "BatchFields": true,
+      "WallSeconds": 287.8211125,
+      "DocumentsPerSecond": 3.474380288902538,
+      "CpuSecondsPerDocument": 0.996203125,
+      "PeakWorkingSetBytes": 1465753600,
+      "EngineInitializationSeconds": 2.3270704999999996,
+      "QualityPassed": true,
+      "VerifiedPdfHashes": 1000
+    }
+  ],
+  "PhaseComparisonWithLinux": [
+    {
+      "Stage": "pdf.render",
+      "LinuxMilliseconds": 87.15344999999999,
+      "WindowsMilliseconds": 84.58695,
+      "Ratio": 0.970551940284636
+    },
+    {
+      "Stage": "features",
+      "LinuxMilliseconds": 17.750725000000003,
+      "WindowsMilliseconds": 21.509600000000002,
+      "Ratio": 1.2117589563243192
+    },
+    {
+      "Stage": "match",
+      "LinuxMilliseconds": 104.420525,
+      "WindowsMilliseconds": 112.7527,
+      "Ratio": 1.0797944178120156
+    },
+    {
+      "Stage": "crop",
+      "LinuxMilliseconds": 10.85585,
+      "WindowsMilliseconds": 13.4454875,
+      "Ratio": 1.2385476494240433
+    },
+    {
+      "Stage": "ocr.Tesseract",
+      "LinuxMilliseconds": 46.275949999999995,
+      "WindowsMilliseconds": 53.150462499999996,
+      "Ratio": 1.148554756844538
+    },
+    {
+      "Stage": "ocr.PaddleOCR",
+      "LinuxMilliseconds": 198.957725,
+      "WindowsMilliseconds": 346.3734625,
+      "Ratio": 1.7409400037118439
+    },
+    {
+      "Stage": "paddle.detect",
+      "LinuxMilliseconds": 123.55462499999999,
+      "WindowsMilliseconds": 196.68688749999998,
+      "Ratio": 1.5919022659006088
+    },
+    {
+      "Stage": "paddle.recognize",
+      "LinuxMilliseconds": 75.066725,
+      "WindowsMilliseconds": 149.3756125,
+      "Ratio": 1.9899044816461617
+    }
+  ],
+  "Interpretation": [
+    "All eight Windows variants and the selected 1000-document confirmation verified every expected filename and PDF hash.",
+    "Batched fields were consistently faster than separate recognition calls on this host. oneDNN off narrowly won the short run; that small advantage is insufficient to establish a general default change.",
+    "100-document comparisons include initialization, which costs about 2.3 s for 4 workers and 4.5 s for 8. The workflow confirms only the short-run winner at 1000, not both worker counts.",
+    "Matching and PDF phases are similar to the measured Linux host; the largest phase difference is Paddle detect/recognize. Different CPU models and native platform builds prevent attributing the gap solely to the OS.",
+    "The selected 1000 result projects 38.38 minutes for 8000; this is not a measured 8000 run and does not replace the prior actual Windows 30:30 measurement on a different unrecorded CPU model.",
+    "No tested option on this Windows host demonstrates the 15–20 minute goal. Production settings were not changed by this analysis."
+  ]
+}

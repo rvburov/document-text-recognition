@@ -1,0 +1,5 @@
+{"LatestLoggedProcessed": 3400, "LatestLoggedElapsedSeconds": 498.4, "RssBytes": 5424635904, "Threads": 38, "Note": "Read-only ps observation; progress marker is latest completed log block, not exact synchronized count."}
+{"ObservedUtc": "2026-11-17T22:54:12.081392+00:00", "LatestLoggedProcessed": 4200, "LatestLoggedElapsedSeconds": 620.0, "RssBytes": 5855223808, "Threads": 38, "Note": "Read-only /proc observation; progress marker is latest log block."}
+{"ObservedUtc": "2026-11-17T22:56:05.421371+00:00", "LatestLoggedProcessed": 5000, "LatestLoggedElapsedSeconds": 733.1, "RssBytes": 6186573824, "Threads": 38}
+{"ObservedUtc": "2026-11-17T22:59:10.207673+00:00", "LatestLoggedProcessed": 6400, "LatestLoggedElapsedSeconds": 924.3, "RssBytes": 6623784960, "Threads": 37}
+{"ObservedUtc": "2026-11-17T23:01:47.201654+00:00", "LatestLoggedProcessed": 7600, "LatestLoggedElapsedSeconds": 1086.5, "RssBytes": 6850183168, "Threads": 38}

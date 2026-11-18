@@ -1,0 +1,395 @@
+{
+  "Scope": "Фактические наблюдения RSS во время двух прогонов по 8000 PDF; исходные документы и шаблоны одинаковы. Число обработанных файлов взято из последней завершённой записи журнала и не синхронизировано точно с измерением RSS.",
+  "TaskPool": {
+    "Outcome": "failed",
+    "Renamed": 7341,
+    "NativeErrors": 659,
+    "PeakWorkingSetBytes": 6944972800,
+    "Observations": 5,
+    "FirstObservation": {
+      "LatestLoggedProcessed": 3400,
+      "LatestLoggedElapsedSeconds": 498.4,
+      "RssBytes": 5424635904,
+      "Threads": 38,
+      "Note": "Read-only ps observation; progress marker is latest completed log block, not exact synchronized count."
+    },
+    "LastObservation": {
+      "ObservedUtc": "2026-11-17T23:01:47.201654+00:00",
+      "LatestLoggedProcessed": 7600,
+      "LatestLoggedElapsedSeconds": 1086.5,
+      "RssBytes": 6850183168,
+      "Threads": 38
+    },
+    "Checkpoints": [
+      {
+        "LatestLoggedProcessed": 3400,
+        "LatestLoggedElapsedSeconds": 498.4,
+        "RssBytes": 5424635904,
+        "Threads": 38,
+        "Note": "Read-only ps observation; progress marker is latest completed log block, not exact synchronized count."
+      },
+      {
+        "ObservedUtc": "2026-11-17T22:54:12.081392+00:00",
+        "LatestLoggedProcessed": 4200,
+        "LatestLoggedElapsedSeconds": 620.0,
+        "RssBytes": 5855223808,
+        "Threads": 38,
+        "Note": "Read-only /proc observation; progress marker is latest log block."
+      },
+      {
+        "ObservedUtc": "2026-11-17T22:56:05.421371+00:00",
+        "LatestLoggedProcessed": 5000,
+        "LatestLoggedElapsedSeconds": 733.1,
+        "RssBytes": 6186573824,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T22:59:10.207673+00:00",
+        "LatestLoggedProcessed": 6400,
+        "LatestLoggedElapsedSeconds": 924.3,
+        "RssBytes": 6623784960,
+        "Threads": 37
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:01:47.201654+00:00",
+        "LatestLoggedProcessed": 7600,
+        "LatestLoggedElapsedSeconds": 1086.5,
+        "RssBytes": 6850183168,
+        "Threads": 38
+      }
+    ]
+  },
+  "DedicatedWorkers": {
+    "Outcome": "passed",
+    "Renamed": 8000,
+    "NativeErrors": 0,
+    "PeakWorkingSetBytes": 2615111680,
+    "Observations": 38,
+    "MinimumObservedWorkingSetBytes": 2462142464,
+    "MaximumObservedWorkingSetBytes": 2566627328,
+    "FirstObservation": {
+      "ObservedUtc": "2026-11-17T23:06:37.797617+00:00",
+      "LatestLoggedProcessed": 0,
+      "Failures": 0,
+      "LatestLoggedElapsedSeconds": 0.0,
+      "RssBytes": 2510192640,
+      "Threads": 39
+    },
+    "LastObservation": {
+      "ObservedUtc": "2026-11-17T23:25:07.950754+00:00",
+      "LatestLoggedProcessed": 7800,
+      "Failures": 0,
+      "LatestLoggedElapsedSeconds": 1120.5,
+      "RssBytes": 2473324544,
+      "Threads": 38
+    },
+    "Checkpoints": [
+      {
+        "ObservedUtc": "2026-11-17T23:06:37.797617+00:00",
+        "LatestLoggedProcessed": 0,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 0.0,
+        "RssBytes": 2510192640,
+        "Threads": 39
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:07:07.803148+00:00",
+        "LatestLoggedProcessed": 200,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 34.4,
+        "RssBytes": 2541088768,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:07:37.804348+00:00",
+        "LatestLoggedProcessed": 400,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 64.0,
+        "RssBytes": 2537082880,
+        "Threads": 39
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:08:07.804902+00:00",
+        "LatestLoggedProcessed": 600,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 92.9,
+        "RssBytes": 2551160832,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:08:37.806344+00:00",
+        "LatestLoggedProcessed": 800,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 121.2,
+        "RssBytes": 2540466176,
+        "Threads": 39
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:09:07.807642+00:00",
+        "LatestLoggedProcessed": 1000,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 152.3,
+        "RssBytes": 2524692480,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:09:37.811170+00:00",
+        "LatestLoggedProcessed": 1200,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 180.7,
+        "RssBytes": 2550890496,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:10:07.814384+00:00",
+        "LatestLoggedProcessed": 1400,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 212.2,
+        "RssBytes": 2533527552,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:10:37.818978+00:00",
+        "LatestLoggedProcessed": 1600,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 242.5,
+        "RssBytes": 2521911296,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:11:07.820318+00:00",
+        "LatestLoggedProcessed": 1800,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 270.1,
+        "RssBytes": 2554609664,
+        "Threads": 39
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:11:37.840674+00:00",
+        "LatestLoggedProcessed": 2000,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 298.3,
+        "RssBytes": 2537824256,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:12:07.841960+00:00",
+        "LatestLoggedProcessed": 2200,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 327.9,
+        "RssBytes": 2551341056,
+        "Threads": 39
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:12:37.846945+00:00",
+        "LatestLoggedProcessed": 2400,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 357.6,
+        "RssBytes": 2560516096,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:13:07.850738+00:00",
+        "LatestLoggedProcessed": 2600,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 386.6,
+        "RssBytes": 2531520512,
+        "Threads": 39
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:13:37.852425+00:00",
+        "LatestLoggedProcessed": 3000,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 445.8,
+        "RssBytes": 2489700352,
+        "Threads": 39
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:14:07.853937+00:00",
+        "LatestLoggedProcessed": 3200,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 473.9,
+        "RssBytes": 2540904448,
+        "Threads": 39
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:14:37.862634+00:00",
+        "LatestLoggedProcessed": 3400,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 503.3,
+        "RssBytes": 2520498176,
+        "Threads": 40
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:15:07.863903+00:00",
+        "LatestLoggedProcessed": 3600,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 532.5,
+        "RssBytes": 2566627328,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:15:37.867122+00:00",
+        "LatestLoggedProcessed": 3800,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 561.4,
+        "RssBytes": 2477576192,
+        "Threads": 37
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:16:07.872284+00:00",
+        "LatestLoggedProcessed": 4000,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 589.5,
+        "RssBytes": 2478792704,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:16:37.879353+00:00",
+        "LatestLoggedProcessed": 4200,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 617.6,
+        "RssBytes": 2552532992,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:17:07.881064+00:00",
+        "LatestLoggedProcessed": 4400,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 646.8,
+        "RssBytes": 2485719040,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:17:37.882578+00:00",
+        "LatestLoggedProcessed": 4600,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 675.9,
+        "RssBytes": 2509225984,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:18:07.886976+00:00",
+        "LatestLoggedProcessed": 4800,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 703.8,
+        "RssBytes": 2470453248,
+        "Threads": 39
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:18:37.888897+00:00",
+        "LatestLoggedProcessed": 5000,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 732.5,
+        "RssBytes": 2533560320,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:19:07.890909+00:00",
+        "LatestLoggedProcessed": 5200,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 761.4,
+        "RssBytes": 2462142464,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:19:37.896442+00:00",
+        "LatestLoggedProcessed": 5400,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 788.5,
+        "RssBytes": 2469781504,
+        "Threads": 37
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:20:07.897746+00:00",
+        "LatestLoggedProcessed": 5600,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 816.1,
+        "RssBytes": 2482343936,
+        "Threads": 39
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:20:37.899814+00:00",
+        "LatestLoggedProcessed": 5800,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 844.6,
+        "RssBytes": 2493313024,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:21:07.902629+00:00",
+        "LatestLoggedProcessed": 6000,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 872.0,
+        "RssBytes": 2487046144,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:21:37.906748+00:00",
+        "LatestLoggedProcessed": 6200,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 899.3,
+        "RssBytes": 2463043584,
+        "Threads": 37
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:22:07.908384+00:00",
+        "LatestLoggedProcessed": 6600,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 954.8,
+        "RssBytes": 2509385728,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:22:37.910072+00:00",
+        "LatestLoggedProcessed": 6800,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 982.1,
+        "RssBytes": 2480058368,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:23:07.912541+00:00",
+        "LatestLoggedProcessed": 7000,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 1010.7,
+        "RssBytes": 2505908224,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:23:37.938569+00:00",
+        "LatestLoggedProcessed": 7200,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 1038.2,
+        "RssBytes": 2485399552,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:24:07.943255+00:00",
+        "LatestLoggedProcessed": 7400,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 1065.9,
+        "RssBytes": 2510585856,
+        "Threads": 37
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:24:37.945270+00:00",
+        "LatestLoggedProcessed": 7600,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 1093.4,
+        "RssBytes": 2473984000,
+        "Threads": 38
+      },
+      {
+        "ObservedUtc": "2026-11-17T23:25:07.950754+00:00",
+        "LatestLoggedProcessed": 7800,
+        "Failures": 0,
+        "LatestLoggedElapsedSeconds": 1120.5,
+        "RssBytes": 2473324544,
+        "Threads": 38
+      }
+    ]
+  },
+  "Caveat": "Стабильная память наблюдалась на данном синтетическом наборе из 8000 файлов. Это не доказывает ограничение памяти для любого набора документов и произвольной длительности работы.",
+  "Sampling": "Пул задач: редкие контрольные точки; постоянные потоки: наблюдения каждые 30 секунд. Пиковый RSS в отчётах измерялся отдельным опросом каждые 100 мс."
+}

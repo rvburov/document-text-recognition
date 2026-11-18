@@ -1,0 +1,235 @@
+{
+  "RecordedUtc": "2026-11-18T01:00:36.6238935+00:00",
+  "CoreSha256": "DC1C9FCE704450C65A359414473EA8F9966A96DE104545123EE1B8B87B29FE0C",
+  "Configuration": {
+    "KnownLines": null,
+    "ResolvedKnownLines": false
+  },
+  "RngSeed": 1729,
+  "Correct": 4,
+  "Rejected": 1,
+  "Incorrect": 0,
+  "Samples": [
+    {
+      "File": "scans/01-specification-a4.pdf",
+      "ExpectedName": "ВКЕМ.461411.200 Модуль связи Спецификация.pdf",
+      "ActualName": "ВКЕМ.461411.200 Модуль связи Спецификация.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ВКЕМ.461411.200",
+            "ParsedText": "ВКЕМ.461411.200",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "BKEM.461411.200",
+            "ParsedText": "BКЕМ.461411.200",
+            "Problem": null
+          },
+          "CropSha256": "BFE56EF8370FAC1983D1763455D8A3659715C88F31E13437C2E5773A4DF5A621"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Модуль связи",
+            "ParsedText": "Модуль связи",
+            "Problem": null
+          },
+          "CropSha256": "0D09C4372ACA6A03BAA39F44ED34CE8570E9DC4C40C47AD078A53F703E9EC575"
+        }
+      ]
+    },
+    {
+      "File": "scans/02-assembly-a4.pdf",
+      "ExpectedName": "ЮИЛГ.461411.123 Корпус Сборочный чертеж.pdf",
+      "ActualName": "ЮИЛГ.461411.123 Корпус Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461411.123",
+            "ParsedText": "ЮИЛГ.461411.123",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461411.123",
+            "ParsedText": "ЮИЛГ.461411.123",
+            "Problem": null
+          },
+          "CropSha256": "170AECCACFC19EF0DDD978ADA524847F8CC37AD8253218D6961ACE11248AD228"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Корпус",
+            "ParsedText": "Корпус",
+            "Problem": null
+          },
+          "CropSha256": "92D2531B359AD09EC525E4683781523B77461F7797477301E83B449FFA02634D"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Сборочный чертеж",
+            "ParsedText": "Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "C772A58DA7A59E838AA163FF5EE7DFAA9968E20989013825529EC3D8887EC6CC"
+        }
+      ]
+    },
+    {
+      "File": "scans/03-schematic-a4.pdf",
+      "ExpectedName": "ЮИЛГ.461411.124 Блок питания Схема электрическая.pdf",
+      "ActualName": "ЮИЛГ.461411.124 Блок питания Схема электрическая.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ЮИЛГ.461411.124",
+            "ParsedText": "ЮИЛГ.461411.124",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ЮИЛГ.461411.124",
+            "ParsedText": "ЮИЛГ.461411.124",
+            "Problem": null
+          },
+          "CropSha256": "9A4544411D15A7C0A1784C4160616A38CDC5A0A5D62E7870538D555DB6CF9EB5"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Блок питания",
+            "ParsedText": "Блок питания",
+            "Problem": null
+          },
+          "CropSha256": "857A98B8EC0CE5C3D196EE3840285F816E96261D22C591262B81B35C453825A6"
+        },
+        {
+          "Role": "Type",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Схема электрическая",
+            "ParsedText": "Схема электрическая",
+            "Problem": null
+          },
+          "CropSha256": "66B70B340095B2242141159B080AEC506BB2C164719066304E60FBBAFAB11D83"
+        }
+      ]
+    },
+    {
+      "File": "scans/04-assembly-a3.pdf",
+      "ExpectedName": "ПРМД.301261.010 Рама сварная Сборочный чертеж.pdf",
+      "ActualName": "ПРМД.301261.010 Рама сварная Сборочный чертеж.pdf",
+      "Correct": true,
+      "Problem": null,
+      "ReadingDetails": [
+        {
+          "Role": "Combined",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "ПРМД.301261.010\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.010\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "ПРМД.301261.010\nРама сварная\nСборочный чертеж",
+            "ParsedText": "Обозначение: ПРМД.301261.010\nНаименование: Рама сварная\nТип: Сборочный чертеж",
+            "Problem": null
+          },
+          "CropSha256": "81A09AD42B1B277CA82C4F1B81464766E05CA827FBE4C6C5CB332D8F1012D6EE"
+        }
+      ]
+    },
+    {
+      "File": "scans/05-screenshot-like-specification.pdf",
+      "ExpectedName": "АЦИЕ.202132.004 Э(Т)О МОЭА Спецификация.pdf",
+      "ActualName": null,
+      "Correct": false,
+      "Problem": "стр. 1 (шаблон «Спецификация A4»): наименование прочитано по-разному: «Э(Т)О МОЭА» и «Э(ТО МОЭА»",
+      "ReadingDetails": [
+        {
+          "Role": "Designation",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "АЦИЕ.202132.004",
+            "ParsedText": "АЦИЕ.202132.004",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "АЦИЕ.202132.004",
+            "ParsedText": "АЦИЕ.202132.004",
+            "Problem": null
+          },
+          "CropSha256": "211A0BBD54A74BE28D4B3DBB5F895A1D8714421B6E8FDEF91A0CC07C0C3DD4F3"
+        },
+        {
+          "Role": "Name",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Э(Т)О МОЭА",
+            "ParsedText": "Э(Т)О МОЭА",
+            "Problem": null
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Э(ТО МОЭА",
+            "ParsedText": "Э(ТО МОЭА",
+            "Problem": null
+          },
+          "CropSha256": "194E83A55ACBB2067DCD9D626C299CE41C8640D44D6DE079B028DCA717ACF53C"
+        }
+      ]
+    }
+  ]
+}

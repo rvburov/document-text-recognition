@@ -8,11 +8,14 @@ using DocumentTextRecognition.Core.Rename;
 using DocumentTextRecognition.Core.Templates;
 using OpenCvSharp;
 
-if (args.Length != 2)
+bool? knownLines = null;
+if (args.Length is not (2 or 4) || (args.Length == 4 && (args[2] != "--known-lines" || !bool.TryParse(args[3], out _))))
 {
-    Console.Error.WriteLine("Usage: PerformanceVerify <samples-folder> <output.json>");
+    Console.Error.WriteLine("Usage: PerformanceVerify <samples-folder> <output.json> [--known-lines true|false]");
     return 2;
 }
+if (args.Length == 4) knownLines = bool.Parse(args[3]);
+bool? resolvedKnownLines = null;
 var output = Path.GetFullPath(args[1]);
 Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 typeof(OcrComponents).GetMethod("ConfigureRuntime", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(null, null);
@@ -24,6 +27,14 @@ int correct = 0, rejected = 0, incorrect = 0;
 try
 {
     using var pair = OcrPair.CreateReal(OcrComponents.FindTessdata()!);
+    var knownLinesProperty = typeof(OcrPair).GetProperty("PreferKnownLines", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+    if (knownLines is { } preferKnownLines)
+    {
+        if (knownLinesProperty is null && preferKnownLines)
+            throw new NotSupportedException("This core build does not support known text lines.");
+        knownLinesProperty?.SetValue(pair, preferKnownLines);
+    }
+    resolvedKnownLines = knownLinesProperty?.GetValue(pair) as bool?;
     foreach (var sample in document.RootElement.GetProperty("Samples").EnumerateArray())
     {
         var file = sample.GetProperty("File").GetString()!;
@@ -46,6 +57,7 @@ try
 finally { foreach (var t in templates) t.Dispose(); }
 File.WriteAllText(output, JsonSerializer.Serialize(new {
     RecordedUtc = DateTimeOffset.UtcNow, CoreSha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(typeof(OcrPair).Assembly.Location))),
+    Configuration = new { KnownLines = knownLines, ResolvedKnownLines = resolvedKnownLines },
     RngSeed = 1729, Correct = correct, Rejected = rejected, Incorrect = incorrect, Samples = results
 }, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
 Console.WriteLine($"Correct={correct}; refused={rejected}; incorrect={incorrect}");

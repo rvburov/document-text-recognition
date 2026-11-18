@@ -47,3 +47,19 @@ print(before["Correct"], before["Rejected"], before["Incorrect"])
 во временном каталоге `artifacts/diverse-compare`; после замера перенесён сюда без изменения
 логики проверки (добавлены подсказка по аргументам и создание папки отчёта). Совпадение на
 синтетическом наборе не доказывает равенство точности на любых сканах.
+
+Для отдельного эксперимента поддерживается необязательный параметр `--known-lines true/false`
+после двух путей. Он задаёт режим известных текстовых строк только для этой проверки;
+при отсутствии параметра сохраняется значение ядра по умолчанию. Запрошенный и фактический
+варианты записываются в `Configuration`. Старый вызов с двумя путями продолжает работать.
+
+```sh
+dotnet run --project tools/PerformanceVerify -c Release -- \
+  artifacts/performance-diverse-samples artifacts/performance/known-lines-off.json --known-lines false
+dotnet run --project tools/PerformanceVerify -c Release -- \
+  artifacts/performance-diverse-samples artifacts/performance/known-lines-on.json --known-lines true
+```
+
+При изменении способа OCR сравниваются все ожидаемые имена: ни один ранее правильный результат
+не должен потеряться, ошибочно принятых имён быть не должно. Улучшения и сохраняющиеся отказы
+отражаются в отчёте отдельно; строки не исключаются из набора.

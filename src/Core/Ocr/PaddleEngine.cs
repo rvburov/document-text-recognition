@@ -89,7 +89,21 @@ internal sealed class PaddleEngine : IOcrEngine
     }
 
     /// <summary>Детектор читает каждое поле отдельно; распознаватель получает строки всех полей одной пачкой.</summary>
-    internal OcrReading[] ReadMany(IReadOnlyList<Mat> grays, Action<string, TimeSpan>? timing = null)
+    internal OcrReading[] ReadMany(IReadOnlyList<Mat> grays, Action<string, TimeSpan>? timing = null,
+        CancellationToken ct = default) => ReadManyCore(grays, null, timing, ct);
+
+    /// <summary>Эксперимент: явно известные одиночные строки читаются без нейросетевого детектора.
+    /// Флаги принадлежат только этому вызову. Вызывающий код обязан подтвердить такие ответы
+    /// вторым движком и повторить неподтвержденные поля через <see cref="ReadMany"/>.</summary>
+    internal (OcrReading[] Readings, bool[] KnownLines) ReadKnownLines(IReadOnlyList<Mat> grays,
+        Action<string, TimeSpan>? timing = null, CancellationToken ct = default)
+    {
+        var knownLines = new bool[grays.Count];
+        return (ReadManyCore(grays, knownLines, timing, ct), knownLines);
+    }
+
+    private OcrReading[] ReadManyCore(IReadOnlyList<Mat> grays, bool[]? knownLines,
+        Action<string, TimeSpan>? timing, CancellationToken ct)
     {
         ObjectDisposedException.ThrowIf(_ocr is null && _detector is null, this);
         var images = new List<Mat>();
@@ -99,12 +113,29 @@ internal sealed class PaddleEngine : IOcrEngine
         {
             for (var field = 0; field < grays.Count; field++)
             {
+                ct.ThrowIfCancellationRequested();
                 var bgr = new Mat();
                 images.Add(bgr);
                 Cv2.CvtColor(grays[field], bgr, ColorConversionCodes.GRAY2BGR);
+                if (knownLines is not null)
+                {
+                    var gateStarted = timing is null ? 0 : Stopwatch.GetTimestamp();
+                    var eligible = KnownSingleLineRegion.TryGetBounds(grays[field], out var bounds, ct);
+                    timing?.Invoke("paddle.known-line", Stopwatch.GetElapsedTime(gateStarted));
+                    if (eligible)
+                    {
+                        lines.Add(new Mat(bgr, bounds));
+                        locations.Add((field, new RotatedRect(
+                            new Point2f(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f),
+                            new Size2f(bounds.Width, bounds.Height), 0)));
+                        knownLines[field] = true;
+                        continue;
+                    }
+                }
                 var started = timing is null ? 0 : Stopwatch.GetTimestamp();
                 var rectangles = _detector is not null ? _detector.Run(bgr) : _ocr!.Detector.Run(bgr);
                 timing?.Invoke("paddle.detect", Stopwatch.GetElapsedTime(started));
+                ct.ThrowIfCancellationRequested();
                 foreach (var rect in rectangles)
                 {
                     var box = rect.BoundingRect();
@@ -114,14 +145,18 @@ internal sealed class PaddleEngine : IOcrEngine
                     locations.Add((field, rect));
                 }
             }
+            ct.ThrowIfCancellationRequested();
             var recognitionStarted = timing is null ? 0 : Stopwatch.GetTimestamp();
             var recognized = _recognizer is not null ? _recognizer.Run(lines.ToArray()) : _ocr!.Recognizer.Run(lines.ToArray());
             timing?.Invoke("paddle.recognize", Stopwatch.GetElapsedTime(recognitionStarted));
+            ct.ThrowIfCancellationRequested();
             var groups = Enumerable.Range(0, grays.Count).Select(_ => new List<PaddleOcrResultRegion>()).ToArray();
             for (var i = 0; i < recognized.Length; i++)
             {
                 var answer = recognized[i];
-                groups[locations[i].Field].Add(new PaddleOcrResultRegion(locations[i].Rect, answer.Text, answer.Score, answer.Chars));
+                var field = locations[i].Field;
+                var score = knownLines?[field] == true ? KnownLineConfidence(answer) : answer.Score;
+                groups[field].Add(new PaddleOcrResultRegion(locations[i].Rect, answer.Text, score, answer.Chars));
             }
             return groups.Select(Collect).ToArray();
         }
@@ -130,6 +165,38 @@ internal sealed class PaddleEngine : IOcrEngine
             foreach (var line in lines) line.Dispose();
             foreach (var image in images) image.Dispose();
         }
+    }
+
+    /// <summary>Целая строка не должна скрыть слабое слово высоким средним остальных слов.
+    /// Сохраняем минимум штатного score и средних по словам; пробелы не входят в среднее слова.
+    /// Неизвестное соответствие символов возвращает NaN и требует полного детектора.</summary>
+    internal static float KnownLineConfidence(PaddleOcrRecognizerResult answer)
+    {
+        if (string.IsNullOrWhiteSpace(answer.Text) || !float.IsFinite(answer.Score) ||
+            answer.Score is < 0 or > 1 || answer.Chars is null || answer.Chars.Count == 0 ||
+            !string.Equals(string.Concat(answer.Chars.Select(c => c.Character)), answer.Text, StringComparison.Ordinal))
+            return float.NaN;
+        var minimum = answer.Score;
+        double sum = 0;
+        var count = 0;
+        foreach (var character in answer.Chars)
+        {
+            if (string.IsNullOrEmpty(character.Character) || character.Character.Length != 1 || !float.IsFinite(character.Score) ||
+                character.Score is < 0 or > 1) return float.NaN;
+            if (char.IsWhiteSpace(character.Character[0]))
+            {
+                if (count > 0) minimum = Math.Min(minimum, (float)(sum / count));
+                sum = 0;
+                count = 0;
+            }
+            else
+            {
+                sum += character.Score;
+                count++;
+            }
+        }
+        if (count > 0) minimum = Math.Min(minimum, (float)(sum / count));
+        return minimum;
     }
 
     private OcrReading Collect(IEnumerable<PaddleOcrResultRegion> regions)

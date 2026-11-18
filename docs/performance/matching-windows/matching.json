@@ -1,0 +1,1518 @@
+{
+  "SchemaVersion": 1,
+  "Label": "windows-exact",
+  "RecordedUtc": "2026-11-18T00:05:40.1393755+00:00",
+  "Scope": "Exact Hamming nearest-two stage only. PDFs/templates/ORB are prepared once. No OCR, renaming or document-throughput measurement.",
+  "Environment": {
+    "OS": "Microsoft Windows 10.0.20348",
+    "DotNet": ".NET 10.0.15",
+    "Architecture": "X64",
+    "LogicalProcessors": 4,
+    "Cpu": "AMD EPYC 7763 64-Core Processor",
+    "Vendor": "AuthenticAMD",
+    "CpuSignature": "0x00A00F11",
+    "Popcnt64": true,
+    "Avx2": true,
+    "Avx512F": false,
+    "Avx512BW": false,
+    "OpenCv": "4.13.0",
+    "OpenCvBuild": [
+      "Baseline:                    SSE SSE2 SSE3",
+      "Dispatched code generation:  SSE4_1 SSE4_2 AVX FP16 AVX2 AVX512_SKX",
+      "Parallel framework:            Concurrency",
+      "Intel IPP:                   2022.2.0 [2022.2.0]"
+    ],
+    "CoreAssemblySha256": "13C64EBB468CC78AFA6E819E482D0A09E840A4B52AA3F53B3C1A406BF7BA29F8",
+    "HardwareIntrinsicOverride": null,
+    "TieredCompilationOverride": null
+  },
+  "Configuration": {
+    "Repeats": 20,
+    "Warmups": 2,
+    "NativeThreads": [
+      1
+    ],
+    "QualityOnly": false,
+    "Order": "ABBA; A=production NearestTwo, B=native BFMatcher.KnnMatch(k=2)",
+    "NativeMatcherLifetime": "One BFMatcher reused per native-thread variant; explicit query/train matrices on every call.",
+    "ScalarThreading": "Single managed thread per invocation; production hardware/descriptor fallback remains enabled.",
+    "SetupExcluded": "PDF rendering, ORB, descriptor/file hashes, full-result verification and warmups."
+  },
+  "Dataset": {
+    "Pdfs": 4,
+    "Templates": 3,
+    "PairsPerRun": 12,
+    "DistanceComparisonsPerRun": 291786980,
+    "Files": [
+      {
+        "File": "scans/01-specification-a4.pdf",
+        "Sha256": "3F6393B17DB44B524051226325C72219B5914682637FF58FA6EB3AB6D9E35045"
+      },
+      {
+        "File": "scans/02-assembly-a4.pdf",
+        "Sha256": "AA34B669D45A52061386631C89B3F367EAC14C42B910501DC49CBE79F892ADFD"
+      },
+      {
+        "File": "scans/03-schematic-a4.pdf",
+        "Sha256": "B0A062F49AD97CCA403B1F86E3248D9790242ED55AB5C334D4D8B7365661B894"
+      },
+      {
+        "File": "scans/04-assembly-a3.pdf",
+        "Sha256": "33C76417A034A4567E23168795649179B443A99CF1B13FAFB16A0E27B7BB5481"
+      },
+      {
+        "File": "templates/Основная надпись A3.pdf",
+        "Sha256": "16A7C9E8F420804C9CF73DD7FA78B5D6FF0A31D18E87D703B3D8BB6A53C174DF"
+      },
+      {
+        "File": "templates/Основная надпись A3.pdf.template.json",
+        "Sha256": "1BE30C64B35167D020C04A4FA4EE1313A474EDBED3B2A2DDA159113B19FD3A94"
+      },
+      {
+        "File": "templates/Основная надпись A4.pdf",
+        "Sha256": "4EF6DE8C9C6052E094D661181A2EF2FB432D5515A45539419E5C7C21B9737928"
+      },
+      {
+        "File": "templates/Основная надпись A4.pdf.template.json",
+        "Sha256": "503398E61F4B7370ED9397C0302622BF2393BA6DD4C35EB79BC5A2A6409BB4A2"
+      },
+      {
+        "File": "templates/Спецификация A4.pdf",
+        "Sha256": "502A4B80618CE4B7DA2547DB1923D5A56BF34ED372F43BC888BA2C3B874F4ECA"
+      },
+      {
+        "File": "templates/Спецификация A4.pdf.template.json",
+        "Sha256": "F4380BA1DB24149D4345956006E15058714CAD5E15601FC9DD9341AF09871C02"
+      }
+    ],
+    "Descriptors": [
+      {
+        "Page": "scans/01-specification-a4.pdf",
+        "Template": "Основная надпись A3",
+        "QueryRows": 5000,
+        "TrainRows": 4645,
+        "WidthBytes": 32,
+        "QuerySha256": "E410373F49B6933184745C873F0F35D1622C54A3BFF3FAEEB988EA1BDC1EAE5A",
+        "TrainSha256": "ED730D67047181EF21BE352EFF5CB73400795D22A2E7857F41F1CA1675D9B27B"
+      },
+      {
+        "Page": "scans/01-specification-a4.pdf",
+        "Template": "Основная надпись A4",
+        "QueryRows": 5000,
+        "TrainRows": 5000,
+        "WidthBytes": 32,
+        "QuerySha256": "E410373F49B6933184745C873F0F35D1622C54A3BFF3FAEEB988EA1BDC1EAE5A",
+        "TrainSha256": "2FEB469F162064AE04D83FA280DE00253FA6DE497EA5144561FB01A4A4F24324"
+      },
+      {
+        "Page": "scans/01-specification-a4.pdf",
+        "Template": "Спецификация A4",
+        "QueryRows": 5000,
+        "TrainRows": 5000,
+        "WidthBytes": 32,
+        "QuerySha256": "E410373F49B6933184745C873F0F35D1622C54A3BFF3FAEEB988EA1BDC1EAE5A",
+        "TrainSha256": "AFF0866F7EC18E5B33C68A433C30CD25C281FD0ACF956ADA338EBE756EE14DD0"
+      },
+      {
+        "Page": "scans/02-assembly-a4.pdf",
+        "Template": "Основная надпись A3",
+        "QueryRows": 5000,
+        "TrainRows": 4645,
+        "WidthBytes": 32,
+        "QuerySha256": "8DBEF5D9F73B0CEE1D5FA414FADB333D8D06F032F24BDED1976FF41694C8F288",
+        "TrainSha256": "ED730D67047181EF21BE352EFF5CB73400795D22A2E7857F41F1CA1675D9B27B"
+      },
+      {
+        "Page": "scans/02-assembly-a4.pdf",
+        "Template": "Основная надпись A4",
+        "QueryRows": 5000,
+        "TrainRows": 5000,
+        "WidthBytes": 32,
+        "QuerySha256": "8DBEF5D9F73B0CEE1D5FA414FADB333D8D06F032F24BDED1976FF41694C8F288",
+        "TrainSha256": "2FEB469F162064AE04D83FA280DE00253FA6DE497EA5144561FB01A4A4F24324"
+      },
+      {
+        "Page": "scans/02-assembly-a4.pdf",
+        "Template": "Спецификация A4",
+        "QueryRows": 5000,
+        "TrainRows": 5000,
+        "WidthBytes": 32,
+        "QuerySha256": "8DBEF5D9F73B0CEE1D5FA414FADB333D8D06F032F24BDED1976FF41694C8F288",
+        "TrainSha256": "AFF0866F7EC18E5B33C68A433C30CD25C281FD0ACF956ADA338EBE756EE14DD0"
+      },
+      {
+        "Page": "scans/03-schematic-a4.pdf",
+        "Template": "Основная надпись A3",
+        "QueryRows": 5000,
+        "TrainRows": 4645,
+        "WidthBytes": 32,
+        "QuerySha256": "25F7DEFD118558C747054350DB4C36F57CFD23DE4B2712DE25CA164AD15AA076",
+        "TrainSha256": "ED730D67047181EF21BE352EFF5CB73400795D22A2E7857F41F1CA1675D9B27B"
+      },
+      {
+        "Page": "scans/03-schematic-a4.pdf",
+        "Template": "Основная надпись A4",
+        "QueryRows": 5000,
+        "TrainRows": 5000,
+        "WidthBytes": 32,
+        "QuerySha256": "25F7DEFD118558C747054350DB4C36F57CFD23DE4B2712DE25CA164AD15AA076",
+        "TrainSha256": "2FEB469F162064AE04D83FA280DE00253FA6DE497EA5144561FB01A4A4F24324"
+      },
+      {
+        "Page": "scans/03-schematic-a4.pdf",
+        "Template": "Спецификация A4",
+        "QueryRows": 5000,
+        "TrainRows": 5000,
+        "WidthBytes": 32,
+        "QuerySha256": "25F7DEFD118558C747054350DB4C36F57CFD23DE4B2712DE25CA164AD15AA076",
+        "TrainSha256": "AFF0866F7EC18E5B33C68A433C30CD25C281FD0ACF956ADA338EBE756EE14DD0"
+      },
+      {
+        "Page": "scans/04-assembly-a3.pdf",
+        "Template": "Основная надпись A3",
+        "QueryRows": 4924,
+        "TrainRows": 4645,
+        "WidthBytes": 32,
+        "QuerySha256": "EC8AB23640EFE18F45727D3D6FE6470B2B81F4A273613584276E30D43171E156",
+        "TrainSha256": "ED730D67047181EF21BE352EFF5CB73400795D22A2E7857F41F1CA1675D9B27B"
+      },
+      {
+        "Page": "scans/04-assembly-a3.pdf",
+        "Template": "Основная надпись A4",
+        "QueryRows": 4924,
+        "TrainRows": 5000,
+        "WidthBytes": 32,
+        "QuerySha256": "EC8AB23640EFE18F45727D3D6FE6470B2B81F4A273613584276E30D43171E156",
+        "TrainSha256": "2FEB469F162064AE04D83FA280DE00253FA6DE497EA5144561FB01A4A4F24324"
+      },
+      {
+        "Page": "scans/04-assembly-a3.pdf",
+        "Template": "Спецификация A4",
+        "QueryRows": 4924,
+        "TrainRows": 5000,
+        "WidthBytes": 32,
+        "QuerySha256": "EC8AB23640EFE18F45727D3D6FE6470B2B81F4A273613584276E30D43171E156",
+        "TrainSha256": "AFF0866F7EC18E5B33C68A433C30CD25C281FD0ACF956ADA338EBE756EE14DD0"
+      }
+    ]
+  },
+  "Quality": {
+    "Passed": true,
+    "Cases": 16,
+    "ComparedQueryRows": 59798,
+    "Mismatches": 0,
+    "Errors": []
+  },
+  "Summaries": [
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Runs": 20,
+      "MeanWallMilliseconds": 538.3277350000001,
+      "MedianWallMilliseconds": 537.86735,
+      "MinWallMilliseconds": 536.2018,
+      "MaxWallMilliseconds": 545.9795,
+      "MeanCpuMilliseconds": 536.71875,
+      "MeanCpuCores": 0.9970111422923434,
+      "MeanAllocatedBytes": 956640,
+      "PerPair": [
+        {
+          "Page": "scans/01-specification-a4.pdf",
+          "Template": "Основная надпись A3",
+          "MeanWallMilliseconds": 42.890085
+        },
+        {
+          "Page": "scans/01-specification-a4.pdf",
+          "Template": "Основная надпись A4",
+          "MeanWallMilliseconds": 46.05066999999999
+        },
+        {
+          "Page": "scans/01-specification-a4.pdf",
+          "Template": "Спецификация A4",
+          "MeanWallMilliseconds": 45.92096000000001
+        },
+        {
+          "Page": "scans/02-assembly-a4.pdf",
+          "Template": "Основная надпись A3",
+          "MeanWallMilliseconds": 42.90512000000001
+        },
+        {
+          "Page": "scans/02-assembly-a4.pdf",
+          "Template": "Основная надпись A4",
+          "MeanWallMilliseconds": 46.048390000000005
+        },
+        {
+          "Page": "scans/02-assembly-a4.pdf",
+          "Template": "Спецификация A4",
+          "MeanWallMilliseconds": 46.074110000000005
+        },
+        {
+          "Page": "scans/03-schematic-a4.pdf",
+          "Template": "Основная надпись A3",
+          "MeanWallMilliseconds": 42.873929999999994
+        },
+        {
+          "Page": "scans/03-schematic-a4.pdf",
+          "Template": "Основная надпись A4",
+          "MeanWallMilliseconds": 46.271055000000004
+        },
+        {
+          "Page": "scans/03-schematic-a4.pdf",
+          "Template": "Спецификация A4",
+          "MeanWallMilliseconds": 46.031530000000004
+        },
+        {
+          "Page": "scans/04-assembly-a3.pdf",
+          "Template": "Основная надпись A3",
+          "MeanWallMilliseconds": 42.41816499999999
+        },
+        {
+          "Page": "scans/04-assembly-a3.pdf",
+          "Template": "Основная надпись A4",
+          "MeanWallMilliseconds": 45.396485
+        },
+        {
+          "Page": "scans/04-assembly-a3.pdf",
+          "Template": "Спецификация A4",
+          "MeanWallMilliseconds": 45.43884499999999
+        }
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Runs": 20,
+      "MeanWallMilliseconds": 5737.25366,
+      "MedianWallMilliseconds": 5735.1137,
+      "MinWallMilliseconds": 5726.0882,
+      "MaxWallMilliseconds": 5764.3872,
+      "MeanCpuMilliseconds": 5739.84375,
+      "MeanCpuCores": 1.00045145119137,
+      "MeanAllocatedBytes": 5742146.8,
+      "PerPair": [
+        {
+          "Page": "scans/01-specification-a4.pdf",
+          "Template": "Основная надпись A3",
+          "MeanWallMilliseconds": 456.8579250000001
+        },
+        {
+          "Page": "scans/01-specification-a4.pdf",
+          "Template": "Основная надпись A4",
+          "MeanWallMilliseconds": 491.465865
+        },
+        {
+          "Page": "scans/01-specification-a4.pdf",
+          "Template": "Спецификация A4",
+          "MeanWallMilliseconds": 491.3406899999999
+        },
+        {
+          "Page": "scans/02-assembly-a4.pdf",
+          "Template": "Основная надпись A3",
+          "MeanWallMilliseconds": 456.54275500000006
+        },
+        {
+          "Page": "scans/02-assembly-a4.pdf",
+          "Template": "Основная надпись A4",
+          "MeanWallMilliseconds": 491.19297500000005
+        },
+        {
+          "Page": "scans/02-assembly-a4.pdf",
+          "Template": "Спецификация A4",
+          "MeanWallMilliseconds": 492.25463
+        },
+        {
+          "Page": "scans/03-schematic-a4.pdf",
+          "Template": "Основная надпись A3",
+          "MeanWallMilliseconds": 456.3761849999999
+        },
+        {
+          "Page": "scans/03-schematic-a4.pdf",
+          "Template": "Основная надпись A4",
+          "MeanWallMilliseconds": 491.91213000000005
+        },
+        {
+          "Page": "scans/03-schematic-a4.pdf",
+          "Template": "Спецификация A4",
+          "MeanWallMilliseconds": 491.15722999999997
+        },
+        {
+          "Page": "scans/04-assembly-a3.pdf",
+          "Template": "Основная надпись A3",
+          "MeanWallMilliseconds": 449.8852949999999
+        },
+        {
+          "Page": "scans/04-assembly-a3.pdf",
+          "Template": "Основная надпись A4",
+          "MeanWallMilliseconds": 484.07271000000003
+        },
+        {
+          "Page": "scans/04-assembly-a3.pdf",
+          "Template": "Спецификация A4",
+          "MeanWallMilliseconds": 484.18784999999997
+        }
+      ]
+    }
+  ],
+  "Measurements": [
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 0,
+      "Sequence": 0,
+      "WallMilliseconds": 538.2258,
+      "CpuMilliseconds": 546.875,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.7014,
+        46.421,
+        46.0022,
+        43.3817,
+        45.7475,
+        45.9499,
+        43.1731,
+        46.1106,
+        46.3598,
+        42.0608,
+        45.1461,
+        45.1426
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 0,
+      "Sequence": 1,
+      "WallMilliseconds": 5740.8471,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        456.2078,
+        490.2555,
+        491.04,
+        457.4164,
+        490.378,
+        491.644,
+        456.9121,
+        492.3652,
+        493.9155,
+        450.1162,
+        484.9777,
+        485.6127
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 0,
+      "Sequence": 2,
+      "WallMilliseconds": 5764.3872,
+      "CpuMilliseconds": 5781.25,
+      "AllocatedBytes": 5742200,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        458.476,
+        503.8553,
+        492.3888,
+        456.8662,
+        493.3153,
+        494.4739,
+        456.848,
+        491.0366,
+        491.2482,
+        457.4142,
+        483.892,
+        484.5664
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 0,
+      "Sequence": 3,
+      "WallMilliseconds": 537.1389,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.6754,
+        45.7995,
+        45.6729,
+        43.3466,
+        46.0804,
+        45.9361,
+        42.7379,
+        45.801,
+        45.7704,
+        42.646,
+        45.3193,
+        45.3467
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 1,
+      "Sequence": 0,
+      "WallMilliseconds": 536.7379,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.7072,
+        45.7195,
+        45.7214,
+        42.9297,
+        46.5173,
+        45.8038,
+        42.5436,
+        45.7289,
+        45.7276,
+        42.2553,
+        45.3812,
+        45.6971
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 1,
+      "Sequence": 1,
+      "WallMilliseconds": 5735.1128,
+      "CpuMilliseconds": 5750,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        1,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        457.3723,
+        489.9509,
+        490.6314,
+        456.3045,
+        491.449,
+        490.8141,
+        456.3469,
+        490.3177,
+        492.256,
+        449.8316,
+        484.4723,
+        485.3592
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 1,
+      "Sequence": 2,
+      "WallMilliseconds": 5731.2504,
+      "CpuMilliseconds": 5718.75,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        457.1682,
+        490.8707,
+        492.3932,
+        457.5958,
+        491.1206,
+        490.8436,
+        455.2081,
+        490.3965,
+        490.0919,
+        449.1763,
+        483.014,
+        483.3644
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 1,
+      "Sequence": 3,
+      "WallMilliseconds": 538.4427,
+      "CpuMilliseconds": 546.875,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        43.1973,
+        46.5141,
+        45.9907,
+        42.834,
+        45.7547,
+        45.7532,
+        42.5791,
+        46.5173,
+        45.9873,
+        42.2939,
+        45.135,
+        45.8788
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 2,
+      "Sequence": 0,
+      "WallMilliseconds": 539.0045,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.9579,
+        46.1464,
+        45.8527,
+        42.8064,
+        45.7363,
+        45.7431,
+        44.2386,
+        46.4919,
+        45.6225,
+        41.9598,
+        45.598,
+        45.8433
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 2,
+      "Sequence": 1,
+      "WallMilliseconds": 5733.6238,
+      "CpuMilliseconds": 5750,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        456.4103,
+        490.6686,
+        491.0309,
+        455.5336,
+        491.4466,
+        491.901,
+        458.4868,
+        491.7047,
+        490.8098,
+        448.9997,
+        483.4884,
+        483.1349
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 2,
+      "Sequence": 2,
+      "WallMilliseconds": 5726.0882,
+      "CpuMilliseconds": 5718.75,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        1,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        456.183,
+        490.8299,
+        490.2016,
+        455.4928,
+        490.3316,
+        490.369,
+        455.3174,
+        490.2197,
+        490.6075,
+        449.1436,
+        483.8853,
+        483.4995
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 2,
+      "Sequence": 3,
+      "WallMilliseconds": 537.7789,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.8692,
+        45.84,
+        45.8605,
+        42.9858,
+        46.4608,
+        46.3977,
+        42.8741,
+        45.85,
+        46.4449,
+        41.9981,
+        45.0858,
+        45.1039
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 3,
+      "Sequence": 0,
+      "WallMilliseconds": 536.9184,
+      "CpuMilliseconds": 546.875,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.7525,
+        45.7716,
+        45.9008,
+        42.6496,
+        46.0287,
+        46.4134,
+        42.7814,
+        45.8533,
+        45.7915,
+        42.2935,
+        45.1751,
+        45.4982
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 3,
+      "Sequence": 1,
+      "WallMilliseconds": 5736.1224,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        456.4503,
+        491.798,
+        491.5935,
+        455.5392,
+        490.7394,
+        496.1004,
+        455.8989,
+        492.096,
+        490.631,
+        449.2215,
+        483.6177,
+        482.4289
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 3,
+      "Sequence": 2,
+      "WallMilliseconds": 5735.1419,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        1,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        456.3366,
+        489.8193,
+        491.4358,
+        454.9338,
+        490.6688,
+        490.8841,
+        456.9413,
+        491.9776,
+        490.7357,
+        449.6352,
+        488.4158,
+        483.3501
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 3,
+      "Sequence": 3,
+      "WallMilliseconds": 539.0885,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.742,
+        46.1787,
+        46.3271,
+        42.7243,
+        46.4367,
+        45.7501,
+        43.5034,
+        45.8386,
+        45.8604,
+        42.17,
+        45.2515,
+        46.2952
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 4,
+      "Sequence": 0,
+      "WallMilliseconds": 541.1781,
+      "CpuMilliseconds": 546.875,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.6967,
+        45.9677,
+        45.9532,
+        42.7369,
+        46.2555,
+        47.0058,
+        42.8697,
+        46.8895,
+        46.9234,
+        42.8499,
+        45.7829,
+        45.2376
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 4,
+      "Sequence": 1,
+      "WallMilliseconds": 5735.4402,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        457.7694,
+        490.9289,
+        490.57,
+        457.2388,
+        492.187,
+        490.8795,
+        455.8824,
+        490.4423,
+        490.3587,
+        449.1367,
+        485.5592,
+        484.4802
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 4,
+      "Sequence": 2,
+      "WallMilliseconds": 5733.7908,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        455.8269,
+        491.3035,
+        491.9304,
+        456.4564,
+        492.9538,
+        492.7962,
+        455.8245,
+        490.9015,
+        490.621,
+        448.4386,
+        482.1799,
+        484.5498
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 4,
+      "Sequence": 3,
+      "WallMilliseconds": 537.9558,
+      "CpuMilliseconds": 546.875,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.7821,
+        46.7991,
+        46.1578,
+        42.7136,
+        46.1449,
+        46.6624,
+        42.6196,
+        45.8221,
+        45.7323,
+        42.0526,
+        45.414,
+        45.049
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 5,
+      "Sequence": 0,
+      "WallMilliseconds": 540.1385,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        1,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.8502,
+        47.1094,
+        46.572,
+        42.6872,
+        45.7524,
+        46.4797,
+        42.7222,
+        45.8056,
+        46.6354,
+        42.6078,
+        45.7036,
+        45.2049
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 5,
+      "Sequence": 1,
+      "WallMilliseconds": 5735.1146,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        455.9344,
+        490.856,
+        492.1725,
+        457.3886,
+        490.6675,
+        492.4182,
+        456.7698,
+        490.8367,
+        490.694,
+        449.2781,
+        483.6874,
+        484.404
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 5,
+      "Sequence": 2,
+      "WallMilliseconds": 5736.4332,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        456.981,
+        491.0838,
+        490.8947,
+        463.0041,
+        491.4652,
+        490.5919,
+        455.4951,
+        490.6333,
+        491.0482,
+        448.9924,
+        483.3411,
+        482.8949
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 5,
+      "Sequence": 3,
+      "WallMilliseconds": 537.0669,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.8285,
+        45.8077,
+        45.7521,
+        43.2776,
+        45.7437,
+        46.5609,
+        42.7689,
+        45.8314,
+        46.0563,
+        42.0436,
+        45.1186,
+        45.2702
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 6,
+      "Sequence": 0,
+      "WallMilliseconds": 536.2018,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        43.0571,
+        46.1727,
+        45.8856,
+        42.6571,
+        45.8337,
+        46.0867,
+        42.6594,
+        45.7588,
+        45.7593,
+        41.9901,
+        45.1858,
+        45.1492
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 6,
+      "Sequence": 1,
+      "WallMilliseconds": 5742.6273,
+      "CpuMilliseconds": 5765.625,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        1,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        457.0498,
+        490.7472,
+        493.4243,
+        455.862,
+        490.7851,
+        491.6858,
+        456.2773,
+        490.9868,
+        490.9025,
+        451.1113,
+        484.9847,
+        488.8032
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 6,
+      "Sequence": 2,
+      "WallMilliseconds": 5752.6162,
+      "CpuMilliseconds": 5750,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        457.4513,
+        492.1266,
+        491.1935,
+        456.0328,
+        490.0878,
+        491.4331,
+        457.4948,
+        508.9516,
+        491.2716,
+        449.2884,
+        483.0436,
+        484.2335
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 6,
+      "Sequence": 3,
+      "WallMilliseconds": 536.4229,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.7528,
+        45.7497,
+        45.8513,
+        42.8635,
+        45.7325,
+        45.7077,
+        42.587,
+        45.8256,
+        46.4158,
+        42.544,
+        45.2709,
+        45.1161
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 7,
+      "Sequence": 0,
+      "WallMilliseconds": 537.5321,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.7061,
+        45.7774,
+        45.7948,
+        42.6766,
+        45.7784,
+        46.5755,
+        43.0144,
+        45.783,
+        45.9649,
+        42.8516,
+        45.4808,
+        45.1225
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 7,
+      "Sequence": 1,
+      "WallMilliseconds": 5731.7442,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        456.7857,
+        490.4812,
+        490.5025,
+        456.3017,
+        490.0529,
+        493.2457,
+        455.2455,
+        491.4433,
+        491.2988,
+        449.2823,
+        483.8617,
+        483.2346
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 7,
+      "Sequence": 2,
+      "WallMilliseconds": 5749.1461,
+      "CpuMilliseconds": 5750,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        1,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        457.1906,
+        490.9641,
+        491.255,
+        455.992,
+        491.9656,
+        502.0111,
+        457.5971,
+        491.2541,
+        490.9657,
+        452.3562,
+        484.199,
+        483.3888
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 7,
+      "Sequence": 3,
+      "WallMilliseconds": 537.4529,
+      "CpuMilliseconds": 546.875,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        43.2508,
+        45.8844,
+        45.7708,
+        42.6918,
+        45.7543,
+        45.7404,
+        42.9241,
+        45.9002,
+        45.9211,
+        42.8068,
+        45.0893,
+        45.7123
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 8,
+      "Sequence": 0,
+      "WallMilliseconds": 545.9795,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        43.43,
+        46.0909,
+        45.9405,
+        42.6915,
+        45.8577,
+        45.7481,
+        42.8681,
+        52.1987,
+        46.1114,
+        44.0989,
+        45.6535,
+        45.2823
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 8,
+      "Sequence": 1,
+      "WallMilliseconds": 5729.8144,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        457.7746,
+        490.6742,
+        490.7503,
+        455.691,
+        491.5305,
+        490.2167,
+        456.0205,
+        490.6973,
+        491.1434,
+        448.3508,
+        483.2756,
+        483.6814
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 8,
+      "Sequence": 2,
+      "WallMilliseconds": 5733.3544,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        1,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        457.0227,
+        490.8337,
+        492.059,
+        456.0971,
+        491.4809,
+        490.6904,
+        456.2124,
+        491.0177,
+        490.8032,
+        449.7032,
+        483.6775,
+        483.75
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 8,
+      "Sequence": 3,
+      "WallMilliseconds": 536.2894,
+      "CpuMilliseconds": 546.875,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        43.0157,
+        45.7999,
+        45.7829,
+        42.6965,
+        46.1152,
+        45.709,
+        42.6424,
+        45.7006,
+        45.9143,
+        42.0065,
+        45.8213,
+        45.0781
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 9,
+      "Sequence": 0,
+      "WallMilliseconds": 538.3097,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        43.097,
+        45.681,
+        45.8377,
+        42.759,
+        46.3645,
+        45.7124,
+        42.6323,
+        45.8039,
+        45.7417,
+        42.001,
+        46.0523,
+        46.6212
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 9,
+      "Sequence": 1,
+      "WallMilliseconds": 5732.8993,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        456.7525,
+        490.7759,
+        490.6218,
+        455.7511,
+        490.5994,
+        490.9603,
+        455.1377,
+        490.8269,
+        492.1052,
+        449.5374,
+        484.6818,
+        485.1416
+      ]
+    },
+    {
+      "Method": "native-bf-knn",
+      "NativeThreads": 1,
+      "Block": 9,
+      "Sequence": 2,
+      "WallMilliseconds": 5729.5187,
+      "CpuMilliseconds": 5734.375,
+      "AllocatedBytes": 5742144,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        456.0151,
+        490.494,
+        490.7246,
+        455.3572,
+        490.6345,
+        491.1336,
+        457.6071,
+        490.1371,
+        491.6367,
+        448.6922,
+        483.1995,
+        483.8789
+      ]
+    },
+    {
+      "Method": "production-nearest-two",
+      "NativeThreads": 1,
+      "Block": 9,
+      "Sequence": 3,
+      "WallMilliseconds": 538.6915,
+      "CpuMilliseconds": 531.25,
+      "AllocatedBytes": 956640,
+      "GarbageCollections": [
+        0,
+        0,
+        0
+      ],
+      "Checksum": 40937,
+      "PairWallMilliseconds": [
+        42.7318,
+        45.7827,
+        45.7922,
+        43.993,
+        46.8726,
+        45.7463,
+        42.7393,
+        45.9101,
+        45.8903,
+        42.8331,
+        45.2647,
+        45.1277
+      ]
+    }
+  ]
+}
