@@ -1,0 +1,72 @@
+name: performance-onnx
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['.github/workflows/performance-onnx.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: performance-onnx-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  convert:
+    name: Преобразование тех же FP32-моделей
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Извлечение существующих моделей
+        run: dotnet build src/Core -c Release
+      - name: Конвертер из официальных пакетов
+        run: python -m pip install --no-cache-dir paddlepaddle==3.3.1 paddle2onnx==2.1.0 onnx==1.17.0
+      - name: Конвертация и SHA-256 manifest
+        run: python tools/OnnxPerformance/convert_models.py artifacts/ocr-models/paddle-v5 "${{ runner.temp }}/onnx-models"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: same-models-onnx
+          path: ${{ runner.temp }}/onnx-models
+          retention-days: 14
+
+  windows:
+    name: Те же фрагменты и пакетные документы (Windows)
+    needs: convert
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - uses: actions/download-artifact@v4
+        with:
+          name: same-models-onnx
+          path: ${{ runner.temp }}/onnx-models
+      - name: Сборка изолированного сравнения
+        run: dotnet build tools/OnnxPerformance -c Release
+      - name: Проверка текста, координат, confidence и скорости
+        shell: pwsh
+        run: |
+          $env:DTR_BENCHMARK_CPU = @(Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name) -join '; '
+          dotnet artifacts/bin/OnnxPerformance/release/DocumentTextRecognition.Performance.dll artifacts/ocr-models/paddle-v5 docs/test-samples/crops "${{ runner.temp }}/onnx-models" "${{ runner.temp }}/onnx-comparison-windows.json" 10
+      - name: Отчет сравнения
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: onnx-comparison-windows
+          path: ${{ runner.temp }}/onnx-comparison-windows.json
+          retention-days: 14

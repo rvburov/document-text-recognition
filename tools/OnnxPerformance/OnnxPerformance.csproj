@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- Reuse the existing friend-assembly access for benchmark tools only. -->
+    <AssemblyName>DocumentTextRecognition.Performance</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Core/Core.csproj" />
+    <!-- Native ONNX Runtime 1.11.1 is already included by Paddle's runtime package. -->
+    <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.11.0" />
+  </ItemGroup>
+</Project>
