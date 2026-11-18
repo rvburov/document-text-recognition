@@ -1,0 +1,831 @@
+{
+  "SchemaVersion": 1,
+  "CorpusId": "gost-type-a-alphabet-v2-2026-11-18",
+  "Split": "train-supplement",
+  "Purpose": "Optional alphabet coverage declared before held-out evaluation; not a replacement for frozen v1.",
+  "BaseManifestSha256": "74470e3b885cfd5380eb3454168ff82cdf1bf749ce176df4d779c73339f463b4",
+  "FontFile": "tests/Core.Tests/Fonts/GOST2.304-81TypeA-Slanted.ttf",
+  "FontSha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+  "FontHeldOut": false,
+  "Count": 160,
+  "UniqueTexts": 160,
+  "RequiredCharacters": "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ0123456789.-",
+  "MissingRequiredCharacters": [],
+  "PrimaryAndRegressionTruthOverlap": [],
+  "PrimaryAndRegressionDesignationPrefixOverlap": [],
+  "Notes": [
+    "Ё is present in ordinary words; designation grammar does not currently accept Ё.",
+    "No OCR predictions, confidence scores or evaluation result files are read by this generator.",
+    "If used, this supplement belongs only to training; development and evaluation stay unchanged."
+  ],
+  "Profiles": [
+    {
+      "Dpi": 300,
+      "SkewDegrees": 0,
+      "DesignationCapHeightMm": 5,
+      "NameCapHeightMm": 3.5
+    }
+  ],
+  "Lines": [
+    {
+      "Id": "alphabet-designation-001",
+      "Role": "Designation",
+      "Text": "АОЙЭ.147549.674"
+    },
+    {
+      "Id": "alphabet-designation-002",
+      "Role": "Designation",
+      "Text": "БЦЕЩ.270304.971-67СБ"
+    },
+    {
+      "Id": "alphabet-designation-003",
+      "Role": "Designation",
+      "Text": "ВПУН.231947.953Э3"
+    },
+    {
+      "Id": "alphabet-designation-004",
+      "Role": "Designation",
+      "Text": "ГШФЪ.387395.259-26ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-005",
+      "Role": "Designation",
+      "Text": "ДККР.309603.735"
+    },
+    {
+      "Id": "alphabet-designation-006",
+      "Role": "Designation",
+      "Text": "ЕЧДТ.771225.531-25СБ"
+    },
+    {
+      "Id": "alphabet-designation-007",
+      "Role": "Designation",
+      "Text": "ЖЖЖЖ.437189.739Э3"
+    },
+    {
+      "Id": "alphabet-designation-008",
+      "Role": "Designation",
+      "Text": "ЗКТТ.969631.388-78ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-009",
+      "Role": "Designation",
+      "Text": "ИШПЬ.777179.828"
+    },
+    {
+      "Id": "alphabet-designation-010",
+      "Role": "Designation",
+      "Text": "ЙЛЪФ.102576.586-17СБ"
+    },
+    {
+      "Id": "alphabet-designation-011",
+      "Role": "Designation",
+      "Text": "КЪКЙ.693404.588Э3"
+    },
+    {
+      "Id": "alphabet-designation-012",
+      "Role": "Designation",
+      "Text": "ЛРУЬ.894574.932-83ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-013",
+      "Role": "Designation",
+      "Text": "МЧЫЪ.216490.519"
+    },
+    {
+      "Id": "alphabet-designation-014",
+      "Role": "Designation",
+      "Text": "НЙАГ.479380.563-16СБ"
+    },
+    {
+      "Id": "alphabet-designation-015",
+      "Role": "Designation",
+      "Text": "ОКОЪ.503372.777Э3"
+    },
+    {
+      "Id": "alphabet-designation-016",
+      "Role": "Designation",
+      "Text": "ПШРВ.582337.518-29ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-017",
+      "Role": "Designation",
+      "Text": "РГСФ.907739.481"
+    },
+    {
+      "Id": "alphabet-designation-018",
+      "Role": "Designation",
+      "Text": "СЯЩГ.282718.629-60СБ"
+    },
+    {
+      "Id": "alphabet-designation-019",
+      "Role": "Designation",
+      "Text": "ТЖБТ.184495.024Э3"
+    },
+    {
+      "Id": "alphabet-designation-020",
+      "Role": "Designation",
+      "Text": "УЗСЧ.289399.826-99ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-021",
+      "Role": "Designation",
+      "Text": "ФМДН.636279.015"
+    },
+    {
+      "Id": "alphabet-designation-022",
+      "Role": "Designation",
+      "Text": "ХЮЙС.865972.309-75СБ"
+    },
+    {
+      "Id": "alphabet-designation-023",
+      "Role": "Designation",
+      "Text": "ЦЯЕБ.278085.443Э3"
+    },
+    {
+      "Id": "alphabet-designation-024",
+      "Role": "Designation",
+      "Text": "ЧДЯД.333763.702-99ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-025",
+      "Role": "Designation",
+      "Text": "ШЮЮЗ.103924.755"
+    },
+    {
+      "Id": "alphabet-designation-026",
+      "Role": "Designation",
+      "Text": "ЩДДВ.670883.917-53СБ"
+    },
+    {
+      "Id": "alphabet-designation-027",
+      "Role": "Designation",
+      "Text": "ЪПЮБ.733492.271Э3"
+    },
+    {
+      "Id": "alphabet-designation-028",
+      "Role": "Designation",
+      "Text": "ЫВЗК.619715.232-49ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-029",
+      "Role": "Designation",
+      "Text": "ЬЫЕШ.434703.725"
+    },
+    {
+      "Id": "alphabet-designation-030",
+      "Role": "Designation",
+      "Text": "ЭПКК.673703.585-51СБ"
+    },
+    {
+      "Id": "alphabet-designation-031",
+      "Role": "Designation",
+      "Text": "ЮЫСР.656235.899Э3"
+    },
+    {
+      "Id": "alphabet-designation-032",
+      "Role": "Designation",
+      "Text": "ЯШРЛ.260880.985-31ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-033",
+      "Role": "Designation",
+      "Text": "АОКО.265224.161"
+    },
+    {
+      "Id": "alphabet-designation-034",
+      "Role": "Designation",
+      "Text": "БЫКЭ.270875.073-47СБ"
+    },
+    {
+      "Id": "alphabet-designation-035",
+      "Role": "Designation",
+      "Text": "ВГЩО.845267.188Э3"
+    },
+    {
+      "Id": "alphabet-designation-036",
+      "Role": "Designation",
+      "Text": "ГЗНЦ.933027.260-33ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-037",
+      "Role": "Designation",
+      "Text": "ДДЦМ.875802.119"
+    },
+    {
+      "Id": "alphabet-designation-038",
+      "Role": "Designation",
+      "Text": "ЕГТЬ.714772.266-05СБ"
+    },
+    {
+      "Id": "alphabet-designation-039",
+      "Role": "Designation",
+      "Text": "ЖЭМЭ.146160.301Э3"
+    },
+    {
+      "Id": "alphabet-designation-040",
+      "Role": "Designation",
+      "Text": "ЗОДЭ.790484.767-34ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-041",
+      "Role": "Designation",
+      "Text": "ИМЮЧ.967943.060"
+    },
+    {
+      "Id": "alphabet-designation-042",
+      "Role": "Designation",
+      "Text": "ЙЪГМ.672065.988-45СБ"
+    },
+    {
+      "Id": "alphabet-designation-043",
+      "Role": "Designation",
+      "Text": "КЯЧЦ.535428.902Э3"
+    },
+    {
+      "Id": "alphabet-designation-044",
+      "Role": "Designation",
+      "Text": "ЛВБЖ.203693.022-58ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-045",
+      "Role": "Designation",
+      "Text": "МЖГЙ.948191.978"
+    },
+    {
+      "Id": "alphabet-designation-046",
+      "Role": "Designation",
+      "Text": "НОЯЬ.451746.370-03СБ"
+    },
+    {
+      "Id": "alphabet-designation-047",
+      "Role": "Designation",
+      "Text": "ОЭЖЬ.722631.891Э3"
+    },
+    {
+      "Id": "alphabet-designation-048",
+      "Role": "Designation",
+      "Text": "ПМДТ.965276.936-03ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-049",
+      "Role": "Designation",
+      "Text": "РНИГ.748732.214"
+    },
+    {
+      "Id": "alphabet-designation-050",
+      "Role": "Designation",
+      "Text": "СННЪ.423091.111-30СБ"
+    },
+    {
+      "Id": "alphabet-designation-051",
+      "Role": "Designation",
+      "Text": "ТИЗЗ.751731.338Э3"
+    },
+    {
+      "Id": "alphabet-designation-052",
+      "Role": "Designation",
+      "Text": "УЭЮТ.984773.438-18ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-053",
+      "Role": "Designation",
+      "Text": "ФИЯЩ.839580.404"
+    },
+    {
+      "Id": "alphabet-designation-054",
+      "Role": "Designation",
+      "Text": "ХДДР.113612.556-06СБ"
+    },
+    {
+      "Id": "alphabet-designation-055",
+      "Role": "Designation",
+      "Text": "ЦЮЮГ.979449.051Э3"
+    },
+    {
+      "Id": "alphabet-designation-056",
+      "Role": "Designation",
+      "Text": "ЧБМВ.786967.302-14ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-057",
+      "Role": "Designation",
+      "Text": "ШУБЫ.877942.197"
+    },
+    {
+      "Id": "alphabet-designation-058",
+      "Role": "Designation",
+      "Text": "ЩЕШМ.426027.350-74СБ"
+    },
+    {
+      "Id": "alphabet-designation-059",
+      "Role": "Designation",
+      "Text": "ЪЛЗЩ.124244.267Э3"
+    },
+    {
+      "Id": "alphabet-designation-060",
+      "Role": "Designation",
+      "Text": "ЫЙЧЗ.545026.795-79ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-061",
+      "Role": "Designation",
+      "Text": "ЬЭГЬ.608604.793"
+    },
+    {
+      "Id": "alphabet-designation-062",
+      "Role": "Designation",
+      "Text": "ЭРНГ.619311.162-33СБ"
+    },
+    {
+      "Id": "alphabet-designation-063",
+      "Role": "Designation",
+      "Text": "ЮЧЖЫ.511853.869Э3"
+    },
+    {
+      "Id": "alphabet-designation-064",
+      "Role": "Designation",
+      "Text": "ЯЩНЩ.757276.261-99ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-065",
+      "Role": "Designation",
+      "Text": "АКЧУ.239252.794"
+    },
+    {
+      "Id": "alphabet-designation-066",
+      "Role": "Designation",
+      "Text": "БПУИ.991586.918-75СБ"
+    },
+    {
+      "Id": "alphabet-designation-067",
+      "Role": "Designation",
+      "Text": "ВЮЪШ.881872.787Э3"
+    },
+    {
+      "Id": "alphabet-designation-068",
+      "Role": "Designation",
+      "Text": "ГУЪЛ.387341.834-77ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-069",
+      "Role": "Designation",
+      "Text": "ДФОШ.168024.292"
+    },
+    {
+      "Id": "alphabet-designation-070",
+      "Role": "Designation",
+      "Text": "ЕИЙВ.805172.733-77СБ"
+    },
+    {
+      "Id": "alphabet-designation-071",
+      "Role": "Designation",
+      "Text": "ЖБЭЫ.413719.475Э3"
+    },
+    {
+      "Id": "alphabet-designation-072",
+      "Role": "Designation",
+      "Text": "ЗМЪК.492229.289-51ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-073",
+      "Role": "Designation",
+      "Text": "ИЫЧЗ.949031.097"
+    },
+    {
+      "Id": "alphabet-designation-074",
+      "Role": "Designation",
+      "Text": "ЙНИН.751182.623-14СБ"
+    },
+    {
+      "Id": "alphabet-designation-075",
+      "Role": "Designation",
+      "Text": "ККМР.346802.707Э3"
+    },
+    {
+      "Id": "alphabet-designation-076",
+      "Role": "Designation",
+      "Text": "ЛЪЙУ.130293.235-70ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-077",
+      "Role": "Designation",
+      "Text": "МУЕМ.328147.076"
+    },
+    {
+      "Id": "alphabet-designation-078",
+      "Role": "Designation",
+      "Text": "НЕУП.771778.087-65СБ"
+    },
+    {
+      "Id": "alphabet-designation-079",
+      "Role": "Designation",
+      "Text": "ОВЫФ.541688.762Э3"
+    },
+    {
+      "Id": "alphabet-designation-080",
+      "Role": "Designation",
+      "Text": "ПАУР.502547.706-11ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-081",
+      "Role": "Designation",
+      "Text": "РЫЖЗ.739857.691"
+    },
+    {
+      "Id": "alphabet-designation-082",
+      "Role": "Designation",
+      "Text": "СУЖН.258044.702-37СБ"
+    },
+    {
+      "Id": "alphabet-designation-083",
+      "Role": "Designation",
+      "Text": "ТКЮП.482073.684Э3"
+    },
+    {
+      "Id": "alphabet-designation-084",
+      "Role": "Designation",
+      "Text": "УЛТЖ.887269.700-88ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-085",
+      "Role": "Designation",
+      "Text": "ФЕЗД.877569.712"
+    },
+    {
+      "Id": "alphabet-designation-086",
+      "Role": "Designation",
+      "Text": "ХНЕЖ.356774.814-95СБ"
+    },
+    {
+      "Id": "alphabet-designation-087",
+      "Role": "Designation",
+      "Text": "ЦГДЖ.890571.565Э3"
+    },
+    {
+      "Id": "alphabet-designation-088",
+      "Role": "Designation",
+      "Text": "ЧЪКС.680378.447-27ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-089",
+      "Role": "Designation",
+      "Text": "ШЩЪР.870593.452"
+    },
+    {
+      "Id": "alphabet-designation-090",
+      "Role": "Designation",
+      "Text": "ЩВОЧ.501240.079-23СБ"
+    },
+    {
+      "Id": "alphabet-designation-091",
+      "Role": "Designation",
+      "Text": "ЪЪПН.885745.639Э3"
+    },
+    {
+      "Id": "alphabet-designation-092",
+      "Role": "Designation",
+      "Text": "ЫУПЫ.334631.972-01ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-093",
+      "Role": "Designation",
+      "Text": "ЬМОБ.188428.631"
+    },
+    {
+      "Id": "alphabet-designation-094",
+      "Role": "Designation",
+      "Text": "ЭУРМ.863726.524-60СБ"
+    },
+    {
+      "Id": "alphabet-designation-095",
+      "Role": "Designation",
+      "Text": "ЮЙЮР.439506.970Э3"
+    },
+    {
+      "Id": "alphabet-designation-096",
+      "Role": "Designation",
+      "Text": "ЯРЭЙ.625485.998-11ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-097",
+      "Role": "Designation",
+      "Text": "АНЪЙ.795251.658"
+    },
+    {
+      "Id": "alphabet-designation-098",
+      "Role": "Designation",
+      "Text": "БЧЕЬ.774754.280-24СБ"
+    },
+    {
+      "Id": "alphabet-designation-099",
+      "Role": "Designation",
+      "Text": "ВУЦГ.171814.909Э3"
+    },
+    {
+      "Id": "alphabet-designation-100",
+      "Role": "Designation",
+      "Text": "ГЮЪК.190853.058-44ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-101",
+      "Role": "Designation",
+      "Text": "ДЕДГ.844502.189"
+    },
+    {
+      "Id": "alphabet-designation-102",
+      "Role": "Designation",
+      "Text": "ЕЕРШ.100698.843-79СБ"
+    },
+    {
+      "Id": "alphabet-designation-103",
+      "Role": "Designation",
+      "Text": "ЖПОЧ.556819.975Э3"
+    },
+    {
+      "Id": "alphabet-designation-104",
+      "Role": "Designation",
+      "Text": "ЗЫЯТ.197046.148-37ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-105",
+      "Role": "Designation",
+      "Text": "ИЙГГ.323564.220"
+    },
+    {
+      "Id": "alphabet-designation-106",
+      "Role": "Designation",
+      "Text": "ЙШОО.243125.155-48СБ"
+    },
+    {
+      "Id": "alphabet-designation-107",
+      "Role": "Designation",
+      "Text": "КЫЧУ.471221.224Э3"
+    },
+    {
+      "Id": "alphabet-designation-108",
+      "Role": "Designation",
+      "Text": "ЛТБЫ.915188.957-58ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-109",
+      "Role": "Designation",
+      "Text": "МШВТ.806268.714"
+    },
+    {
+      "Id": "alphabet-designation-110",
+      "Role": "Designation",
+      "Text": "НЩБЖ.676269.482-42СБ"
+    },
+    {
+      "Id": "alphabet-designation-111",
+      "Role": "Designation",
+      "Text": "ОСЮЕ.951450.663Э3"
+    },
+    {
+      "Id": "alphabet-designation-112",
+      "Role": "Designation",
+      "Text": "ПГЗИ.828883.053-03ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-113",
+      "Role": "Designation",
+      "Text": "РЬЦЮ.298478.701"
+    },
+    {
+      "Id": "alphabet-designation-114",
+      "Role": "Designation",
+      "Text": "СДЩФ.320485.981-90СБ"
+    },
+    {
+      "Id": "alphabet-designation-115",
+      "Role": "Designation",
+      "Text": "ТИАО.404051.112Э3"
+    },
+    {
+      "Id": "alphabet-designation-116",
+      "Role": "Designation",
+      "Text": "УЪНЫ.778762.647-28ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-117",
+      "Role": "Designation",
+      "Text": "ФЫЕН.284347.977"
+    },
+    {
+      "Id": "alphabet-designation-118",
+      "Role": "Designation",
+      "Text": "ХДФМ.353718.232-19СБ"
+    },
+    {
+      "Id": "alphabet-designation-119",
+      "Role": "Designation",
+      "Text": "ЦКЛИ.337928.115Э3"
+    },
+    {
+      "Id": "alphabet-designation-120",
+      "Role": "Designation",
+      "Text": "ЧЕЪЧ.211037.965-57ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-121",
+      "Role": "Designation",
+      "Text": "ШЖРК.656101.808"
+    },
+    {
+      "Id": "alphabet-designation-122",
+      "Role": "Designation",
+      "Text": "ЩГСК.389276.666-59СБ"
+    },
+    {
+      "Id": "alphabet-designation-123",
+      "Role": "Designation",
+      "Text": "ЪХСИ.913218.792Э3"
+    },
+    {
+      "Id": "alphabet-designation-124",
+      "Role": "Designation",
+      "Text": "ЫОЦР.898816.879-14ПЭ3"
+    },
+    {
+      "Id": "alphabet-designation-125",
+      "Role": "Designation",
+      "Text": "ЬПВЗ.606666.901"
+    },
+    {
+      "Id": "alphabet-designation-126",
+      "Role": "Designation",
+      "Text": "ЭВПЯ.338701.545-75СБ"
+    },
+    {
+      "Id": "alphabet-designation-127",
+      "Role": "Designation",
+      "Text": "ЮХЙЦ.382022.982Э3"
+    },
+    {
+      "Id": "alphabet-designation-128",
+      "Role": "Designation",
+      "Text": "ЯКИЭ.409685.004-14ПЭ3"
+    },
+    {
+      "Id": "alphabet-name-001",
+      "Role": "Name",
+      "Text": "ЕЖЕВИКА 3736"
+    },
+    {
+      "Id": "alphabet-name-002",
+      "Role": "Name",
+      "Text": "ЁМКОСТЬ 4715"
+    },
+    {
+      "Id": "alphabet-name-003",
+      "Role": "Name",
+      "Text": "ЗАЖИМ 9245"
+    },
+    {
+      "Id": "alphabet-name-004",
+      "Role": "Name",
+      "Text": "ЙОД 1356"
+    },
+    {
+      "Id": "alphabet-name-005",
+      "Role": "Name",
+      "Text": "ОБЪЁМ 5798"
+    },
+    {
+      "Id": "alphabet-name-006",
+      "Role": "Name",
+      "Text": "СЪЁМНИК 2540"
+    },
+    {
+      "Id": "alphabet-name-007",
+      "Role": "Name",
+      "Text": "РЫЧАГ 4160"
+    },
+    {
+      "Id": "alphabet-name-008",
+      "Role": "Name",
+      "Text": "ФЛАНЕЦ 2621"
+    },
+    {
+      "Id": "alphabet-name-009",
+      "Role": "Name",
+      "Text": "ЩЁТКА 8630"
+    },
+    {
+      "Id": "alphabet-name-010",
+      "Role": "Name",
+      "Text": "ЦАПФА 8310"
+    },
+    {
+      "Id": "alphabet-name-011",
+      "Role": "Name",
+      "Text": "ШТЫРЬ 4266"
+    },
+    {
+      "Id": "alphabet-name-012",
+      "Role": "Name",
+      "Text": "ЭКРАН 6780"
+    },
+    {
+      "Id": "alphabet-name-013",
+      "Role": "Name",
+      "Text": "ЮСТИРОВКА 7907"
+    },
+    {
+      "Id": "alphabet-name-014",
+      "Role": "Name",
+      "Text": "ЯКОРЬ 2355"
+    },
+    {
+      "Id": "alphabet-name-015",
+      "Role": "Name",
+      "Text": "ДЕТАЛЬ 3975"
+    },
+    {
+      "Id": "alphabet-name-016",
+      "Role": "Name",
+      "Text": "ПРОФИЛЬ 4575"
+    },
+    {
+      "Id": "alphabet-name-017",
+      "Role": "Name",
+      "Text": "ЕЖЕВИКА 7008"
+    },
+    {
+      "Id": "alphabet-name-018",
+      "Role": "Name",
+      "Text": "ЁМКОСТЬ 9504"
+    },
+    {
+      "Id": "alphabet-name-019",
+      "Role": "Name",
+      "Text": "ЗАЖИМ 5928"
+    },
+    {
+      "Id": "alphabet-name-020",
+      "Role": "Name",
+      "Text": "ЙОД 9669"
+    },
+    {
+      "Id": "alphabet-name-021",
+      "Role": "Name",
+      "Text": "ОБЪЁМ 2578"
+    },
+    {
+      "Id": "alphabet-name-022",
+      "Role": "Name",
+      "Text": "СЪЁМНИК 9356"
+    },
+    {
+      "Id": "alphabet-name-023",
+      "Role": "Name",
+      "Text": "РЫЧАГ 8281"
+    },
+    {
+      "Id": "alphabet-name-024",
+      "Role": "Name",
+      "Text": "ФЛАНЕЦ 4183"
+    },
+    {
+      "Id": "alphabet-name-025",
+      "Role": "Name",
+      "Text": "ЩЁТКА 2532"
+    },
+    {
+      "Id": "alphabet-name-026",
+      "Role": "Name",
+      "Text": "ЦАПФА 4475"
+    },
+    {
+      "Id": "alphabet-name-027",
+      "Role": "Name",
+      "Text": "ШТЫРЬ 2584"
+    },
+    {
+      "Id": "alphabet-name-028",
+      "Role": "Name",
+      "Text": "ЭКРАН 5995"
+    },
+    {
+      "Id": "alphabet-name-029",
+      "Role": "Name",
+      "Text": "ЮСТИРОВКА 4205"
+    },
+    {
+      "Id": "alphabet-name-030",
+      "Role": "Name",
+      "Text": "ЯКОРЬ 9003"
+    },
+    {
+      "Id": "alphabet-name-031",
+      "Role": "Name",
+      "Text": "ДЕТАЛЬ 1565"
+    },
+    {
+      "Id": "alphabet-name-032",
+      "Role": "Name",
+      "Text": "ПРОФИЛЬ 8448"
+    }
+  ]
+}

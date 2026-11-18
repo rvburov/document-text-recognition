@@ -1,0 +1,33 @@
+["lstmtraining", "--continue_from", "/workspace/document-text-recognition/artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-1500/rus_gost_checkpoint", "--traineddata", "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/base/rus_gost/rus_gost.traineddata", "--model_output", "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost", "--train_listfile", "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/train.list", "--eval_listfile", "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/development.list", "--max_iterations", "1500", "--learning_rate", "0.0001", "--max_image_MB", "512", "--target_error_rate", "-1.0"]
+Loaded file /workspace/document-text-recognition/artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-1500/rus_gost_checkpoint, unpacking...
+Continuing from /workspace/document-text-recognition/artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-1500/rus_gost_checkpoint
+2 Percent improvement time=17, best error was 100 @ 0
+At iteration 17/100/100, mean rms=0.457%, delta=0.767%, BCER train=1.893%, BWER train=16.833%, skip ratio=0.000%, New best BCER = 1.893 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_1.893_17_100.checkpoint wrote checkpoint.
+At iteration 32/200/200, mean rms=0.464%, delta=0.640%, BCER train=1.990%, BWER train=17.417%, skip ratio=0.000%, New worst BCER = 1.990 wrote checkpoint.
+2 Percent improvement time=46, best error was 100 @ 0
+At iteration 46/300/300, mean rms=0.429%, delta=0.547%, BCER train=1.667%, BWER train=15.611%, skip ratio=0.000%, New best BCER = 1.667 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_1.667_46_300.checkpoint wrote checkpoint.
+2 Percent improvement time=53, best error was 100 @ 0
+At iteration 53/400/400, mean rms=0.399%, delta=0.477%, BCER train=1.440%, BWER train=13.958%, skip ratio=0.000%, New best BCER = 1.440 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_1.440_53_400.checkpoint wrote checkpoint.
+2 Percent improvement time=60, best error was 100 @ 0
+At iteration 60/500/500, mean rms=0.383%, delta=0.437%, BCER train=1.322%, BWER train=13.167%, skip ratio=0.000%, New best BCER = 1.322 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_1.322_60_500.checkpoint wrote checkpoint.
+2 Percent improvement time=70, best error was 100 @ 0
+At iteration 70/600/600, mean rms=0.367%, delta=0.400%, BCER train=1.200%, BWER train=12.472%, skip ratio=0.000%, New best BCER = 1.200 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_1.200_70_600.checkpoint wrote checkpoint.
+2 Percent improvement time=80, best error was 100 @ 0
+At iteration 80/700/700, mean rms=0.358%, delta=0.384%, BCER train=1.136%, BWER train=12.048%, skip ratio=0.000%, New best BCER = 1.136 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_1.136_80_700.checkpoint wrote checkpoint.
+2 Percent improvement time=84, best error was 100 @ 0
+At iteration 84/800/800, mean rms=0.342%, delta=0.350%, BCER train=1.044%, BWER train=11.292%, skip ratio=0.000%, New best BCER = 1.044 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_1.044_84_800.checkpoint wrote checkpoint.
+2 Percent improvement time=91, best error was 100 @ 0
+At iteration 91/900/900, mean rms=0.330%, delta=0.329%, BCER train=0.981%, BWER train=10.704%, skip ratio=0.000%, New best BCER = 0.981 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_0.981_91_900.checkpoint wrote checkpoint.
+2 Percent improvement time=93, best error was 100 @ 0
+At iteration 93/1000/1000, mean rms=0.314%, delta=0.299%, BCER train=0.888%, BWER train=9.733%, skip ratio=0.000%, New best BCER = 0.888 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_0.888_93_1000.checkpoint wrote checkpoint.
+2 Percent improvement time=97, best error was 100 @ 0
+At iteration 97/1100/1100, mean rms=0.290%, delta=0.230%, BCER train=0.729%, BWER train=8.450%, skip ratio=0.000%, New best BCER = 0.729 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_0.729_97_1100.checkpoint wrote checkpoint.
+2 Percent improvement time=100, best error was 100 @ 0
+At iteration 100/1200/1200, mean rms=0.262%, delta=0.188%, BCER train=0.545%, BWER train=6.950%, skip ratio=0.000%, New best BCER = 0.545 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_0.545_100_1200.checkpoint wrote checkpoint.
+2 Percent improvement time=101, best error was 100 @ 0
+At iteration 101/1300/1300, mean rms=0.243%, delta=0.154%, BCER train=0.460%, BWER train=6.050%, skip ratio=0.000%, New best BCER = 0.460 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_0.460_101_1300.checkpoint wrote checkpoint.
+2 Percent improvement time=102, best error was 100 @ 0
+At iteration 102/1400/1400, mean rms=0.231%, delta=0.132%, BCER train=0.394%, BWER train=5.250%, skip ratio=0.000%, New best BCER = 0.394 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_0.394_102_1400.checkpoint wrote checkpoint.
+2 Percent improvement time=104, best error was 100 @ 0
+At iteration 104/1500/1500, mean rms=0.216%, delta=0.108%, BCER train=0.314%, BWER train=4.350%, skip ratio=0.000%, New best BCER = 0.314 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_0.314_104_1500.checkpoint wrote checkpoint.
+Finished! Selected model with minimal training error rate (BCER) = 0.314

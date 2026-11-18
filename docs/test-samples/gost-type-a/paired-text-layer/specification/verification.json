@@ -1,0 +1,66 @@
+{
+  "Scope": "Fixture integrity and PDF text extraction only; no OCR success is claimed by this record.",
+  "FontSha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+  "Expected": {
+    "Designation": "УИЕС.468732.271",
+    "Name": "Плата Epcos USB 1489 МГц",
+    "Type": null
+  },
+  "PageSize": {
+    "Width": 595.2755905511812,
+    "Height": 841.8897637795276,
+    "WidthMm": 210,
+    "HeightMm": 297,
+    "IsLandscape": false
+  },
+  "RasterDpi": 250,
+  "MeanAbsolutePixelDifference": 0,
+  "Fields": [
+    {
+      "Role": "Designation",
+      "Bounds": {
+        "X": 0.4119047619047619,
+        "Y": 0.8535353535353535,
+        "Width": 0.5571428571428572,
+        "Height": 0.04040404040404041,
+        "Right": 0.969047619047619,
+        "Bottom": 0.8939393939393939
+      },
+      "VectorText": "УИЕС.468732.271",
+      "VectorRequiresIndependentValidation": true,
+      "RasterTextStatus": "Empty"
+    },
+    {
+      "Role": "Name",
+      "Bounds": {
+        "X": 0.4119047619047619,
+        "Y": 0.9040404040404041,
+        "Width": 0.319047619047619,
+        "Height": 0.04040404040404041,
+        "Right": 0.7309523809523809,
+        "Bottom": 0.9444444444444445
+      },
+      "VectorText": "Плата Epcos\nUSB 1489 МГц",
+      "VectorRequiresIndependentValidation": true,
+      "RasterTextStatus": "Empty"
+    }
+  ],
+  "Files": [
+    {
+      "Name": "scan-vector.pdf",
+      "Sha256": "66CB44ABC81733AF389360B51BCB1663F6EABAB1650A355DD71FDBBB21981A7E"
+    },
+    {
+      "Name": "scan-raster.pdf",
+      "Sha256": "6D66AB5018AE6D268A025D53B4D5AC82816F5A9A6D0ABAA511E585B2264556E3"
+    },
+    {
+      "Name": "template.pdf",
+      "Sha256": "DFC7CE1E4041B8D849CD68A6E0B96E3D2AFF6C3104A0C021D0E6C7A3FD453158"
+    },
+    {
+      "Name": "template.pdf.template.json",
+      "Sha256": "16420163BC6C2F29B2D7A51C0EFD9CA1ACF38ADD406DB4DC20396979D74CFE94"
+    }
+  ]
+}

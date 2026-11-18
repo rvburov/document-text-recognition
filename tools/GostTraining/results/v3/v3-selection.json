@@ -1,0 +1,875 @@
+{
+  "schema_version": 1,
+  "frozen_utc": "2026-11-18T21:46:26.997172+00:00",
+  "blind_opened": false,
+  "plan_sha256": "12863ea65a04aa7a2d0de711f8814ce11376ad7558dea1965de9ce282ddd0514",
+  "criterion": "whole-line exact, then designation exact, then CER; integer for exact ties",
+  "selected": {
+    "name": "v3-3000-int-preserve",
+    "model": "v3-3000-int",
+    "policy": "preserve",
+    "eligible": true,
+    "report": "artifacts/gost-training/v3-dev-v3-3000-int-preserve.json",
+    "report_sha256": "619cbddb50e374e01f35aec04e992cc200b93c9e594d10a9c664b4f13891bcfb",
+    "model_sha256": "c92b7c889f0bd4fb07ca90148c011be7a1865be2b8bba036fa1a86d875a5add0",
+    "summary": {
+      "lines": 240,
+      "exact": 200,
+      "exact_fraction": 0.8333333333333334,
+      "cer": 0.015761396702230843
+    },
+    "by_role": {
+      "Designation": {
+        "lines": 120,
+        "exact": 114,
+        "exact_fraction": 0.95,
+        "cer": 0.0036529680365296802
+      },
+      "Name": {
+        "lines": 120,
+        "exact": 86,
+        "exact_fraction": 0.7166666666666667,
+        "cer": 0.029472595656670115
+      }
+    },
+    "by_renderer": {
+      "Pillow": {
+        "lines": 120,
+        "exact": 98,
+        "exact_fraction": 0.8166666666666667,
+        "cer": 0.011639185257032008
+      },
+      "Skia": {
+        "lines": 120,
+        "exact": 102,
+        "exact_fraction": 0.85,
+        "cer": 0.01988360814742968
+      }
+    },
+    "timing": {
+      "scope": "C API read per line including PNG decode, excludes model initialization",
+      "initialization_ms": 289.4869199999448,
+      "median_ms": 13.808513499952824,
+      "p95_ms": 28.11859099983849
+    },
+    "confidence": {
+      "level": "Tesseract text line, 0..1",
+      "below_product_threshold_0_30": 1,
+      "wrong_but_confident_0_30": 39
+    }
+  },
+  "selected_tessdata": "artifacts/gost-training/selected-v3",
+  "candidate_rows": [
+    {
+      "name": "v2-int-full",
+      "model": "v2-int",
+      "policy": "full",
+      "eligible": true,
+      "report": "artifacts/gost-training/v3-dev-v2-int-full.json",
+      "report_sha256": "474689640c0a28d42560ddc81e07a3664423cb86fa611567bd13b16b3b720b3e",
+      "model_sha256": "26bab93eb188b4e1557be5ffc0e7cc9a33cac5a6249debe3a9141d53eef374ce",
+      "summary": {
+        "lines": 240,
+        "exact": 126,
+        "exact_fraction": 0.525,
+        "cer": 0.04922405431619786
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 56,
+          "exact_fraction": 0.4666666666666667,
+          "cer": 0.06438356164383562
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 70,
+          "exact_fraction": 0.5833333333333334,
+          "cer": 0.03205791106514995
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 52,
+          "exact_fraction": 0.43333333333333335,
+          "cer": 0.05771096023278371
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 74,
+          "exact_fraction": 0.6166666666666667,
+          "cer": 0.040737148399612025
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 145.90565099979358,
+        "median_ms": 16.21342199996434,
+        "p95_ms": 28.891711000142095
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 1,
+        "wrong_but_confident_0_30": 113
+      }
+    },
+    {
+      "name": "v2-int-preserve",
+      "model": "v2-int",
+      "policy": "preserve",
+      "eligible": true,
+      "report": "artifacts/gost-training/v3-dev-v2-int-preserve.json",
+      "report_sha256": "7767456f9e96c8c3120b34b204bdc74f4759de127fc9521fe3b7a22ac13a7d49",
+      "model_sha256": "26bab93eb188b4e1557be5ffc0e7cc9a33cac5a6249debe3a9141d53eef374ce",
+      "summary": {
+        "lines": 240,
+        "exact": 135,
+        "exact_fraction": 0.5625,
+        "cer": 0.040252182347235696
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 65,
+          "exact_fraction": 0.5416666666666666,
+          "cer": 0.047488584474885846
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 70,
+          "exact_fraction": 0.5833333333333334,
+          "cer": 0.03205791106514995
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 56,
+          "exact_fraction": 0.4666666666666667,
+          "cer": 0.05140640155189137
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 79,
+          "exact_fraction": 0.6583333333333333,
+          "cer": 0.029097963142580018
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 286.5587440001036,
+        "median_ms": 16.536131000066234,
+        "p95_ms": 30.158149999806483
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 2,
+        "wrong_but_confident_0_30": 103
+      }
+    },
+    {
+      "name": "v2-int-role",
+      "model": "v2-int",
+      "policy": "role",
+      "eligible": false,
+      "report": "artifacts/gost-training/v3-dev-v2-int-role.json",
+      "report_sha256": "2f2ddfea197db7b7ea19b013b478379f0bcbe4946184f40122db2ccd64df4489",
+      "model_sha256": "26bab93eb188b4e1557be5ffc0e7cc9a33cac5a6249debe3a9141d53eef374ce",
+      "summary": {
+        "lines": 240,
+        "exact": 137,
+        "exact_fraction": 0.5708333333333333,
+        "cer": 0.040979631425800196
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 67,
+          "exact_fraction": 0.5583333333333333,
+          "cer": 0.04885844748858448
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 70,
+          "exact_fraction": 0.5833333333333334,
+          "cer": 0.03205791106514995
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 59,
+          "exact_fraction": 0.49166666666666664,
+          "cer": 0.0489815712900097
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 78,
+          "exact_fraction": 0.65,
+          "cer": 0.03297769156159069
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 236.95972099994833,
+        "median_ms": 16.785567499937315,
+        "p95_ms": 29.399859000022843
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 5,
+        "wrong_but_confident_0_30": 100
+      }
+    },
+    {
+      "name": "v3-1500-float-full",
+      "model": "v3-1500-float",
+      "policy": "full",
+      "eligible": true,
+      "report": "artifacts/gost-training/v3-dev-v3-1500-float-full.json",
+      "report_sha256": "ad5a6f358084f4ade6bbe0f3af7698629f5ad41c92160063dfecfd1e07cd25de",
+      "model_sha256": "149cee1d2751e550b5d1c62da3eabd24c7a75bcee97f657be12acb387ab0508a",
+      "summary": {
+        "lines": 240,
+        "exact": 177,
+        "exact_fraction": 0.7375,
+        "cer": 0.030552861299709022
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 98,
+          "exact_fraction": 0.8166666666666667,
+          "cer": 0.021461187214611873
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 79,
+          "exact_fraction": 0.6583333333333333,
+          "cer": 0.040847983453981385
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 90,
+          "exact_fraction": 0.75,
+          "cer": 0.023278370514064017
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 87,
+          "exact_fraction": 0.725,
+          "cer": 0.037827352085354024
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 195.64575999993394,
+        "median_ms": 22.939405499982968,
+        "p95_ms": 40.483638000296196
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 0,
+        "wrong_but_confident_0_30": 63
+      }
+    },
+    {
+      "name": "v3-1500-float-preserve",
+      "model": "v3-1500-float",
+      "policy": "preserve",
+      "eligible": true,
+      "report": "artifacts/gost-training/v3-dev-v3-1500-float-preserve.json",
+      "report_sha256": "6057c12584817eae99f6c6aea698140528c748563dc6f64b31f1c4f489500ff7",
+      "model_sha256": "149cee1d2751e550b5d1c62da3eabd24c7a75bcee97f657be12acb387ab0508a",
+      "summary": {
+        "lines": 240,
+        "exact": 188,
+        "exact_fraction": 0.7833333333333333,
+        "cer": 0.02376333656644035
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 109,
+          "exact_fraction": 0.9083333333333333,
+          "cer": 0.008675799086757991
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 79,
+          "exact_fraction": 0.6583333333333333,
+          "cer": 0.040847983453981385
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 96,
+          "exact_fraction": 0.8,
+          "cer": 0.02376333656644035
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 92,
+          "exact_fraction": 0.7666666666666667,
+          "cer": 0.02376333656644035
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 212.61229899937462,
+        "median_ms": 21.672948499599443,
+        "p95_ms": 37.235387000691844
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 0,
+        "wrong_but_confident_0_30": 52
+      }
+    },
+    {
+      "name": "v3-1500-float-role",
+      "model": "v3-1500-float",
+      "policy": "role",
+      "eligible": false,
+      "report": "artifacts/gost-training/v3-dev-v3-1500-float-role.json",
+      "report_sha256": "507de9544c60db5b1267b872234c649edf1b5427d13c6fdf744dbb73ab5838be",
+      "model_sha256": "149cee1d2751e550b5d1c62da3eabd24c7a75bcee97f657be12acb387ab0508a",
+      "summary": {
+        "lines": 240,
+        "exact": 188,
+        "exact_fraction": 0.7833333333333333,
+        "cer": 0.02376333656644035
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 109,
+          "exact_fraction": 0.9083333333333333,
+          "cer": 0.008675799086757991
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 79,
+          "exact_fraction": 0.6583333333333333,
+          "cer": 0.040847983453981385
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 96,
+          "exact_fraction": 0.8,
+          "cer": 0.02376333656644035
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 92,
+          "exact_fraction": 0.7666666666666667,
+          "cer": 0.02376333656644035
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 253.25414000008095,
+        "median_ms": 21.852773499858813,
+        "p95_ms": 40.584278000096674
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 0,
+        "wrong_but_confident_0_30": 52
+      }
+    },
+    {
+      "name": "v3-1500-int-full",
+      "model": "v3-1500-int",
+      "policy": "full",
+      "eligible": true,
+      "report": "artifacts/gost-training/v3-dev-v3-1500-int-full.json",
+      "report_sha256": "16c80a8e01958a2f525d11ec1b77daf4e5a9af612af91cc66928360e713daa1e",
+      "model_sha256": "1e4e1d429bff27b7cbe693523431b4aa26e5f6183e9a4fbb21ce8f90cb5293e6",
+      "summary": {
+        "lines": 240,
+        "exact": 177,
+        "exact_fraction": 0.7375,
+        "cer": 0.027643064985451018
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 98,
+          "exact_fraction": 0.8166666666666667,
+          "cer": 0.014155251141552512
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 79,
+          "exact_fraction": 0.6583333333333333,
+          "cer": 0.042916235780765255
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 89,
+          "exact_fraction": 0.7416666666666667,
+          "cer": 0.021823472356935016
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 88,
+          "exact_fraction": 0.7333333333333333,
+          "cer": 0.03346265761396702
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 91.11116699978083,
+        "median_ms": 15.747692000104507,
+        "p95_ms": 31.531875999917247
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 0,
+        "wrong_but_confident_0_30": 63
+      }
+    },
+    {
+      "name": "v3-1500-int-preserve",
+      "model": "v3-1500-int",
+      "policy": "preserve",
+      "eligible": true,
+      "report": "artifacts/gost-training/v3-dev-v3-1500-int-preserve.json",
+      "report_sha256": "cb620db5c02a300db4c36dd1f44855bd203b66ace562c800bbdf59642c4891c5",
+      "model_sha256": "1e4e1d429bff27b7cbe693523431b4aa26e5f6183e9a4fbb21ce8f90cb5293e6",
+      "summary": {
+        "lines": 240,
+        "exact": 187,
+        "exact_fraction": 0.7791666666666667,
+        "cer": 0.02594568380213385
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 108,
+          "exact_fraction": 0.9,
+          "cer": 0.010958904109589041
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 79,
+          "exact_fraction": 0.6583333333333333,
+          "cer": 0.042916235780765255
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 96,
+          "exact_fraction": 0.8,
+          "cer": 0.016488845780795344
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 91,
+          "exact_fraction": 0.7583333333333333,
+          "cer": 0.03540252182347236
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 200.51387900002737,
+        "median_ms": 14.141631500024232,
+        "p95_ms": 28.846942999734893
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 0,
+        "wrong_but_confident_0_30": 53
+      }
+    },
+    {
+      "name": "v3-1500-int-role",
+      "model": "v3-1500-int",
+      "policy": "role",
+      "eligible": false,
+      "report": "artifacts/gost-training/v3-dev-v3-1500-int-role.json",
+      "report_sha256": "0349b9f0852eabaed192f15e7e1b90dd23da18ec6600cc049ae4431a6fcde327",
+      "model_sha256": "1e4e1d429bff27b7cbe693523431b4aa26e5f6183e9a4fbb21ce8f90cb5293e6",
+      "summary": {
+        "lines": 240,
+        "exact": 186,
+        "exact_fraction": 0.775,
+        "cer": 0.026430649854510185
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 107,
+          "exact_fraction": 0.8916666666666667,
+          "cer": 0.011872146118721462
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 79,
+          "exact_fraction": 0.6583333333333333,
+          "cer": 0.042916235780765255
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 94,
+          "exact_fraction": 0.7833333333333333,
+          "cer": 0.021823472356935016
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 92,
+          "exact_fraction": 0.7666666666666667,
+          "cer": 0.031037827352085354
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 180.49671400012812,
+        "median_ms": 14.68782949996239,
+        "p95_ms": 29.66876400023466
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 0,
+        "wrong_but_confident_0_30": 54
+      }
+    },
+    {
+      "name": "v3-3000-float-full",
+      "model": "v3-3000-float",
+      "policy": "full",
+      "eligible": true,
+      "report": "artifacts/gost-training/v3-dev-v3-3000-float-full.json",
+      "report_sha256": "bf80c638cd85d1931edc23e8e1236904d6b1e4cc628dd8aaf3121d33a0ba830f",
+      "model_sha256": "f2e9e50449d6f2258753c5aa08bf797000d1c98a60cfd9b66dcdbad673977151",
+      "summary": {
+        "lines": 240,
+        "exact": 187,
+        "exact_fraction": 0.7791666666666667,
+        "cer": 0.024005819592628517
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 101,
+          "exact_fraction": 0.8416666666666667,
+          "cer": 0.01598173515981735
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 86,
+          "exact_fraction": 0.7166666666666667,
+          "cer": 0.033092037228541885
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 91,
+          "exact_fraction": 0.7583333333333333,
+          "cer": 0.019398642095053348
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 96,
+          "exact_fraction": 0.8,
+          "cer": 0.028612997090203686
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 140.11325699993904,
+        "median_ms": 21.956456499992782,
+        "p95_ms": 40.38275899984001
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 1,
+        "wrong_but_confident_0_30": 52
+      }
+    },
+    {
+      "name": "v3-3000-float-preserve",
+      "model": "v3-3000-float",
+      "policy": "preserve",
+      "eligible": true,
+      "report": "artifacts/gost-training/v3-dev-v3-3000-float-preserve.json",
+      "report_sha256": "bc69bcfe4cc40a2202e1cfb51893dc2e37256ab1cca1265a8d3ca657aacfa05c",
+      "model_sha256": "f2e9e50449d6f2258753c5aa08bf797000d1c98a60cfd9b66dcdbad673977151",
+      "summary": {
+        "lines": 240,
+        "exact": 199,
+        "exact_fraction": 0.8291666666666667,
+        "cer": 0.01745877788554801
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 113,
+          "exact_fraction": 0.9416666666666667,
+          "cer": 0.0036529680365296802
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 86,
+          "exact_fraction": 0.7166666666666667,
+          "cer": 0.033092037228541885
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 98,
+          "exact_fraction": 0.8166666666666667,
+          "cer": 0.01600387972841901
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 101,
+          "exact_fraction": 0.8416666666666667,
+          "cer": 0.018913676042677012
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 240.0199130006513,
+        "median_ms": 23.109550999834028,
+        "p95_ms": 40.98632099976385
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 1,
+        "wrong_but_confident_0_30": 40
+      }
+    },
+    {
+      "name": "v3-3000-float-role",
+      "model": "v3-3000-float",
+      "policy": "role",
+      "eligible": false,
+      "report": "artifacts/gost-training/v3-dev-v3-3000-float-role.json",
+      "report_sha256": "84d041ec16639c01f614a7e57b6bc4d3d647ecdc9e124abf3346f4680a621afe",
+      "model_sha256": "f2e9e50449d6f2258753c5aa08bf797000d1c98a60cfd9b66dcdbad673977151",
+      "summary": {
+        "lines": 240,
+        "exact": 199,
+        "exact_fraction": 0.8291666666666667,
+        "cer": 0.01745877788554801
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 113,
+          "exact_fraction": 0.9416666666666667,
+          "cer": 0.0036529680365296802
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 86,
+          "exact_fraction": 0.7166666666666667,
+          "cer": 0.033092037228541885
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 99,
+          "exact_fraction": 0.825,
+          "cer": 0.015518913676042677
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 100,
+          "exact_fraction": 0.8333333333333334,
+          "cer": 0.019398642095053348
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 236.17226900023525,
+        "median_ms": 21.39545750014804,
+        "p95_ms": 38.826055999379605
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 0,
+        "wrong_but_confident_0_30": 41
+      }
+    },
+    {
+      "name": "v3-3000-int-full",
+      "model": "v3-3000-int",
+      "policy": "full",
+      "eligible": true,
+      "report": "artifacts/gost-training/v3-dev-v3-3000-int-full.json",
+      "report_sha256": "147fc24af954465b472cf663fee30854074ee89098405132b7a673a48f3a7415",
+      "model_sha256": "c92b7c889f0bd4fb07ca90148c011be7a1865be2b8bba036fa1a86d875a5add0",
+      "summary": {
+        "lines": 240,
+        "exact": 189,
+        "exact_fraction": 0.7875,
+        "cer": 0.019641125121241512
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 103,
+          "exact_fraction": 0.8583333333333333,
+          "cer": 0.010958904109589041
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 86,
+          "exact_fraction": 0.7166666666666667,
+          "cer": 0.029472595656670115
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 90,
+          "exact_fraction": 0.75,
+          "cer": 0.015033947623666343
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 99,
+          "exact_fraction": 0.825,
+          "cer": 0.02424830261881668
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 107.35176400066848,
+        "median_ms": 14.83689550013878,
+        "p95_ms": 30.993966999631084
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 1,
+        "wrong_but_confident_0_30": 50
+      }
+    },
+    {
+      "name": "v3-3000-int-preserve",
+      "model": "v3-3000-int",
+      "policy": "preserve",
+      "eligible": true,
+      "report": "artifacts/gost-training/v3-dev-v3-3000-int-preserve.json",
+      "report_sha256": "619cbddb50e374e01f35aec04e992cc200b93c9e594d10a9c664b4f13891bcfb",
+      "model_sha256": "c92b7c889f0bd4fb07ca90148c011be7a1865be2b8bba036fa1a86d875a5add0",
+      "summary": {
+        "lines": 240,
+        "exact": 200,
+        "exact_fraction": 0.8333333333333334,
+        "cer": 0.015761396702230843
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 114,
+          "exact_fraction": 0.95,
+          "cer": 0.0036529680365296802
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 86,
+          "exact_fraction": 0.7166666666666667,
+          "cer": 0.029472595656670115
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 98,
+          "exact_fraction": 0.8166666666666667,
+          "cer": 0.011639185257032008
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 102,
+          "exact_fraction": 0.85,
+          "cer": 0.01988360814742968
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 289.4869199999448,
+        "median_ms": 13.808513499952824,
+        "p95_ms": 28.11859099983849
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 1,
+        "wrong_but_confident_0_30": 39
+      }
+    },
+    {
+      "name": "v3-3000-int-role",
+      "model": "v3-3000-int",
+      "policy": "role",
+      "eligible": false,
+      "report": "artifacts/gost-training/v3-dev-v3-3000-int-role.json",
+      "report_sha256": "e1efa36c3289af9d221150b7744018ecb0b8e78a0001740f3e64a48740b64ff5",
+      "model_sha256": "c92b7c889f0bd4fb07ca90148c011be7a1865be2b8bba036fa1a86d875a5add0",
+      "summary": {
+        "lines": 240,
+        "exact": 199,
+        "exact_fraction": 0.8291666666666667,
+        "cer": 0.01624636275460718
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 113,
+          "exact_fraction": 0.9416666666666667,
+          "cer": 0.0045662100456621
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 86,
+          "exact_fraction": 0.7166666666666667,
+          "cer": 0.029472595656670115
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 98,
+          "exact_fraction": 0.8166666666666667,
+          "cer": 0.01212415130940834
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 101,
+          "exact_fraction": 0.8416666666666667,
+          "cer": 0.020368574199806012
+        }
+      },
+      "timing": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 200.84553199922084,
+        "median_ms": 14.072333499825618,
+        "p95_ms": 29.633791999913228
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 0,
+        "wrong_but_confident_0_30": 41
+      }
+    }
+  ],
+  "application_guard_limit": "C API evaluation assumes known single line; production geometry gates require separate qualification."
+}

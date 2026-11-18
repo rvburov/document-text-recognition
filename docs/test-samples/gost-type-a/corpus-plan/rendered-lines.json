@@ -1,0 +1,77 @@
+{
+  "Scope": "Rendered synthetic line corpus only. No recognition or training result is claimed.",
+  "ManifestSha256": "74470e3b885cfd5380eb3454168ff82cdf1bf749ce176df4d779c73339f463b4",
+  "FontSha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+  "Splits": [
+    {
+      "Split": "train",
+      "Count": 600,
+      "UniqueTexts": 136,
+      "Renderer": "SkiaSharp 2.88.9",
+      "PillowVersion": "13.0.0",
+      "FreeTypeVersion": "2.14.3",
+      "CrossSplitTruthOverlap": [],
+      "HistoricalTrainingTruthOverlap": [],
+      "ExcludedRoles": {
+        "Type": "Standard type labels repeat across splits; not part of independent line pilot."
+      },
+      "MetadataPath": "artifacts/gost-corpus/train/lines.json",
+      "MetadataSha256": "b4468001178f338efa42e77d6a906459a78c7f07c0862720d8592e3e651b7509",
+      "ImagesAreGrayscale": true,
+      "GroundTruthAndHashesVerified": true,
+      "MinimumInkMarginPixels": 8
+    },
+    {
+      "Split": "development",
+      "Count": 76,
+      "UniqueTexts": 36,
+      "Renderer": "SkiaSharp 2.88.9",
+      "PillowVersion": "13.0.0",
+      "FreeTypeVersion": "2.14.3",
+      "CrossSplitTruthOverlap": [],
+      "HistoricalTrainingTruthOverlap": [],
+      "ExcludedRoles": {
+        "Type": "Standard type labels repeat across splits; not part of independent line pilot."
+      },
+      "MetadataPath": "artifacts/gost-corpus/development/lines.json",
+      "MetadataSha256": "3272096b925b89ae67da314fd3b508cf3af5211c30e581308d2e0d7a95c6660e",
+      "ImagesAreGrayscale": true,
+      "GroundTruthAndHashesVerified": true,
+      "MinimumInkMarginPixels": 8
+    },
+    {
+      "Split": "evaluation",
+      "Count": 150,
+      "UniqueTexts": 72,
+      "Renderer": "Pillow/FreeType",
+      "PillowVersion": "13.0.0",
+      "FreeTypeVersion": "2.14.3",
+      "CrossSplitTruthOverlap": [],
+      "HistoricalTrainingTruthOverlap": [],
+      "ExcludedRoles": {
+        "Type": "Standard type labels repeat across splits; not part of independent line pilot."
+      },
+      "MetadataPath": "artifacts/gost-corpus/evaluation/lines.json",
+      "MetadataSha256": "bad4a613bbb85f05e5ea3bd030a69d51710d7d4ec517e5a65508df0bacbf3c66",
+      "ImagesAreGrayscale": true,
+      "GroundTruthAndHashesVerified": true,
+      "MinimumInkMarginPixels": 8
+    }
+  ],
+  "OptionalTrainingSupplement": {
+    "Manifest": "docs/test-samples/gost-type-a/corpus-plan/alphabet-supplement-v2.json",
+    "ManifestSha256": "5b4acbc2762e62058e5572a840ab1f99292267d73a9e79c817c9ec905882cd94",
+    "Count": 160,
+    "UniqueTexts": 160,
+    "Renderer": "SkiaSharp 2.88.9",
+    "PillowVersion": "13.0.0",
+    "PrimaryAndRegressionTruthOverlap": [],
+    "PrimaryAndRegressionDesignationPrefixOverlap": [],
+    "MissingRequiredCharacters": [],
+    "MetadataPath": "artifacts/gost-alphabet-v2/train/lines.json",
+    "MetadataSha256": "292d5bb00117755d76101280623d7e417c5c3d51a94ddec28dd34b76d51ac884",
+    "ImagesAreGrayscale": true,
+    "MinimumInkMarginPixels": 8,
+    "TrainingUsage": "Not asserted by this generation record; consult the individual training-run manifest."
+  }
+}

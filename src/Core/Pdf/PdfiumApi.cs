@@ -52,4 +52,44 @@ internal static class PdfiumApi
     [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
     public static extern void FPDF_RenderPageBitmap(IntPtr bitmap, IntPtr page, int startX, int startY,
         int sizeX, int sizeY, int rotate, int flags);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int FPDF_PageToDevice(IntPtr page, int startX, int startY, int sizeX, int sizeY,
+        int rotate, double pageX, double pageY, out int deviceX, out int deviceY);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern IntPtr FPDFText_LoadPage(IntPtr page);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void FPDFText_ClosePage(IntPtr textPage);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int FPDFText_CountChars(IntPtr textPage);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern uint FPDFText_GetUnicode(IntPtr textPage, int index);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int FPDFText_IsGenerated(IntPtr textPage, int index);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int FPDFText_HasUnicodeMapError(IntPtr textPage, int index);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int FPDFText_GetCharBox(IntPtr textPage, int index,
+        out double left, out double right, out double bottom, out double top);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern double FPDFText_GetFontSize(IntPtr textPage, int index);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int FPDFText_GetTextRenderMode(IntPtr textPage, int index);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int FPDFText_GetFillColor(IntPtr textPage, int index,
+        out uint red, out uint green, out uint blue, out uint alpha);
+
+    [DllImport(Library, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int FPDFText_GetStrokeColor(IntPtr textPage, int index,
+        out uint red, out uint green, out uint blue, out uint alpha);
 }

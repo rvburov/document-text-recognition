@@ -9,7 +9,11 @@ namespace DocumentTextRecognition.Core.Rename;
 /// а не через аргументы командной строки. Обработка файлов в дочернем процессе read-only.</summary>
 internal sealed record OcrWorkerConfiguration(string TemplatesFolder, string Tessdata,
     bool UseOneDnn, bool ReusePredictors, bool UseOnnx, string? OnnxModelsDir,
-    bool KnownLines, bool BatchFields, bool UseAvx2);
+    bool KnownLines, bool BatchFields, bool UseAvx2)
+{
+    public bool UsePdfText { get; init; } = true;
+    public bool UseGostFallback { get; init; } = true;
+}
 
 /// <summary>Исполняемый файл и начальные аргументы, до служебного --ocr-worker.</summary>
 internal sealed record OcrWorkerLaunchCommand(string FileName, string[] Arguments);

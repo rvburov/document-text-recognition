@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using OpenCvSharp;
 
@@ -20,13 +21,40 @@ namespace DocumentTextRecognition.Core.Ocr;
 /// </summary>
 internal static class OcrComponents
 {
-    /// <summary>Языки Tesseract: русский и английский (латиница в обозначениях и наименованиях).</summary>
+    /// <summary>Языки Tesseract: русский и английский для наименований;
+    /// буквенный алфавит обозначения ограничивается профилем поля.</summary>
     public const string TesseractLanguages = "rus+eng";
 
     /// <summary>Модели PaddleOCR v5: многоязычный детектор строк и распознавание
     /// восточнославянских языков с латиницей и цифрами.</summary>
     public const string PaddleDetector   = "mobile_zh_det";
     public const string PaddleRecognizer = "eslav_PP_OCRv5_mobile_rec";
+    public const string PaddleCyrillicRecognizer = "cyrillic_PP_OCRv5_mobile_rec";
+    public const string PaddleCyrillicOnnxFile = "rec-cyrillic.onnx";
+
+    /// <summary>Резервный распознаватель использует собственный словарь, веса и ONNX-граф.
+    /// Повреждение или смешение моделей — ошибка поставки, а не повод незаметно менять движок.</summary>
+    internal static void ValidateCyrillicModelFiles(string modelsDir, string? onnxDir = null)
+    {
+        var directory = Path.Combine(modelsDir, PaddleCyrillicRecognizer);
+        CheckModelHash(Path.Combine(directory, "inference.json"),
+            "5D90F1BFCA52D80C01DE176C5238FAE2459995A99FF1DBFE5319AB4ED1735DF2");
+        CheckModelHash(Path.Combine(directory, "inference.pdiparams"),
+            "434DC9FA2A99FA3653E08F8CF793AE56BE7DD41C35C4980E6255147CC02BBC80");
+        CheckModelHash(Path.Combine(directory, "inference.yml"),
+            "5C76CC91FA98410178A09F498DB10050D0EC1634A660053D3005AB7BE581F501");
+        if (onnxDir is not null)
+            CheckModelHash(Path.Combine(onnxDir, PaddleCyrillicOnnxFile),
+                "FD3733EAABF90D6364CF653592D97E2AB1170E6BE8025C08047ECB4E6C4E6336");
+    }
+
+    private static void CheckModelHash(string file, string expected)
+    {
+        if (!File.Exists(file)) throw new FileNotFoundException($"нет файла модели {file}", file);
+        using var stream = File.OpenRead(file);
+        if (!Convert.ToHexString(SHA256.HashData(stream)).Equals(expected, StringComparison.Ordinal))
+            throw new InvalidDataException($"поврежден или подменен файл модели {file}; переустановите программу");
+    }
 
     /// <summary>Папка программы: там, где лежит сборка ядра (при запуске одним файлом это
     /// папка, куда .NET распаковал программу).</summary>
@@ -227,10 +255,19 @@ internal static class OcrComponents
         {
             try { using var engine = new TesseractEngine(tessdata); }
             catch (Exception ex) { problems.Add($"Tesseract не запускается: {Explain(ex)}"); }
+            try
+            {
+                GostTesseractModel.Validate(tessdata);
+                using var engine = new TesseractEngine(tessdata, GostTesseractModel.Languages);
+            }
+            catch (Exception ex) { problems.Add($"Tesseract (чертёжный шрифт) не запускается: {Explain(ex)}"); }
         }
 
         try { using var engine = new PaddleEngine(PaddleDir); }
         catch (Exception ex) { problems.Add($"PaddleOCR не запускается: {Explain(ex)}"); }
+
+        try { using var engine = new PaddleEngine(PaddleDir, recognizerName: PaddleCyrillicRecognizer); }
+        catch (Exception ex) { problems.Add($"PaddleOCR (кириллическая модель) не запускается: {Explain(ex)}"); }
 
         return problems;
     }

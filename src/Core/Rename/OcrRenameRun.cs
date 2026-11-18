@@ -18,7 +18,17 @@ internal enum FileStatus
 /// <summary>Строка результата: файл (путь от исходной папки), итог, новое имя, причина, шаблон
 /// и полный путь к файлу сейчас (после переименования — новый).</summary>
 internal sealed record JournalEntry(string RelativePath, FileStatus Status, string? NewName, string? Reason, string? Template,
-    string? FullPath = null);
+    string? FullPath = null)
+{
+    public RecognitionProvenance? Trace { get; init; }
+
+    // Trace is measurement metadata, not part of the established journal value identity.
+    public bool Equals(JournalEntry? other) => ReferenceEquals(this, other) || other is not null &&
+        RelativePath == other.RelativePath && Status == other.Status && NewName == other.NewName &&
+        Reason == other.Reason && Template == other.Template && FullPath == other.FullPath;
+
+    public override int GetHashCode() => HashCode.Combine(RelativePath, Status, NewName, Reason, Template, FullPath);
+}
 
 /// <summary>Что делать, если новое имя уже занято другим файлом.</summary>
 internal enum NameTakenPolicy
@@ -235,7 +245,10 @@ internal static class OcrRenameRun
     }
 
     private sealed record Planned(string Path, string Relative, long Length, DateTime Written,
-        string? NewName, string? Problem, FileStatus? Status, string? Template);
+        string? NewName, string? Problem, FileStatus? Status, string? Template)
+    {
+        internal RecognitionProvenance? Trace { get; init; }
+    }
 
     /// <summary>Обработать готовый список файлов: распознавание в
     /// <see cref="RunSettings.EffectiveWorkers"/> потоках (у каждого свой распознаватель),
@@ -424,12 +437,15 @@ internal static class OcrRenameRun
 
             var result = recognizer.Read(path, ct);
             if (result.Values is null)
-                return new Planned(path, relative, length, written, null, result.Problem, FileStatus.Skipped, result.Template);
+                return new Planned(path, relative, length, written, null, result.Problem, FileStatus.Skipped, result.Template)
+                    { Trace = result.Trace };
 
             var (name, problem) = FileNames.Build(result.Values);
             return name is null
                 ? new Planned(path, relative, length, written, null, problem, FileStatus.Skipped, result.Template)
-                : new Planned(path, relative, length, written, name, null, null, result.Template);
+                    { Trace = result.Trace }
+                : new Planned(path, relative, length, written, name, null, null, result.Template)
+                    { Trace = result.Trace };
         }
         catch (OperationCanceledException)
         {
@@ -449,11 +465,13 @@ internal static class OcrRenameRun
     private static JournalEntry Apply(Planned p, NameTakenPolicy policy)
     {
         if (p.NewName is null)
-            return new JournalEntry(p.Relative, p.Status ?? FileStatus.Skipped, null, p.Problem, p.Template, p.Path);
+            return new JournalEntry(p.Relative, p.Status ?? FileStatus.Skipped, null, p.Problem, p.Template, p.Path)
+                { Trace = p.Trace };
 
         var current = Path.GetFileName(p.Path);
         if (IsSameName(current, p.NewName, policy))
-            return new JournalEntry(p.Relative, FileStatus.AlreadyNamed, current, "Имя уже соответствует результату", p.Template, p.Path);
+            return new JournalEntry(p.Relative, FileStatus.AlreadyNamed, current, "Имя уже соответствует результату", p.Template, p.Path)
+                { Trace = p.Trace };
 
         var info = new FileInfo(p.Path);
         if (!info.Exists) return Skip(p, "файл исчез до переименования");
@@ -461,12 +479,12 @@ internal static class OcrRenameRun
 
         var (status, newName, reason, fullPath) = Renamer.Move(p.Path, p.NewName, policy);
         return status == FileStatus.Renamed
-            ? new JournalEntry(p.Relative, FileStatus.Renamed, newName, null, p.Template, fullPath)
-            : new JournalEntry(p.Relative, FileStatus.Skipped, null, reason, p.Template, p.Path);
+            ? new JournalEntry(p.Relative, FileStatus.Renamed, newName, null, p.Template, fullPath) { Trace = p.Trace }
+            : new JournalEntry(p.Relative, FileStatus.Skipped, null, reason, p.Template, p.Path) { Trace = p.Trace };
     }
 
     private static JournalEntry Skip(Planned p, string reason) =>
-        new(p.Relative, FileStatus.Skipped, null, reason, p.Template, p.Path);
+        new(p.Relative, FileStatus.Skipped, null, reason, p.Template, p.Path) { Trace = p.Trace };
 
     /// <summary>Файл уже назван так, как нужно; при правиле «добавить номер» подходит и имя с
     /// номером, полученное прошлым запуском.</summary>

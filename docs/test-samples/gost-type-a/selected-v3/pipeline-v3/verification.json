@@ -1,0 +1,5270 @@
+{
+  "Scope": "Sixteen actual DocumentReader reads of eight predeclared held-out GOST cases. All refusals remain in the denominator.",
+  "ManifestSha256": "605A04017EB37C09FFC745506B4BF7FF8BB1943C696D6D72E58A42A282F6797B",
+  "SplitManifestSha256": "7C2998AA7012CBC235D16E2E45FAACEA032BB2370AF50045C54F3069B4F8982C",
+  "SelectionReportSha256": "FEF34D30A48622F87DA65BA9C66D6715642D37714E1A2C7B78E17568CF515DC8",
+  "SelectedModelSha256": "C92B7C889F0BD4FB07CA90148C011BE7A1865BE2B8BBA036FA1A86D875A5ADD0",
+  "Languages": "rus_gost+eng",
+  "RawDesignation": true,
+  "TesseractVersion": "5.3.4",
+  "KnownLines": true,
+  "CanonicalPolicy": "Join whitespace; ё→е and Ё→Е; absent type→Спецификация. Printed raw truths are preserved separately.",
+  "PositiveGate": "At least one exact vector and one exact raster case; zero accepted incorrect values. Counts describe coverage.",
+  "Counts": {
+    "vector": {
+      "Correct": 5,
+      "Refused": 3,
+      "Wrong": 0
+    },
+    "raster": {
+      "Correct": 2,
+      "Refused": 6,
+      "Wrong": 0
+    }
+  },
+  "Samples": [
+    {
+      "Id": "evaluation-001",
+      "Kind": "vector",
+      "RasterDpi": 250,
+      "RawExpected": {
+        "Designation": "АФТУ.602152.964",
+        "Name": "НАГРЕВАТЕЛЬ 72758",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "АФТУ.602152.964",
+        "Name": "НАГРЕВАТЕЛЬ 72758",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "АФТУ.602152.964 НАГРЕВАТЕЛЬ 72758 Спецификация.pdf",
+      "Actual": {
+        "Designation": "АФТУ.602152.964",
+        "Name": "НАГРЕВАТЕЛЬ 72758",
+        "Type": "Спецификация"
+      },
+      "ActualFileName": "АФТУ.602152.964 НАГРЕВАТЕЛЬ 72758 Спецификация.pdf",
+      "Outcome": "correct",
+      "Problem": null,
+      "SourceSha256": "71FBAD820F63A86EA8A6DDF5FD3486AD03187321784090E0D0B71A5ECB26D5C1",
+      "TemplateSha256": "C4C210EC97B784D08EF213A68D908783617A31103887F8A05357AF6BFDD2BED1",
+      "MarkupSha256": "628B1CA6AE672DE289B098100250E9A4EEA3A106E4FF9C54A57EECBA81EDF597",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 1,
+        "TesseractReads": 4,
+        "PaddleReads": 8,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 1,
+        "SourcePath": "pdf-text-confirmed"
+      },
+      "SourcePath": "pdf-text-confirmed",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-003-Designation.png",
+            "CropSha256": "3E50148E9162B790C7313C9A94210FA588D85770D572A2206FCF4734DF996245",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "АФТУ.602152.964",
+              "ParsedText": "АФТУ.602152.964",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "АФТУ.602152.964",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.17673537135124207,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-004-Name.png",
+            "CropSha256": "93BC5265BB8178FF17B79C6D26B4DE31D311431FFF7564EF8581FC3A97FAFA24",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "НАГРЕВАТЕЛЬ 72758",
+              "ParsedText": "НАГРЕВАТЕЛЬ 72758",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "НАГРЕВАТЕЛЬ 72758",
+              "ParsedText": "НАГРЕВАТЕЛЬ 72758",
+              "Problem": null,
+              "MinConfidence": 0.9928455352783203,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-005-Designation.png",
+            "CropSha256": "3E50148E9162B790C7313C9A94210FA588D85770D572A2206FCF4734DF996245",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "АФТУ.602152.964",
+              "ParsedText": "АФТУ.602152.964",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "АФТ9602Ъ2 964",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.47826179504394534,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-006-Name.png",
+            "CropSha256": "93BC5265BB8178FF17B79C6D26B4DE31D311431FFF7564EF8581FC3A97FAFA24",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "НАГРЕВАТЕЛЬ 72758",
+              "ParsedText": "НАГРЕВАТЕЛЬ 72758",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "НАГРЕВАТЕЛЬ 72758",
+              "ParsedText": "НАГРЕВАТЕЛЬ 72758",
+              "Problem": null,
+              "MinConfidence": 0.8868802642822265,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата; выполняется обычная проверка OCR.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-009-Designation.png",
+            "CropSha256": "3E50148E9162B790C7313C9A94210FA588D85770D572A2206FCF4734DF996245",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "АФТ9602Ъ2 964",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.47826179504394534,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "АФТУ.602152.964",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.17673537135124207,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-010-Name.png",
+            "CropSha256": "93BC5265BB8178FF17B79C6D26B4DE31D311431FFF7564EF8581FC3A97FAFA24",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "НАГРЕВАТЕЛЬ 72758",
+              "ParsedText": "НАГРЕВАТЕЛЬ 72758",
+              "Problem": null,
+              "MinConfidence": 0.8868802642822265,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "НАГРЕВАТЕЛЬ 72758",
+              "ParsedText": "НАГРЕВАТЕЛЬ 72758",
+              "Problem": null,
+              "MinConfidence": 0.9928455352783203,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение не прошло проверку формата; низкая уверенность распознавания обозначения",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-014-Designation.png",
+            "CropSha256": "3E50148E9162B790C7313C9A94210FA588D85770D572A2206FCF4734DF996245",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "АФТУ.602152.964",
+              "ParsedText": "АФТУ.602152.964",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "АФТУ.602152.964",
+              "ParsedText": "АФТУ.602152.964",
+              "Problem": null,
+              "MinConfidence": 0.8865434527397156,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-015-Name.png",
+            "CropSha256": "93BC5265BB8178FF17B79C6D26B4DE31D311431FFF7564EF8581FC3A97FAFA24",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "НАГРЕВАТЕЛЬ 72758",
+              "ParsedText": "НАГРЕВАТЕЛЬ 72758",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "НАГРЕВАТЕЛЬ 72758",
+              "ParsedText": "НАГРЕВАТЕЛЬ 72758",
+              "Problem": null,
+              "MinConfidence": 0.9796618223190308,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 16,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "Текст PDF подтверждён независимым распознаванием изображения.",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-001",
+      "Kind": "raster",
+      "RasterDpi": 250,
+      "RawExpected": {
+        "Designation": "АФТУ.602152.964",
+        "Name": "НАГРЕВАТЕЛЬ 72758",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "АФТУ.602152.964",
+        "Name": "НАГРЕВАТЕЛЬ 72758",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "АФТУ.602152.964 НАГРЕВАТЕЛЬ 72758 Спецификация.pdf",
+      "Actual": {
+        "Designation": "АФТУ.602152.964",
+        "Name": "НАГРЕВАТЕЛЬ 72758",
+        "Type": "Спецификация"
+      },
+      "ActualFileName": "АФТУ.602152.964 НАГРЕВАТЕЛЬ 72758 Спецификация.pdf",
+      "Outcome": "correct",
+      "Problem": null,
+      "SourceSha256": "9C1A183B439BEB33FC4F312D670F55BD4CB29468EDF0C76CEC72DDD10EC5DB82",
+      "TemplateSha256": "C4C210EC97B784D08EF213A68D908783617A31103887F8A05357AF6BFDD2BED1",
+      "MarkupSha256": "628B1CA6AE672DE289B098100250E9A4EEA3A106E4FF9C54A57EECBA81EDF597",
+      "SourceTrace": {
+        "PdfTextAttempts": 1,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 2,
+        "PaddleReads": 2,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 1,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-006-Designation.png",
+            "CropSha256": "2E72E2E6AFBBF5E40F94B381DF623F57BDE22AE850370B1FC78AE9F5BD4E3B6F",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "АФТУ.602152.964",
+              "ParsedText": "АФТУ.602152.964",
+              "Problem": null,
+              "MinConfidence": 0.8714499664306641,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "АФТУ.602152.964",
+              "ParsedText": "АФТУ.602152.964",
+              "Problem": null,
+              "MinConfidence": 0.8641554117202759,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-007-Name.png",
+            "CropSha256": "830684AE4F33A093772CF34C32502D6696A3303B40623395DA72B509E8E83747",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "НАГРЕВАТЕЛЬ 72758",
+              "ParsedText": "НАГРЕВАТЕЛЬ 72758",
+              "Problem": null,
+              "MinConfidence": 0.9670690155029297,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "НАГРЕВАТЕЛЬ 72758",
+              "ParsedText": "НАГРЕВАТЕЛЬ 72758",
+              "Problem": null,
+              "MinConfidence": 0.9843214750289917,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "Все поля подтверждены обоими способами распознавания.",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-002",
+      "Kind": "vector",
+      "RasterDpi": 300,
+      "RawExpected": {
+        "Designation": "БАИП.129921.249-83СБ",
+        "Name": "Оптопара Analogix 78499",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "БАИП.129921.249-83СБ",
+        "Name": "Оптопара Analogix 78499",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "БАИП.129921.249-83СБ Оптопара Analogix 78499 Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Outcome": "refused",
+      "Problem": "стр. 1 (шаблон «neutral-layout»): обычная модель: обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания обозначения; чертёжный шрифт: наименование прочитано по-разному: «Оптопара Analogix 78499» и «Onтопара Analogix 78499»",
+      "SourceSha256": "E6DAD74D5A13853AA1785382C0B21C8E71DBE6050C569B2BCDAD012F6EB4A945",
+      "TemplateSha256": "FC794B721116C34E51283D8966C63A8111061775DD9DDC9F1661528256F18456",
+      "MarkupSha256": "156E9164C377EF09F403482A9CD64EA5BDA6564F6242B00951AC566808FDCFED",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 8,
+        "PaddleReads": 16,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 0,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-003-Designation.png",
+            "CropSha256": "5470021DDB180CC79A64F989EE6B789F96A679216CF1CF9C5CA41E80E191FAAA",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": 0.9443123936653137,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-004-Name.png",
+            "CropSha256": "E513F0C0208C027C597FEDBE3509493CEA34CBC32361C8B40BD927746415EDBD",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Оптопара Analogix 78499",
+              "ParsedText": "Оптопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Onmоnapa Analogix 78499",
+              "ParsedText": "Onmonapa Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.8777602910995483,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-005-Designation.png",
+            "CropSha256": "5470021DDB180CC79A64F989EE6B789F96A679216CF1CF9C5CA41E80E191FAAA",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "БАЙ 1299271249-8(Б",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.24240455627441407,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-006-Name.png",
+            "CropSha256": "E513F0C0208C027C597FEDBE3509493CEA34CBC32361C8B40BD927746415EDBD",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Оптопара Analogix 78499",
+              "ParsedText": "Оптопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара Analogix 78499",
+              "ParsedText": "Оптопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.9371242523193359,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "наименование прочитано по-разному: «Оптопара Analogix 78499» и «Onmonapa Analogix 78499»; выполняется обычная проверка OCR.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-009-Designation.png",
+            "CropSha256": "5470021DDB180CC79A64F989EE6B789F96A679216CF1CF9C5CA41E80E191FAAA",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "БАЙ 1299271249-8(Б",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.24240455627441407,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": 0.9443123936653137,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-010-Name.png",
+            "CropSha256": "E513F0C0208C027C597FEDBE3509493CEA34CBC32361C8B40BD927746415EDBD",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара Analogix 78499",
+              "ParsedText": "Оптопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.9371242523193359,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Onmоnapa Analogix 78499",
+              "ParsedText": "Onmonapa Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.8729653358459473,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания обозначения",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-014-Designation.png",
+            "CropSha256": "5470021DDB180CC79A64F989EE6B789F96A679216CF1CF9C5CA41E80E191FAAA",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": 0.9563239216804504,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-015-Name.png",
+            "CropSha256": "E513F0C0208C027C597FEDBE3509493CEA34CBC32361C8B40BD927746415EDBD",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Оптопара Analogix 78499",
+              "ParsedText": "Оптопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Onmоnaра Analogix 78499",
+              "ParsedText": "Onmonapa Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.8587058782577515,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 16,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-016-Designation.png",
+            "CropSha256": "5470021DDB180CC79A64F989EE6B789F96A679216CF1CF9C5CA41E80E191FAAA",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": 0.9249107360839843,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 17,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-017-Name.png",
+            "CropSha256": "E513F0C0208C027C597FEDBE3509493CEA34CBC32361C8B40BD927746415EDBD",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Оптопара Analogix 78499",
+              "ParsedText": "Оптопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара Analogix 78499",
+              "ParsedText": "Оптопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.9386033630371093,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 18,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "наименование прочитано по-разному: «Оптопара Analogix 78499» и «Onmonapa Analogix 78499»; выполняется обычная проверка OCR.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 19,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 20,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-020-Designation.png",
+            "CropSha256": "5470021DDB180CC79A64F989EE6B789F96A679216CF1CF9C5CA41E80E191FAAA",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": 0.9249107360839843,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": 0.9563239216804504,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 21,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-021-Name.png",
+            "CropSha256": "E513F0C0208C027C597FEDBE3509493CEA34CBC32361C8B40BD927746415EDBD",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара Analogix 78499",
+              "ParsedText": "Оптопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.9386033630371093,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Onтопара Analogix 78499",
+              "ParsedText": "Onтопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.8632822632789612,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 22,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 23,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "наименование прочитано по-разному: «Оптопара Analogix 78499» и «Onтопара Analogix 78499»",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-002",
+      "Kind": "raster",
+      "RasterDpi": 300,
+      "RawExpected": {
+        "Designation": "БАИП.129921.249-83СБ",
+        "Name": "Оптопара Analogix 78499",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "БАИП.129921.249-83СБ",
+        "Name": "Оптопара Analogix 78499",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "БАИП.129921.249-83СБ Оптопара Analogix 78499 Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Outcome": "refused",
+      "Problem": "стр. 1 (шаблон «neutral-layout»): обычная модель: обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания обозначения; чертёжный шрифт: наименование прочитано по-разному: «Оптопара Analogix 78499» и «Onmonapa Analogix 78499»",
+      "SourceSha256": "9D3AA381E9B40D24DF112567367CA1F20837E1940E3EC0251A6F0926423C1CDE",
+      "TemplateSha256": "FC794B721116C34E51283D8966C63A8111061775DD9DDC9F1661528256F18456",
+      "MarkupSha256": "156E9164C377EF09F403482A9CD64EA5BDA6564F6242B00951AC566808FDCFED",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 4,
+        "PaddleReads": 8,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 0,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-005-Designation.png",
+            "CropSha256": "DBD04E23ACB4FA5F8E72F9A9F5F47C31B8E54E452C7E2B10E073FDBE1B13734A",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "БАЙ 1299271249-8(Б",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.218662109375,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": 0.944116473197937,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-006-Name.png",
+            "CropSha256": "38F722876CEACE1D3C857E8C3E71138C9C9FF40C2BB3334EB47D3341F48DACD6",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара Analogix 78499",
+              "ParsedText": "Оптопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.9403250122070312,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Onmonapa Analogix 78499",
+              "ParsedText": "Onmonapa Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.9162198901176453,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания обозначения",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-012-Designation.png",
+            "CropSha256": "DBD04E23ACB4FA5F8E72F9A9F5F47C31B8E54E452C7E2B10E073FDBE1B13734A",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": 0.9240765380859375,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "БАИП.129921.249-83СБ",
+              "ParsedText": "БАИП.129921.249-83СБ",
+              "Problem": null,
+              "MinConfidence": 0.956322968006134,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-013-Name.png",
+            "CropSha256": "38F722876CEACE1D3C857E8C3E71138C9C9FF40C2BB3334EB47D3341F48DACD6",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара Analogix 78499",
+              "ParsedText": "Оптопара Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.9412109375,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Onmоnapa Analogix 78499",
+              "ParsedText": "Onmonapa Analogix 78499",
+              "Problem": null,
+              "MinConfidence": 0.8701983094215393,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "наименование прочитано по-разному: «Оптопара Analogix 78499» и «Onmonapa Analogix 78499»",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-003",
+      "Kind": "vector",
+      "RasterDpi": 325,
+      "RawExpected": {
+        "Designation": "ВГЛЖ.636438.789Э3",
+        "Name": "Пружина 79718",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ВГЛЖ.636438.789Э3",
+        "Name": "Пружина 79718",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ВГЛЖ.636438.789Э3 Пружина 79718 Спецификация.pdf",
+      "Actual": {
+        "Designation": "ВГЛЖ.636438.789Э3",
+        "Name": "Пружина 79718",
+        "Type": "Спецификация"
+      },
+      "ActualFileName": "ВГЛЖ.636438.789Э3 Пружина 79718 Спецификация.pdf",
+      "Outcome": "correct",
+      "Problem": null,
+      "SourceSha256": "81D601A69B18DD8E400B91EE5BC64E02E2033BFC2F996D72616370A71C7E7FAA",
+      "TemplateSha256": "B5B08A70E41D2EF8B9831309F226B7BD810456095B463C9793BFE1D1DC684FA4",
+      "MarkupSha256": "017EF12ABE664A9A69F8BDBA7DD8D2C80E36831DDF7CC9B900B79A290B54C3B3",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 1,
+        "TesseractReads": 6,
+        "PaddleReads": 9,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 1,
+        "SourcePath": "pdf-text-confirmed"
+      },
+      "SourcePath": "pdf-text-confirmed",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-003-Designation.png",
+            "CropSha256": "088091000360DB68794955267C5386A11AD5B0F1C0385172AB3FBFCB7B32F350",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ВГЛЖ.636438.789Э3",
+              "ParsedText": "ВГЛЖ.636438.789Э3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "BГЛЖ.636438.78933",
+              "ParsedText": "BГЛЖ.636438.78933",
+              "Problem": null,
+              "MinConfidence": 0.9463386535644531,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-004-Name.png",
+            "CropSha256": "5C426122F4106E6253CB9E33FC0F8B19762B2CFDCCCFAA88AEB79F10EC630394",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": 0.9207152724266052,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-005-Designation.png",
+            "CropSha256": "088091000360DB68794955267C5386A11AD5B0F1C0385172AB3FBFCB7B32F350",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ВГЛЖ.636438.789Э3",
+              "ParsedText": "ВГЛЖ.636438.789Э3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "ВГ/М. 636438. /9933",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.2622759246826172,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-006-Name.png",
+            "CropSha256": "5C426122F4106E6253CB9E33FC0F8B19762B2CFDCCCFAA88AEB79F10EC630394",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": 0.9028726959228516,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано по-разному: «ВГЛЖ.636438.789Э3» и «BГЛЖ.636438.78933»; выполняется обычная проверка OCR.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-009-Designation.png",
+            "CropSha256": "088091000360DB68794955267C5386A11AD5B0F1C0385172AB3FBFCB7B32F350",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ВГ/М. 636438. /9933",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.2622759246826172,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "BГЛЖ.636438.78933",
+              "ParsedText": "BГЛЖ.636438.78933",
+              "Problem": null,
+              "MinConfidence": 0.9463386535644531,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-010-Name.png",
+            "CropSha256": "5C426122F4106E6253CB9E33FC0F8B19762B2CFDCCCFAA88AEB79F10EC630394",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": 0.9028726959228516,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": 0.878043532371521,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания обозначения",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-014-Designation.png",
+            "CropSha256": "088091000360DB68794955267C5386A11AD5B0F1C0385172AB3FBFCB7B32F350",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ВГЛЖ.636438.789Э3",
+              "ParsedText": "ВГЛЖ.636438.789Э3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ВГ/Ж.636438.78933",
+              "ParsedText": "",
+              "Problem": "в области обозначения кроме обозначения есть другой текст",
+              "MinConfidence": 0.9163604974746704,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-015-Name.png",
+            "CropSha256": "5C426122F4106E6253CB9E33FC0F8B19762B2CFDCCCFAA88AEB79F10EC630394",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": 0.9234878420829773,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 16,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-016-Designation.png",
+            "CropSha256": "088091000360DB68794955267C5386A11AD5B0F1C0385172AB3FBFCB7B32F350",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ВГЛЖ.636438.789Э3",
+              "ParsedText": "ВГЛЖ.636438.789Э3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "ВГЛЖ.636438.789Э3",
+              "ParsedText": "ВГЛЖ.636438.789Э3",
+              "Problem": null,
+              "MinConfidence": 0.8900703430175781,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 17,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-017-Name.png",
+            "CropSha256": "5C426122F4106E6253CB9E33FC0F8B19762B2CFDCCCFAA88AEB79F10EC630394",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": 0.9616690063476563,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 18,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "Текст PDF подтверждён независимым распознаванием изображения.",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-003",
+      "Kind": "raster",
+      "RasterDpi": 325,
+      "RawExpected": {
+        "Designation": "ВГЛЖ.636438.789Э3",
+        "Name": "Пружина 79718",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ВГЛЖ.636438.789Э3",
+        "Name": "Пружина 79718",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ВГЛЖ.636438.789Э3 Пружина 79718 Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Outcome": "refused",
+      "Problem": "стр. 1 (шаблон «neutral-layout»): обычная модель: обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата; чертёжный шрифт: обозначение прочитано только одним способом распознавания, второй: в области обозначения кроме обозначения есть другой текст",
+      "SourceSha256": "3E1FF582F5ED5A21D608524ECBFA19A2DAE0B670CA77D4D4D923F674784A13BF",
+      "TemplateSha256": "B5B08A70E41D2EF8B9831309F226B7BD810456095B463C9793BFE1D1DC684FA4",
+      "MarkupSha256": "017EF12ABE664A9A69F8BDBA7DD8D2C80E36831DDF7CC9B900B79A290B54C3B3",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 4,
+        "PaddleReads": 6,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 0,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-006-Designation.png",
+            "CropSha256": "8B13A1EA35DA9B12101AE9CA795D5FC60E76491AD1E875A6FDBFFB0E49BB4593",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ВГЛЖ.636438.789Э3",
+              "ParsedText": "ВГЛЖ.636438.789Э3",
+              "Problem": null,
+              "MinConfidence": 0.8944490051269531,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ВГ/Ж.636438.78933",
+              "ParsedText": "",
+              "Problem": "в области обозначения кроме обозначения есть другой текст",
+              "MinConfidence": 0.9248327016830444,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-007-Name.png",
+            "CropSha256": "A19F0CBE902F66EE9F12467A86FEED8A910B69560707C32A5FD2AFDA34096F10",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": 0.965263442993164,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": 0.9777550101280212,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: в области обозначения кроме обозначения есть другой текст",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-012-Designation.png",
+            "CropSha256": "8B13A1EA35DA9B12101AE9CA795D5FC60E76491AD1E875A6FDBFFB0E49BB4593",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ВГ/М. 636438 /9933",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.32802299499511717,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "BГЛЖ.636438.78933",
+              "ParsedText": "BГЛЖ.636438.78933",
+              "Problem": null,
+              "MinConfidence": 0.9423937797546387,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-013-Name.png",
+            "CropSha256": "A19F0CBE902F66EE9F12467A86FEED8A910B69560707C32A5FD2AFDA34096F10",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": 0.9283924102783203,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Пружина 79718",
+              "ParsedText": "Пружина 79718",
+              "Problem": null,
+              "MinConfidence": 0.8986197710037231,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-004",
+      "Kind": "vector",
+      "RasterDpi": 250,
+      "RawExpected": {
+        "Designation": "ГХКЪ.957220.150-77ПЭ3",
+        "Name": "Захват 19590",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ГХКЪ.957220.150-77ПЭ3",
+        "Name": "Захват 19590",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ГХКЪ.957220.150-77ПЭ3 Захват 19590 Спецификация.pdf",
+      "Actual": {
+        "Designation": "ГХКЪ.957220.150-77ПЭ3",
+        "Name": "Захват 19590",
+        "Type": "Спецификация"
+      },
+      "ActualFileName": "ГХКЪ.957220.150-77ПЭ3 Захват 19590 Спецификация.pdf",
+      "Outcome": "correct",
+      "Problem": null,
+      "SourceSha256": "654D1E6DD9F1BBD6EDB61EA912E02A9B78037D55727C6B239A089527FE58E2BC",
+      "TemplateSha256": "F95DE1B393CBBD84D8356EAD3D037A6EE08FEFD33721A8F70D0A85CFA7A63124",
+      "MarkupSha256": "56C30B13D5646CFF8661C969D0D8D44B066E5C13A645A7CBD1E000B9CCD0FF40",
+      "SourceTrace": {
+        "PdfTextAttempts": 1,
+        "PdfTextAccepted": 1,
+        "TesseractReads": 0,
+        "PaddleReads": 4,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 0,
+        "GostAccepted": 0,
+        "SourcePath": "pdf-text-confirmed"
+      },
+      "SourcePath": "pdf-text-confirmed",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-003-Designation.png",
+            "CropSha256": "3A115393B10E025EF0D92DF6225ED4E4ED93103D8FC3DD24CF082B04B638FC69",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ГХКЪ.957220.150-77ПЭ3",
+              "ParsedText": "ГХКЪ.957220.150-77ПЭ3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ГХКЪ.957220.150-77ПЭ3",
+              "ParsedText": "ГХКЪ.957220.150-77ПЭ3",
+              "Problem": null,
+              "MinConfidence": 0.9349810481071472,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-004-Name.png",
+            "CropSha256": "A85833C1462780B56887B07EF4679263C491B5CFE9BE8EA22A6C422F7A52E421",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Захват 19590",
+              "ParsedText": "Захват 19590",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Захват 19590",
+              "ParsedText": "Захват 19590",
+              "Problem": null,
+              "MinConfidence": 0.8545331358909607,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "Текст PDF подтверждён независимым распознаванием изображения.",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-004",
+      "Kind": "raster",
+      "RasterDpi": 250,
+      "RawExpected": {
+        "Designation": "ГХКЪ.957220.150-77ПЭ3",
+        "Name": "Захват 19590",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ГХКЪ.957220.150-77ПЭ3",
+        "Name": "Захват 19590",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ГХКЪ.957220.150-77ПЭ3 Захват 19590 Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Outcome": "refused",
+      "Problem": "стр. 1 (шаблон «neutral-layout»): обычная модель: обозначение не прошло проверку формата; чертёжный шрифт: обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата",
+      "SourceSha256": "D2AEF2CF3A7D303E48F0DE01B2BA0A3D8EACAED9877BF5275AC24DB031D0D911",
+      "TemplateSha256": "F95DE1B393CBBD84D8356EAD3D037A6EE08FEFD33721A8F70D0A85CFA7A63124",
+      "MarkupSha256": "56C30B13D5646CFF8661C969D0D8D44B066E5C13A645A7CBD1E000B9CCD0FF40",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 4,
+        "PaddleReads": 7,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 0,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-005-Designation.png",
+            "CropSha256": "74DF957F0099CD20E96D4550F9744AC5595921DD88AFA48D804B2589A3771285",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ГХКЬ. 957220 50-77133",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.6820685577392578,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ГХКЪ.957220.150-77П33",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.9263888597488403,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-006-Name.png",
+            "CropSha256": "AFBDB7C533148032E1A7AFCB731353E3E7DF59F97BFB6D6EE43CA71D197B0E0E",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Захват 19590",
+              "ParsedText": "Захват 19590",
+              "Problem": null,
+              "MinConfidence": 0.9641865539550781,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Захват 19590",
+              "ParsedText": "Захват 19590",
+              "Problem": null,
+              "MinConfidence": 0.8097936511039734,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение не прошло проверку формата",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-012-Designation.png",
+            "CropSha256": "74DF957F0099CD20E96D4550F9744AC5595921DD88AFA48D804B2589A3771285",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ГХКЪ.957220.150-77ПЭ3",
+              "ParsedText": "ГХКЪ.957220.150-77ПЭ3",
+              "Problem": null,
+              "MinConfidence": 0.5689968490600585,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ГХКЪ.957220.150-77П33",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.8954057097434998,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-013-Name.png",
+            "CropSha256": "AFBDB7C533148032E1A7AFCB731353E3E7DF59F97BFB6D6EE43CA71D197B0E0E",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Захбат 19590",
+              "ParsedText": "Захбат 19590",
+              "Problem": null,
+              "MinConfidence": 0.9260305786132812,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Захбат 19590",
+              "ParsedText": "Захбат 19590",
+              "Problem": null,
+              "MinConfidence": 0.961474597454071,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-005",
+      "Kind": "vector",
+      "RasterDpi": 300,
+      "RawExpected": {
+        "Designation": "ДИЦИ.920835.577",
+        "Name": "ИЗЛУЧАТЕЛЬ 78568",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ДИЦИ.920835.577",
+        "Name": "ИЗЛУЧАТЕЛЬ 78568",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ДИЦИ.920835.577 ИЗЛУЧАТЕЛЬ 78568 Спецификация.pdf",
+      "Actual": {
+        "Designation": "ДИЦИ.920835.577",
+        "Name": "ИЗЛУЧАТЕЛЬ 78568",
+        "Type": "Спецификация"
+      },
+      "ActualFileName": "ДИЦИ.920835.577 ИЗЛУЧАТЕЛЬ 78568 Спецификация.pdf",
+      "Outcome": "correct",
+      "Problem": null,
+      "SourceSha256": "610A3D91763428F26172142351E80A21D867059D2BF574945A3D56598886D989",
+      "TemplateSha256": "75ED1F9168679A856EB441D68CAD38E5E76FCF37D052D6900E5B1DCEFCE61BD1",
+      "MarkupSha256": "4BEE6DBDF363EF95247D4B9F6D7D27BC6857F9CBA8651B87EAAB898B0B351822",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 1,
+        "TesseractReads": 4,
+        "PaddleReads": 9,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 1,
+        "SourcePath": "pdf-text-confirmed"
+      },
+      "SourcePath": "pdf-text-confirmed",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-003-Designation.png",
+            "CropSha256": "A30C0E135F9CCDA9B6CC184C6A7E80AA594C2188EADC81DE3E45A9AC06520402",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ДИЦИ.920835.577",
+              "ParsedText": "ДИЦИ.920835.577",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ДИЦИ920835.577",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.9926883578300476,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-004-Name.png",
+            "CropSha256": "7489C98EB8EF66B2BB5D01573BE5F5E458F50404F6610FE8D763CF1A329B101C",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ИЗЛУЧАТЕЛЬ 78568",
+              "ParsedText": "ИЗЛУЧАТЕЛЬ 78568",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ИЗЛУЧАТЕЛЬ 78568",
+              "ParsedText": "ИЗЛУЧАТЕЛЬ 78568",
+              "Problem": null,
+              "MinConfidence": 0.985840916633606,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-005-Designation.png",
+            "CropSha256": "A30C0E135F9CCDA9B6CC184C6A7E80AA594C2188EADC81DE3E45A9AC06520402",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ДИЦИ.920835.577",
+              "ParsedText": "ДИЦИ.920835.577",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "ДИЦИ 920935.577",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.8117829132080078,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-006-Name.png",
+            "CropSha256": "7489C98EB8EF66B2BB5D01573BE5F5E458F50404F6610FE8D763CF1A329B101C",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ИЗЛУЧАТЕЛЬ 78568",
+              "ParsedText": "ИЗЛУЧАТЕЛЬ 78568",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "ИЗЛУЧАТЕЛЬ 78568",
+              "ParsedText": "ИЗЛУЧАТЕЛЬ 78568",
+              "Problem": null,
+              "MinConfidence": 0.8894261932373047,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата; выполняется обычная проверка OCR.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-009-Designation.png",
+            "CropSha256": "A30C0E135F9CCDA9B6CC184C6A7E80AA594C2188EADC81DE3E45A9AC06520402",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ДИЦИ 920935.577",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.8117829132080078,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ДИЦИ920835.577",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.9926883578300476,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-010-Name.png",
+            "CropSha256": "7489C98EB8EF66B2BB5D01573BE5F5E458F50404F6610FE8D763CF1A329B101C",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ИЗЛУЧАТЕЛЬ 78568",
+              "ParsedText": "ИЗЛУЧАТЕЛЬ 78568",
+              "Problem": null,
+              "MinConfidence": 0.8894261932373047,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ИЗЛУЧАТЕЛЬ 78568",
+              "ParsedText": "ИЗЛУЧАТЕЛЬ 78568",
+              "Problem": null,
+              "MinConfidence": 0.985840916633606,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение не прошло проверку формата",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-014-Designation.png",
+            "CropSha256": "A30C0E135F9CCDA9B6CC184C6A7E80AA594C2188EADC81DE3E45A9AC06520402",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ДИЦИ.920835.577",
+              "ParsedText": "ДИЦИ.920835.577",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ДИЦИ.920835.577",
+              "ParsedText": "ДИЦИ.920835.577",
+              "Problem": null,
+              "MinConfidence": 0.9528564810752869,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-015-Name.png",
+            "CropSha256": "7489C98EB8EF66B2BB5D01573BE5F5E458F50404F6610FE8D763CF1A329B101C",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ИЗЛУЧАТЕЛЬ 78568",
+              "ParsedText": "ИЗЛУЧАТЕЛЬ 78568",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ИЗЛУЧАТЕЛЬ 78568",
+              "ParsedText": "ИЗЛУЧАТЕЛЬ 78568",
+              "Problem": null,
+              "MinConfidence": 0.9406086206436157,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 16,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "Текст PDF подтверждён независимым распознаванием изображения.",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-005",
+      "Kind": "raster",
+      "RasterDpi": 300,
+      "RawExpected": {
+        "Designation": "ДИЦИ.920835.577",
+        "Name": "ИЗЛУЧАТЕЛЬ 78568",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ДИЦИ.920835.577",
+        "Name": "ИЗЛУЧАТЕЛЬ 78568",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ДИЦИ.920835.577 ИЗЛУЧАТЕЛЬ 78568 Спецификация.pdf",
+      "Actual": {
+        "Designation": "ДИЦИ.920835.577",
+        "Name": "ИЗЛУЧАТЕЛЬ 78568",
+        "Type": "Спецификация"
+      },
+      "ActualFileName": "ДИЦИ.920835.577 ИЗЛУЧАТЕЛЬ 78568 Спецификация.pdf",
+      "Outcome": "correct",
+      "Problem": null,
+      "SourceSha256": "08513E3EB7E80092D078BBE1B6D0594158699FBD9C09C4E74015266A8DA2DD82",
+      "TemplateSha256": "75ED1F9168679A856EB441D68CAD38E5E76FCF37D052D6900E5B1DCEFCE61BD1",
+      "MarkupSha256": "4BEE6DBDF363EF95247D4B9F6D7D27BC6857F9CBA8651B87EAAB898B0B351822",
+      "SourceTrace": {
+        "PdfTextAttempts": 1,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 2,
+        "PaddleReads": 3,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 1,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-006-Designation.png",
+            "CropSha256": "4C6CF0BCEFEE87BB6A86FB9FD50905DBD335AAA8DB62E00C263FC497EC52931F",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ДИЦИ.920835.577",
+              "ParsedText": "ДИЦИ.920835.577",
+              "Problem": null,
+              "MinConfidence": 0.9137423706054687,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ДИЦИ.920835.577",
+              "ParsedText": "ДИЦИ.920835.577",
+              "Problem": null,
+              "MinConfidence": 0.9546502828598022,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-007-Name.png",
+            "CropSha256": "968B5997D1F66D65D44D112482D58B1796C60D8FB7F86C73DF409F7598DB1AFA",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ИЗЛУЧАТЕЛЬ 78568",
+              "ParsedText": "ИЗЛУЧАТЕЛЬ 78568",
+              "Problem": null,
+              "MinConfidence": 0.9489776611328125,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ИЗЛУЧАТЕЛЬ 78568",
+              "ParsedText": "ИЗЛУЧАТЕЛЬ 78568",
+              "Problem": null,
+              "MinConfidence": 0.9406676292419434,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "Все поля подтверждены обоими способами распознавания.",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-006",
+      "Kind": "vector",
+      "RasterDpi": 325,
+      "RawExpected": {
+        "Designation": "ЕЬУА.404671.017-37СБ",
+        "Name": "Балансир Vishay 50603",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ЕЬУА.404671.017-37СБ",
+        "Name": "Балансир Vishay 50603",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ЕЬУА.404671.017-37СБ Балансир Vishay 50603 Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Outcome": "refused",
+      "Problem": "стр. 1 (шаблон «neutral-layout»): обычная модель: обозначение не прошло проверку формата; низкая уверенность распознавания обозначения; чертёжный шрифт: обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания обозначения",
+      "SourceSha256": "14E77B080824CD24D2FAF787D62838E41293F8708D0C1D5D4CC2543A980F4360",
+      "TemplateSha256": "A46B701A9FD131E5A44C9AFA0830A741DEAD85327F8CBF30F134AC5CD1320DF7",
+      "MarkupSha256": "5EF3406867CBD17370790544858978D966446B477424041AB6EA667C9F6A21C5",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 8,
+        "PaddleReads": 16,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 0,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-003-Designation.png",
+            "CropSha256": "CD040C6C738BF90575311912C87EE49B4D54DFEBF37D3D03FD79A0EAA34FAD70",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЕЬУА.404671.017-37СБ",
+              "ParsedText": "ЕЬУА.404671.017-37СБ",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЕBУА.404671.017-37СБ",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.1284479945898056,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-004-Name.png",
+            "CropSha256": "1A085EB17B171F91136DF2FA5F36A43B5111A6B2184F3CE0F6535311905C991B",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Балансир Vishау 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9303438067436218,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-005-Designation.png",
+            "CropSha256": "CD040C6C738BF90575311912C87EE49B4D54DFEBF37D3D03FD79A0EAA34FAD70",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЕЬУА.404671.017-37СБ",
+              "ParsedText": "ЕЬУА.404671.017-37СБ",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "ЕБУА. 4046 71017-35",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.4698490142822266,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-006-Name.png",
+            "CropSha256": "1A085EB17B171F91136DF2FA5F36A43B5111A6B2184F3CE0F6535311905C991B",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9123944854736328,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата; выполняется обычная проверка OCR.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-009-Designation.png",
+            "CropSha256": "CD040C6C738BF90575311912C87EE49B4D54DFEBF37D3D03FD79A0EAA34FAD70",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ЕБУА. 4046 71017-35",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.4698490142822266,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЕBУА.404671.017-37СБ",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.1284479945898056,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-010-Name.png",
+            "CropSha256": "1A085EB17B171F91136DF2FA5F36A43B5111A6B2184F3CE0F6535311905C991B",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9123944854736328,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Балансир Vishaу 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9388298988342285,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение не прошло проверку формата; низкая уверенность распознавания обозначения",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-014-Designation.png",
+            "CropSha256": "CD040C6C738BF90575311912C87EE49B4D54DFEBF37D3D03FD79A0EAA34FAD70",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЕЬУА.404671.017-37СБ",
+              "ParsedText": "ЕЬУА.404671.017-37СБ",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЕЬУА.404671.017-37СБ",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.2606953978538513,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-015-Name.png",
+            "CropSha256": "1A085EB17B171F91136DF2FA5F36A43B5111A6B2184F3CE0F6535311905C991B",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Балансир Vishaу 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9489118456840515,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 16,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-016-Designation.png",
+            "CropSha256": "CD040C6C738BF90575311912C87EE49B4D54DFEBF37D3D03FD79A0EAA34FAD70",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЕЬУА.404671.017-37СБ",
+              "ParsedText": "ЕЬУА.404671.017-37СБ",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "ЕЪУА.404671.017-37СБ",
+              "ParsedText": "ЕЪУА.404671.017-37СБ",
+              "Problem": null,
+              "MinConfidence": 0.7823135375976562,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 17,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-017-Name.png",
+            "CropSha256": "1A085EB17B171F91136DF2FA5F36A43B5111A6B2184F3CE0F6535311905C991B",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9519981384277344,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 18,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано по-разному: «ЕЬУА.404671.017-37СБ» и «ЕЪУА.404671.017-37СБ»; выполняется обычная проверка OCR.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 19,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 20,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-020-Designation.png",
+            "CropSha256": "CD040C6C738BF90575311912C87EE49B4D54DFEBF37D3D03FD79A0EAA34FAD70",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ЕЪУА.404671.017-37СБ",
+              "ParsedText": "ЕЪУА.404671.017-37СБ",
+              "Problem": null,
+              "MinConfidence": 0.7823135375976562,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЕЬУА.404671.017-37СБ",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.2606953978538513,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 21,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-021-Name.png",
+            "CropSha256": "1A085EB17B171F91136DF2FA5F36A43B5111A6B2184F3CE0F6535311905C991B",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9519981384277344,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9817774891853333,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 22,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 23,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания обозначения",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-006",
+      "Kind": "raster",
+      "RasterDpi": 325,
+      "RawExpected": {
+        "Designation": "ЕЬУА.404671.017-37СБ",
+        "Name": "Балансир Vishay 50603",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ЕЬУА.404671.017-37СБ",
+        "Name": "Балансир Vishay 50603",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ЕЬУА.404671.017-37СБ Балансир Vishay 50603 Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Outcome": "refused",
+      "Problem": "стр. 1 (шаблон «neutral-layout»): обычная модель: обозначение не прошло проверку формата; низкая уверенность распознавания обозначения; чертёжный шрифт: обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания обозначения",
+      "SourceSha256": "40ECAF98F922DB038B13CAB59B7B56B53DCBAC366A502C86EC1367B609D0DA7E",
+      "TemplateSha256": "A46B701A9FD131E5A44C9AFA0830A741DEAD85327F8CBF30F134AC5CD1320DF7",
+      "MarkupSha256": "5EF3406867CBD17370790544858978D966446B477424041AB6EA667C9F6A21C5",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 4,
+        "PaddleReads": 8,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 0,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-005-Designation.png",
+            "CropSha256": "DF1E12749EDF5A1FBBAA458858E5D5E4897189B2971886B9EA681F9F532485F5",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ЕБУА. 4046 71017-35",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.4690342330932617,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЕBУА.404671.017-37СБ",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.12409022450447083,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-006-Name.png",
+            "CropSha256": "25AF69A24CC06502712078145AE27A1267979B3F35976C9529346D8C2E921B69",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9225808715820313,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Балансир Vishау 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.91474848985672,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение не прошло проверку формата; низкая уверенность распознавания обозначения",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-012-Designation.png",
+            "CropSha256": "DF1E12749EDF5A1FBBAA458858E5D5E4897189B2971886B9EA681F9F532485F5",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ЕЪУА.404671.017-37СБ",
+              "ParsedText": "ЕЪУА.404671.017-37СБ",
+              "Problem": null,
+              "MinConfidence": 0.8322203063964844,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЕЬУА.404671.017-37СБ",
+              "ParsedText": "",
+              "Problem": "низкая уверенность распознавания обозначения",
+              "MinConfidence": 0.2026153802871704,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-013-Name.png",
+            "CropSha256": "25AF69A24CC06502712078145AE27A1267979B3F35976C9529346D8C2E921B69",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9493556213378906,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Балансир Vishay 50603",
+              "ParsedText": "Балансир Vishay 50603",
+              "Problem": null,
+              "MinConfidence": 0.9848636388778687,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: низкая уверенность распознавания обозначения",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-007",
+      "Kind": "vector",
+      "RasterDpi": 250,
+      "RawExpected": {
+        "Designation": "ЖУБЗ.749314.263Э3",
+        "Name": "Нагреватель 79783",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ЖУБЗ.749314.263Э3",
+        "Name": "Нагреватель 79783",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ЖУБЗ.749314.263Э3 Нагреватель 79783 Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Outcome": "refused",
+      "Problem": "стр. 1 (шаблон «neutral-layout»): обычная модель: обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата; чертёжный шрифт: обозначение прочитано по-разному: «ЖУБЗ.749314.263Э3» и «ЖУБ3.749314.26333»",
+      "SourceSha256": "4B54E55374162818FB073AC7326CBE3D8A87B498DF0B7BFC9B062C6CE223E259",
+      "TemplateSha256": "7C2ED842479C6B90F703617FD0957F6BBED3F0F2E8DEB29D8A82AE9F32D2A144",
+      "MarkupSha256": "A4FA04919C6B219F15CC16A62E5E3D0916A7921BC7EE5C32884FFAA497FDA0D5",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 8,
+        "PaddleReads": 14,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 0,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-003-Designation.png",
+            "CropSha256": "432104836DCD4E730FF3D97DBD7542D24A725C77ADF1C64060DB3A82063CA9AE",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЖУБЗ.749314.263Э3",
+              "ParsedText": "ЖУБЗ.749314.263Э3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЖУБ3.749314.26333",
+              "ParsedText": "ЖУБ3.749314.26333",
+              "Problem": null,
+              "MinConfidence": 0.9667955040931702,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-004-Name.png",
+            "CropSha256": "075C2DDD7F3EA8AD1654B945FC9A54570BE8F5E08538C499E323ACEE1906F122",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": 0.8715419173240662,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-005-Designation.png",
+            "CropSha256": "432104836DCD4E730FF3D97DBD7542D24A725C77ADF1C64060DB3A82063CA9AE",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЖУБЗ.749314.263Э3",
+              "ParsedText": "ЖУБЗ.749314.263Э3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Ж5Б3 /49314.26323",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.42104625701904297,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-006-Name.png",
+            "CropSha256": "075C2DDD7F3EA8AD1654B945FC9A54570BE8F5E08538C499E323ACEE1906F122",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": 0.9506169128417968,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано по-разному: «ЖУБЗ.749314.263Э3» и «ЖУБ3.749314.26333»; выполняется обычная проверка OCR.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-009-Designation.png",
+            "CropSha256": "432104836DCD4E730FF3D97DBD7542D24A725C77ADF1C64060DB3A82063CA9AE",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Ж5Б3 /49314.26323",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.42104625701904297,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЖУБ3.749314.26333",
+              "ParsedText": "ЖУБ3.749314.26333",
+              "Problem": null,
+              "MinConfidence": 0.9667955040931702,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-010-Name.png",
+            "CropSha256": "075C2DDD7F3EA8AD1654B945FC9A54570BE8F5E08538C499E323ACEE1906F122",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": 0.9506169128417968,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": 0.8715726733207703,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-014-Designation.png",
+            "CropSha256": "432104836DCD4E730FF3D97DBD7542D24A725C77ADF1C64060DB3A82063CA9AE",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЖУБЗ.749314.263Э3",
+              "ParsedText": "ЖУБЗ.749314.263Э3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЖУБ3.749314.26333",
+              "ParsedText": "ЖУБ3.749314.26333",
+              "Problem": null,
+              "MinConfidence": 0.9617453217506409,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-015-Name.png",
+            "CropSha256": "075C2DDD7F3EA8AD1654B945FC9A54570BE8F5E08538C499E323ACEE1906F122",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": 0.9643133878707886,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 16,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-016-Designation.png",
+            "CropSha256": "432104836DCD4E730FF3D97DBD7542D24A725C77ADF1C64060DB3A82063CA9AE",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЖУБЗ.749314.263Э3",
+              "ParsedText": "ЖУБЗ.749314.263Э3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "ЖУБЗ.749314.263Э3",
+              "ParsedText": "ЖУБЗ.749314.263Э3",
+              "Problem": null,
+              "MinConfidence": 0.9254921722412109,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 17,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-017-Name.png",
+            "CropSha256": "075C2DDD7F3EA8AD1654B945FC9A54570BE8F5E08538C499E323ACEE1906F122",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": 0.4413938522338867,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 18,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано по-разному: «ЖУБЗ.749314.263Э3» и «ЖУБ3.749314.26333»; выполняется обычная проверка OCR.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 19,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 20,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-020-Designation.png",
+            "CropSha256": "432104836DCD4E730FF3D97DBD7542D24A725C77ADF1C64060DB3A82063CA9AE",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ЖУБЗ.749314.263Э3",
+              "ParsedText": "ЖУБЗ.749314.263Э3",
+              "Problem": null,
+              "MinConfidence": 0.9254921722412109,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЖУБ3.749314.26333",
+              "ParsedText": "ЖУБ3.749314.26333",
+              "Problem": null,
+              "MinConfidence": 0.9617453217506409,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 21,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-021-Name.png",
+            "CropSha256": "075C2DDD7F3EA8AD1654B945FC9A54570BE8F5E08538C499E323ACEE1906F122",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": 0.4413938522338867,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": 0.9654603004455566,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 22,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 23,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано по-разному: «ЖУБЗ.749314.263Э3» и «ЖУБ3.749314.26333»",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-007",
+      "Kind": "raster",
+      "RasterDpi": 250,
+      "RawExpected": {
+        "Designation": "ЖУБЗ.749314.263Э3",
+        "Name": "Нагреватель 79783",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ЖУБЗ.749314.263Э3",
+        "Name": "Нагреватель 79783",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ЖУБЗ.749314.263Э3 Нагреватель 79783 Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Outcome": "refused",
+      "Problem": "стр. 1 (шаблон «neutral-layout»): обычная модель: обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата; чертёжный шрифт: обозначение прочитано по-разному: «ЖУБЗ.749314.263Э3» и «ЖУБ3.749314.26333»",
+      "SourceSha256": "EE2DADEB57E88135788A8F634F2DA665BEB4BBA6E3B8B60B40E47C3DBA4F7970",
+      "TemplateSha256": "7C2ED842479C6B90F703617FD0957F6BBED3F0F2E8DEB29D8A82AE9F32D2A144",
+      "MarkupSha256": "A4FA04919C6B219F15CC16A62E5E3D0916A7921BC7EE5C32884FFAA497FDA0D5",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 4,
+        "PaddleReads": 6,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 0,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-005-Designation.png",
+            "CropSha256": "8D7179987409DE73F9479E96DFD7A97B531ACD79646F56ADB3820E4BB02782AF",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Ж5Б3 /49314.26323",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.37827232360839846,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЖУБ3.749314.26333",
+              "ParsedText": "ЖУБ3.749314.26333",
+              "Problem": null,
+              "MinConfidence": 0.9594933986663818,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-006-Name.png",
+            "CropSha256": "A9AB5E7DD589E5EBCDCB406606F7993784C517310AC07320B0B6AE4C03D3E31D",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": 0.9495780181884765,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Нагреватель 79783",
+              "ParsedText": "Нагреватель 79783",
+              "Problem": null,
+              "MinConfidence": 0.8580911755561829,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-012-Designation.png",
+            "CropSha256": "8D7179987409DE73F9479E96DFD7A97B531ACD79646F56ADB3820E4BB02782AF",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ЖУБЗ.749314.263Э3",
+              "ParsedText": "ЖУБЗ.749314.263Э3",
+              "Problem": null,
+              "MinConfidence": 0.9259542846679687,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЖУБ3.749314.26333",
+              "ParsedText": "ЖУБ3.749314.26333",
+              "Problem": null,
+              "MinConfidence": 0.9602888822555542,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-013-Name.png",
+            "CropSha256": "A9AB5E7DD589E5EBCDCB406606F7993784C517310AC07320B0B6AE4C03D3E31D",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Нагребатель 79783",
+              "ParsedText": "Нагребатель 79783",
+              "Problem": null,
+              "MinConfidence": 0.9283712768554687,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Нагребатель 79783",
+              "ParsedText": "Нагребатель 79783",
+              "Problem": null,
+              "MinConfidence": 0.9458510279655457,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано по-разному: «ЖУБЗ.749314.263Э3» и «ЖУБ3.749314.26333»",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-008",
+      "Kind": "vector",
+      "RasterDpi": 300,
+      "RawExpected": {
+        "Designation": "ЗПУЯ.701165.739-45ПЭ3",
+        "Name": "Оптопара 16021",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ЗПУЯ.701165.739-45ПЭ3",
+        "Name": "Оптопара 16021",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ЗПУЯ.701165.739-45ПЭ3 Оптопара 16021 Спецификация.pdf",
+      "Actual": {
+        "Designation": "ЗПУЯ.701165.739-45ПЭ3",
+        "Name": "Оптопара 16021",
+        "Type": "Спецификация"
+      },
+      "ActualFileName": "ЗПУЯ.701165.739-45ПЭ3 Оптопара 16021 Спецификация.pdf",
+      "Outcome": "correct",
+      "Problem": null,
+      "SourceSha256": "472493FA421992448ED6E7AF66C5E766DE0F3C6926D11BCB8C126D8368CBA798",
+      "TemplateSha256": "EE20D088756C8264C5356FD3068A53EAB0AF75ED1305D4098B1F2F52D3A0F5BD",
+      "MarkupSha256": "37C49F188CE9A36A78B61FB751AAFBCA0A95DBBC2653F5F00B41C618EF9EC1CB",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 1,
+        "TesseractReads": 6,
+        "PaddleReads": 9,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 1,
+        "SourcePath": "pdf-text-confirmed"
+      },
+      "SourcePath": "pdf-text-confirmed",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-003-Designation.png",
+            "CropSha256": "C6D5B5813027C5AF61CA583C4542D10B1D6555AE818BF188EA83490DF01751D8",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЗПУЯ.701165.739-45ПЭ3",
+              "ParsedText": "ЗПУЯ.701165.739-45ПЭ3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЗПУЯ.701165.739-45П33",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.9328712224960327,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-004-Name.png",
+            "CropSha256": "AE16B15B1D6D30E81A896EF001BC2AC775F9ABF4F16D1837F00D9A42582A9542",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": 0.934068500995636,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-005-Designation.png",
+            "CropSha256": "C6D5B5813027C5AF61CA583C4542D10B1D6555AE818BF188EA83490DF01751D8",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЗПУЯ.701165.739-45ПЭ3",
+              "ParsedText": "ЗПУЯ.701165.739-45ПЭ3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "ЗПУЯ 701165. /39-451133",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.4162950134277344,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-006-Name.png",
+            "CropSha256": "AE16B15B1D6D30E81A896EF001BC2AC775F9ABF4F16D1837F00D9A42582A9542",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": 0.9603631591796875,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата; выполняется обычная проверка OCR.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-009-Designation.png",
+            "CropSha256": "C6D5B5813027C5AF61CA583C4542D10B1D6555AE818BF188EA83490DF01751D8",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ЗПУЯ 701165. /39-451133",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.4162950134277344,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЗПУЯ.701165.739-45П33",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.9328712224960327,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-010-Name.png",
+            "CropSha256": "AE16B15B1D6D30E81A896EF001BC2AC775F9ABF4F16D1837F00D9A42582A9542",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": 0.9603631591796875,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": 0.8960707783699036,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение не прошло проверку формата",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-014-Designation.png",
+            "CropSha256": "C6D5B5813027C5AF61CA583C4542D10B1D6555AE818BF188EA83490DF01751D8",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЗПУЯ.701165.739-45ПЭ3",
+              "ParsedText": "ЗПУЯ.701165.739-45ПЭ3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЗПУЯ. 701165.739-45П33",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.9185409545898438,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Подтверждение текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-015-Name.png",
+            "CropSha256": "AE16B15B1D6D30E81A896EF001BC2AC775F9ABF4F16D1837F00D9A42582A9542",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": 0.9715142846107483,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 16,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "vector-016-Designation.png",
+            "CropSha256": "C6D5B5813027C5AF61CA583C4542D10B1D6555AE818BF188EA83490DF01751D8",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "ЗПУЯ.701165.739-45ПЭ3",
+              "ParsedText": "ЗПУЯ.701165.739-45ПЭ3",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "ЗПУЯ.701165.739-45ПЭ3",
+              "ParsedText": "ЗПУЯ.701165.739-45ПЭ3",
+              "Problem": null,
+              "MinConfidence": 0.9049183654785157,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 17,
+          "Stage": "Дополнительная сверка текста PDF",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "vector-017-Name.png",
+            "CropSha256": "AE16B15B1D6D30E81A896EF001BC2AC775F9ABF4F16D1837F00D9A42582A9542",
+            "First": {
+              "Engine": "Текст PDF",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": null,
+              "RequiredConfidence": null
+            },
+            "Second": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": 0.9631690216064454,
+              "RequiredConfidence": 0.3
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 18,
+          "Stage": "Сверка источников",
+          "PageNumber": 1,
+          "Message": "Текст PDF подтверждён независимым распознаванием изображения.",
+          "Field": null
+        }
+      ]
+    },
+    {
+      "Id": "evaluation-008",
+      "Kind": "raster",
+      "RasterDpi": 300,
+      "RawExpected": {
+        "Designation": "ЗПУЯ.701165.739-45ПЭ3",
+        "Name": "Оптопара 16021",
+        "Type": null
+      },
+      "CanonicalExpected": {
+        "Designation": "ЗПУЯ.701165.739-45ПЭ3",
+        "Name": "Оптопара 16021",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "ЗПУЯ.701165.739-45ПЭ3 Оптопара 16021 Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Outcome": "refused",
+      "Problem": "стр. 1 (шаблон «neutral-layout»): обычная модель: обозначение не прошло проверку формата; чертёжный шрифт: обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата",
+      "SourceSha256": "A8AB5F35C3D0307751392A313133F86A479C4FCC1920EC8DE469EF8BCEB9560C",
+      "TemplateSha256": "EE20D088756C8264C5356FD3068A53EAB0AF75ED1305D4098B1F2F52D3A0F5BD",
+      "MarkupSha256": "37C49F188CE9A36A78B61FB751AAFBCA0A95DBBC2653F5F00B41C618EF9EC1CB",
+      "SourceTrace": {
+        "PdfTextAttempts": 2,
+        "PdfTextAccepted": 0,
+        "TesseractReads": 4,
+        "PaddleReads": 6,
+        "EasyReads": 0,
+        "MatchedPages": 1,
+        "MatchingCalls": 1,
+        "GostAttempts": 1,
+        "GostAccepted": 0,
+        "SourcePath": "ocr"
+      },
+      "SourcePath": "ocr",
+      "Diagnostics": [
+        {
+          "DiagnosticIndex": 1,
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 2,
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «neutral-layout»: совпадение формы 100 %.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 3,
+          "Stage": "Шрифт",
+          "PageNumber": 1,
+          "Message": "Проверяется модель чертёжного шрифта.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 4,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 5,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 6,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-006-Designation.png",
+            "CropSha256": "AA5DCF6BA794567DEF0D6142C249C9A33D7F762EB34336E149131A120F7DBC20",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ЗПУЯ.701165.739-45ПЭ3",
+              "ParsedText": "ЗПУЯ.701165.739-45ПЭ3",
+              "Problem": null,
+              "MinConfidence": 0.9049840545654297,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЗПУЯ. 701165.739-45П33",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.918557345867157,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 7,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-007-Name.png",
+            "CropSha256": "5C5457CDB8409F76FE41DE1B199E8514861949899CB6A78C365B0128C3942671",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": 0.9653025054931641,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": 0.9475643038749695,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 8,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 9,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение прочитано только одним способом распознавания, второй: обозначение не прошло проверку формата",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 10,
+          "Stage": "Текст PDF",
+          "PageNumber": 1,
+          "Message": "Встроенный текст отсутствует; используется распознавание изображения.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 11,
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский.",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 12,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение",
+          "Field": {
+            "Role": "Designation",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.8535353535353535,
+              "Width": 0.5571428571428572,
+              "Height": 0.04040404040404041,
+              "Right": 0.969047619047619,
+              "Bottom": 0.8939393939393939
+            },
+            "Crop": "raster-012-Designation.png",
+            "CropSha256": "AA5DCF6BA794567DEF0D6142C249C9A33D7F762EB34336E149131A120F7DBC20",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "ЗПУЯ 701165. /39-451133",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.49645416259765623,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "ЗПУЯ.701165.739-45П33",
+              "ParsedText": "",
+              "Problem": "обозначение не прошло проверку формата",
+              "MinConfidence": 0.9328743815422058,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 13,
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование",
+          "Field": {
+            "Role": "Name",
+            "Bounds": {
+              "X": 0.4119047619047619,
+              "Y": 0.9040404040404041,
+              "Width": 0.319047619047619,
+              "Height": 0.04040404040404041,
+              "Right": 0.7309523809523809,
+              "Bottom": 0.9444444444444445
+            },
+            "Crop": "raster-013-Name.png",
+            "CropSha256": "5C5457CDB8409F76FE41DE1B199E8514861949899CB6A78C365B0128C3942671",
+            "First": {
+              "Engine": "Tesseract",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": 0.9607273864746094,
+              "RequiredConfidence": 0.3
+            },
+            "Second": {
+              "Engine": "PaddleOCR",
+              "RawText": "Оптопара 16021",
+              "ParsedText": "Оптопара 16021",
+              "Problem": null,
+              "MinConfidence": 0.8961114883422852,
+              "RequiredConfidence": 0.5
+            }
+          }
+        },
+        {
+          "DiagnosticIndex": 14,
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация».",
+          "Field": null
+        },
+        {
+          "DiagnosticIndex": 15,
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "обозначение не прошло проверку формата",
+          "Field": null
+        }
+      ]
+    }
+  ],
+  "Failures": []
+}

@@ -15,6 +15,7 @@ internal static class TesseractApi
     // Режимы разбиения страницы (TessPageSegMode).
     public const int PsmSingleBlock = 6;
     public const int PsmSingleLine = 7;
+    public const int PsmRawLine = 13;
 
     // Уровни обхода результата (TessPageIteratorLevel).
     public const int LevelTextLine = 2;

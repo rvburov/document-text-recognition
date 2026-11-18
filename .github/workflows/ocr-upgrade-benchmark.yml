@@ -1,0 +1,170 @@
+name: ocr-upgrade-benchmark
+
+# Deliberately manual: dispatch only after source, models and vector fixtures are frozen.
+on:
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'Documents in each independent raster/vector job'
+        type: choice
+        default: '8000'
+        options: ['32', '500', '8000']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ocr-upgrade-benchmark-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+  PDF_COUNT: ${{ inputs.count }}
+
+jobs:
+  windows:
+    name: '${{ matrix.kind }} — actual PDF pipeline (Windows)'
+    runs-on: windows-2022
+    timeout-minutes: 70
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: [raster, vector]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Build the supplied pipeline and models
+        run: dotnet build tools/Performance -c Release
+      - name: Preflight and measured run with exact names, hashes and actual provenance
+        shell: pwsh
+        env:
+          DATASET_KIND: ${{ matrix.kind }}
+        run: |
+          $env:DTR_BENCHMARK_CPU = @(Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name) -join '; '
+          $kind = $env:DATASET_KIND
+          $samples = if ($kind -eq 'raster') { 'docs/test-samples' } else { 'docs/test-samples/vector-performance' }
+          $expectedSource = if ($kind -eq 'raster') { 'ocr' } else { 'pdf-text-confirmed' }
+          $reports = Join-Path '${{ runner.temp }}' ('ocr-upgrade-' + $kind)
+          New-Item -ItemType Directory -Force -Path $reports | Out-Null
+          $manifestPath = Join-Path $samples 'verification.json'
+          $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
+          $positive = @($manifest.Samples | Where-Object RecognitionRequired)
+          if ($positive.Count -lt 2 -or $positive.Count -gt 4) { throw 'Expected a frozen two-to-four-document positive corpus.' }
+
+          # Keep the exact raster bytes used by the historical20:38 benchmark.
+          if ($kind -eq 'raster') {
+            $original = @{
+              'scans/01-specification-a4.pdf'='3F6393B17DB44B524051226325C72219B5914682637FF58FA6EB3AB6D9E35045'
+              'scans/02-assembly-a4.pdf'='AA34B669D45A52061386631C89B3F367EAC14C42B910501DC49CBE79F892ADFD'
+              'scans/03-schematic-a4.pdf'='B0A062F49AD97CCA403B1F86E3248D9790242ED55AB5C334D4D8B7365661B894'
+              'scans/04-assembly-a3.pdf'='33C76417A034A4567E23168795649179B443A99CF1B13FAFB16A0E27B7BB5481'
+            }
+            if ($positive.Count -ne 4) { throw 'The historical raster throughput corpus must retain all four originals.' }
+            foreach ($sample in $positive) {
+              if (!$original.ContainsKey($sample.File) -or
+                  (Get-FileHash (Join-Path $samples $sample.File) -Algorithm SHA256).Hash -ne $original[$sample.File]) {
+                throw 'Historical raster bytes were replaced; do not claim a comparable scan benchmark.'
+              }
+            }
+          }
+          else {
+            $vectorFiles = @(
+              'scans/01-specification-multiline.pdf', 'scans/02-specification-brand.pdf',
+              'scans/03-assembly.pdf', 'scans/04-schematic.pdf'
+            )
+            if ($manifest.Samples.Count -ne 4 -or $positive.Count -ne 4 -or
+                @($vectorFiles | Where-Object { $_ -notin $positive.File }).Count -ne 0) {
+              throw 'The vector corpus must retain all four frozen required inputs; refusal is not exclusion.'
+            }
+          }
+          foreach ($sample in $positive) {
+            if ($kind -eq 'vector' -and $sample.Sha256 -notmatch '^[0-9A-Fa-f]{64}$') {
+              throw "A vector input is missing its frozen SHA-256: $($sample.File)"
+            }
+            if ($sample.Sha256 -and (Get-FileHash (Join-Path $samples $sample.File) -Algorithm SHA256).Hash -ne $sample.Sha256) {
+              throw "Frozen input differs from its manifest: $($sample.File)"
+            }
+          }
+          if ($kind -eq 'vector') {
+            foreach ($template in $manifest.Templates) {
+              if ($template.Sha256 -notmatch '^[0-9A-Fa-f]{64}$' -or $template.MarkupSha256 -notmatch '^[0-9A-Fa-f]{64}$' -or
+                  (Get-FileHash (Join-Path $samples $template.File) -Algorithm SHA256).Hash -ne $template.Sha256 -or
+                  (Get-FileHash (Join-Path $samples $template.MarkupFile) -Algorithm SHA256).Hash -ne $template.MarkupSha256) {
+                throw "Frozen vector template or saved coordinates differ from their manifest: $($template.File)"
+              }
+            }
+          }
+          Copy-Item $manifestPath (Join-Path $reports 'input-verification.json')
+          $binaryRoot = Join-Path (Get-Location) 'artifacts/bin/Performance/release'
+          function ModelHashes {
+            return @(Get-ChildItem (Join-Path $binaryRoot 'ocr') -Recurse -File | Where-Object {
+              $_.Extension -in @('.onnx', '.traineddata', '.json', '.yml', '.pdiparams')
+            } | Sort-Object FullName | ForEach-Object {
+              [ordered]@{ File=[IO.Path]::GetRelativePath($binaryRoot, $_.FullName).Replace('\','/'); Sha256=(Get-FileHash $_.FullName -Algorithm SHA256).Hash }
+            })
+          }
+          $modelsBefore = ModelHashes | ConvertTo-Json -Compress
+          $modelsBefore | Set-Content (Join-Path $reports 'runtime-model-hashes.json')
+
+          function CheckReport($file, $count) {
+            $result = Get-Content $file -Raw | ConvertFrom-Json
+            $sourceCount = $result.Provenance.DocumentsBySource.PSObject.Properties[$expectedSource].Value
+            if (!$result.Quality.Passed -or $result.Quality.VerifiedPdfHashes -ne $count -or
+                $result.Quality.IncorrectNames -ne 0 -or $result.Quality.Errors.Count -ne 0 -or
+                $result.Measurement.Found -ne $count -or $result.Measurement.Processed -ne $count -or
+                $result.Measurement.Renamed -ne $count -or $result.Measurement.Skipped -ne 0 -or
+                $result.Measurement.WorkerProcessesActiveAfterRun -ne 0 -or
+                $result.Dataset.Kind -ne $kind -or $result.Dataset.UniqueDocuments -ne $positive.Count -or
+                !$result.Configuration.PdfText -or !$result.Configuration.ResolvedPdfText -or
+                !$result.Configuration.GostFallback -or !$result.Configuration.ResolvedGostFallback -or
+                !$result.Configuration.RequireProvenance -or $result.Configuration.ExpectedSource -ne $expectedSource -or
+                $result.Provenance.ObservedDocuments -ne $count -or $result.Provenance.MissingTrace -ne 0 -or
+                $result.Provenance.InvalidTrace -ne 0 -or $sourceCount -ne $count -or
+                $result.Provenance.MatchedPages -ne $count -or $result.Provenance.MatchingCalls -ne $count -or
+                $result.Provenance.PaddleReads -lt $count -or
+                $result.Provenance.GostAccepted -gt $result.Provenance.GostAttempts -or
+                $result.Provenance.GostAccepted -gt $result.Provenance.MatchedPages) {
+              throw 'Actual mode, complete quality, provenance or cleanup verification failed.'
+            }
+            if ($kind -eq 'raster' -and ($result.Provenance.PdfTextAccepted -ne 0 -or $result.Provenance.TesseractReads -lt $count)) {
+              throw 'A raster benchmark must actually use OCR rather than substitute the PDF-text corpus.'
+            }
+            if ($kind -eq 'vector' -and $result.Provenance.PdfTextAccepted -ne $count) {
+              throw 'The vector benchmark must demonstrate PDF text plus a real raster peer for every page.'
+            }
+            return $result
+          }
+
+          $preflightFile = Join-Path $reports 'preflight.json'
+          dotnet run --project tools/Performance -c Release --no-build -- --samples $samples --count $positive.Count --workers 0 --pdf-text true --gost-fallback true --dataset-kind $kind --expect-source $expectedSource --require-provenance true --profile-passes 0 --label "$kind-preflight" --output $preflightFile
+          if ($LASTEXITCODE -ne 0) { throw 'Preflight failed; no full batch is started.' }
+          $preflight = CheckReport $preflightFile $positive.Count
+
+          $output = Join-Path $reports "$kind-$env:PDF_COUNT.json"
+          dotnet run --project tools/Performance -c Release --no-build -- --samples $samples --count $env:PDF_COUNT --workers 0 --pdf-text true --gost-fallback true --dataset-kind $kind --expect-source $expectedSource --require-provenance true --profile-passes 1 --label "$kind-$env:PDF_COUNT" --output $output
+          if ($LASTEXITCODE -ne 0) { throw 'Measured batch failed; keep its complete failure report.' }
+          $result = CheckReport $output ([int]$env:PDF_COUNT)
+          if ($result.Dataset.DatasetSha256 -ne $preflight.Dataset.DatasetSha256 -or
+              $result.Dataset.VerificationManifestSha256 -ne $preflight.Dataset.VerificationManifestSha256 -or
+              $result.Environment.CoreAssemblySha256 -ne $preflight.Environment.CoreAssemblySha256 -or
+              (ModelHashes | ConvertTo-Json -Compress) -ne $modelsBefore) {
+            throw 'Inputs, manifest, Core or runtime models changed after preflight.'
+          }
+          [ordered]@{
+            DatasetKind=$kind; Synthetic=$true; Documents=[int]$env:PDF_COUNT
+            WallSeconds=$result.Measurement.WallSeconds; Measured8000Minutes=$result.Measurement.Measured8000Minutes
+            Goal20MinutesMet=$(if ([int]$env:PDF_COUNT -eq 8000) { [double]$result.Measurement.WallSeconds -le 1200 } else { $null })
+            CpuSeconds=$result.Measurement.CpuSeconds; SampledPeakAggregateRssBytes=$result.Measurement.SampledPeakWorkingSetBytes
+            ResourceScope=$result.Measurement.ResourceScope; QualityPassed=$true; Provenance=$result.Provenance
+            Scope='Repeated synthetic inputs, not original user PDFs. Vector results do not establish speed on raster scans; independent jobs may use different CPU models.'
+          } | ConvertTo-Json -Depth 12 | Set-Content (Join-Path $reports 'summary.json')
+      - name: Actual reports, frozen inputs and provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocr-upgrade-benchmark-${{ matrix.kind }}
+          path: ${{ runner.temp }}/ocr-upgrade-${{ matrix.kind }}
+          retention-days: 14

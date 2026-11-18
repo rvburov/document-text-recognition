@@ -14,12 +14,12 @@ namespace DocumentTextRecognition.Core.Recognition;
 ///
 /// <para>Остальные двойники заменяются только там, где замену подтверждает правило:
 /// <list type="bullet">
-/// <item>в одном слове не бывает двух алфавитов: если в слове есть буква, которая есть только в
-/// кириллице (Б, Г, Ц…), а латинских букв без кириллического двойника нет, — двойники в этом слове
-/// кириллические (и наоборот для латиницы);</item>
-/// <item>код организации в обозначении по ГОСТ 2.201 — кириллица (см. <see cref="Designations"/>).</item>
+/// <item>в буквенном фрагменте есть буква только одного алфавита (Б, Г, Ц… для кириллицы),
+/// а букв только второго алфавита нет: двойники приводятся к этому алфавиту. Явные части
+/// составного имени по регистру («МодульPACE») проверяются отдельно;</item>
+/// <item>обозначение по правилу поля — кириллица (см. <see cref="Designations"/>).</item>
 /// </list>
-/// Слово только из двойников («ТКС» или «TKC») не меняется: какой это алфавит, решают оба
+/// Фрагмент только из двойников («ТКС» или «TKC») не меняется: какой это алфавит, решают оба
 /// движка; прочитали по-разному — расхождение, файл пропускается. Буквы и цифры (О и 0, З и 3)
 /// не заменяются никогда.</para>
 /// </summary>
@@ -47,7 +47,23 @@ internal static class TextRules
     /// <summary>Буква-двойник: латинская или кириллическая буква, у которой есть пара того же вида.</summary>
     public static bool IsHomoglyph(char c) => LatinToCyrillic.ContainsKey(c) || CyrillicToLatin.ContainsKey(c);
 
-    /// <summary>Латинские двойники → кириллица (для кода организации по ГОСТ).</summary>
+    /// <summary>Visual confirmation of an explicitly encoded PDF alphabet. This does not
+    /// choose an alphabet for two OCR guesses and never equates letters with digits.</summary>
+    internal static bool SameVisualAlphabet(string first, string second)
+    {
+        if (first.Length != second.Length) return false;
+        for (var i = 0; i < first.Length; i++)
+        {
+            var a = first[i]; var b = second[i];
+            if (a == b || a == 'B' && b == 'В' || a == 'В' && b == 'B') continue;
+            if (LatinToCyrillic.TryGetValue(a, out var cyr) && cyr == b ||
+                LatinToCyrillic.TryGetValue(b, out cyr) && cyr == a) continue;
+            return false;
+        }
+        return true;
+    }
+
+    /// <summary>Латинские двойники → кириллица (для обозначения).</summary>
     public static string FoldToCyrillic(string s)
     {
         var sb = new StringBuilder(s.Length);
@@ -56,8 +72,9 @@ internal static class TextRules
     }
 
     /// <summary>
-    /// Слова со смешанным алфавитом приводятся к алфавиту, который подтверждают однозначные
-    /// буквы этого же слова. Слово — непрерывная последовательность букв.
+    /// Буквенные фрагменты приводятся к алфавиту, который подтверждают однозначные буквы
+    /// этого же фрагмента. Пробелы, цифры, знаки и явные границы регистра отделяют контекст:
+    /// «МодульPACE» и «PACEМодуль» не определяют алфавит PACE по русской части имени.
     /// </summary>
     public static string ResolveMixedWords(string s)
     {
@@ -68,25 +85,44 @@ internal static class TextRules
             if (!char.IsLetter(chars[i])) { i++; continue; }
             var start = i;
             while (i < chars.Length && char.IsLetter(chars[i])) i++;
-
-            bool pureCyr = false, pureLat = false, hasCyrTwin = false, hasLatTwin = false;
-            for (var j = start; j < i; j++)
+            var partStart = start;
+            for (var j = start + 1; j < i; j++)
             {
-                var c = chars[j];
-                if (c == AmbiguousB) hasLatTwin = true;   // «B» не решает алфавит слова и сама не меняется
-                else if (LatinToCyrillic.ContainsKey(c)) hasLatTwin = true;
-                else if (CyrillicToLatin.ContainsKey(c)) hasCyrTwin = true;
-                else if (IsCyrillic(c)) pureCyr = true;
-                else if (IsLatin(c)) pureLat = true;
+                if (!StartsNamePart(chars, partStart, j, i)) continue;
+                ResolveMixedPart(chars, partStart, j);
+                partStart = j;
             }
-            if (pureCyr && !pureLat && hasLatTwin)
-                for (var j = start; j < i; j++)
-                    if (LatinToCyrillic.TryGetValue(chars[j], out var r)) chars[j] = r;
-            if (pureLat && !pureCyr && hasCyrTwin)
-                for (var j = start; j < i; j++)
-                    if (CyrillicToLatin.TryGetValue(chars[j], out var r)) chars[j] = r;
+            ResolveMixedPart(chars, partStart, i);
         }
         return new string(chars);
+    }
+
+    private static bool StartsNamePart(char[] chars, int start, int index, int end) =>
+        char.IsUpper(chars[index]) &&
+        (char.IsLower(chars[index - 1]) ||
+         // Две и более прописные перед обычным словом: «PACEМодуль».
+         // Одна прописная не отделяется: «MГц» по-прежнему подтверждается буквами Гц.
+         index - start >= 2 && char.IsUpper(chars[index - 2]) && char.IsUpper(chars[index - 1]) &&
+         index + 1 < end && char.IsLower(chars[index + 1]));
+
+    private static void ResolveMixedPart(char[] chars, int start, int end)
+    {
+        bool pureCyr = false, pureLat = false, hasCyrTwin = false, hasLatTwin = false;
+        for (var i = start; i < end; i++)
+        {
+            var c = chars[i];
+            if (c == AmbiguousB) hasLatTwin = true; // B не решает алфавит и сама не меняется.
+            else if (LatinToCyrillic.ContainsKey(c)) hasLatTwin = true;
+            else if (CyrillicToLatin.ContainsKey(c)) hasCyrTwin = true;
+            else if (IsCyrillic(c)) pureCyr = true;
+            else if (IsLatin(c)) pureLat = true;
+        }
+        if (pureCyr && !pureLat && hasLatTwin)
+            for (var i = start; i < end; i++)
+                if (LatinToCyrillic.TryGetValue(chars[i], out var r)) chars[i] = r;
+        if (pureLat && !pureCyr && hasCyrTwin)
+            for (var i = start; i < end; i++)
+                if (CyrillicToLatin.TryGetValue(chars[i], out var r)) chars[i] = r;
     }
 
     /// <summary>Внутри слова с кириллицей (там «B» — это «В» или «Б»).</summary>

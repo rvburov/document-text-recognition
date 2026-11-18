@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "selected_model_sha256": "26bab93eb188b4e1557be5ffc0e7cc9a33cac5a6249debe3a9141d53eef374ce",
+  "selected_run": "artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-1500",
+  "selected_variant": "int",
+  "languages": "rus_gost+eng",
+  "psm": 6,
+  "criterion": "Maximize exact full-line answers on development; designation exact match then CER break ties. Never choose a model from evaluation answers.",
+  "evaluation_opened": false,
+  "evaluation_tuning_permitted": false,
+  "reason": "70/76 exact development lines (30/32 designations); float has69/76 and further continuation68/76. Original model35/76,0/32designations.",
+  "development_candidates": [
+    {
+      "report": "artifacts/gost-training/development-original-capi.json",
+      "sha256": "9ec9a8926138f62400abbc4163dd00014e52484d7673842bf96656d35ba1c56e",
+      "summary": {
+        "lines": 76,
+        "exact": 35,
+        "exact_fraction": 0.4605263157894737,
+        "cer": 0.1690340909090909
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 0,
+          "exact_fraction": 0.0,
+          "cer": 0.351027397260274
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 35,
+          "exact_fraction": 0.7954545454545454,
+          "cer": 0.04004854368932039
+        }
+      },
+      "model_sha256": {
+        "rus": "e16e5e036cce1d9ec2b00063cf8b54472625b9e14d893a169e2b0dedeb4df225",
+        "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+      }
+    },
+    {
+      "report": "artifacts/gost-training/runs/pilot-rus-500/development-float-capi.json",
+      "sha256": "9d1d780acda36604263029995cab9e5c67689aa4504abe4c9ee58a79cda41429",
+      "summary": {
+        "lines": 76,
+        "exact": 39,
+        "exact_fraction": 0.5131578947368421,
+        "cer": 0.11931818181818182
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 5,
+          "exact_fraction": 0.15625,
+          "cer": 0.18835616438356165
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 34,
+          "exact_fraction": 0.7727272727272727,
+          "cer": 0.0703883495145631
+        }
+      },
+      "model_sha256": {
+        "rus_gost": "515c20bc1df7b63c556918a6fb7047a24aaf94ea25045de733db288b4802db82",
+        "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+      }
+    },
+    {
+      "report": "artifacts/gost-training/ink-box/runs/pilot-ink-rus-500/development-int-capi.json",
+      "sha256": "0d1338221a847babea02885b76433e34f977bef7232dc95ddf0d3583139a85d4",
+      "summary": {
+        "lines": 76,
+        "exact": 56,
+        "exact_fraction": 0.7368421052631579,
+        "cer": 0.03196022727272727
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 21,
+          "exact_fraction": 0.65625,
+          "cer": 0.06164383561643835
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 35,
+          "exact_fraction": 0.7954545454545454,
+          "cer": 0.010922330097087379
+        }
+      },
+      "model_sha256": {
+        "rus_gost": "62ee08f0fda65319d711b5fabcef4a4ca483450e5e6a4f869a3d8c1b14b017d2",
+        "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+      }
+    },
+    {
+      "report": "artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-1500/development-int-capi.json",
+      "sha256": "8a02fe4d52438e47fef1dd418f5ffa1ab8095a4b40694095234e73f393a57fae",
+      "summary": {
+        "lines": 76,
+        "exact": 70,
+        "exact_fraction": 0.9210526315789473,
+        "cer": 0.018465909090909092
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 30,
+          "exact_fraction": 0.9375,
+          "cer": 0.018835616438356163
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 40,
+          "exact_fraction": 0.9090909090909091,
+          "cer": 0.01820388349514563
+        }
+      },
+      "model_sha256": {
+        "rus_gost": "26bab93eb188b4e1557be5ffc0e7cc9a33cac5a6249debe3a9141d53eef374ce",
+        "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+      }
+    },
+    {
+      "report": "artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-1500/development-float-capi.json",
+      "sha256": "5b1c33ac425e51b9e3c448fb6c6bda98c3503a096a933d3b370ec4212cbdcdb5",
+      "summary": {
+        "lines": 76,
+        "exact": 69,
+        "exact_fraction": 0.9078947368421053,
+        "cer": 0.019176136363636364
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 28,
+          "exact_fraction": 0.875,
+          "cer": 0.02226027397260274
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 41,
+          "exact_fraction": 0.9318181818181818,
+          "cer": 0.01699029126213592
+        }
+      },
+      "model_sha256": {
+        "rus_gost": "4502eebff39995886d01dbd55e9dee8be0477fc3e1eed1fcc40848713825581b",
+        "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+      }
+    },
+    {
+      "report": "artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-3000/development-int-capi.json",
+      "sha256": "6565b5bf2073b96a25dc3217f5bab0dafd53056e3a5436a31da6f8e0f2fcdd61",
+      "summary": {
+        "lines": 76,
+        "exact": 68,
+        "exact_fraction": 0.8947368421052632,
+        "cer": 0.014204545454545454
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 30,
+          "exact_fraction": 0.9375,
+          "cer": 0.003424657534246575
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 38,
+          "exact_fraction": 0.8636363636363636,
+          "cer": 0.021844660194174758
+        }
+      },
+      "model_sha256": {
+        "rus_gost": "2185f39bbcd20c3d7fd0bfffe3d55b2bfe89f2c0cd722178939e096d1b3550b9",
+        "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+      }
+    }
+  ]
+}

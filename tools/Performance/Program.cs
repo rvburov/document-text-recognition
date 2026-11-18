@@ -12,7 +12,7 @@ using DocumentTextRecognition.Core.Rename;
 using DocumentTextRecognition.Core.Templates;
 using OpenCvSharp;
 
-// Every timed document uses the production OcrRenameRun and both real OCR engines.
+// Every timed document uses production OcrRenameRun; actual reading paths are reported.
 // Repeated sample bytes are disclosed in the report; there is no fake recognizer or result cache here.
 var workerBootstrap = typeof(OcrPair).Assembly.GetType("DocumentTextRecognition.Core.Rename.OcrWorkerHost")?
     .GetMethod("TryRunWorker", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
@@ -39,6 +39,11 @@ var samplesRoot = Path.GetFullPath(options.Samples);
 var templateFolder = Path.Combine(samplesRoot, "templates");
 var samples = ReadSamples(samplesRoot);
 var datasetHash = HashDataset(samplesRoot);
+var verificationManifestHash = Sha(Path.Combine(samplesRoot, "verification.json"));
+using var sourceManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(samplesRoot, "verification.json")));
+var excludedFromThroughput = sourceManifest.RootElement.GetProperty("Samples").EnumerateArray()
+    .Where(sample => !sample.GetProperty("RecognitionRequired").GetBoolean())
+    .Select(sample => sample.GetProperty("File").GetString()).ToArray();
 var scratch = Path.Combine(Path.GetTempPath(), "dtr-perf-" + Guid.NewGuid().ToString("N")[..10]);
 Directory.CreateDirectory(scratch);
 var source = Path.Combine(scratch, "scans");
@@ -56,7 +61,7 @@ try
     }
 
     var startup = Stopwatch.StartNew();
-    var profile = Profile(samplesRoot, samples, templateFolder, options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines, options.Onnx, options.OnnxModels);
+    var profile = Profile(samplesRoot, samples, templateFolder, options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines, options.Onnx, options.OnnxModels, options.PdfText, options.GostFallback);
     startup.Stop();
     Console.WriteLine($"Warmup/profile {startup.Elapsed.TotalSeconds:F2}s; documents={options.Count}, workers={options.Workers}, OpenCV={Cv2.GetNumThreads()}");
 
@@ -65,7 +70,7 @@ try
     process.Refresh();
     var cpuStart = process.TotalProcessorTime;
     var runClock = Stopwatch.StartNew();
-    var sink = new Sink(expectations, runClock);
+    var sink = new Sink(expectations, runClock, options.ExpectedSource);
     double engineInitMs = 0;
     using var sampler = new ResourceSampler(process);
     var settings = new RunSettings(templateFolder, source, Recursive: true, Workers: options.Workers);
@@ -87,7 +92,7 @@ try
     var summary = OcrRenameRun.Execute(settings, () =>
     {
         var clock = Stopwatch.StartNew();
-        var pair = CreatePair(options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines, options.Onnx, options.OnnxModels);
+        var pair = CreatePair(options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines, options.Onnx, options.OnnxModels, options.PdfText, options.GostFallback);
         engineInitMs += clock.Elapsed.TotalMilliseconds;
         return pair;
     }, sink, CancellationToken.None);
@@ -100,6 +105,10 @@ try
     var cpuSeconds = parentCpuSeconds + childCpuSeconds;
 
     var errors = sink.Errors.ToList();
+    if (options.RequireProvenance && sink.Provenance.MissingTrace != 0)
+        errors.Add($"Missing actual recognition provenance for {sink.Provenance.MissingTrace} document(s).");
+    if (sink.Provenance.InvalidTrace != 0)
+        errors.Add($"Invalid recognition provenance for {sink.Provenance.InvalidTrace} document(s).");
     var verifiedHashes = 0;
     if (summary.Fatal is not null) errors.Add(summary.Fatal);
     if (childrenAfter.ActiveCount != childrenBefore.ActiveCount) errors.Add("Worker processes remain registered after the run.");
@@ -142,7 +151,10 @@ try
         },
         Dataset = new
         {
-            Description = $"{options.Count} synthetic PDFs created by cycling over {samples.Length} source documents; local filesystem. Each file uses both real OCR engines. Not distinct production scans.",
+            Description = $"{options.Count} synthetic test PDFs created by cycling over {samples.Length} source documents; local filesystem. Actual PDF-text/OCR paths and engine image counts are recorded in Provenance. Not distinct production scans.",
+            Kind = options.DatasetKind,
+            VerificationManifestSha256 = verificationManifestHash,
+            ExcludedNonRequiredSamples = excludedFromThroughput,
             options.Count,
             UniqueDocuments = samples.Length,
             Templates = Directory.EnumerateFiles(templateFolder, "*.pdf").Count(),
@@ -159,12 +171,21 @@ try
             options.DedicatedWorkers,
             options.HammingAvx2,
             options.ProcessWorkers,
+            options.PdfText, options.GostFallback, options.ExpectedSource, options.RequireProvenance,
             ResolvedProcessWorkers = resolvedProcessWorkers,
             ResolvedHammingAvx2 = resolvedHammingAvx2,
             ResolvedDedicatedWorkers = dedicatedProperty?.GetValue(settings) as bool?,
             ResolvedBatchFields = SelectedBackend.BatchFields,
             ResolvedKnownLines = SelectedBackend.KnownLines,
             ResolvedUsesOnnx = SelectedBackend.UsesOnnx,
+            ResolvedPdfText = SelectedBackend.PdfText,
+            ResolvedGostFallback = SelectedBackend.GostFallback,
+            RuntimeDescription = new
+            {
+                BasePair = "Tesseract rus+eng and eastern-Slavic PaddleOCR; PDF text requires independent raster confirmation.",
+                OptionalGostPair = "Lazy Tesseract rus_gost+eng and Cyrillic PaddleOCR; actual attempts/acceptances are counted in Provenance.",
+                RouteCache = "Only the model choice for a template is cached; every new PDF is read again. Text, field values and rename answers are not cached.",
+            },
             ResolvedOneDnn = SelectedBackend.UsesOnnx == true ? (bool?)null : FactoryFlag(1, options.OneDnn),
             ResolvedReusePredictors = SelectedBackend.UsesOnnx == true ? (bool?)null : FactoryFlag(2, options.ReusePredictors),
             Warmup = "One untimed read of each unique document, then optional phase profiles; new real OCR engines are still initialized inside the timed full run.",
@@ -189,7 +210,7 @@ try
             Projected8000Minutes = 8000 / (options.Count / runClock.Elapsed.TotalSeconds) / 60,
             Measured8000Minutes = options.Count == 8000 ? runClock.Elapsed.TotalMinutes : (double?)null,
             ProjectionWarning = options.Count == 8000
-                ? $"Measured 8000-document run; all files are copies of the disclosed {samples.Length} synthetic single-page samples, each processed by both real OCR engines."
+                ? $"Measured 8000-document run; all files are copies of the disclosed {samples.Length} synthetic samples; actual reading paths are recorded in Provenance."
                 : "Linear extrapolation from repeated synthetic single-page files; not a measured 8000-document run.",
             TemplateLoadAndEnumerationMilliseconds = sink.FoundAtMilliseconds,
             EngineInitializationMilliseconds = engineInitMs,
@@ -198,6 +219,7 @@ try
             summary.Found, summary.Processed, summary.Renamed, summary.AlreadyNamed, summary.Skipped,
         },
         PhaseProfile = profile,
+        Provenance = sink.Provenance.Snapshot(),
         Quality = new { Passed = errors.Count == 0, VerifiedPdfHashes = verifiedHashes, IncorrectNames = sink.IncorrectNames, Errors = errors },
     };
     var output = Path.GetFullPath(options.Output);
@@ -220,20 +242,27 @@ static Sample[] ReadSamples(string root)
     using var json = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "verification.json")));
     var samples = json.RootElement.GetProperty("Samples").EnumerateArray()
         .Where(s => s.GetProperty("RecognitionRequired").GetBoolean())
-        .Select(s => new Sample(s.GetProperty("File").GetString()!, s.GetProperty("ExpectedName").GetString()!, ""))
-        .Select(s => s with { Sha256 = Sha(Path.Combine(root, s.File)) }).ToArray();
+        .Select(s =>
+        {
+            var file = s.GetProperty("File").GetString()!;
+            var actualHash = Sha(Path.Combine(root, file));
+            if (s.TryGetProperty("Sha256", out var declared) && declared.GetString() is { Length: > 0 } expectedHash &&
+                !string.Equals(actualHash, expectedHash, StringComparison.OrdinalIgnoreCase))
+                throw new InvalidDataException("Input PDF differs from its predeclared manifest SHA-256: " + file);
+            return new Sample(file, s.GetProperty("ExpectedName").GetString()!, actualHash);
+        }).ToArray();
     if (samples.Length == 0) throw new InvalidOperationException("No required-positive samples in verification.json");
     return samples;
 }
 
-static object Profile(string root, Sample[] samples, string templatesFolder, int passes, bool? batchFields, bool? oneDnn, bool? reusePredictors, bool? knownLines, bool? onnx, string? onnxModels)
+static object Profile(string root, Sample[] samples, string templatesFolder, int passes, bool? batchFields, bool? oneDnn, bool? reusePredictors, bool? knownLines, bool? onnx, string? onnxModels, bool? pdfText, bool? gostFallback)
 {
     var loaded = TemplateLibrary.LoadFolder(templatesFolder);
     if (loaded.Any(t => t.Template is null)) throw new InvalidOperationException(string.Join("; ", loaded.Select(t => t.Problem)));
     var templates = loaded.Select(t => t.Template!).ToArray();
     try
     {
-        using var pair = CreatePair(batchFields, oneDnn, reusePredictors, knownLines, onnx, onnxModels);
+        using var pair = CreatePair(batchFields, oneDnn, reusePredictors, knownLines, onnx, onnxModels, pdfText, gostFallback);
         foreach (var sample in samples) Check(DocumentReader.Read(Path.Combine(root, sample.File), templates, pair, CancellationToken.None), sample);
         var phases = new Dictionary<string, (double Milliseconds, int Calls)>();
         Action<string, TimeSpan> timing = (key, elapsed) =>
@@ -253,13 +282,14 @@ static object Profile(string root, Sample[] samples, string templatesFolder, int
                     : DocumentReader.Read(Path.Combine(root, sample.File), templates, pair, CancellationToken.None);
                 clock.Stop();
                 Check(result, sample);
-                rows.Add(new { Pass = pass + 1, sample.File, WallMilliseconds = clock.Elapsed.TotalMilliseconds });
+                rows.Add(new { Pass = pass + 1, sample.File, WallMilliseconds = clock.Elapsed.TotalMilliseconds,
+                    Trace = typeof(DocumentResult).GetProperty("Trace", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(result) });
             }
         return new
         {
             Instrumented = instrumented,
             Documents = samples.Length * passes,
-            Scope = "Sequential warmed DocumentReader reads with both real engines; timing callbacks enabled only for these profile reads, not full throughput run.",
+            Scope = "Sequential warmed production DocumentReader reads, with each actual PDF-text/OCR path recorded in Trace. Timing callbacks are enabled only for these profiles, not full throughput.",
             Stages = phases.OrderByDescending(p => p.Value.Milliseconds).Select(p => new
             {
                 Stage = p.Key, p.Value.Calls, TotalMilliseconds = p.Value.Milliseconds,
@@ -285,7 +315,7 @@ static bool FactoryFlag(int parameter, bool? requested)
     var parameters = typeof(OcrPair).GetMethod("CreateReal", BindingFlags.Static | BindingFlags.Public)!.GetParameters();
     return parameter < parameters.Length && parameters[parameter].DefaultValue is true;
 }
-static OcrPair CreatePair(bool? batchFields, bool? oneDnn, bool? reusePredictors, bool? knownLines, bool? onnx, string? onnxModels)
+static OcrPair CreatePair(bool? batchFields, bool? oneDnn, bool? reusePredictors, bool? knownLines, bool? onnx, string? onnxModels, bool? pdfText, bool? gostFallback)
 {
     var tessdata = OcrComponents.FindTessdata() ?? throw new InvalidOperationException("tessdata missing");
     var factory = typeof(OcrPair).GetMethod("CreateReal", BindingFlags.Static | BindingFlags.Public)!;
@@ -304,6 +334,26 @@ static OcrPair CreatePair(bool? batchFields, bool? oneDnn, bool? reusePredictors
     if (parameterCount > 3) arguments[3] = FactoryFlag(3, onnx);
     if (parameterCount > 4) arguments[4] = onnxModels;
     var pair = (OcrPair)factory.Invoke(null, arguments)!;
+    var gostProperty = typeof(OcrPair).GetProperty("UseGostFallback", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+    if (gostFallback is { } useGost)
+    {
+        if (useGost && gostProperty is null)
+        {
+            pair.Dispose();
+            throw new NotSupportedException("This core build does not support the lazy GOST model pair.");
+        }
+        gostProperty?.SetValue(pair, useGost);
+    }
+    var pdfTextProperty = typeof(OcrPair).GetProperty("UsePdfText", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+    if (pdfText is { } usePdfText)
+    {
+        if (usePdfText && pdfTextProperty is null)
+        {
+            pair.Dispose();
+            throw new NotSupportedException("This core build does not support verified PDF-text extraction.");
+        }
+        pdfTextProperty?.SetValue(pair, usePdfText);
+    }
     if (batchFields is { } enabled)
     {
         var property = typeof(OcrPair).GetProperty("BatchFields", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
@@ -327,6 +377,8 @@ static OcrPair CreatePair(bool? batchFields, bool? oneDnn, bool? reusePredictors
     SelectedBackend.BatchFields = typeof(OcrPair).GetProperty("BatchFields", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(pair) as bool?;
     SelectedBackend.KnownLines = knownLinesProperty?.GetValue(pair) as bool?;
     SelectedBackend.UsesOnnx = pair.Second.GetType().GetProperty("UsesOnnx", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(pair.Second) as bool?;
+    SelectedBackend.PdfText = pdfTextProperty?.GetValue(pair) as bool?;
+    SelectedBackend.GostFallback = gostProperty?.GetValue(pair) as bool?;
     return pair;
 }
 static string HashDataset(string root) => Convert.ToHexString(SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(string.Join("\n",
@@ -351,9 +403,11 @@ internal static class SelectedBackend
     public static bool? BatchFields { get; set; }
     public static bool? KnownLines { get; set; }
     public static bool? UsesOnnx { get; set; }
+    public static bool? PdfText { get; set; }
+    public static bool? GostFallback { get; set; }
 }
 
-internal sealed class Sink(IReadOnlyDictionary<string, Sample> expected, Stopwatch clock) : IRunSink
+internal sealed class Sink(IReadOnlyDictionary<string, Sample> expected, Stopwatch clock, string? expectedSource) : IRunSink
 {
     public readonly ConcurrentQueue<string> Errors = new();
     public int IncorrectNames { get; private set; }
@@ -361,10 +415,14 @@ internal sealed class Sink(IReadOnlyDictionary<string, Sample> expected, Stopwat
     public double? FirstResultMilliseconds { get; private set; }
     private int _processed;
     private int _failed;
+    public readonly ProvenanceCounts Provenance = new();
     public void Message(string text) { }
     public void Found(int count) => FoundAtMilliseconds = clock.Elapsed.TotalMilliseconds;
     public void File(JournalEntry entry)
     {
+        var sourcePath = Provenance.Add(entry);
+        if (expectedSource is not null && sourcePath != expectedSource)
+            Errors.Enqueue($"{entry.RelativePath}: expected actual source {expectedSource}, received {sourcePath ?? "missing-trace"}.");
         FirstResultMilliseconds ??= clock.Elapsed.TotalMilliseconds;
         if (!expected.TryGetValue(entry.RelativePath, out var sample)) Errors.Enqueue("Unexpected source " + entry.RelativePath);
         else if (entry.Status != FileStatus.Renamed || entry.NewName != sample.ExpectedName)
@@ -378,6 +436,55 @@ internal sealed class Sink(IReadOnlyDictionary<string, Sample> expected, Stopwat
         if (++_processed % Math.Max(10, expected.Count / 40) == 0)
             Console.WriteLine($"processed {_processed}/{expected.Count}, failures {_failed}, elapsed {clock.Elapsed.TotalSeconds:F1}s");
     }
+}
+
+/// <summary>Only totals from timed results; profile/warmup calls never contribute.</summary>
+internal sealed class ProvenanceCounts
+{
+    private static readonly PropertyInfo? TraceProperty = typeof(JournalEntry).GetProperty("Trace",
+        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+    private readonly Dictionary<string, long> _sources = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, long> _sourceStatuses = new(StringComparer.Ordinal);
+    private readonly string[] _counterNames = ["PdfTextAttempts", "PdfTextAccepted", "TesseractReads", "PaddleReads", "EasyReads", "MatchedPages", "MatchingCalls", "GostAttempts", "GostAccepted"];
+    private readonly long[] _totals = new long[9];
+    private PropertyInfo[]? _counters;
+    private PropertyInfo? _source;
+    private int _documents;
+    public int MissingTrace { get; private set; }
+    public int InvalidTrace { get; private set; }
+
+    public string? Add(JournalEntry entry)
+    {
+        _documents++;
+        var trace = TraceProperty?.GetValue(entry);
+        if (trace is null) { MissingTrace++; return null; }
+        _counters ??= _counterNames.Select(name => trace.GetType().GetProperty(name) ??
+            throw new InvalidDataException("Incomplete recognition provenance: " + name)).ToArray();
+        _source ??= trace.GetType().GetProperty("SourcePath") ?? throw new InvalidDataException("Missing provenance source path.");
+        var values = _counters.Select(property => Convert.ToInt64(property.GetValue(trace))).ToArray();
+        var source = _source.GetValue(trace) as string;
+        if (values.Any(value => value < 0) || values[1] > values[0] || values[1] > values[5] ||
+            values[8] > values[7] || values[8] > values[5] ||
+            source is not ("ocr" or "pdf-text-confirmed" or "mixed" or "none") ||
+            (source == "pdf-text-confirmed" && (values[1] == 0 || values[3] == 0))) InvalidTrace++;
+        for (var i = 0; i < values.Length; i++) _totals[i] += values[i];
+        source ??= "unknown";
+        _sources[source] = _sources.GetValueOrDefault(source) + 1;
+        var key = source + "/" + entry.Status;
+        _sourceStatuses[key] = _sourceStatuses.GetValueOrDefault(key) + 1;
+        return source;
+    }
+
+    public object Snapshot() => new
+    {
+        ObservedDocuments = _documents, MissingTrace, InvalidTrace,
+        DocumentsBySource = _sources, DocumentsBySourceAndStatus = _sourceStatuses,
+        PdfTextAttempts = _totals[0], PdfTextAccepted = _totals[1], TesseractReads = _totals[2],
+        PaddleReads = _totals[3], EasyReads = _totals[4], MatchedPages = _totals[5], MatchingCalls = _totals[6],
+        GostAttempts = _totals[7], GostAccepted = _totals[8],
+        Scope = "Only actual timed results, including skipped documents; source/status groups separate acceptance from attempts. PDF-text is confirmed by a raster peer, not claimed as dual OCR.",
+        CounterDefinitions = "PDF-text and GOST attempts/acceptances count matched-page route attempts/successes; engine reads count field images submitted, including fallback. A Paddle batch of three fields counts three reads. MatchingCalls counts page-level matcher calls. Model choices may be cached per template; text/recognition results are not cached.",
+    };
 }
 
 internal sealed class ResourceSampler : IDisposable
@@ -436,13 +543,14 @@ internal sealed record ChildResources(double TotalChildCpuSeconds, long CurrentW
 }
 
 internal sealed record Options(string Samples, int Count, int Workers, int? OpenCvThreads, int ProfilePasses, bool? BatchFields, bool? OneDnn, bool? ReusePredictors,
-    bool? KnownLines, bool? Onnx, string? OnnxModels, bool? DedicatedWorkers, bool? HammingAvx2, bool? ProcessWorkers, string Output, string Label, bool KeepWorkdir)
+    bool? KnownLines, bool? Onnx, string? OnnxModels, bool? DedicatedWorkers, bool? HammingAvx2, bool? ProcessWorkers,
+    bool? PdfText, bool? GostFallback, string DatasetKind, string? ExpectedSource, bool RequireProvenance, string Output, string Label, bool KeepWorkdir)
 {
     public static Options? Parse(string[] args)
     {
         if (args.Contains("--help"))
         {
-            Console.WriteLine("dotnet run --project tools/Performance -c Release -- --count 100 --workers 4 --opencv-threads 1 --profile-passes 2 --batch-fields false --label candidate --output artifacts/performance/candidate.json [--samples docs/test-samples] [--known-lines true|false] [--onnx true|false --onnx-models directory] [--hamming-avx2 true|false] [--process-workers true|false] [--keep-workdir]");
+            Console.WriteLine("dotnet run --project tools/Performance -c Release -- --count 100 --workers 4 --profile-passes 1 --label candidate --output artifacts/performance/candidate.json [--samples DIR] [--known-lines true|false] [--onnx true|false --onnx-models DIR] [--hamming-avx2 true|false] [--process-workers true|false] [--pdf-text true|false] [--gost-fallback true|false] [--dataset-kind raster|vector|mixed] [--expect-source ocr|pdf-text-confirmed|mixed|none] [--require-provenance true|false] [--keep-workdir]");
             return null;
         }
         var values = new Dictionary<string, string>();
@@ -451,12 +559,18 @@ internal sealed record Options(string Samples, int Count, int Workers, int? Open
         {
             if (args[i] == "--keep-workdir") { keep = true; continue; }
             if (!args[i].StartsWith("--") || i + 1 >= args.Length) throw new ArgumentException("Expected --option value");
-            if (args[i] is not ("--samples" or "--count" or "--workers" or "--opencv-threads" or "--profile-passes" or "--batch-fields" or "--one-dnn" or "--reuse-predictors" or "--known-lines" or "--onnx" or "--onnx-models" or "--dedicated-workers" or "--hamming-avx2" or "--process-workers" or "--output" or "--label"))
+            if (args[i] is not ("--samples" or "--count" or "--workers" or "--opencv-threads" or "--profile-passes" or "--batch-fields" or "--one-dnn" or "--reuse-predictors" or "--known-lines" or "--onnx" or "--onnx-models" or "--dedicated-workers" or "--hamming-avx2" or "--process-workers" or "--pdf-text" or "--gost-fallback" or "--dataset-kind" or "--expect-source" or "--require-provenance" or "--output" or "--label"))
                 throw new ArgumentException("Unknown option " + args[i]);
             values[args[i][2..]] = args[++i];
         }
         if (values.ContainsKey("onnx-models") && (!values.TryGetValue("onnx", out var selected) || !bool.Parse(selected)))
             throw new ArgumentException("--onnx-models requires --onnx true.");
+        var datasetKind = values.GetValueOrDefault("dataset-kind", "unclassified");
+        if (datasetKind is not ("raster" or "vector" or "mixed" or "unclassified"))
+            throw new ArgumentException("--dataset-kind must be raster, vector or mixed.");
+        var expectedSource = values.GetValueOrDefault("expect-source");
+        if (expectedSource is not (null or "ocr" or "pdf-text-confirmed" or "mixed" or "none"))
+            throw new ArgumentException("--expect-source must name an actual recognized source path.");
         int Number(string key, int fallback, int min, int max)
         {
             var n = values.TryGetValue(key, out var s) ? int.Parse(s) : fallback;
@@ -473,6 +587,10 @@ internal sealed record Options(string Samples, int Count, int Workers, int? Open
             values.TryGetValue("dedicated-workers", out var dedicated) ? bool.Parse(dedicated) : null,
             values.TryGetValue("hamming-avx2", out var avx2) ? bool.Parse(avx2) : null,
             values.TryGetValue("process-workers", out var processWorkers) ? bool.Parse(processWorkers) : null,
+            values.TryGetValue("pdf-text", out var pdfText) ? bool.Parse(pdfText) : null,
+            values.TryGetValue("gost-fallback", out var gostFallback) ? bool.Parse(gostFallback) : null,
+            datasetKind, expectedSource,
+            values.TryGetValue("require-provenance", out var requireProvenance) && bool.Parse(requireProvenance),
             values.GetValueOrDefault("output", "artifacts/performance/result.json"),
             values.GetValueOrDefault("label", "working-tree"), keep);
     }

@@ -1,0 +1,20 @@
+["lstmtraining", "--continue_from", "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_checkpoint", "--traineddata", "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/base/rus_gost/rus_gost.traineddata", "--model_output", "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-3000/rus_gost", "--train_listfile", "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/train.list", "--eval_listfile", "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/development.list", "--max_iterations", "1500", "--learning_rate", "0.0001", "--max_image_MB", "512", "--target_error_rate", "-1.0"]
+Loaded file /workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_checkpoint, unpacking...
+Continuing from /workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost_checkpoint
+2 Percent improvement time=0, best error was 100 @ 0
+At iteration 0/100/100, mean rms=0.143%, delta=0.000%, BCER train=0.000%, BWER train=0.000%, skip ratio=0.000%, New best BCER = 0.000 wrote best model:/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-3000/rus_gost_0.000_0_100.checkpoint wrote checkpoint.
+At iteration 0/200/200, mean rms=0.145%, delta=0.000%, BCER train=0.000%, BWER train=0.000%, skip ratio=0.000%, wrote checkpoint.
+At iteration 1/300/300, mean rms=0.145%, delta=0.005%, BCER train=0.022%, BWER train=0.333%, skip ratio=0.000%, New worst BCER = 0.022 wrote checkpoint.
+At iteration 1/400/400, mean rms=0.142%, delta=0.004%, BCER train=0.017%, BWER train=0.250%, skip ratio=0.000%, New worst BCER = 0.017 wrote checkpoint.
+At iteration 2/500/500, mean rms=0.143%, delta=0.009%, BCER train=0.027%, BWER train=0.400%, skip ratio=0.000%, New worst BCER = 0.027 wrote checkpoint.
+At iteration 2/600/600, mean rms=0.143%, delta=0.007%, BCER train=0.022%, BWER train=0.333%, skip ratio=0.000%, New worst BCER = 0.022 wrote checkpoint.
+At iteration 4/700/700, mean rms=0.147%, delta=0.013%, BCER train=0.033%, BWER train=0.571%, skip ratio=0.000%, New worst BCER = 0.033 wrote checkpoint.
+At iteration 4/800/800, mean rms=0.145%, delta=0.012%, BCER train=0.029%, BWER train=0.500%, skip ratio=0.000%, New worst BCER = 0.029 wrote checkpoint.
+At iteration 4/900/900, mean rms=0.144%, delta=0.010%, BCER train=0.026%, BWER train=0.444%, skip ratio=0.000%, New worst BCER = 0.026 wrote checkpoint.
+At iteration 4/1000/1000, mean rms=0.142%, delta=0.009%, BCER train=0.023%, BWER train=0.400%, skip ratio=0.000%, New worst BCER = 0.023 wrote checkpoint.
+At iteration 4/1100/1100, mean rms=0.141%, delta=0.009%, BCER train=0.023%, BWER train=0.400%, skip ratio=0.000%, New worst BCER = 0.023 wrote checkpoint.
+At iteration 4/1200/1200, mean rms=0.139%, delta=0.009%, BCER train=0.023%, BWER train=0.400%, skip ratio=0.000%, New worst BCER = 0.023 wrote checkpoint.
+At iteration 4/1300/1300, mean rms=0.138%, delta=0.008%, BCER train=0.023%, BWER train=0.400%, skip ratio=0.000%, New worst BCER = 0.023 wrote checkpoint.
+At iteration 4/1400/1400, mean rms=0.137%, delta=0.008%, BCER train=0.023%, BWER train=0.400%, skip ratio=0.000%, New worst BCER = 0.023 wrote checkpoint.
+At iteration 4/1500/1500, mean rms=0.134%, delta=0.005%, BCER train=0.017%, BWER train=0.300%, skip ratio=0.000%, New worst BCER = 0.017 wrote checkpoint.
+Finished! Selected model with minimal training error rate (BCER) = 0

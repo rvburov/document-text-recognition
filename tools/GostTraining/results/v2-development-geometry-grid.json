@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "split": "development",
+  "evaluation_read": false,
+  "model_sha256": {
+    "rus_gost": "26bab93eb188b4e1557be5ffc0e7cc9a33cac5a6249debe3a9141d53eef374ce",
+    "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+  },
+  "manifest_sha256": "3272096b925b89ae67da314fd3b508cf3af5211c30e581308d2e0d7a95c6660e",
+  "grid_frozen": {
+    "psm": [
+      6,
+      7,
+      13
+    ],
+    "geometry": [
+      "full",
+      "ink",
+      "ink+8"
+    ],
+    "ink_threshold": 200
+  },
+  "correction": "none; only collapse output whitespace",
+  "criterion": "whole-line exact, then designation exact, then CER",
+  "winner": {
+    "psm": 6,
+    "geometry": "full",
+    "summary": {
+      "lines": 76,
+      "exact": 70,
+      "cer": 0.018465909090909092,
+      "wer": 0.07857142857142857,
+      "wrong_but_line_confident_0_30": 6
+    }
+  },
+  "timing_scope": "single line C API plus PNG decode and confidence extraction; not an application latency benchmark",
+  "raw_artifact": "artifacts/gost-training/dev-geometry-grid-v2/grid.json",
+  "variants": [
+    {
+      "psm": 6,
+      "geometry": "full",
+      "summary": {
+        "lines": 76,
+        "exact": 70,
+        "cer": 0.018465909090909092,
+        "wer": 0.07857142857142857,
+        "wrong_but_line_confident_0_30": 6
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 30,
+          "cer": 0.018835616438356163,
+          "wer": 0.15625,
+          "wrong_but_line_confident_0_30": 2
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 40,
+          "cer": 0.01820388349514563,
+          "wer": 0.05555555555555555,
+          "wrong_but_line_confident_0_30": 4
+        }
+      },
+      "median_read_ms": 19.039959999872735
+    },
+    {
+      "psm": 6,
+      "geometry": "ink",
+      "summary": {
+        "lines": 76,
+        "exact": 10,
+        "cer": 0.25923295454545453,
+        "wer": 0.9285714285714286,
+        "wrong_but_line_confident_0_30": 56
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 0,
+          "cer": 0.3236301369863014,
+          "wer": 2.0625,
+          "wrong_but_line_confident_0_30": 25
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 10,
+          "cer": 0.21359223300970873,
+          "wer": 0.5925925925925926,
+          "wrong_but_line_confident_0_30": 31
+        }
+      },
+      "median_read_ms": 29.80835750031474
+    },
+    {
+      "psm": 6,
+      "geometry": "ink+8",
+      "summary": {
+        "lines": 76,
+        "exact": 66,
+        "cer": 0.009943181818181818,
+        "wer": 0.08571428571428572,
+        "wrong_but_line_confident_0_30": 10
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 29,
+          "cer": 0.005136986301369863,
+          "wer": 0.09375,
+          "wrong_but_line_confident_0_30": 3
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 37,
+          "cer": 0.013349514563106795,
+          "wer": 0.08333333333333333,
+          "wrong_but_line_confident_0_30": 7
+        }
+      },
+      "median_read_ms": 19.9523494998175
+    },
+    {
+      "psm": 7,
+      "geometry": "full",
+      "summary": {
+        "lines": 76,
+        "exact": 70,
+        "cer": 0.018465909090909092,
+        "wer": 0.07857142857142857,
+        "wrong_but_line_confident_0_30": 6
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 30,
+          "cer": 0.018835616438356163,
+          "wer": 0.15625,
+          "wrong_but_line_confident_0_30": 2
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 40,
+          "cer": 0.01820388349514563,
+          "wer": 0.05555555555555555,
+          "wrong_but_line_confident_0_30": 4
+        }
+      },
+      "median_read_ms": 18.368301000009524
+    },
+    {
+      "psm": 7,
+      "geometry": "ink",
+      "summary": {
+        "lines": 76,
+        "exact": 10,
+        "cer": 0.25923295454545453,
+        "wer": 0.9285714285714286,
+        "wrong_but_line_confident_0_30": 56
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 0,
+          "cer": 0.3236301369863014,
+          "wer": 2.0625,
+          "wrong_but_line_confident_0_30": 25
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 10,
+          "cer": 0.21359223300970873,
+          "wer": 0.5925925925925926,
+          "wrong_but_line_confident_0_30": 31
+        }
+      },
+      "median_read_ms": 29.46939949993066
+    },
+    {
+      "psm": 7,
+      "geometry": "ink+8",
+      "summary": {
+        "lines": 76,
+        "exact": 66,
+        "cer": 0.009943181818181818,
+        "wer": 0.08571428571428572,
+        "wrong_but_line_confident_0_30": 10
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 29,
+          "cer": 0.005136986301369863,
+          "wer": 0.09375,
+          "wrong_but_line_confident_0_30": 3
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 37,
+          "cer": 0.013349514563106795,
+          "wer": 0.08333333333333333,
+          "wrong_but_line_confident_0_30": 7
+        }
+      },
+      "median_read_ms": 18.563507000180834
+    },
+    {
+      "psm": 13,
+      "geometry": "full",
+      "summary": {
+        "lines": 76,
+        "exact": 36,
+        "cer": 0.0703125,
+        "wer": 0.38571428571428573,
+        "wrong_but_line_confident_0_30": 37
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 19,
+          "cer": 0.06506849315068493,
+          "wer": 0.625,
+          "wrong_but_line_confident_0_30": 10
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 17,
+          "cer": 0.07402912621359223,
+          "wer": 0.3148148148148148,
+          "wrong_but_line_confident_0_30": 27
+        }
+      },
+      "median_read_ms": 19.381102000124883
+    },
+    {
+      "psm": 13,
+      "geometry": "ink",
+      "summary": {
+        "lines": 76,
+        "exact": 12,
+        "cer": 0.2578125,
+        "wer": 0.9,
+        "wrong_but_line_confident_0_30": 54
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 0,
+          "cer": 0.3236301369863014,
+          "wer": 2.0625,
+          "wrong_but_line_confident_0_30": 25
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 12,
+          "cer": 0.2111650485436893,
+          "wer": 0.5555555555555556,
+          "wrong_but_line_confident_0_30": 29
+        }
+      },
+      "median_read_ms": 27.497996500187583
+    },
+    {
+      "psm": 13,
+      "geometry": "ink+8",
+      "summary": {
+        "lines": 76,
+        "exact": 69,
+        "cer": 0.004971590909090909,
+        "wer": 0.05,
+        "wrong_but_line_confident_0_30": 7
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 32,
+          "exact": 32,
+          "cer": 0.0,
+          "wer": 0.0,
+          "wrong_but_line_confident_0_30": 0
+        },
+        "Name": {
+          "lines": 44,
+          "exact": 37,
+          "cer": 0.00849514563106796,
+          "wer": 0.06481481481481481,
+          "wrong_but_line_confident_0_30": 7
+        }
+      },
+      "median_read_ms": 15.727389000176117
+    }
+  ]
+}

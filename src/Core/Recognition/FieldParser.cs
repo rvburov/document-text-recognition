@@ -28,7 +28,15 @@ internal static class FieldParser
         if (reading.IsEmpty) return Parsed.Fail("область обозначения пустая или текст не читается");
         if (!MeetsConfidence(reading, minConfidence)) return Parsed.Fail("низкая уверенность распознавания обозначения");
 
-        var prepared = Designations.Prepare(reading.Text);
+        return ParseDesignationText(reading.Text);
+    }
+
+    /// <summary>Формат текста из PDF: уверенности OCR у этого источника нет.
+    /// Вызывающий код обязан независимо подтвердить результат на изображении.</summary>
+    internal static Parsed ParseDesignationText(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return Parsed.Fail("область обозначения пустая или текст не читается");
+        var prepared = Designations.Prepare(text);
         var found = Designations.FindAll(prepared);
         if (found.Count == 0) return Parsed.Fail("обозначение не прошло проверку формата");
         if (found.Select(f => f.Value).Distinct().Count() > 1 || found.Count > 1)
@@ -87,6 +95,12 @@ internal static class FieldParser
         return (designation, name, rest.Value);
     }
 
+    internal static (Parsed Designation, Parsed Name, Parsed Type) ParseCombinedText(IReadOnlyList<string> lines)
+    {
+        var (designation, name, rest) = ParseCombinedTextLines(lines);
+        return (designation, name, rest ?? (name.IsOk ? Parsed.Ok("") : name));
+    }
+
     private static (Parsed Designation, Parsed Name, Parsed? Type) ParseCombinedLines(OcrReading reading, double minConfidence)
     {
         if (reading.IsEmpty)
@@ -100,7 +114,17 @@ internal static class FieldParser
             return (low, low, low);
         }
 
-        var lines = reading.Lines.Select(l => TextRules.NormalizeName(l.Text)).Where(l => l.Length > 0).ToList();
+        return ParseCombinedTextLines(reading.Lines.Select(l => l.Text).ToArray());
+    }
+
+    private static (Parsed Designation, Parsed Name, Parsed? Type) ParseCombinedTextLines(IReadOnlyList<string> rawLines)
+    {
+        var lines = rawLines.Select(TextRules.NormalizeName).Where(l => l.Length > 0).ToList();
+        if (lines.Count == 0)
+        {
+            var empty = Parsed.Fail("общая область пустая или текст не читается");
+            return (empty, empty, empty);
+        }
         var hits = new List<(int Line, DesignationMatch Match, int Start, int End)>();
         for (var i = 0; i < lines.Count; i++)
         {

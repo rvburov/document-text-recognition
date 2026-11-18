@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "run": "pilot-v2-ink-rus-1500",
+  "command": [
+    "lstmtraining",
+    "--continue_from",
+    "/workspace/document-text-recognition/artifacts/gost-training/ink-box/runs/pilot-ink-rus-500/rus_gost_checkpoint",
+    "--traineddata",
+    "/workspace/document-text-recognition/artifacts/gost-training/v2-ink-box/base/rus_gost/rus_gost.traineddata",
+    "--model_output",
+    "/workspace/document-text-recognition/artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-1500/rus_gost",
+    "--train_listfile",
+    "/workspace/document-text-recognition/artifacts/gost-training/v2-ink-box/train.list",
+    "--eval_listfile",
+    "/workspace/document-text-recognition/artifacts/gost-training/v2-ink-box/development.list",
+    "--max_iterations",
+    "1500",
+    "--learning_rate",
+    "0.0001",
+    "--max_image_MB",
+    "512",
+    "--target_error_rate",
+    "0.01"
+  ],
+  "preparation_sha256": "6730f285b6056b4d5c2e5e61469980e4c52f3780d3efddb93b9ae2afb9c6e7c8",
+  "continue_from_sha256": "3b870829ce3cbd66491c2cfa68e8c5dab42174fd63dd565bbc7bd8219b70620f",
+  "training_seconds": 110.00380040899995,
+  "development_seconds": 1.568150390000028,
+  "checkpoint_sha256": "2dceb785778a8a460b67af17a219b6c0298b75f652eb1214ae10fac50f7c55f1",
+  "iterations_limit": 1500,
+  "evaluation_used": false,
+  "inference_eng_sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+  "status": "candidate only; no production replacement",
+  "models": {
+    "float": {
+      "path": "/workspace/document-text-recognition/artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-1500/float/rus_gost.traineddata",
+      "sha256": "4502eebff39995886d01dbd55e9dee8be0477fc3e1eed1fcc40848713825581b",
+      "bytes": 15301764
+    },
+    "int": {
+      "path": "/workspace/document-text-recognition/artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-1500/int/rus_gost.traineddata",
+      "sha256": "26bab93eb188b4e1557be5ffc0e7cc9a33cac5a6249debe3a9141d53eef374ce",
+      "bytes": 5053706
+    }
+  }
+}

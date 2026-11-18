@@ -1,1 +1,11 @@
 ocr/onnx/*.onnx binary
+ocr/paddle/cyrillic_PP_OCRv5_mobile_rec/inference.json -text
+ocr/paddle/cyrillic_PP_OCRv5_mobile_rec/inference.yml -text
+ocr/paddle/cyrillic_PP_OCRv5_mobile_rec/inference.pdiparams binary
+# Frozen manifests are hashed as bytes on both Windows and Linux.
+docs/test-samples/**/*.json -text
+tools/GostTraining/results/**/*.json -text
+ocr/tessdata/gost-model-manifest.json -text
+ocr/onnx/cyrillic-model-manifest.json -text
+tools/OcrComparison/input-cases.json -text
+tools/OcrComparison/convert_recognizer.py -text

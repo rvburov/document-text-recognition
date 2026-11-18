@@ -1,0 +1,2447 @@
+{
+  "schema_version": 1,
+  "split": "evaluation",
+  "languages": "rus+eng",
+  "model_sha256": {
+    "rus": "e16e5e036cce1d9ec2b00063cf8b54472625b9e14d893a169e2b0dedeb4df225",
+    "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+  },
+  "manifest_sha256": "bad4a613bbb85f05e5ea3bd030a69d51710d7d4ec517e5a65508df0bacbf3c66",
+  "backend": "capi",
+  "psm": 6,
+  "normalization": "collapse whitespace only; preserve case, punctuation, Cyrillic/Latin and ё",
+  "post_ocr_corrections": false,
+  "summary": {
+    "lines": 150,
+    "exact": 61,
+    "exact_fraction": 0.4066666666666667,
+    "cer": 0.15902679830747532
+  },
+  "confidence": {
+    "level": "Tesseract text line, 0..1",
+    "below_product_threshold_0_30": 13,
+    "wrong_but_confident_0_30": 76
+  },
+  "by_role": {
+    "Designation": {
+      "lines": 64,
+      "exact": 0,
+      "exact_fraction": 0.0,
+      "cer": 0.3587328767123288
+    },
+    "Name": {
+      "lines": 86,
+      "exact": 61,
+      "exact_fraction": 0.7093023255813954,
+      "cer": 0.019184652278177457
+    }
+  },
+  "timing": {
+    "scope": "C API read per line including PNG decode, excludes model initialization",
+    "initialization_ms": 151.08078499997646,
+    "median_ms": 20.113171500270255,
+    "p95_ms": 30.598586999985855
+  },
+  "results": [
+    {
+      "id": "evaluation-001-designation-01-v1",
+      "case_id": "evaluation-001",
+      "role": "Designation",
+      "truth": "МЖЦФ.579443.561",
+      "actual": "МЖЦФ 57443561",
+      "exact": false,
+      "edit_distance": 3,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.7356289672851563
+      ],
+      "min_line_confidence": 0.7356289672851563,
+      "elapsed_ms": 16.17882600021403,
+      "image_sha256": "598e49cc540fa19070fa5497dc27489eebe2364c1f3ec7dce3c9039f81421a0d"
+    },
+    {
+      "id": "evaluation-001-designation-01-v2",
+      "case_id": "evaluation-001",
+      "role": "Designation",
+      "truth": "МЖЦФ.579443.561",
+      "actual": "MXUP 579443561",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.8249501037597656
+      ],
+      "min_line_confidence": 0.8249501037597656,
+      "elapsed_ms": 18.06167499989897,
+      "image_sha256": "25b71e30bc9b04269e9e7a0ea1f0fdf8ff118851919569b75dcd412e2e4721ea"
+    },
+    {
+      "id": "evaluation-001-name-01-v1",
+      "case_id": "evaluation-001",
+      "role": "Name",
+      "truth": "Приёмник радиоканала",
+      "actual": "Приемник радиоканала",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.9207786560058594
+      ],
+      "min_line_confidence": 0.9207786560058594,
+      "elapsed_ms": 12.133566000102292,
+      "image_sha256": "608df562f49b0e7bd15b46445e3d69bf1685c06ee0afd26df2bd0dc05c2dbed3"
+    },
+    {
+      "id": "evaluation-001-name-01-v2",
+      "case_id": "evaluation-001",
+      "role": "Name",
+      "truth": "Приёмник радиоканала",
+      "actual": "Приемник радиоканала",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.3962664794921875
+      ],
+      "min_line_confidence": 0.3962664794921875,
+      "elapsed_ms": 22.477742000319267,
+      "image_sha256": "f9747842e9aaea6a9431d976c7317e7bbd5b503f97b31bc417825f034246e733"
+    },
+    {
+      "id": "evaluation-001-name-02-v1",
+      "case_id": "evaluation-001",
+      "role": "Name",
+      "truth": "Исполнение 7657",
+      "actual": "Исполнение 7657",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9645433807373047
+      ],
+      "min_line_confidence": 0.9645433807373047,
+      "elapsed_ms": 16.207027999826096,
+      "image_sha256": "c3cc374d4a815e46b66853158dc9c7da83a3c0949bcd6c92b1150fa57cc303f3"
+    },
+    {
+      "id": "evaluation-001-name-02-v2",
+      "case_id": "evaluation-001",
+      "role": "Name",
+      "truth": "Исполнение 7657",
+      "actual": "Исполнение 7657",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9401148986816407
+      ],
+      "min_line_confidence": 0.9401148986816407,
+      "elapsed_ms": 16.775589999724616,
+      "image_sha256": "21f7a229d8ab464b4a2aae4ebc2b339fdaedfffd9c16dc0633d0c3f76d9d1260"
+    },
+    {
+      "id": "evaluation-002-designation-01-v1",
+      "case_id": "evaluation-002",
+      "role": "Designation",
+      "truth": "ЯЖНФ.642676.234-80",
+      "actual": "AKHP 64/66 234-80",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.41692409515380857
+      ],
+      "min_line_confidence": 0.41692409515380857,
+      "elapsed_ms": 21.619841999836353,
+      "image_sha256": "167f7f7be7ef415941da405e1f78a94db3bde105b25af9e54ba5c25490fc8fcc"
+    },
+    {
+      "id": "evaluation-002-designation-01-v2",
+      "case_id": "evaluation-002",
+      "role": "Designation",
+      "truth": "ЯЖНФ.642676.234-80",
+      "actual": "ЯЖНФ646 06 234-80",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.5112570953369141
+      ],
+      "min_line_confidence": 0.5112570953369141,
+      "elapsed_ms": 24.52597599994988,
+      "image_sha256": "038bf864edd481ed7b80e7bc0867bb9afffa8eaee2d08c21035d2041b2e117e4"
+    },
+    {
+      "id": "evaluation-002-name-01-v1",
+      "case_id": "evaluation-002",
+      "role": "Name",
+      "truth": "Коммутатор RS-485 8065",
+      "actual": "Коммутатор RS-485 8065",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 22,
+      "line_confidences": [
+        0.9422179412841797
+      ],
+      "min_line_confidence": 0.9422179412841797,
+      "elapsed_ms": 21.557860000029905,
+      "image_sha256": "79992cba392003c6ed149200b687b5a92f233b0cc7e781f9aace1c445e398e55"
+    },
+    {
+      "id": "evaluation-002-name-01-v2",
+      "case_id": "evaluation-002",
+      "role": "Name",
+      "truth": "Коммутатор RS-485 8065",
+      "actual": "Коммутатор RS-485 8065",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 22,
+      "line_confidences": [
+        0.9136238861083984
+      ],
+      "min_line_confidence": 0.9136238861083984,
+      "elapsed_ms": 24.46767799983718,
+      "image_sha256": "f35e5ed08ff6aa45a5e2aa7d776c74d8f45d37734ecd92e7b501a22b78d46496"
+    },
+    {
+      "id": "evaluation-003-designation-01-v1",
+      "case_id": "evaluation-003",
+      "role": "Designation",
+      "truth": "ШЛРД.162104.651СБ",
+      "actual": "ШИРД 16210465 Б",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.44025650024414065
+      ],
+      "min_line_confidence": 0.44025650024414065,
+      "elapsed_ms": 18.549556999914785,
+      "image_sha256": "e12465356102a763a6c06ebc9aeca0896ec44590ce9467957c29d37d95b5f9b8"
+    },
+    {
+      "id": "evaluation-003-designation-01-v2",
+      "case_id": "evaluation-003",
+      "role": "Designation",
+      "truth": "ШЛРД.162104.651СБ",
+      "actual": "LPL 16210465",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.461810302734375
+      ],
+      "min_line_confidence": 0.461810302734375,
+      "elapsed_ms": 21.616627000184963,
+      "image_sha256": "8019df68e670ee8b752d353d9951c37f65a952cf461ad2cfe88970f8948ecf26"
+    },
+    {
+      "id": "evaluation-003-name-01-v1",
+      "case_id": "evaluation-003",
+      "role": "Name",
+      "truth": "Синтезатор частоты 5379",
+      "actual": "(интезатор частоты 5379",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.9403924560546875
+      ],
+      "min_line_confidence": 0.9403924560546875,
+      "elapsed_ms": 12.544915000034962,
+      "image_sha256": "559fc61f052aeea5b99b07b0cc91bc3e6ba778f42cdb94eb2e8d63505cb2673c"
+    },
+    {
+      "id": "evaluation-003-name-01-v2",
+      "case_id": "evaluation-003",
+      "role": "Name",
+      "truth": "Синтезатор частоты 5379",
+      "actual": "(интезатор частоты 5379",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.9271516418457031
+      ],
+      "min_line_confidence": 0.9271516418457031,
+      "elapsed_ms": 13.755738000327256,
+      "image_sha256": "89a45d52146c996f496e1a3d017439eed795d5e5b498d91fa1d2fce0f562dfff"
+    },
+    {
+      "id": "evaluation-004-designation-01-v1",
+      "case_id": "evaluation-004",
+      "role": "Designation",
+      "truth": "ФЖЮК.596970.023-24СБ",
+      "actual": "ФХИК 596970023-24.(B",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.5116126251220703
+      ],
+      "min_line_confidence": 0.5116126251220703,
+      "elapsed_ms": 22.768854000332794,
+      "image_sha256": "db2726830f3691e1617dca8adc463456806a8ad2d17062d332f68df57f87fa18"
+    },
+    {
+      "id": "evaluation-004-designation-01-v2",
+      "case_id": "evaluation-004",
+      "role": "Designation",
+      "truth": "ФЖЮК.596970.023-24СБ",
+      "actual": "PKK 5969/0023-24(Б",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.40129718780517576
+      ],
+      "min_line_confidence": 0.40129718780517576,
+      "elapsed_ms": 28.883005999887246,
+      "image_sha256": "2f1ec133c5717efaf8dd58090011e75f2bf6233d9151810e1fdacd1b93fe122b"
+    },
+    {
+      "id": "evaluation-004-name-01-v1",
+      "case_id": "evaluation-004",
+      "role": "Name",
+      "truth": "Антенна GNSS",
+      "actual": "Антенна GNSS",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 12,
+      "line_confidences": [
+        0.9646624755859375
+      ],
+      "min_line_confidence": 0.9646624755859375,
+      "elapsed_ms": 13.496375000158878,
+      "image_sha256": "a3acd8ea876adf363bd248c35c8b042515a6199cb7c760dcdecf04c9e5870e99"
+    },
+    {
+      "id": "evaluation-004-name-01-v2",
+      "case_id": "evaluation-004",
+      "role": "Name",
+      "truth": "Антенна GNSS",
+      "actual": "Антенна GNSS",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 12,
+      "line_confidences": [
+        0.9431675720214844
+      ],
+      "min_line_confidence": 0.9431675720214844,
+      "elapsed_ms": 14.981391999754123,
+      "image_sha256": "911d8680f97866e0649da5f7f7d8f5edb10764b27a3858a13354ac02c84e0fff"
+    },
+    {
+      "id": "evaluation-004-name-02-v1",
+      "case_id": "evaluation-004",
+      "role": "Name",
+      "truth": "Исполнение 6310",
+      "actual": "Исполнение 6310",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9618836212158203
+      ],
+      "min_line_confidence": 0.9618836212158203,
+      "elapsed_ms": 7.821151000371174,
+      "image_sha256": "dde1e2bdda6ffff779038b8864b8dd4ffe05cadd961aa2d60750624338471046"
+    },
+    {
+      "id": "evaluation-004-name-02-v2",
+      "case_id": "evaluation-004",
+      "role": "Name",
+      "truth": "Исполнение 6310",
+      "actual": "Исполнение 6310",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.8868597412109375
+      ],
+      "min_line_confidence": 0.8868597412109375,
+      "elapsed_ms": 16.513592000137578,
+      "image_sha256": "13ac40442ca2feb2d8d554b890af51cffcf6b05f0c4e4dc8d865223092d0000d"
+    },
+    {
+      "id": "evaluation-005-designation-01-v1",
+      "case_id": "evaluation-005",
+      "role": "Designation",
+      "truth": "ЩЦЛГ.256954.793Э3",
+      "actual": "ЩЦИТ.226954 79333",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.5397636032104492
+      ],
+      "min_line_confidence": 0.5397636032104492,
+      "elapsed_ms": 17.04009099967152,
+      "image_sha256": "f2f216480650cdf59c686ec8790419bcaa933accb8a04b532ffb0ea4e84ae97c"
+    },
+    {
+      "id": "evaluation-005-designation-01-v2",
+      "case_id": "evaluation-005",
+      "role": "Designation",
+      "truth": "ЩЦЛГ.256954.793Э3",
+      "actual": "WML. 256954. /9333",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.39443187713623046
+      ],
+      "min_line_confidence": 0.39443187713623046,
+      "elapsed_ms": 26.937636000184284,
+      "image_sha256": "41ee3c8a6c587246b25bd0b3a4f68189390939ab7deece00bc840cd1386c08dd"
+    },
+    {
+      "id": "evaluation-005-name-01-v1",
+      "case_id": "evaluation-005",
+      "role": "Name",
+      "truth": "Измеритель напряжения 6288",
+      "actual": "Измеритель напряжения 6288",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.9461074829101562
+      ],
+      "min_line_confidence": 0.9461074829101562,
+      "elapsed_ms": 13.377848000345693,
+      "image_sha256": "283a289dc22057ea3030de2f12162eb26d928aa2b532e97fc0bc4ddda55e7a8f"
+    },
+    {
+      "id": "evaluation-005-name-01-v2",
+      "case_id": "evaluation-005",
+      "role": "Name",
+      "truth": "Измеритель напряжения 6288",
+      "actual": "Измеритель напряжения 6288",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.964627685546875
+      ],
+      "min_line_confidence": 0.964627685546875,
+      "elapsed_ms": 15.549673999885272,
+      "image_sha256": "a380e4e5bca6a6fc9e63c1b2acf511b016d1d327732f51294cda48d4f38c7a23"
+    },
+    {
+      "id": "evaluation-006-designation-01-v1",
+      "case_id": "evaluation-006",
+      "role": "Designation",
+      "truth": "ДЖЭФ.227721.189-92Э3",
+      "actual": "ДЖ7Ф 227/21189-92 33",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.3345926666259766
+      ],
+      "min_line_confidence": 0.3345926666259766,
+      "elapsed_ms": 20.42143800008489,
+      "image_sha256": "ae23a565f27267ea9b469ae6a671cf065824fbaaf45b5d6b15175db48c13830f"
+    },
+    {
+      "id": "evaluation-006-designation-01-v2",
+      "case_id": "evaluation-006",
+      "role": "Designation",
+      "truth": "ДЖЭФ.227721.189-92Э3",
+      "actual": "ДЖЭФ 227721189-9233",
+      "exact": false,
+      "edit_distance": 3,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.4848501205444336
+      ],
+      "min_line_confidence": 0.4848501205444336,
+      "elapsed_ms": 24.083248999886564,
+      "image_sha256": "500f88767d2e752fbd4991ccb56327241aaff2957887ae694dba7db3ca739ef0"
+    },
+    {
+      "id": "evaluation-006-name-01-v1",
+      "case_id": "evaluation-006",
+      "role": "Name",
+      "truth": "Кабель DisplayPort 1147",
+      "actual": "Кабель DisplayPort 1147",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.6448750305175781
+      ],
+      "min_line_confidence": 0.6448750305175781,
+      "elapsed_ms": 18.369791000168334,
+      "image_sha256": "efd8255b8a06202ce31925ceef874735ca6ded27d5352f0c91fd854e7b98473d"
+    },
+    {
+      "id": "evaluation-006-name-01-v2",
+      "case_id": "evaluation-006",
+      "role": "Name",
+      "truth": "Кабель DisplayPort 1147",
+      "actual": "Кадель LisplayPort 1147",
+      "exact": false,
+      "edit_distance": 2,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.6637738037109375
+      ],
+      "min_line_confidence": 0.6637738037109375,
+      "elapsed_ms": 22.566022999853885,
+      "image_sha256": "1980724a6a0f3ef8547be010638de5b121e92cf3c9ac9e32b7bbe39a877b8205"
+    },
+    {
+      "id": "evaluation-007-designation-01-v1",
+      "case_id": "evaluation-007",
+      "role": "Designation",
+      "truth": "КЛЩЯ.236456.955ПЭ3",
+      "actual": "КИЩЯ 236456 955153",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.7694970703125
+      ],
+      "min_line_confidence": 0.7694970703125,
+      "elapsed_ms": 18.2216299999709,
+      "image_sha256": "6c7bd5b013f12fbff62ff832d695f7c3038bf930f171894ec4780b445f537604"
+    },
+    {
+      "id": "evaluation-007-designation-01-v2",
+      "case_id": "evaluation-007",
+      "role": "Designation",
+      "truth": "КЛЩЯ.236456.955ПЭ3",
+      "actual": "КИЩЯ 236456 9551133",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.804466552734375
+      ],
+      "min_line_confidence": 0.804466552734375,
+      "elapsed_ms": 23.43206699970324,
+      "image_sha256": "c97e184051dbb800229a7413a7b25064bff156c55bb9403761ab2e1018757df1"
+    },
+    {
+      "id": "evaluation-007-name-01-v1",
+      "case_id": "evaluation-007",
+      "role": "Name",
+      "truth": "Генератор импульсов",
+      "actual": "Генератор импульсов",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 19,
+      "line_confidences": [
+        0.9560132598876954
+      ],
+      "min_line_confidence": 0.9560132598876954,
+      "elapsed_ms": 10.04979999970601,
+      "image_sha256": "5e9023deb4959f7de89809f7fa0eece84c03d1dea4c1105f5aa9cc58b07bf1f3"
+    },
+    {
+      "id": "evaluation-007-name-01-v2",
+      "case_id": "evaluation-007",
+      "role": "Name",
+      "truth": "Генератор импульсов",
+      "actual": "Генератор импульсов",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 19,
+      "line_confidences": [
+        0.9441313171386718
+      ],
+      "min_line_confidence": 0.9441313171386718,
+      "elapsed_ms": 11.572384999908536,
+      "image_sha256": "af0eefac42c5153539a2b966b47e75eea322b2d5cdf8b6b55268bc3877db81c7"
+    },
+    {
+      "id": "evaluation-007-name-02-v1",
+      "case_id": "evaluation-007",
+      "role": "Name",
+      "truth": "Исполнение 8523",
+      "actual": "Исполнение 8523",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9542970275878906
+      ],
+      "min_line_confidence": 0.9542970275878906,
+      "elapsed_ms": 14.39749800010759,
+      "image_sha256": "31c7353e2775fc4a442a09b223ff70ea12ad92ba2a0219b25af53847a5289054"
+    },
+    {
+      "id": "evaluation-007-name-02-v2",
+      "case_id": "evaluation-007",
+      "role": "Name",
+      "truth": "Исполнение 8523",
+      "actual": "Исполнение 8523",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9537264251708985
+      ],
+      "min_line_confidence": 0.9537264251708985,
+      "elapsed_ms": 17.147301000022708,
+      "image_sha256": "c1e3ccd45440e4931f8cb027dea4cf03d10ae0b4bdbaad5cdfe68d1d6de41380"
+    },
+    {
+      "id": "evaluation-008-designation-01-v1",
+      "case_id": "evaluation-008",
+      "role": "Designation",
+      "truth": "ЮЖШФ.688279.071-83ПЭ3",
+      "actual": "OXI P688279071-831133",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.019072341918945312
+      ],
+      "min_line_confidence": 0.019072341918945312,
+      "elapsed_ms": 23.260520999883738,
+      "image_sha256": "03ce860aa3265b04479446b1aeabf46c241a08b1083d18cfb0a8e708c2283b26"
+    },
+    {
+      "id": "evaluation-008-designation-01-v2",
+      "case_id": "evaluation-008",
+      "role": "Designation",
+      "truth": "ЮЖШФ.688279.071-83ПЭ3",
+      "actual": "0ЖШФ6892/9071-83/133",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.044693069458007814
+      ],
+      "min_line_confidence": 0.044693069458007814,
+      "elapsed_ms": 28.627207999761595,
+      "image_sha256": "451fbf8e88e5060d1eb7f384ea6ffac3aa0bbcc4d2298b0fa5f467d7fdccfcdb"
+    },
+    {
+      "id": "evaluation-008-name-01-v1",
+      "case_id": "evaluation-008",
+      "role": "Name",
+      "truth": "Резонатор Murata 4629",
+      "actual": "Резонатор Murata 4629",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9493719482421875
+      ],
+      "min_line_confidence": 0.9493719482421875,
+      "elapsed_ms": 19.964892999723816,
+      "image_sha256": "7ec79dde155049a03ec5c21c6669fde8b1a8c45074b1da73750fd85d8c768df5"
+    },
+    {
+      "id": "evaluation-008-name-01-v2",
+      "case_id": "evaluation-008",
+      "role": "Name",
+      "truth": "Резонатор Murata 4629",
+      "actual": "Резонатор Murata 4629",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9375150299072266
+      ],
+      "min_line_confidence": 0.9375150299072266,
+      "elapsed_ms": 22.16501899965806,
+      "image_sha256": "d46222c18bf0c8b0e2f5709e08d34337e3a3e6d1ce2920adea02eba46963db47"
+    },
+    {
+      "id": "evaluation-009-designation-01-v1",
+      "case_id": "evaluation-009",
+      "role": "Designation",
+      "truth": "МЖЦФ.881790.820",
+      "actual": "MXLUP 881790820",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.6230625915527344
+      ],
+      "min_line_confidence": 0.6230625915527344,
+      "elapsed_ms": 16.388737999932346,
+      "image_sha256": "49c84d876cdd20d8c338427a76812e98ed5333ce2dc8574c6a3509eb168419ed"
+    },
+    {
+      "id": "evaluation-009-designation-01-v2",
+      "case_id": "evaluation-009",
+      "role": "Designation",
+      "truth": "МЖЦФ.881790.820",
+      "actual": "MXLUP881790E20",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.41941108703613283
+      ],
+      "min_line_confidence": 0.41941108703613283,
+      "elapsed_ms": 20.016668000153004,
+      "image_sha256": "f27b8a13669934de9d451171a44e8756b0ee492fffcc080a0d5ffbf56410fe90"
+    },
+    {
+      "id": "evaluation-009-name-01-v1",
+      "case_id": "evaluation-009",
+      "role": "Name",
+      "truth": "Приёмник радиоканала 5225",
+      "actual": "Приемник радиоканала 5225",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 25,
+      "line_confidences": [
+        0.9543309783935547
+      ],
+      "min_line_confidence": 0.9543309783935547,
+      "elapsed_ms": 22.26495700006126,
+      "image_sha256": "835ea3173efdc679a59af88817bcf1e6813b5246b20b7900f3693ae3f0945bf6"
+    },
+    {
+      "id": "evaluation-009-name-01-v2",
+      "case_id": "evaluation-009",
+      "role": "Name",
+      "truth": "Приёмник радиоканала 5225",
+      "actual": "Приемник радиоканала 5225",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 25,
+      "line_confidences": [
+        0.4934892272949219
+      ],
+      "min_line_confidence": 0.4934892272949219,
+      "elapsed_ms": 25.575420000222948,
+      "image_sha256": "bef7ee055c7038dab579a4088e3507a00ed916b04014d45146490add79ce7887"
+    },
+    {
+      "id": "evaluation-010-designation-01-v1",
+      "case_id": "evaluation-010",
+      "role": "Designation",
+      "truth": "ЯЖНФ.548184.755-22",
+      "actual": "ЯЖИФ 549164 755-22",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.409384765625
+      ],
+      "min_line_confidence": 0.409384765625,
+      "elapsed_ms": 19.573711999782972,
+      "image_sha256": "3da8bf7c2f6055fd9d95253efb8fe8b79f2971674db6b5347f46290c06024f42"
+    },
+    {
+      "id": "evaluation-010-designation-01-v2",
+      "case_id": "evaluation-010",
+      "role": "Designation",
+      "truth": "ЯЖНФ.548184.755-22",
+      "actual": "ЯЖНФ 549194 /55-72",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.7975495910644531
+      ],
+      "min_line_confidence": 0.7975495910644531,
+      "elapsed_ms": 24.30689099992378,
+      "image_sha256": "dd0f7e1c2f1c918b88336c26a126e1c15d32f0a1e59b87da0e4a76e64b00a8f5"
+    },
+    {
+      "id": "evaluation-010-name-01-v1",
+      "case_id": "evaluation-010",
+      "role": "Name",
+      "truth": "Коммутатор RS-485",
+      "actual": "Коммутатор RS-485",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.9047859954833984
+      ],
+      "min_line_confidence": 0.9047859954833984,
+      "elapsed_ms": 16.933403999701113,
+      "image_sha256": "2ea485df2b0445ba581e1c9cd8d8fd3bcf8611283dfe353d30c492c27155ae26"
+    },
+    {
+      "id": "evaluation-010-name-01-v2",
+      "case_id": "evaluation-010",
+      "role": "Name",
+      "truth": "Коммутатор RS-485",
+      "actual": "Коммутатор RS-485",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.9007603454589844
+      ],
+      "min_line_confidence": 0.9007603454589844,
+      "elapsed_ms": 18.543116000273585,
+      "image_sha256": "03d98ed80ad2e85b20b5dd31d04740cd73004fe0c53f1568e15a891a9900c5e9"
+    },
+    {
+      "id": "evaluation-010-name-02-v1",
+      "case_id": "evaluation-010",
+      "role": "Name",
+      "truth": "Исполнение 5933",
+      "actual": "Исполнение 5933",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9582547760009765
+      ],
+      "min_line_confidence": 0.9582547760009765,
+      "elapsed_ms": 13.677612000265071,
+      "image_sha256": "a218a8e94e8eb3faa0fb6962bb1361cef399e3dfc4c197db1731bda7332ab2a6"
+    },
+    {
+      "id": "evaluation-010-name-02-v2",
+      "case_id": "evaluation-010",
+      "role": "Name",
+      "truth": "Исполнение 5933",
+      "actual": "Исполнение 5933",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9634072875976563
+      ],
+      "min_line_confidence": 0.9634072875976563,
+      "elapsed_ms": 16.670874999817897,
+      "image_sha256": "bdba1694fa1818b19f5b49bdd3ec1da627675f490b1304caf397cc0bd76a4a2f"
+    },
+    {
+      "id": "evaluation-011-designation-01-v1",
+      "case_id": "evaluation-011",
+      "role": "Designation",
+      "truth": "ШЛРД.587200.343СБ",
+      "actual": "ШИРД 587200 343€B",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.7150447845458985
+      ],
+      "min_line_confidence": 0.7150447845458985,
+      "elapsed_ms": 18.180880000272737,
+      "image_sha256": "8036274c5dd0fc3e241a7effd2ba08fe2aeee3b1c2082d6c66c5e2af4a39dd95"
+    },
+    {
+      "id": "evaluation-011-designation-01-v2",
+      "case_id": "evaluation-011",
+      "role": "Designation",
+      "truth": "ШЛРД.587200.343СБ",
+      "actual": "ИРД 59872003455",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.0
+      ],
+      "min_line_confidence": 0.0,
+      "elapsed_ms": 21.285597000314738,
+      "image_sha256": "634b821e414f467f637c4f981161774db336995d96c3d97d6749b2f0253c1049"
+    },
+    {
+      "id": "evaluation-011-name-01-v1",
+      "case_id": "evaluation-011",
+      "role": "Name",
+      "truth": "Синтезатор частоты 4109",
+      "actual": "(интезатор частоты 4109",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.9389723205566406
+      ],
+      "min_line_confidence": 0.9389723205566406,
+      "elapsed_ms": 11.927961999845138,
+      "image_sha256": "57421ce9f8edb0ea5c4a6cd47713f02fe83966cb7890b5c30ce522644d5a243e"
+    },
+    {
+      "id": "evaluation-011-name-01-v2",
+      "case_id": "evaluation-011",
+      "role": "Name",
+      "truth": "Синтезатор частоты 4109",
+      "actual": "(интезатор частоты 4109",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.9437753295898438
+      ],
+      "min_line_confidence": 0.9437753295898438,
+      "elapsed_ms": 14.226987000256486,
+      "image_sha256": "77a93edcd6383ce535c2f7df10f89c8d862ed477b99636c3f2526f3e96f2e02b"
+    },
+    {
+      "id": "evaluation-012-designation-01-v1",
+      "case_id": "evaluation-012",
+      "role": "Designation",
+      "truth": "ФЖЮК.266160.528-97СБ",
+      "actual": "ФХИК 266160528-97(5",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.3493194580078125
+      ],
+      "min_line_confidence": 0.3493194580078125,
+      "elapsed_ms": 22.602326000196626,
+      "image_sha256": "8dfab266c00849059bb972901ba77320656f86da73d24970edc370cdd17ba9e6"
+    },
+    {
+      "id": "evaluation-012-designation-01-v2",
+      "case_id": "evaluation-012",
+      "role": "Designation",
+      "truth": "ФЖЮК.266160.528-97СБ",
+      "actual": "ФХЖЮК 266160528-9/B",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.3481889343261719
+      ],
+      "min_line_confidence": 0.3481889343261719,
+      "elapsed_ms": 27.501471000050515,
+      "image_sha256": "1596c8dd5ab5c0994a578570eddec8ca26994837c02c5aa12d4eb931bfb112d1"
+    },
+    {
+      "id": "evaluation-012-name-01-v1",
+      "case_id": "evaluation-012",
+      "role": "Name",
+      "truth": "Антенна GNSS 1381",
+      "actual": "Антенна GNSS 1391",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.9111803436279297
+      ],
+      "min_line_confidence": 0.9111803436279297,
+      "elapsed_ms": 16.711384000245744,
+      "image_sha256": "445c112377e526c152f9c2936e35cc359720fb3d31442bee20d486872d5da831"
+    },
+    {
+      "id": "evaluation-012-name-01-v2",
+      "case_id": "evaluation-012",
+      "role": "Name",
+      "truth": "Антенна GNSS 1381",
+      "actual": "Антенна GNSS 1387",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.9162940216064454
+      ],
+      "min_line_confidence": 0.9162940216064454,
+      "elapsed_ms": 18.793517000176507,
+      "image_sha256": "8f63f687293dd739dc7584466f34037f9a09f3124a95fcba9a9c53340ce1516f"
+    },
+    {
+      "id": "evaluation-013-designation-01-v1",
+      "case_id": "evaluation-013",
+      "role": "Designation",
+      "truth": "ЩЦЛГ.138814.613Э3",
+      "actual": "WLM 13991461333",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.2340027618408203
+      ],
+      "min_line_confidence": 0.2340027618408203,
+      "elapsed_ms": 17.763151999588445,
+      "image_sha256": "fe76371f702820829ba5f2d9602402baaa36f034be9c18596c5397156ee05c00"
+    },
+    {
+      "id": "evaluation-013-designation-01-v2",
+      "case_id": "evaluation-013",
+      "role": "Designation",
+      "truth": "ЩЦЛГ.138814.613Э3",
+      "actual": "ЦИТ. 139814.61373",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.30781494140625
+      ],
+      "min_line_confidence": 0.30781494140625,
+      "elapsed_ms": 20.18018100034169,
+      "image_sha256": "cd5d4bd066b1dba9b1f7cf702347208fd0741b0e3d27aaeb49ae15d6f414a007"
+    },
+    {
+      "id": "evaluation-013-name-01-v1",
+      "case_id": "evaluation-013",
+      "role": "Name",
+      "truth": "Измеритель напряжения",
+      "actual": "Измеритель напряжения",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9223809814453126
+      ],
+      "min_line_confidence": 0.9223809814453126,
+      "elapsed_ms": 12.28420899997218,
+      "image_sha256": "dc51ce8247eeaa7df969ea749ad31b44f87cc9f2a920655be7d2bece0753d5ff"
+    },
+    {
+      "id": "evaluation-013-name-01-v2",
+      "case_id": "evaluation-013",
+      "role": "Name",
+      "truth": "Измеритель напряжения",
+      "actual": "Измеритель напряжения",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9054943084716797
+      ],
+      "min_line_confidence": 0.9054943084716797,
+      "elapsed_ms": 13.406169999598205,
+      "image_sha256": "880ade6a6b7a5ca4396d4c799822472288737b394eca9a417c2ce1ea745b31e2"
+    },
+    {
+      "id": "evaluation-013-name-02-v1",
+      "case_id": "evaluation-013",
+      "role": "Name",
+      "truth": "Исполнение 6050",
+      "actual": "Исполнение 6050",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9433426666259765
+      ],
+      "min_line_confidence": 0.9433426666259765,
+      "elapsed_ms": 8.05028000013408,
+      "image_sha256": "3953041ddb13047c37c50b1d11e88a900a3a91328aa937308070d0ae2e00297c"
+    },
+    {
+      "id": "evaluation-013-name-02-v2",
+      "case_id": "evaluation-013",
+      "role": "Name",
+      "truth": "Исполнение 6050",
+      "actual": "Исполнение 6050",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9463606262207032
+      ],
+      "min_line_confidence": 0.9463606262207032,
+      "elapsed_ms": 9.667786000136402,
+      "image_sha256": "988057e4edf5162a85cf0fae039cc93aa8a2114aa92e4ec5d6050f584db52bfe"
+    },
+    {
+      "id": "evaluation-014-designation-01-v1",
+      "case_id": "evaluation-014",
+      "role": "Designation",
+      "truth": "ДЖЭФ.677113.935-03Э3",
+      "actual": "AKI 677113 935-0373",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.15543663024902343
+      ],
+      "min_line_confidence": 0.15543663024902343,
+      "elapsed_ms": 20.702633999917452,
+      "image_sha256": "3f75fae87e93df98e82236fa455faf84af01098d9831ae6607a4a3ab580f54e9"
+    },
+    {
+      "id": "evaluation-014-designation-01-v2",
+      "case_id": "evaluation-014",
+      "role": "Designation",
+      "truth": "ДЖЭФ.677113.935-03Э3",
+      "actual": "ДЖ7Ф6/ 1395-0353",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.2639929962158203
+      ],
+      "min_line_confidence": 0.2639929962158203,
+      "elapsed_ms": 24.176266999802465,
+      "image_sha256": "658aab4f5161455c23810b0744e94a44e69a61af143816ef596fce6efcb11314"
+    },
+    {
+      "id": "evaluation-014-name-01-v1",
+      "case_id": "evaluation-014",
+      "role": "Name",
+      "truth": "Кабель DisplayPort 8684",
+      "actual": "Кабель UisplayPort 8684",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.6788845825195312
+      ],
+      "min_line_confidence": 0.6788845825195312,
+      "elapsed_ms": 20.439065000118717,
+      "image_sha256": "54a44db6e03665c0271a6d42ad7171377a7f3c4d42c377fb635f48b598c1c21a"
+    },
+    {
+      "id": "evaluation-014-name-01-v2",
+      "case_id": "evaluation-014",
+      "role": "Name",
+      "truth": "Кабель DisplayPort 8684",
+      "actual": "Кадель LisplayPort 8684",
+      "exact": false,
+      "edit_distance": 2,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.5371697998046875
+      ],
+      "min_line_confidence": 0.5371697998046875,
+      "elapsed_ms": 23.341791999882844,
+      "image_sha256": "06f5868cd33ea053a3f85f6e08bf4a8977cdf4daa172c47561d55e26c9cdc2f0"
+    },
+    {
+      "id": "evaluation-015-designation-01-v1",
+      "case_id": "evaluation-015",
+      "role": "Designation",
+      "truth": "КЛЩЯ.980948.940ПЭ3",
+      "actual": "KAILA 990948 90/1153",
+      "exact": false,
+      "edit_distance": 13,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.6283059310913086
+      ],
+      "min_line_confidence": 0.6283059310913086,
+      "elapsed_ms": 20.4293689998849,
+      "image_sha256": "b415e8cde92e9b494c450f2bfb9d431805f5d5784e92672333923ba84fe360d1"
+    },
+    {
+      "id": "evaluation-015-designation-01-v2",
+      "case_id": "evaluation-015",
+      "role": "Designation",
+      "truth": "КЛЩЯ.980948.940ПЭ3",
+      "actual": "KALA 980948 9401133",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.6706893157958984
+      ],
+      "min_line_confidence": 0.6706893157958984,
+      "elapsed_ms": 23.67576700044083,
+      "image_sha256": "b8725b44639de5fdb622994b28a8db801d08bfd8ccc739559fbd5da87eccbebd"
+    },
+    {
+      "id": "evaluation-015-name-01-v1",
+      "case_id": "evaluation-015",
+      "role": "Name",
+      "truth": "Генератор импульсов 8658",
+      "actual": "Генератор импульсов 8658",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 24,
+      "line_confidences": [
+        0.9458097839355468
+      ],
+      "min_line_confidence": 0.9458097839355468,
+      "elapsed_ms": 22.151759999815113,
+      "image_sha256": "4892418332ff21377d5c164314dc6479c6c57f6bbd0b42a8c4a6c40356a1528b"
+    },
+    {
+      "id": "evaluation-015-name-01-v2",
+      "case_id": "evaluation-015",
+      "role": "Name",
+      "truth": "Генератор импульсов 8658",
+      "actual": "Генератор импульсов 8658",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 24,
+      "line_confidences": [
+        0.8907867431640625
+      ],
+      "min_line_confidence": 0.8907867431640625,
+      "elapsed_ms": 14.325462000215339,
+      "image_sha256": "07021e9befe14a4e78d3c7c323b00ac664eb3eb72d5cb59cf1478d627b9c1d46"
+    },
+    {
+      "id": "evaluation-016-designation-01-v1",
+      "case_id": "evaluation-016",
+      "role": "Designation",
+      "truth": "ЮЖШФ.987624.105-02ПЭ3",
+      "actual": "КЖШФ 987624 105-0713",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.4810857391357422
+      ],
+      "min_line_confidence": 0.4810857391357422,
+      "elapsed_ms": 24.065254000106506,
+      "image_sha256": "b0976de2fcb6bce9e9bf325bd7c2ee505bffcc09ba676bfb41b34eec447c1d07"
+    },
+    {
+      "id": "evaluation-016-designation-01-v2",
+      "case_id": "evaluation-016",
+      "role": "Designation",
+      "truth": "ЮЖШФ.987624.105-02ПЭ3",
+      "actual": "ЮЖШФ 987624 105-0213",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.5090462112426758
+      ],
+      "min_line_confidence": 0.5090462112426758,
+      "elapsed_ms": 27.702349000264803,
+      "image_sha256": "176d9dd50748dc9c00a5efa44ec55bc88d65f13c5863cdc12257f96139946517"
+    },
+    {
+      "id": "evaluation-016-name-01-v1",
+      "case_id": "evaluation-016",
+      "role": "Name",
+      "truth": "Резонатор Murata",
+      "actual": "Резонатор Murata",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 16,
+      "line_confidences": [
+        0.9432144927978515
+      ],
+      "min_line_confidence": 0.9432144927978515,
+      "elapsed_ms": 15.883568999925046,
+      "image_sha256": "5c2571e43c16f5890e99092b58a24cfe192023b914481d84a998362264572d7b"
+    },
+    {
+      "id": "evaluation-016-name-01-v2",
+      "case_id": "evaluation-016",
+      "role": "Name",
+      "truth": "Резонатор Murata",
+      "actual": "Резонатор Murata",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 16,
+      "line_confidences": [
+        0.9348135375976563
+      ],
+      "min_line_confidence": 0.9348135375976563,
+      "elapsed_ms": 15.83634799999345,
+      "image_sha256": "4690b6a5f190c7c31675efb567463d71defd17dd236471cfa7592ef56dccce47"
+    },
+    {
+      "id": "evaluation-016-name-02-v1",
+      "case_id": "evaluation-016",
+      "role": "Name",
+      "truth": "Исполнение 4375",
+      "actual": "Исполнение 4375",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9549739074707031
+      ],
+      "min_line_confidence": 0.9549739074707031,
+      "elapsed_ms": 8.60351899973466,
+      "image_sha256": "431d8516f8762621fba859276666cceef36e4d25a5eb417df4dea33d297152a5"
+    },
+    {
+      "id": "evaluation-016-name-02-v2",
+      "case_id": "evaluation-016",
+      "role": "Name",
+      "truth": "Исполнение 4375",
+      "actual": "Исполнение 43/5",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9355817413330079
+      ],
+      "min_line_confidence": 0.9355817413330079,
+      "elapsed_ms": 9.477132000029087,
+      "image_sha256": "a84d34df960e1e9a204c21f240f2119e88d70039208d9061a5f7cf764c6b5e2f"
+    },
+    {
+      "id": "evaluation-017-designation-01-v1",
+      "case_id": "evaluation-017",
+      "role": "Designation",
+      "truth": "МЖЦФ.657109.140",
+      "actual": "MXLP.65 109 140",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.7438259124755859
+      ],
+      "min_line_confidence": 0.7438259124755859,
+      "elapsed_ms": 15.722439999990456,
+      "image_sha256": "291b669a5b501f53789f242aa840613b81bdee8e6bbe93f2434c67fab39bdc28"
+    },
+    {
+      "id": "evaluation-017-designation-01-v2",
+      "case_id": "evaluation-017",
+      "role": "Designation",
+      "truth": "МЖЦФ.657109.140",
+      "actual": "МЖЦФ6>/109 140",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.5301398468017579
+      ],
+      "min_line_confidence": 0.5301398468017579,
+      "elapsed_ms": 18.952733999867633,
+      "image_sha256": "67f149e095a8cb2835fb1ba1d4c38f87ef5e41bc86583e6208c7191c907c5a77"
+    },
+    {
+      "id": "evaluation-017-name-01-v1",
+      "case_id": "evaluation-017",
+      "role": "Name",
+      "truth": "Приёмник радиоканала 2533",
+      "actual": "Приемник радиоканала 2533",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 25,
+      "line_confidences": [
+        0.9514261627197266
+      ],
+      "min_line_confidence": 0.9514261627197266,
+      "elapsed_ms": 12.210110000069108,
+      "image_sha256": "9e43486766356e522edbce93c5de4e9ae4edaed4bbb6b876b9e352e50c2ab62c"
+    },
+    {
+      "id": "evaluation-017-name-01-v2",
+      "case_id": "evaluation-017",
+      "role": "Name",
+      "truth": "Приёмник радиоканала 2533",
+      "actual": "Приемник радиоканала 2533",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 25,
+      "line_confidences": [
+        0.6015171051025391
+      ],
+      "min_line_confidence": 0.6015171051025391,
+      "elapsed_ms": 25.136058000043704,
+      "image_sha256": "5dcbbe7a253a00354db49ab4c16a43e9f033d5c390a4fdf90f3c0e4fd8f86e6c"
+    },
+    {
+      "id": "evaluation-018-designation-01-v1",
+      "case_id": "evaluation-018",
+      "role": "Designation",
+      "truth": "ЯЖНФ.308194.493-63",
+      "actual": "AKH® 308194.493-63",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.5320502853393555
+      ],
+      "min_line_confidence": 0.5320502853393555,
+      "elapsed_ms": 19.508375999976124,
+      "image_sha256": "269b650d6f5960179885c012f4b4e01decfdee581a7bd78439f5ba766628d63a"
+    },
+    {
+      "id": "evaluation-018-designation-01-v2",
+      "case_id": "evaluation-018",
+      "role": "Designation",
+      "truth": "ЯЖНФ.308194.493-63",
+      "actual": "ЯЖНФ 308194.493-63",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.8410868072509765
+      ],
+      "min_line_confidence": 0.8410868072509765,
+      "elapsed_ms": 24.025003000133438,
+      "image_sha256": "05c52184849c2c8fd238ae189cb29a210f04fa3886c319a261e79b1df883a7c5"
+    },
+    {
+      "id": "evaluation-018-name-01-v1",
+      "case_id": "evaluation-018",
+      "role": "Name",
+      "truth": "Коммутатор RS-485 7645",
+      "actual": "Коммутатор RS-485 7645",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 22,
+      "line_confidences": [
+        0.9118455505371094
+      ],
+      "min_line_confidence": 0.9118455505371094,
+      "elapsed_ms": 19.991020999896136,
+      "image_sha256": "6fa4ab62ee2543d6ef4078a3d3565be313f12b719010bcd9f1d8ccb9ad109784"
+    },
+    {
+      "id": "evaluation-018-name-01-v2",
+      "case_id": "evaluation-018",
+      "role": "Name",
+      "truth": "Коммутатор RS-485 7645",
+      "actual": "Коммутатор RS-485 7645",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 22,
+      "line_confidences": [
+        0.9007118225097657
+      ],
+      "min_line_confidence": 0.9007118225097657,
+      "elapsed_ms": 22.580554999876767,
+      "image_sha256": "d092169914aa5bcdcc9adbe3566fdad3e13dd1ae2a35bcd1a5412f3e63845aee"
+    },
+    {
+      "id": "evaluation-019-designation-01-v1",
+      "case_id": "evaluation-019",
+      "role": "Designation",
+      "truth": "ШЛРД.190272.546СБ",
+      "actual": "ШИРД 190272 5466",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.6343783569335938
+      ],
+      "min_line_confidence": 0.6343783569335938,
+      "elapsed_ms": 17.239605999748164,
+      "image_sha256": "0a86f0983ccc83063feee984442a285b8ce9879976b3236582db43dbc5233cf7"
+    },
+    {
+      "id": "evaluation-019-designation-01-v2",
+      "case_id": "evaluation-019",
+      "role": "Designation",
+      "truth": "ШЛРД.190272.546СБ",
+      "actual": "ШИРД. 1907 72.5465",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.2890100860595703
+      ],
+      "min_line_confidence": 0.2890100860595703,
+      "elapsed_ms": 21.21444199974576,
+      "image_sha256": "ba744e264bd54a39ed638e0fb6a5a079bbaf132c9c673bdfcc178b44f3ff3f49"
+    },
+    {
+      "id": "evaluation-019-name-01-v1",
+      "case_id": "evaluation-019",
+      "role": "Name",
+      "truth": "Синтезатор частоты",
+      "actual": "lt интезатор частоты",
+      "exact": false,
+      "edit_distance": 3,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.7478883361816406
+      ],
+      "min_line_confidence": 0.7478883361816406,
+      "elapsed_ms": 22.619392000251537,
+      "image_sha256": "0f017bed358f063fc7c12b9ff9402f64c69f65809b9924fb551d5d3654842825"
+    },
+    {
+      "id": "evaluation-019-name-01-v2",
+      "case_id": "evaluation-019",
+      "role": "Name",
+      "truth": "Синтезатор частоты",
+      "actual": "(| интезатор частоты",
+      "exact": false,
+      "edit_distance": 3,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.6605641174316407
+      ],
+      "min_line_confidence": 0.6605641174316407,
+      "elapsed_ms": 25.039764999746694,
+      "image_sha256": "ccb5bca95c6bde613491773f52212db4c956f6f9b49673e5d2593e56bb7d349f"
+    },
+    {
+      "id": "evaluation-019-name-02-v1",
+      "case_id": "evaluation-019",
+      "role": "Name",
+      "truth": "Исполнение 5198",
+      "actual": "Исполнение 5198",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9557218170166015
+      ],
+      "min_line_confidence": 0.9557218170166015,
+      "elapsed_ms": 8.495829999901616,
+      "image_sha256": "8ad7b409f565b8859ae48c5043a0741e108a9c8fff0b5c9a48a6700b7a7a26d0"
+    },
+    {
+      "id": "evaluation-019-name-02-v2",
+      "case_id": "evaluation-019",
+      "role": "Name",
+      "truth": "Исполнение 5198",
+      "actual": "Исполнение 5198",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9410601806640625
+      ],
+      "min_line_confidence": 0.9410601806640625,
+      "elapsed_ms": 8.984143999896332,
+      "image_sha256": "9efa0445d7f458d82aa85581d7033b0c563e3242804d3142552c50dc42aa7891"
+    },
+    {
+      "id": "evaluation-020-designation-01-v1",
+      "case_id": "evaluation-020",
+      "role": "Designation",
+      "truth": "ФЖЮК.952816.928-90СБ",
+      "actual": "PXUOK 952816. 975-90",
+      "exact": false,
+      "edit_distance": 11,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.3863243103027344
+      ],
+      "min_line_confidence": 0.3863243103027344,
+      "elapsed_ms": 58.012328000131674,
+      "image_sha256": "5520a9387146fb14d30c5be4940f76c89db5bd947714b27b8b7f37b65d3019ec"
+    },
+    {
+      "id": "evaluation-020-designation-01-v2",
+      "case_id": "evaluation-020",
+      "role": "Designation",
+      "truth": "ФЖЮК.952816.928-90СБ",
+      "actual": "PKK 957916 978-905",
+      "exact": false,
+      "edit_distance": 11,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.3283271789550781
+      ],
+      "min_line_confidence": 0.3283271789550781,
+      "elapsed_ms": 29.785501999867847,
+      "image_sha256": "9542af975b0c10b0f11ad844cac5436a27645f0aeec968b5b8c80a57f4093ae6"
+    },
+    {
+      "id": "evaluation-020-name-01-v1",
+      "case_id": "evaluation-020",
+      "role": "Name",
+      "truth": "Антенна GNSS 3551",
+      "actual": "Антенна GNSS 3551",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.9469293212890625
+      ],
+      "min_line_confidence": 0.9469293212890625,
+      "elapsed_ms": 16.04660100019828,
+      "image_sha256": "676de1ee1c06ec1591e2e1ed1a5e60b9f8f00fed8acbb98df0035b899d21d952"
+    },
+    {
+      "id": "evaluation-020-name-01-v2",
+      "case_id": "evaluation-020",
+      "role": "Name",
+      "truth": "Антенна GNSS 3551",
+      "actual": "Антенна GNSS 3557",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.9520015716552734
+      ],
+      "min_line_confidence": 0.9520015716552734,
+      "elapsed_ms": 19.42848699991373,
+      "image_sha256": "91d353fb197fe79d3bd313edfa1afd685846cf89f685d91e406c5b76960c96bd"
+    },
+    {
+      "id": "evaluation-021-designation-01-v1",
+      "case_id": "evaluation-021",
+      "role": "Designation",
+      "truth": "ЩЦЛГ.180956.840Э3",
+      "actual": "WLM 18095684033",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.5755585479736328
+      ],
+      "min_line_confidence": 0.5755585479736328,
+      "elapsed_ms": 19.812285999705637,
+      "image_sha256": "afba1eea3236941074c73338651bec0f4f71ada4bef8a41aa0ad777f067b91cc"
+    },
+    {
+      "id": "evaluation-021-designation-01-v2",
+      "case_id": "evaluation-021",
+      "role": "Designation",
+      "truth": "ЩЦЛГ.180956.840Э3",
+      "actual": "ЦИТ. 190956.94033",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.033158493041992185
+      ],
+      "min_line_confidence": 0.033158493041992185,
+      "elapsed_ms": 22.515049000048748,
+      "image_sha256": "4faaf995f811195a8c1768a9fcd6ed2fcd7ea9384e4280fe2c7722f9f0cabfa9"
+    },
+    {
+      "id": "evaluation-021-name-01-v1",
+      "case_id": "evaluation-021",
+      "role": "Name",
+      "truth": "Измеритель напряжения 8487",
+      "actual": "Измеритель напряжения 8487",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.9656103515625
+      ],
+      "min_line_confidence": 0.9656103515625,
+      "elapsed_ms": 33.90262299990354,
+      "image_sha256": "64cb182e2451f5ee430745fcddcc977b82eaa8f3155e84ad216cdbc47cc424d8"
+    },
+    {
+      "id": "evaluation-021-name-01-v2",
+      "case_id": "evaluation-021",
+      "role": "Name",
+      "truth": "Измеритель напряжения 8487",
+      "actual": "Измеритель напряжения 8487",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.9402860260009765
+      ],
+      "min_line_confidence": 0.9402860260009765,
+      "elapsed_ms": 41.31804999997257,
+      "image_sha256": "540c1b62b38071e082a8af94b0e5ef4350fdb8de207ec6b3e351cf35161d732f"
+    },
+    {
+      "id": "evaluation-022-designation-01-v1",
+      "case_id": "evaluation-022",
+      "role": "Designation",
+      "truth": "ДЖЭФ.595936.062-15Э3",
+      "actual": "ДЖ7Ф595936062-1533",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.37917800903320314
+      ],
+      "min_line_confidence": 0.37917800903320314,
+      "elapsed_ms": 20.859555999777513,
+      "image_sha256": "766003804fe61c5f6d024cd8799c3180936d8290b7a3d9eb2003bc19e42ef047"
+    },
+    {
+      "id": "evaluation-022-designation-01-v2",
+      "case_id": "evaluation-022",
+      "role": "Designation",
+      "truth": "ДЖЭФ.595936.062-15Э3",
+      "actual": "ДЖ7Ф595936062-Р53",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.4148619842529297
+      ],
+      "min_line_confidence": 0.4148619842529297,
+      "elapsed_ms": 26.900442000169278,
+      "image_sha256": "2b86ad247a77f4ece657ec23727d1c4a21ea9c654facc86db00f3b3c715ca1e5"
+    },
+    {
+      "id": "evaluation-022-name-01-v1",
+      "case_id": "evaluation-022",
+      "role": "Name",
+      "truth": "Кабель DisplayPort",
+      "actual": "Кабель DisplayPort",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.47082080841064455
+      ],
+      "min_line_confidence": 0.47082080841064455,
+      "elapsed_ms": 28.488081999967108,
+      "image_sha256": "bc34a9605ba33a206114ee2fe3e4c03ac09bfaaf48f9bedd1469b78fa3a634f3"
+    },
+    {
+      "id": "evaluation-022-name-01-v2",
+      "case_id": "evaluation-022",
+      "role": "Name",
+      "truth": "Кабель DisplayPort",
+      "actual": "Кадель DisplayPort",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.6806568145751953
+      ],
+      "min_line_confidence": 0.6806568145751953,
+      "elapsed_ms": 33.543508000093425,
+      "image_sha256": "3ab97c43d38dbf57b1628edc01e53222a30fc2da8c9685566e4ac47d75d4cfb0"
+    },
+    {
+      "id": "evaluation-022-name-02-v1",
+      "case_id": "evaluation-022",
+      "role": "Name",
+      "truth": "Исполнение 8060",
+      "actual": "Исполнение 8060",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9597329711914062
+      ],
+      "min_line_confidence": 0.9597329711914062,
+      "elapsed_ms": 31.72308199964391,
+      "image_sha256": "ab991fa2f3d4789ab3d45dd0c6fff520ef25436d9b78b4ca77876edfa7b20816"
+    },
+    {
+      "id": "evaluation-022-name-02-v2",
+      "case_id": "evaluation-022",
+      "role": "Name",
+      "truth": "Исполнение 8060",
+      "actual": "Исполнение 8060",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9472035980224609
+      ],
+      "min_line_confidence": 0.9472035980224609,
+      "elapsed_ms": 20.036759000049642,
+      "image_sha256": "300113f3ffe69779854d13d41e74e120d5d43ccac66c91f0af49c24cc8a15209"
+    },
+    {
+      "id": "evaluation-023-designation-01-v1",
+      "case_id": "evaluation-023",
+      "role": "Designation",
+      "truth": "КЛЩЯ.675312.882ПЭ3",
+      "actual": "КИЩЯб6 75312 8621193",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.39146942138671875
+      ],
+      "min_line_confidence": 0.39146942138671875,
+      "elapsed_ms": 38.785619999998744,
+      "image_sha256": "4c78cc6e28986384989e197b011e90357272dccbfff3cb9b42f0e1f36cc2a041"
+    },
+    {
+      "id": "evaluation-023-designation-01-v2",
+      "case_id": "evaluation-023",
+      "role": "Designation",
+      "truth": "КЛЩЯ.675312.882ПЭ3",
+      "actual": "КИЩЯ 6 75312 6621133",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.6316405868530274
+      ],
+      "min_line_confidence": 0.6316405868530274,
+      "elapsed_ms": 36.65224099995612,
+      "image_sha256": "5fb721ab696bae16aa36271e22890bb5138cb0826270a02bc132265cb0af58b5"
+    },
+    {
+      "id": "evaluation-023-name-01-v1",
+      "case_id": "evaluation-023",
+      "role": "Name",
+      "truth": "Генератор импульсов 5769",
+      "actual": "Генератор импульсов 5769",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 24,
+      "line_confidences": [
+        0.954593505859375
+      ],
+      "min_line_confidence": 0.954593505859375,
+      "elapsed_ms": 22.41540100021666,
+      "image_sha256": "7b5124baaaedbfacf81381bba91d48896e91fb4c92a409fd456e177d9ef5512a"
+    },
+    {
+      "id": "evaluation-023-name-01-v2",
+      "case_id": "evaluation-023",
+      "role": "Name",
+      "truth": "Генератор импульсов 5769",
+      "actual": "Генератор импульсов 5769",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 24,
+      "line_confidences": [
+        0.9077749633789063
+      ],
+      "min_line_confidence": 0.9077749633789063,
+      "elapsed_ms": 25.35158799992132,
+      "image_sha256": "3c1b0a37e44b632498361972fbb747a59c182c9ceb470f4979b88887624bd97d"
+    },
+    {
+      "id": "evaluation-024-designation-01-v1",
+      "case_id": "evaluation-024",
+      "role": "Designation",
+      "truth": "ЮЖШФ.322107.528-29ПЭ3",
+      "actual": "КЖШФ 3221075 28-2 A1F3",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.20618865966796876
+      ],
+      "min_line_confidence": 0.20618865966796876,
+      "elapsed_ms": 26.362484999935987,
+      "image_sha256": "8844c0ea28a7231126772d422ed4415f96dd2949956a2776a788adc4b98056db"
+    },
+    {
+      "id": "evaluation-024-designation-01-v2",
+      "case_id": "evaluation-024",
+      "role": "Designation",
+      "truth": "ЮЖШФ.322107.528-29ПЭ3",
+      "actual": "ЮЖШФ 322107 5728-29133",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.6167352676391602
+      ],
+      "min_line_confidence": 0.6167352676391602,
+      "elapsed_ms": 30.598586999985855,
+      "image_sha256": "3b68520fc103e74578d479aee53f0b280932af0dc753f3906f7a4656250375f0"
+    },
+    {
+      "id": "evaluation-024-name-01-v1",
+      "case_id": "evaluation-024",
+      "role": "Name",
+      "truth": "Резонатор Murata 3321",
+      "actual": "Резонатор Murata 3321",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9498926544189453
+      ],
+      "min_line_confidence": 0.9498926544189453,
+      "elapsed_ms": 20.04616200019882,
+      "image_sha256": "64a72c80a5e51f1d2dd46d2bab95aaeb296329134baadf9673d5cbaff4fd7054"
+    },
+    {
+      "id": "evaluation-024-name-01-v2",
+      "case_id": "evaluation-024",
+      "role": "Name",
+      "truth": "Резонатор Murata 3321",
+      "actual": "Резонатор Murata 3321",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9208423614501953
+      ],
+      "min_line_confidence": 0.9208423614501953,
+      "elapsed_ms": 21.350935000100435,
+      "image_sha256": "e168246750ff871d79f7ead3c74a865fc236ad572cebe6f8c5ccdcfbdb3e12b8"
+    },
+    {
+      "id": "evaluation-025-designation-01-v1",
+      "case_id": "evaluation-025",
+      "role": "Designation",
+      "truth": "МЖЦФ.396089.812",
+      "actual": "МЖЦФ 396099912",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.6501138305664063
+      ],
+      "min_line_confidence": 0.6501138305664063,
+      "elapsed_ms": 17.890910999994958,
+      "image_sha256": "e4bdad9141d092c1d06037d9027f7f04c0c30c207deef83dcbbe226bc38ed5b0"
+    },
+    {
+      "id": "evaluation-025-designation-01-v2",
+      "case_id": "evaluation-025",
+      "role": "Designation",
+      "truth": "МЖЦФ.396089.812",
+      "actual": "МЖЦФ 396089812",
+      "exact": false,
+      "edit_distance": 2,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.7845517730712891
+      ],
+      "min_line_confidence": 0.7845517730712891,
+      "elapsed_ms": 21.412233999853925,
+      "image_sha256": "c2d68961bceeb3ca40e78cd0413c692e00e05e6b3c963974228a9643700538ca"
+    },
+    {
+      "id": "evaluation-025-name-01-v1",
+      "case_id": "evaluation-025",
+      "role": "Name",
+      "truth": "Приёмник радиоканала",
+      "actual": "Приемник радиоканала",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.9207786560058594
+      ],
+      "min_line_confidence": 0.9207786560058594,
+      "elapsed_ms": 10.434510999857594,
+      "image_sha256": "608df562f49b0e7bd15b46445e3d69bf1685c06ee0afd26df2bd0dc05c2dbed3"
+    },
+    {
+      "id": "evaluation-025-name-01-v2",
+      "case_id": "evaluation-025",
+      "role": "Name",
+      "truth": "Приёмник радиоканала",
+      "actual": "Приемник радиоканала",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.3962664794921875
+      ],
+      "min_line_confidence": 0.3962664794921875,
+      "elapsed_ms": 23.500707000039256,
+      "image_sha256": "f9747842e9aaea6a9431d976c7317e7bbd5b503f97b31bc417825f034246e733"
+    },
+    {
+      "id": "evaluation-025-name-02-v1",
+      "case_id": "evaluation-025",
+      "role": "Name",
+      "truth": "Исполнение 8578",
+      "actual": "Исполнение 8578",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9344651031494141
+      ],
+      "min_line_confidence": 0.9344651031494141,
+      "elapsed_ms": 8.653893999962747,
+      "image_sha256": "613b80de99e07a7074b79bc2ae660ed83ac66cc9f803fc882c36da488ccc602f"
+    },
+    {
+      "id": "evaluation-025-name-02-v2",
+      "case_id": "evaluation-025",
+      "role": "Name",
+      "truth": "Исполнение 8578",
+      "actual": "Исполнение 8578",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9563724517822265
+      ],
+      "min_line_confidence": 0.9563724517822265,
+      "elapsed_ms": 17.71825500009072,
+      "image_sha256": "eea7365506ad7b7e59232bd644dec810ae35f16e391e188bf1898f28010fd24d"
+    },
+    {
+      "id": "evaluation-026-designation-01-v1",
+      "case_id": "evaluation-026",
+      "role": "Designation",
+      "truth": "ЯЖНФ.858401.004-53",
+      "actual": "AKHP858401004-53",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.4021367645263672
+      ],
+      "min_line_confidence": 0.4021367645263672,
+      "elapsed_ms": 20.448228000077506,
+      "image_sha256": "15468d52a9780a0d530f35cf78674fee2d0612de40597a67f3a09511714530b5"
+    },
+    {
+      "id": "evaluation-026-designation-01-v2",
+      "case_id": "evaluation-026",
+      "role": "Designation",
+      "truth": "ЯЖНФ.858401.004-53",
+      "actual": "ЯЖНФ959401004-53",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.40251220703125
+      ],
+      "min_line_confidence": 0.40251220703125,
+      "elapsed_ms": 23.25918999986243,
+      "image_sha256": "6b2ab7dc55dad0cf268c6619fd03fe27a498a1a5b37c5b3b1e99fd3ee878afe2"
+    },
+    {
+      "id": "evaluation-026-name-01-v1",
+      "case_id": "evaluation-026",
+      "role": "Name",
+      "truth": "Коммутатор RS-485 6531",
+      "actual": "Коммутатор RS-485 6531",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 22,
+      "line_confidences": [
+        0.903626937866211
+      ],
+      "min_line_confidence": 0.903626937866211,
+      "elapsed_ms": 21.316433000265533,
+      "image_sha256": "c1c83e4798e7127e5a153121fb4bb1bd7b6fed02fac900d3d2af6800b3e35389"
+    },
+    {
+      "id": "evaluation-026-name-01-v2",
+      "case_id": "evaluation-026",
+      "role": "Name",
+      "truth": "Коммутатор RS-485 6531",
+      "actual": "Коммутатор RS-485 6531",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 22,
+      "line_confidences": [
+        0.8481268310546874
+      ],
+      "min_line_confidence": 0.8481268310546874,
+      "elapsed_ms": 22.541485000147077,
+      "image_sha256": "64cb2ddaae9dbbfcfe96a59f59db4610a4a11a59ba1817427e998a4cfa80f02c"
+    },
+    {
+      "id": "evaluation-027-designation-01-v1",
+      "case_id": "evaluation-027",
+      "role": "Designation",
+      "truth": "ШЛРД.961091.823СБ",
+      "actual": "ШИРД 9610915755",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.5180913925170898
+      ],
+      "min_line_confidence": 0.5180913925170898,
+      "elapsed_ms": 18.276230999617837,
+      "image_sha256": "c52ca50b7d089e4ebd6cf1fee2cbae16ff072c12977ed411f3c99724741f0793"
+    },
+    {
+      "id": "evaluation-027-designation-01-v2",
+      "case_id": "evaluation-027",
+      "role": "Designation",
+      "truth": "ШЛРД.961091.823СБ",
+      "actual": "ШИРД.961091523;СБ",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.26825752258300783
+      ],
+      "min_line_confidence": 0.26825752258300783,
+      "elapsed_ms": 26.240992000111873,
+      "image_sha256": "00ec6edd7ce31ffd580dce1667db14022f7c429a102af5c32d4771143b5ce913"
+    },
+    {
+      "id": "evaluation-027-name-01-v1",
+      "case_id": "evaluation-027",
+      "role": "Name",
+      "truth": "Синтезатор частоты 2144",
+      "actual": "(интезатор частоты 2144",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.9172097015380859
+      ],
+      "min_line_confidence": 0.9172097015380859,
+      "elapsed_ms": 12.384546999783197,
+      "image_sha256": "d97197becd755314a8e52cdcccf9ce54c47ba23b6fd5717038a6d09742905152"
+    },
+    {
+      "id": "evaluation-027-name-01-v2",
+      "case_id": "evaluation-027",
+      "role": "Name",
+      "truth": "Синтезатор частоты 2144",
+      "actual": "(интезатор частоты 2144",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.9361472320556641
+      ],
+      "min_line_confidence": 0.9361472320556641,
+      "elapsed_ms": 13.892159000079118,
+      "image_sha256": "71b3105a30d3ec31acbbce4339de11a935520749545cb74185c631b817af4bc4"
+    },
+    {
+      "id": "evaluation-028-designation-01-v1",
+      "case_id": "evaluation-028",
+      "role": "Designation",
+      "truth": "ФЖЮК.579420.091-63СБ",
+      "actual": "PXUOK 579420097-63(B",
+      "exact": false,
+      "edit_distance": 10,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.405622673034668
+      ],
+      "min_line_confidence": 0.405622673034668,
+      "elapsed_ms": 24.375009999857866,
+      "image_sha256": "6dd180c433f04b59f6ef6987ed7e6076467bc6e58239341c9301c65a08b882fd"
+    },
+    {
+      "id": "evaluation-028-designation-01-v2",
+      "case_id": "evaluation-028",
+      "role": "Designation",
+      "truth": "ФЖЮК.579420.091-63СБ",
+      "actual": "PKK 579420097-63CB",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.0903741455078125
+      ],
+      "min_line_confidence": 0.0903741455078125,
+      "elapsed_ms": 25.49209399967367,
+      "image_sha256": "4e971e0ab39788c579d3fc250676bdc0be638dfc4a959d986ff037f0c7077aa4"
+    },
+    {
+      "id": "evaluation-028-name-01-v1",
+      "case_id": "evaluation-028",
+      "role": "Name",
+      "truth": "Антенна GNSS",
+      "actual": "Антенна GNSS",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 12,
+      "line_confidences": [
+        0.9646624755859375
+      ],
+      "min_line_confidence": 0.9646624755859375,
+      "elapsed_ms": 13.14623300004314,
+      "image_sha256": "a3acd8ea876adf363bd248c35c8b042515a6199cb7c760dcdecf04c9e5870e99"
+    },
+    {
+      "id": "evaluation-028-name-01-v2",
+      "case_id": "evaluation-028",
+      "role": "Name",
+      "truth": "Антенна GNSS",
+      "actual": "Антенна GNSS",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 12,
+      "line_confidences": [
+        0.9431675720214844
+      ],
+      "min_line_confidence": 0.9431675720214844,
+      "elapsed_ms": 13.928402999681566,
+      "image_sha256": "911d8680f97866e0649da5f7f7d8f5edb10764b27a3858a13354ac02c84e0fff"
+    },
+    {
+      "id": "evaluation-028-name-02-v1",
+      "case_id": "evaluation-028",
+      "role": "Name",
+      "truth": "Исполнение 3363",
+      "actual": "Исполнение 3363",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9602391815185547
+      ],
+      "min_line_confidence": 0.9602391815185547,
+      "elapsed_ms": 8.069536999755655,
+      "image_sha256": "16501cb3002c241cf2de61353ecc1a6b04b15b5b16d254ef2e7dc5c9f0e18c1d"
+    },
+    {
+      "id": "evaluation-028-name-02-v2",
+      "case_id": "evaluation-028",
+      "role": "Name",
+      "truth": "Исполнение 3363",
+      "actual": "Исполнение 3363",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9605808258056641
+      ],
+      "min_line_confidence": 0.9605808258056641,
+      "elapsed_ms": 8.891726000001654,
+      "image_sha256": "609ec728fdf22d9e2102d3e10bd7fb38173c1264173a26d4a02603b9660f96f7"
+    },
+    {
+      "id": "evaluation-029-designation-01-v1",
+      "case_id": "evaluation-029",
+      "role": "Designation",
+      "truth": "ЩЦЛГ.499009.290Э3",
+      "actual": "LLM 499009 29033",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.7070262908935547
+      ],
+      "min_line_confidence": 0.7070262908935547,
+      "elapsed_ms": 18.282878999798413,
+      "image_sha256": "451f4ade165f9d337672dfc1e3505604b0d6c08e8d2a5bba7d06a5c9298b4fa2"
+    },
+    {
+      "id": "evaluation-029-designation-01-v2",
+      "case_id": "evaluation-029",
+      "role": "Designation",
+      "truth": "ЩЦЛГ.499009.290Э3",
+      "actual": "WML 49900929033",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.3927642822265625
+      ],
+      "min_line_confidence": 0.3927642822265625,
+      "elapsed_ms": 22.968652000145084,
+      "image_sha256": "0e17c4ce685efc2ee83ce968c5b887347f04b6763436e6947069d4a3aa9adcb5"
+    },
+    {
+      "id": "evaluation-029-name-01-v1",
+      "case_id": "evaluation-029",
+      "role": "Name",
+      "truth": "Измеритель напряжения 4799",
+      "actual": "Измеритель напряжения 4799",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.9371023559570313
+      ],
+      "min_line_confidence": 0.9371023559570313,
+      "elapsed_ms": 15.044194999973115,
+      "image_sha256": "1c790d0783477c4e76841a5dbe6857ee97f4ecfb5faa5e6f319bf246e021d590"
+    },
+    {
+      "id": "evaluation-029-name-01-v2",
+      "case_id": "evaluation-029",
+      "role": "Name",
+      "truth": "Измеритель напряжения 4799",
+      "actual": "Измеритель напряжения 4799",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.9570431518554687
+      ],
+      "min_line_confidence": 0.9570431518554687,
+      "elapsed_ms": 29.78978700002699,
+      "image_sha256": "20dc8c723305c900ec710e8e737657c0e79cc73c3190d6629259f4688558d415"
+    },
+    {
+      "id": "evaluation-030-designation-01-v1",
+      "case_id": "evaluation-030",
+      "role": "Designation",
+      "truth": "ДЖЭФ.832677.465-52Э3",
+      "actual": "ДЖ7Ф82267 1465-5273",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.14829498291015625
+      ],
+      "min_line_confidence": 0.14829498291015625,
+      "elapsed_ms": 21.976579000238416,
+      "image_sha256": "2b7529db0cf0c47a99547bfb02e670c8f25ed3060e8737aac37197d522f60982"
+    },
+    {
+      "id": "evaluation-030-designation-01-v2",
+      "case_id": "evaluation-030",
+      "role": "Designation",
+      "truth": "ДЖЭФ.832677.465-52Э3",
+      "actual": "ДЖ7Ф6326/ 1465-5223",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.17334129333496093
+      ],
+      "min_line_confidence": 0.17334129333496093,
+      "elapsed_ms": 25.5876950000129,
+      "image_sha256": "6f0805e07ac9afcd076d52f337d6ca506273a10570e1e388106773ae8ad18a7a"
+    },
+    {
+      "id": "evaluation-030-name-01-v1",
+      "case_id": "evaluation-030",
+      "role": "Name",
+      "truth": "Кабель DisplayPort 2711",
+      "actual": "Кабель DisplayPort 2711",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.6776748657226562
+      ],
+      "min_line_confidence": 0.6776748657226562,
+      "elapsed_ms": 20.19223699971917,
+      "image_sha256": "8e0c338788aa0482cb4ebe85258dd4163e9d17b2e54997a84d000278f27c904b"
+    },
+    {
+      "id": "evaluation-030-name-01-v2",
+      "case_id": "evaluation-030",
+      "role": "Name",
+      "truth": "Кабель DisplayPort 2711",
+      "actual": "Кадель LisplayPort 2711",
+      "exact": false,
+      "edit_distance": 2,
+      "truth_characters": 23,
+      "line_confidences": [
+        0.5811039352416992
+      ],
+      "min_line_confidence": 0.5811039352416992,
+      "elapsed_ms": 23.80263199984256,
+      "image_sha256": "7cc993483a0be56af97a3392cb54f9d90453e5d1c33559730061da7477f1ec75"
+    },
+    {
+      "id": "evaluation-031-designation-01-v1",
+      "case_id": "evaluation-031",
+      "role": "Designation",
+      "truth": "КЛЩЯ.920667.929ПЭ3",
+      "actual": "КИЩЯ 2066/29/13",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.31401634216308594
+      ],
+      "min_line_confidence": 0.31401634216308594,
+      "elapsed_ms": 19.106217999706132,
+      "image_sha256": "513e5b2a84054cc98d5cb8da02a1054336a062149410290a83b4017ee47b4198"
+    },
+    {
+      "id": "evaluation-031-designation-01-v2",
+      "case_id": "evaluation-031",
+      "role": "Designation",
+      "truth": "КЛЩЯ.920667.929ПЭ3",
+      "actual": "КИЩЯ 97066 7929/1133",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.4851293182373047
+      ],
+      "min_line_confidence": 0.4851293182373047,
+      "elapsed_ms": 22.886726000251656,
+      "image_sha256": "04430e4e2a6ce90168474ca0fb9cb30a89b5cc7287aae0a86e11218091b3f36a"
+    },
+    {
+      "id": "evaluation-031-name-01-v1",
+      "case_id": "evaluation-031",
+      "role": "Name",
+      "truth": "Генератор импульсов",
+      "actual": "Генератор импульсов",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 19,
+      "line_confidences": [
+        0.9560132598876954
+      ],
+      "min_line_confidence": 0.9560132598876954,
+      "elapsed_ms": 10.433968999677745,
+      "image_sha256": "5e9023deb4959f7de89809f7fa0eece84c03d1dea4c1105f5aa9cc58b07bf1f3"
+    },
+    {
+      "id": "evaluation-031-name-01-v2",
+      "case_id": "evaluation-031",
+      "role": "Name",
+      "truth": "Генератор импульсов",
+      "actual": "Генератор импульсов",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 19,
+      "line_confidences": [
+        0.9441313171386718
+      ],
+      "min_line_confidence": 0.9441313171386718,
+      "elapsed_ms": 11.766570999952819,
+      "image_sha256": "af0eefac42c5153539a2b966b47e75eea322b2d5cdf8b6b55268bc3877db81c7"
+    },
+    {
+      "id": "evaluation-031-name-02-v1",
+      "case_id": "evaluation-031",
+      "role": "Name",
+      "truth": "Исполнение 1002",
+      "actual": "Исполнение 1002",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9569801330566406
+      ],
+      "min_line_confidence": 0.9569801330566406,
+      "elapsed_ms": 8.253150000200549,
+      "image_sha256": "971f42379db11988c670382da51245d393741accee5665f5a1b53ed2b5ae11b4"
+    },
+    {
+      "id": "evaluation-031-name-02-v2",
+      "case_id": "evaluation-031",
+      "role": "Name",
+      "truth": "Исполнение 1002",
+      "actual": "Исполнение 1002",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9521260833740235
+      ],
+      "min_line_confidence": 0.9521260833740235,
+      "elapsed_ms": 9.878345999823068,
+      "image_sha256": "11755244b097542f703fc0c7b09b2399ebf4905d08005b5a56a0a7cd50333077"
+    },
+    {
+      "id": "evaluation-032-designation-01-v1",
+      "case_id": "evaluation-032",
+      "role": "Designation",
+      "truth": "ЮЖШФ.311133.204-51ПЭ3",
+      "actual": "КЖШФ 311133 204-5 1193",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.36610260009765627
+      ],
+      "min_line_confidence": 0.36610260009765627,
+      "elapsed_ms": 23.752729000079853,
+      "image_sha256": "9d7658ef0ccf6c2e3643553c866c1e215d5e5c4ac2ec240a813b7cead7f6887d"
+    },
+    {
+      "id": "evaluation-032-designation-01-v2",
+      "case_id": "evaluation-032",
+      "role": "Designation",
+      "truth": "ЮЖШФ.311133.204-51ПЭ3",
+      "actual": "ЮЖШФ 371133 204-5 11133",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.7007742309570313
+      ],
+      "min_line_confidence": 0.7007742309570313,
+      "elapsed_ms": 27.87626300005286,
+      "image_sha256": "b716f469608de9d6ec59a9b0a1d09d022827b4c3b97ae7820336c8b4770678b7"
+    },
+    {
+      "id": "evaluation-032-name-01-v1",
+      "case_id": "evaluation-032",
+      "role": "Name",
+      "truth": "Резонатор Murata 7792",
+      "actual": "Резонатор Murata 7792",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9489778137207031
+      ],
+      "min_line_confidence": 0.9489778137207031,
+      "elapsed_ms": 21.088624999720196,
+      "image_sha256": "7129e8112fa75668f3e6a2c33bf62a165e96d957390068be1a3d71e809bd7820"
+    },
+    {
+      "id": "evaluation-032-name-01-v2",
+      "case_id": "evaluation-032",
+      "role": "Name",
+      "truth": "Резонатор Murata 7792",
+      "actual": "Резонатор Murata 7792",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9423387145996094
+      ],
+      "min_line_confidence": 0.9423387145996094,
+      "elapsed_ms": 22.944903000279737,
+      "image_sha256": "4d10fc9ad8d1366d5dab328927b07635d7613a52e1736063f3918d51faf4e414"
+    }
+  ]
+}

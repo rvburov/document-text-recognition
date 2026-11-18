@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "run": "pilot-ink-rus-500",
+  "command": [
+    "lstmtraining",
+    "--continue_from",
+    "/workspace/document-text-recognition/artifacts/gost-training/ink-box/base/rus.lstm",
+    "--traineddata",
+    "/workspace/document-text-recognition/artifacts/gost-training/ink-box/base/rus_gost/rus_gost.traineddata",
+    "--model_output",
+    "/workspace/document-text-recognition/artifacts/gost-training/ink-box/runs/pilot-ink-rus-500/rus_gost",
+    "--train_listfile",
+    "/workspace/document-text-recognition/artifacts/gost-training/ink-box/train.list",
+    "--eval_listfile",
+    "/workspace/document-text-recognition/artifacts/gost-training/ink-box/development.list",
+    "--max_iterations",
+    "500",
+    "--learning_rate",
+    "0.0001",
+    "--max_image_MB",
+    "512",
+    "--target_error_rate",
+    "0.01"
+  ],
+  "preparation_sha256": "7ecf7f169495f6e6321d872f0d9b91b3a0c2a2db1ec4dbbd86836cff6ac42c79",
+  "continue_from_sha256": "573d784865f1809222bd267702315cac9f046f748a5e94a9d7c1f7ac8e4f4054",
+  "training_seconds": 35.382219465999924,
+  "development_seconds": 1.8085898689998885,
+  "checkpoint_sha256": "3b870829ce3cbd66491c2cfa68e8c5dab42174fd63dd565bbc7bd8219b70620f",
+  "iterations_limit": 500,
+  "evaluation_used": false,
+  "inference_eng_sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+  "status": "candidate only; no production replacement",
+  "models": {
+    "float": {
+      "path": "/workspace/document-text-recognition/artifacts/gost-training/ink-box/runs/pilot-ink-rus-500/float/rus_gost.traineddata",
+      "sha256": "7b8083eb0e32f0999cbcbbf7e9587b7bcddcf07c2015bf84a4b6e88602c3b2c2",
+      "bytes": 15301764
+    },
+    "int": {
+      "path": "/workspace/document-text-recognition/artifacts/gost-training/ink-box/runs/pilot-ink-rus-500/int/rus_gost.traineddata",
+      "sha256": "62ee08f0fda65319d711b5fabcef4a4ca483450e5e6a4f869a3d8c1b14b017d2",
+      "bytes": 5053706
+    }
+  }
+}

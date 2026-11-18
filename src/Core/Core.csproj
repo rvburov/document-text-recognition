@@ -5,7 +5,7 @@
     двумя способами (Tesseract и PaddleOCR) со сверкой, имя файла и переименование. Окна здесь нет.
 
     Компоненты распознавания кладутся в папку ocr\ рядом с программой:
-      ocr\paddle     модели PaddleOCR (вынимаются из пакета при сборке, около 13 МБ);
+      ocr\paddle     базовые модели PaddleOCR из пакета и отдельная кириллическая модель из исходной поставки;
       ocr\tessdata   языковые данные Tesseract rus и eng (лежат в репозитории, папка ocr\tessdata);
       ocr\tesseract  Tesseract для Windows (из пакета TesseractOCR).
     На Linux (только проверки) Tesseract берется из системы.
@@ -61,6 +61,8 @@
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Include="..\..\licenses\PaddleSharp-Apache-2.0.txt" Link="licenses\PaddleSharp-Apache-2.0.txt"
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\..\licenses\PaddleOCR-Apache-2.0.txt" Link="licenses\PaddleOCR-Apache-2.0.txt"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Include="..\..\licenses\OnnxRuntime-MIT.txt" Link="licenses\OnnxRuntime-MIT.txt"
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Include="..\..\licenses\OnnxRuntime-ThirdPartyNotices.txt" Link="licenses\OnnxRuntime-ThirdPartyNotices.txt"
@@ -74,9 +76,21 @@
                    ExpectedSha256="47A9BC12FA4CCCC90CDD2FA1F2F65FDADAF6B2F053FAA1658F27A88B3287D1CF" />
     <_DtrOnnxModel Include="$(MSBuildProjectDirectory)/../../ocr/onnx/rec.onnx"
                    ExpectedSha256="B8784A5B71140B5D8FB96A8B608AE54C9855F794FE43D938FEA9951D723BC35D" />
+    <_DtrOnnxModel Include="$(MSBuildProjectDirectory)/../../ocr/onnx/rec-cyrillic.onnx"
+                   ExpectedSha256="FD3733EAABF90D6364CF653592D97E2AB1170E6BE8025C08047ECB4E6C4E6336" />
     <None Include="@(_DtrOnnxModel)" Link="ocr/onnx/%(Filename)%(Extension)"
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Include="../../ocr/onnx/model-manifest.json" Link="ocr/onnx/model-manifest.json"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="../../ocr/onnx/cyrillic-model-manifest.json" Link="ocr/onnx/cyrillic-model-manifest.json"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <_DtrCyrillicModel Include="$(MSBuildProjectDirectory)/../../ocr/paddle/cyrillic_PP_OCRv5_mobile_rec/inference.json"
+                       ExpectedSha256="5D90F1BFCA52D80C01DE176C5238FAE2459995A99FF1DBFE5319AB4ED1735DF2" />
+    <_DtrCyrillicModel Include="$(MSBuildProjectDirectory)/../../ocr/paddle/cyrillic_PP_OCRv5_mobile_rec/inference.pdiparams"
+                       ExpectedSha256="434DC9FA2A99FA3653E08F8CF793AE56BE7DD41C35C4980E6255147CC02BBC80" />
+    <_DtrCyrillicModel Include="$(MSBuildProjectDirectory)/../../ocr/paddle/cyrillic_PP_OCRv5_mobile_rec/inference.yml"
+                       ExpectedSha256="5C76CC91FA98410178A09F498DB10050D0EC1634A660053D3005AB7BE581F501" />
+    <None Include="@(_DtrCyrillicModel)" Link="ocr/paddle/cyrillic_PP_OCRv5_mobile_rec/%(Filename)%(Extension)"
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
@@ -85,11 +99,39 @@
            Text="Missing packaged ONNX model: %(_DtrOnnxModel.Identity). Restore the complete repository; models are not downloaded at runtime." />
     <Error Condition="!Exists('$(MSBuildProjectDirectory)/../../ocr/onnx/model-manifest.json')"
            Text="Missing ONNX model provenance manifest: ocr/onnx/model-manifest.json." />
+    <Error Condition="!Exists('$(MSBuildProjectDirectory)/../../ocr/onnx/cyrillic-model-manifest.json')"
+           Text="Missing Cyrillic model provenance manifest: ocr/onnx/cyrillic-model-manifest.json." />
+    <Error Condition="!Exists('$(MSBuildProjectDirectory)/../../licenses/PaddleOCR-Apache-2.0.txt')"
+           Text="Missing PaddleOCR model license: licenses/PaddleOCR-Apache-2.0.txt." />
     <GetFileHash Files="@(_DtrOnnxModel)" Algorithm="SHA256" HashEncoding="hex">
       <Output TaskParameter="Items" ItemName="_DtrOnnxModelHash" />
     </GetFileHash>
     <Error Condition="'%(_DtrOnnxModelHash.FileHash)' != '%(_DtrOnnxModelHash.ExpectedSha256)'"
            Text="Packaged ONNX model checksum mismatch: %(_DtrOnnxModelHash.Identity). Restore the verified model file." />
+    <Error Condition="!Exists('%(_DtrCyrillicModel.Identity)')"
+           Text="Missing Cyrillic model source asset: %(_DtrCyrillicModel.Identity). Restore the complete offline distribution." />
+    <GetFileHash Files="@(_DtrCyrillicModel)" Algorithm="SHA256" HashEncoding="hex">
+      <Output TaskParameter="Items" ItemName="_DtrCyrillicModelHash" />
+    </GetFileHash>
+    <Error Condition="'%(_DtrCyrillicModelHash.FileHash)' != '%(_DtrCyrillicModelHash.ExpectedSha256)'"
+           Text="Cyrillic model source checksum mismatch: %(_DtrCyrillicModelHash.Identity). Restore the verified source file." />
+  </Target>
+
+  <ItemGroup>
+    <None Include="../../ocr/tessdata/gost-model-manifest.json" Link="ocr/tessdata/gost-model-manifest.json"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="../../licenses/Tesseract-models-Apache-2.0.txt" Link="licenses/Tesseract-models-Apache-2.0.txt"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <_DtrGostModel Include="../../ocr/tessdata/rus_gost.traineddata"
+                   ExpectedSha256="C92B7C889F0BD4FB07CA90148C011BE7A1865BE2B8BBA036FA1A86D875A5ADD0" />
+  </ItemGroup>
+  <Target Name="DtrCheckGostTesseract" BeforeTargets="AssignTargetPaths">
+    <Error Condition="!Exists('%(_DtrGostModel.Identity)')" Text="Missing packaged GOST Tesseract model." />
+    <GetFileHash Files="@(_DtrGostModel)" Algorithm="SHA256" HashEncoding="hex">
+      <Output TaskParameter="Items" ItemName="_DtrGostModelHash" />
+    </GetFileHash>
+    <Error Condition="'%(_DtrGostModelHash.FileHash)' != '%(_DtrGostModelHash.ExpectedSha256)'"
+           Text="Packaged GOST Tesseract model checksum mismatch." />
   </Target>
 
   <!--

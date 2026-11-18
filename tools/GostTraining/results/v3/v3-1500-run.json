@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "run": "v3-1500",
+  "command": [
+    "lstmtraining",
+    "--continue_from",
+    "/workspace/document-text-recognition/artifacts/gost-training/v2-ink-box/runs/pilot-v2-ink-rus-1500/rus_gost_checkpoint",
+    "--traineddata",
+    "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/base/rus_gost/rus_gost.traineddata",
+    "--model_output",
+    "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/rus_gost",
+    "--train_listfile",
+    "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/train.list",
+    "--eval_listfile",
+    "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/development.list",
+    "--max_iterations",
+    "1500",
+    "--learning_rate",
+    "0.0001",
+    "--max_image_MB",
+    "512",
+    "--target_error_rate",
+    "-1.0"
+  ],
+  "preparation_sha256": "87c98c1e1569a7a62c9ca474b5245b388ea6787086b698bfdb4af2fde4fe294f",
+  "continue_from_sha256": "2dceb785778a8a460b67af17a219b6c0298b75f652eb1214ae10fac50f7c55f1",
+  "training_seconds": 100.5847612409998,
+  "development_seconds": 4.559610220000195,
+  "checkpoint_sha256": "c658525804676385743da936d2897307d71a31dffe75a4807580b078f2bc422a",
+  "iterations_limit": 1500,
+  "last_reported_counters": {
+    "learning": 104,
+    "training": 1500,
+    "sample": 1500
+  },
+  "target_error_rate": -1.0,
+  "evaluation_used": false,
+  "inference_eng_sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+  "status": "candidate only; no production replacement",
+  "models": {
+    "float": {
+      "path": "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/float/rus_gost.traineddata",
+      "sha256": "149cee1d2751e550b5d1c62da3eabd24c7a75bcee97f657be12acb387ab0508a",
+      "bytes": 15301764
+    },
+    "int": {
+      "path": "/workspace/document-text-recognition/artifacts/gost-training/v3-ink-box/runs/v3-1500/int/rus_gost.traineddata",
+      "sha256": "1e4e1d429bff27b7cbe693523431b4aa26e5f6183e9a4fbb21ce8f90cb5293e6",
+      "bytes": 5053706
+    }
+  }
+}

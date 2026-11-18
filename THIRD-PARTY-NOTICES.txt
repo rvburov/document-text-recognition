@@ -12,9 +12,11 @@ License 1.1 (https://openfontlicense.org).
 Распознавание текста
 ------------------------------------------------------------------------------
 
-PaddleOCR (модели PP-OCRv5: mobile_zh_det, eslav_PP_OCRv5_mobile_rec)
+PaddleOCR (модели PP-OCRv5: mobile_zh_det, eslav_PP_OCRv5_mobile_rec,
+cyrillic_PP-OCRv5_mobile_rec)
   Apache License 2.0: Copyright (c) PaddlePaddle Authors
   https://github.com/PaddlePaddle/PaddleOCR
+  licenses/PaddleOCR-Apache-2.0.txt; ocr/onnx/cyrillic-model-manifest.json.
 
 Paddle Inference (нативные библиотеки, сборка MKL/oneDNN; в составе
 Sdcb.PaddleInference.runtime.*.mkl)
@@ -40,6 +42,13 @@ Sdcb.PaddleOCR, Sdcb.PaddleInference, Sdcb.PaddleOCR.Models.LocalV5
 Tesseract OCR (Windows: tesseract55.dll из пакета TesseractOCR 5.5.2)
   Apache License 2.0: Copyright (c) Tesseract OCR authors
   https://github.com/tesseract-ocr/tesseract
+
+Данные Tesseract rus/eng и дообученная модель rus_gost
+  Apache License 2.0: Copyright Tesseract OCR contributors.
+  Специализированная модель является производной от закрепленных tessdata_best/rus;
+  происхождение, раздельные наборы обучения/проверки и ограничения:
+  ocr/tessdata/gost-model-manifest.json; tools/GostTraining/RESULTS.md.
+  Полная лицензия: licenses/Tesseract-models-Apache-2.0.txt.
 
 Leptonica (Windows: leptonica-1.85.0.dll из пакета TesseractOCR 5.5.2)
   BSD 2-Clause: Copyright (c) Dan Bloomberg

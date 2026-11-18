@@ -19,7 +19,7 @@ internal sealed class PdfOpenException(string message) : Exception(message);
 /// сотен килобайт до десятков мегабайт) и сразу закрывается: исходный документ не держится
 /// открытым и не меняется. Рисование — целой страницей в заданном масштабе или фрагментом.
 /// </summary>
-internal sealed class PdfDocument : IDisposable
+internal sealed partial class PdfDocument : IDisposable
 {
     /// <summary>Общий замок PDFium: библиотека не потокобезопасна.</summary>
     public static readonly Lock Gate = new();
@@ -179,6 +179,7 @@ internal sealed class PdfDocument : IDisposable
 
     private void ClosePage()
     {
+        _textSnapshot = null;
         if (_page != IntPtr.Zero) PdfiumApi.FPDF_ClosePage(_page);
         _page = IntPtr.Zero;
         _pageIndex = -1;

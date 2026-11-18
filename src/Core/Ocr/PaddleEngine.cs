@@ -8,7 +8,8 @@ namespace DocumentTextRecognition.Core.Ocr;
 
 /// <summary>
 /// PaddleOCR v5 на ONNX Runtime (CPU, FP32): детектор строк <c>mobile_zh_det</c>
-/// (многоязычный) и распознавание <c>eslav_PP_OCRv5_mobile_rec</c> (русский, латиница, цифры).
+/// (многоязычный) и распознавание <c>eslav_PP_OCRv5_mobile_rec</c> (русский, латиница, цифры)
+/// либо явно выбранная <c>cyrillic_PP_OCRv5_mobile_rec</c> со своим словарем и графом.
 /// Графы лежат в <c>ocr/onnx</c>, словарь и метаданные в <c>ocr/paddle</c>.
 /// Альтернативный native Paddle используется для сравнений. Найденные фрагменты собираются в строки
 /// по вертикальному перекрытию.
@@ -27,6 +28,7 @@ internal sealed class PaddleEngine : IOcrEngine
     internal bool ReusePredictors { get; }
     internal string ModelsDirectory { get; }
     internal string? OnnxModelsDirectory { get; }
+    internal string RecognizerName { get; }
 
     /// <summary>Во сколько раз расширять найденную рамку строки перед распознаванием. 2.0 —
     /// значение PaddleOCR по умолчанию; 2.5 и 3.0 на синтетических сканах читали наименования
@@ -37,13 +39,19 @@ internal sealed class PaddleEngine : IOcrEngine
     public string Name => EngineName;
 
     public PaddleEngine(string modelsDir, bool useOneDnn = true, bool reusePredictors = true,
-        bool useOnnx = true, string? onnxModelsDir = null)
+        bool useOnnx = true, string? onnxModelsDir = null, string recognizerName = OcrComponents.PaddleRecognizer)
     {
+        if (recognizerName is not (OcrComponents.PaddleRecognizer or OcrComponents.PaddleCyrillicRecognizer))
+            throw new ArgumentException($"неизвестная модель распознавания: {recognizerName}", nameof(recognizerName));
+        RecognizerName = recognizerName;
         ModelsDirectory = Path.GetFullPath(modelsDir);
         UseOneDnn = useOneDnn;
         ReusePredictors = reusePredictors;
         var det = Path.Combine(modelsDir, OcrComponents.PaddleDetector);
-        var rec = Path.Combine(modelsDir, OcrComponents.PaddleRecognizer);
+        var rec = Path.Combine(modelsDir, RecognizerName);
+        var onnxDirectory = onnxModelsDir ?? Path.Combine(OcrComponents.ProgramDir, "ocr", "onnx");
+        if (RecognizerName == OcrComponents.PaddleCyrillicRecognizer)
+            OcrComponents.ValidateCyrillicModelFiles(modelsDir, useOnnx ? onnxDirectory : null);
         foreach (var dir in new[] { det, rec })
             if (!File.Exists(Path.Combine(dir, "inference.pdiparams")))
                 throw new FileNotFoundException($"нет модели {Path.GetFileName(dir)} в {modelsDir}");
@@ -53,10 +61,11 @@ internal sealed class PaddleEngine : IOcrEngine
             RecognizationModel.FromDirectoryV5(rec));
         if (useOnnx)
         {
-            var directory = onnxModelsDir ?? Path.Combine(OcrComponents.ProgramDir, "ocr", "onnx");
+            var directory = onnxDirectory;
             OnnxModelsDirectory = Path.GetFullPath(directory);
             var detectorFile = Path.Combine(directory, "det.onnx");
-            var recognizerFile = Path.Combine(directory, "rec.onnx");
+            var recognizerFile = Path.Combine(directory, RecognizerName == OcrComponents.PaddleCyrillicRecognizer
+                ? OcrComponents.PaddleCyrillicOnnxFile : "rec.onnx");
             foreach (var path in new[] { detectorFile, recognizerFile })
                 if (!File.Exists(path)) throw new FileNotFoundException($"нет ONNX-модели {path}", path);
             _onnxDetector = new WorkerOnnxDetector(detectorFile) { UnclipRatio = UnclipRatio };

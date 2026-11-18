@@ -1,0 +1,173 @@
+{
+  "SchemaVersion": 1,
+  "Scope": "Frozen existing diagnostic crops, not unseen evaluation data. Ground truth comes only from fixture declarations; no OCR prediction is used. Every listed image is retained, including duplicate PNG bytes. Expected joins printed line breaks with spaces; ExpectedRaw preserves the fixture print string where recorded.",
+  "FontFile": "tests/Core.Tests/Fonts/GOST2.304-81TypeA-Slanted.ttf",
+  "FontSha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+  "Cases": [
+    {
+      "Id": "pillow-designation",
+      "File": "docs/test-samples/gost-type-a/crops/designation.png",
+      "Role": "Designation",
+      "Expected": "УИЕС.468732.271",
+      "Source": "docs/test-samples/gost-type-a/crop-fixtures.json#/cases/0/expectedRawText",
+      "CropSha256": "b7e98f68a904ff09c744cb413d98c5a95bcdc55171c5df45a3642a644dbd9afe",
+      "ExpectedRaw": "УИЕС.468732.271"
+    },
+    {
+      "Id": "pillow-name-multiline",
+      "File": "docs/test-samples/gost-type-a/crops/name-multiline.png",
+      "Role": "Name",
+      "Expected": "Плата УПЧ 1489 МГц",
+      "Source": "docs/test-samples/gost-type-a/crop-fixtures.json#/cases/1/expectedRawText",
+      "CropSha256": "e5f6e9a83120dc9fabeb9c1ababdadb28b90e5f2716f94b3a4660dda7a3f909b",
+      "ExpectedRaw": "Плата УПЧ\n1489 МГц"
+    },
+    {
+      "Id": "pillow-name-mixed",
+      "File": "docs/test-samples/gost-type-a/crops/name-mixed.png",
+      "Role": "Name",
+      "Expected": "Плата Epcos USB",
+      "Source": "docs/test-samples/gost-type-a/crop-fixtures.json#/cases/2/expectedRawText",
+      "CropSha256": "3b67f598d21253d5856d5aa3125c1ba0b96e68336ca96e54b0861f449adf70cf",
+      "ExpectedRaw": "Плата Epcos USB"
+    },
+    {
+      "Id": "skia-designation",
+      "File": "docs/test-samples/gost-type-a/direct-fields/designation.png",
+      "Role": "Designation",
+      "Expected": "УИЕС.468732.271",
+      "Source": "docs/test-samples/gost-type-a/direct-fields/verification.json#/Fields/0/Expected",
+      "CropSha256": "f356abd32809a2cf556be8544116dcb051e3451838bf4c866c7c7442021558fb",
+      "ExpectedRaw": "УИЕС.468732.271"
+    },
+    {
+      "Id": "skia-name-multiline",
+      "File": "docs/test-samples/gost-type-a/direct-fields/name-multiline.png",
+      "Role": "Name",
+      "Expected": "Плата УПЧ 1489 МГц",
+      "Source": "docs/test-samples/gost-type-a/direct-fields/verification.json#/Fields/2/Expected",
+      "CropSha256": "3f06cb4e82fa67c267d0ffa9de44a605a22680efc9cf9e5a33439cf0711aa8a7",
+      "ExpectedRaw": "Плата УПЧ\n1489 МГц"
+    },
+    {
+      "Id": "skia-name-mixed",
+      "File": "docs/test-samples/gost-type-a/direct-fields/name-mixed.png",
+      "Role": "Name",
+      "Expected": "Плата Epcos USB",
+      "Source": "docs/test-samples/gost-type-a/direct-fields/verification.json#/Fields/4/Expected",
+      "CropSha256": "8bdc7e4afbbd7bfa35b2e53284d6675c8647834e514131611634fd3733755937",
+      "ExpectedRaw": "Плата Epcos USB"
+    },
+    {
+      "Id": "skia-name-mixed-multiline",
+      "File": "docs/test-samples/gost-type-a/direct-fields/name-mixed-multiline.png",
+      "Role": "Name",
+      "Expected": "Плата Epcos USB 1489 МГц",
+      "Source": "docs/test-samples/gost-type-a/direct-fields/verification.json#/Fields/6/Expected",
+      "CropSha256": "8f60c84b8606cb1d23ec5752dc100d80d5d213c28c329b9eb4c9348e5a23b360",
+      "ExpectedRaw": "Плата Epcos\nUSB 1489 МГц"
+    },
+    {
+      "Id": "saved-original-known-false-designation",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/original-known-False-Designation.png",
+      "Role": "Designation",
+      "Expected": "УИЕС.468732.271",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/0/Expected/Designation",
+      "CropSha256": "2c3656b0bf82ff048324ce973ce57787d5777f0053545568db46b391f1638a2b"
+    },
+    {
+      "Id": "saved-original-known-false-name",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/original-known-False-Name.png",
+      "Role": "Name",
+      "Expected": "Плата УПЧ 1489 МГц",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/0/Expected/Name",
+      "CropSha256": "9384a2f7d9c567e1c2a8ee900ecf3d9b7534bbc933e7436f8235e808f88d1d28"
+    },
+    {
+      "Id": "saved-rotated-90-known-false-designation",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/rotated-90-known-False-Designation.png",
+      "Role": "Designation",
+      "Expected": "УИЕС.468732.271",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/1/Expected/Designation",
+      "CropSha256": "2049ee8805327e2dc99900098ef6401f35a1200e0c6abcb73b693727aafb37fc"
+    },
+    {
+      "Id": "saved-rotated-90-known-false-name",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/rotated-90-known-False-Name.png",
+      "Role": "Name",
+      "Expected": "Плата УПЧ 1489 МГц",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/1/Expected/Name",
+      "CropSha256": "fbb13da7586222e4bb56a8b8454c2999b0e7d8dd20150f33d03bde13bba1dfa7"
+    },
+    {
+      "Id": "saved-skewed-1.2-known-false-designation",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/skewed-1.2-known-False-Designation.png",
+      "Role": "Designation",
+      "Expected": "УИЕС.468732.271",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/2/Expected/Designation",
+      "CropSha256": "8f735da8e51353ae7636af7eac70035d616d6e208624ff6ef68ed04776cb9deb"
+    },
+    {
+      "Id": "saved-skewed-1.2-known-false-name",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/skewed-1.2-known-False-Name.png",
+      "Role": "Name",
+      "Expected": "Плата УПЧ 1489 МГц",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/2/Expected/Name",
+      "CropSha256": "2de2dc47f5279d7a7bedf42d1b782836b3cad34be5f7c28481ee1e0ea1b7c812"
+    },
+    {
+      "Id": "saved-original-known-true-designation",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/original-known-True-Designation.png",
+      "Role": "Designation",
+      "Expected": "УИЕС.468732.271",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/3/Expected/Designation",
+      "CropSha256": "2c3656b0bf82ff048324ce973ce57787d5777f0053545568db46b391f1638a2b",
+      "DuplicateOf": "saved-original-known-false-designation"
+    },
+    {
+      "Id": "saved-original-known-true-name",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/original-known-True-Name.png",
+      "Role": "Name",
+      "Expected": "Плата УПЧ 1489 МГц",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/3/Expected/Name",
+      "CropSha256": "9384a2f7d9c567e1c2a8ee900ecf3d9b7534bbc933e7436f8235e808f88d1d28",
+      "DuplicateOf": "saved-original-known-false-name"
+    },
+    {
+      "Id": "saved-rotated-90-known-true-designation",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/rotated-90-known-True-Designation.png",
+      "Role": "Designation",
+      "Expected": "УИЕС.468732.271",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/4/Expected/Designation",
+      "CropSha256": "2049ee8805327e2dc99900098ef6401f35a1200e0c6abcb73b693727aafb37fc",
+      "DuplicateOf": "saved-rotated-90-known-false-designation"
+    },
+    {
+      "Id": "saved-rotated-90-known-true-name",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/rotated-90-known-True-Name.png",
+      "Role": "Name",
+      "Expected": "Плата УПЧ 1489 МГц",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/4/Expected/Name",
+      "CropSha256": "fbb13da7586222e4bb56a8b8454c2999b0e7d8dd20150f33d03bde13bba1dfa7",
+      "DuplicateOf": "saved-rotated-90-known-false-name"
+    },
+    {
+      "Id": "saved-skewed-1.2-known-true-designation",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/skewed-1.2-known-True-Designation.png",
+      "Role": "Designation",
+      "Expected": "УИЕС.468732.271",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/5/Expected/Designation",
+      "CropSha256": "8f735da8e51353ae7636af7eac70035d616d6e208624ff6ef68ed04776cb9deb",
+      "DuplicateOf": "saved-skewed-1.2-known-false-designation"
+    },
+    {
+      "Id": "saved-skewed-1.2-known-true-name",
+      "File": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/skewed-1.2-known-True-Name.png",
+      "Role": "Name",
+      "Expected": "Плата УПЧ 1489 МГц",
+      "Source": "docs/test-samples/gost-type-a/current-profile-verification/end-to-end/verification.json#/Samples/5/Expected/Name",
+      "CropSha256": "2de2dc47f5279d7a7bedf42d1b782836b3cad34be5f7c28481ee1e0ea1b7c812",
+      "DuplicateOf": "saved-skewed-1.2-known-false-name"
+    }
+  ]
+}

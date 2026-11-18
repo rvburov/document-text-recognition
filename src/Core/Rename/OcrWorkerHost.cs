@@ -139,6 +139,8 @@ internal static class OcrWorkerHost
                 configuration.UseOnnx, configuration.OnnxModelsDir);
             pair.PreferKnownLines = configuration.KnownLines;
             pair.BatchFields = configuration.BatchFields;
+            pair.UsePdfText = configuration.UsePdfText;
+            pair.UseGostFallback = configuration.UseGostFallback;
             Write(pipe, new OcrWorkerMessage("ready", Configuration: pair.ExportWorkerConfiguration(configuration.TemplatesFolder),
                 CoreSha256: CurrentCoreSha256(), Avx2Available: TemplateMatcher.HammingAvx2Available));
 

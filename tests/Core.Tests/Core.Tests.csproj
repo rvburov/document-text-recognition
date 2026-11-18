@@ -22,6 +22,8 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <!-- Reuse the exact paired vector/raster fixture generator in benchmark tooling. -->
+    <InternalsVisibleTo Include="DocumentTextRecognition.Performance" />
   </ItemGroup>
 
   <ItemGroup>

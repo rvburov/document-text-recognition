@@ -1,0 +1,253 @@
+{
+  "schema_version": 2,
+  "name": "rus_gost",
+  "version": "gost-type-a-v3-2026-11-18",
+  "status": "Bounded font specialist; independent OCR confirmation required. General Russian model remains first attempt.",
+  "selected_model_sha256": "c92b7c889f0bd4fb07ca90148c011be7a1865be2b8bba036fa1a86d875a5add0",
+  "model_bytes": 5053706,
+  "base_model": {
+    "repository": "https://github.com/tesseract-ocr/tessdata_best",
+    "commit": "e12c65a915945e4c28e237a9b52bc4a8f39a0cec",
+    "file": "rus.traineddata",
+    "sha256": "b617eb6830ffabaaa795dd87ea7fd251adfe9cf0efe05eb9a2e8128b7728d6b6",
+    "license": "Apache-2.0",
+    "license_file": "tools/GostTraining/LICENSE.tesseract-best.txt",
+    "license_url": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/e12c65a915945e4c28e237a9b52bc4a8f39a0cec/LICENSE"
+  },
+  "training_font": {
+    "path": "tests/Core.Tests/Fonts/GOST2.304-81TypeA-Slanted.ttf",
+    "sha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+    "author": "Sergey S. Betke",
+    "release": "Metrolog/Font.GOST2.304-81 v0.7.6",
+    "license": "OFL-1.1",
+    "license_file": "tests/Core.Tests/Fonts/OFL-GOST-Type-A.txt",
+    "source_record": "tests/Core.Tests/Fonts/GOST-Type-A-SOURCE.md",
+    "font_is_held_out": false
+  },
+  "runtime": {
+    "measured_version": "Tesseract 5.3.4 / Ubuntu24.04",
+    "languages": "rus_gost+eng",
+    "eng_sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+    "eng_retrained": false,
+    "model_type": "int8 LSTM; original Russian charset/recoder preserved",
+    "character_whitelist": false,
+    "designation_policy": "PSM13, bbox(gray<200)+8 pixels, preserve original source pixels, white only outside image; weak ink(gray<245) outside expanded box falls back to original full image PSM6",
+    "other_fields_policy": "original image, PSM6",
+    "application_guards": "Production additionally requires both ordinary and weak-foreground KnownSingleLineRegion checks. The standalone line evaluator does not implement these guards."
+  },
+  "training": {
+    "v1_plus_v2_images": 760,
+    "v1_plus_v2_unique_truths": 296,
+    "v1_plus_v2_used_russian_lstmf": 632,
+    "v3_images": 1200,
+    "v3_unique_truths": 600,
+    "v3_used_russian_lstmf": 1056,
+    "v3_excluded_latin_images": 144,
+    "combined_used_unique_russian_truths": 799,
+    "latin_lines_handling": "Excluded from Russian LSTMF, unchanged truths; all mixed-script lines included at inference with unchanged English model.",
+    "line_box_geometry": "image ink bounds(gray<200) plus2px; no labels derived from OCR",
+    "chain": [
+      {
+        "run": "ink-box/runs/pilot-ink-rus-500",
+        "run_record_sha256": "25c183e8c67ebab316330e31e58432f20003a4beddcdfb517487bff0320d09f7",
+        "source_checkpoint_sha256": "573d784865f1809222bd267702315cac9f046f748a5e94a9d7c1f7ac8e4f4054",
+        "output_checkpoint_sha256": "3b870829ce3cbd66491c2cfa68e8c5dab42174fd63dd565bbc7bd8219b70620f",
+        "training_seconds": 35.382219465999924,
+        "last_reported_counters": {
+          "learning": 81,
+          "training": 500,
+          "sample": 500
+        },
+        "iterations_limit": 500
+      },
+      {
+        "run": "v2-ink-box/runs/pilot-v2-ink-rus-1500",
+        "run_record_sha256": "028a2efa90d0d6d24bf5f147fad606ac7d9d6f3e44b8277c724e11cb7fc01d46",
+        "source_checkpoint_sha256": "3b870829ce3cbd66491c2cfa68e8c5dab42174fd63dd565bbc7bd8219b70620f",
+        "output_checkpoint_sha256": "2dceb785778a8a460b67af17a219b6c0298b75f652eb1214ae10fac50f7c55f1",
+        "training_seconds": 110.00380040899995,
+        "last_reported_counters": {
+          "learning": 68,
+          "training": 1500,
+          "sample": 1500
+        },
+        "iterations_limit": 1500
+      },
+      {
+        "run": "v3-ink-box/runs/v3-1500",
+        "run_record_sha256": "2699550bae8314a3a3c5d1ca058aa768ca401bbe83e0d3e5f29798bd88f012fa",
+        "source_checkpoint_sha256": "2dceb785778a8a460b67af17a219b6c0298b75f652eb1214ae10fac50f7c55f1",
+        "output_checkpoint_sha256": "c658525804676385743da936d2897307d71a31dffe75a4807580b078f2bc422a",
+        "training_seconds": 100.5847612409998,
+        "last_reported_counters": {
+          "learning": 104,
+          "training": 1500,
+          "sample": 1500
+        },
+        "iterations_limit": 1500
+      },
+      {
+        "run": "v3-ink-box/runs/v3-3000",
+        "run_record_sha256": "5a8ca2594f279fd68a2e1220fff167d3cd4ca17c67a4deca749ec18a337f5427",
+        "source_checkpoint_sha256": "c658525804676385743da936d2897307d71a31dffe75a4807580b078f2bc422a",
+        "output_checkpoint_sha256": "bc1c9d2eac983971ffad1c92e8666abedde3bfa72de689ebb0ae7db6fe252593",
+        "training_seconds": 103.78764091499988,
+        "last_reported_counters": {
+          "learning": 4,
+          "training": 1500,
+          "sample": 1500
+        },
+        "iterations_limit": 1500
+      }
+    ],
+    "sum_reported_training_samples": 5000,
+    "sum_reported_learning_updates": 257,
+    "glyph_coverage": {
+      "all_33_russian_uppercase_in_training": true,
+      "digits_and_dot_and_hyphen_in_training": true,
+      "missing_russian_lowercase_in_finetuning": "вгжхщэю",
+      "latin_retrained": false,
+      "note": "The pretrained model knows a larger charset. Coverage is not proof of recognition accuracy for every glyph."
+    }
+  },
+  "corpora": [
+    {
+      "file": "docs/test-samples/gost-type-a/corpus-plan/manifest.json",
+      "sha256": "74470e3b885cfd5380eb3454168ff82cdf1bf749ce176df4d779c73339f463b4"
+    },
+    {
+      "file": "docs/test-samples/gost-type-a/corpus-plan/alphabet-supplement-v2.json",
+      "sha256": "5b4acbc2762e62058e5572a840ab1f99292267d73a9e79c817c9ec905882cd94"
+    },
+    {
+      "file": "docs/test-samples/gost-type-a/corpus-v3/manifest.json",
+      "sha256": "605a04017eb37c09ffc745506b4bf7ff8bb1943c696d6d72e58a42a282f6797b"
+    }
+  ],
+  "selection": {
+    "file": "tools/GostTraining/results/v3/v3-selection.json",
+    "sha256": "fef34d30a48622f87da65ba9c66d6715642d37714e1a2c7b78e17568cf515dc8",
+    "frozen_utc": "2026-11-18T21:46:26.997172+00:00",
+    "criterion": "whole-line exact, then designation exact, then CER; integer for exact ties",
+    "evaluation_used_for_training_or_selection": false,
+    "further_tuning_after_evaluation": false,
+    "v1_evaluation_status": "Historical diagnostic only; not presented as new V3 blind evaluation."
+  },
+  "validation": {
+    "scope": "Standalone known-line crops. Exact raw Unicode after whitespace collapse; not document acceptance or safe filename rate. No post-OCR character correction.",
+    "development": {
+      "images": 240,
+      "unique_truths": 120,
+      "document_truths": 60,
+      "summary": {
+        "lines": 240,
+        "exact": 200,
+        "exact_fraction": 0.8333333333333334,
+        "cer": 0.015761396702230843
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 120,
+          "exact": 114,
+          "exact_fraction": 0.95,
+          "cer": 0.0036529680365296802
+        },
+        "Name": {
+          "lines": 120,
+          "exact": 86,
+          "exact_fraction": 0.7166666666666667,
+          "cer": 0.029472595656670115
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 120,
+          "exact": 98,
+          "exact_fraction": 0.8166666666666667,
+          "cer": 0.011639185257032008
+        },
+        "Skia": {
+          "lines": 120,
+          "exact": 102,
+          "exact_fraction": 0.85,
+          "cer": 0.01988360814742968
+        }
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 1,
+        "wrong_but_confident_0_30": 39
+      },
+      "report": "tools/GostTraining/results/v3/development-selected.json",
+      "report_sha256": "619cbddb50e374e01f35aec04e992cc200b93c9e594d10a9c664b4f13891bcfb"
+    },
+    "blind": {
+      "images": 120,
+      "unique_truths": 60,
+      "document_truths": 30,
+      "run_count_selected_model": 1,
+      "manifest_sha256": "490705f6211e3149a54bba7233dcbddd6dd854ebb7278cbe640601e6ed16503c",
+      "summary": {
+        "lines": 120,
+        "exact": 107,
+        "exact_fraction": 0.8916666666666667,
+        "cer": 0.02490421455938697
+      },
+      "by_role": {
+        "Designation": {
+          "lines": 60,
+          "exact": 51,
+          "exact_fraction": 0.85,
+          "cer": 0.028388278388278388
+        },
+        "Name": {
+          "lines": 60,
+          "exact": 56,
+          "exact_fraction": 0.9333333333333333,
+          "cer": 0.02108433734939759
+        }
+      },
+      "by_renderer": {
+        "Pillow": {
+          "lines": 60,
+          "exact": 55,
+          "exact_fraction": 0.9166666666666666,
+          "cer": 0.022030651340996167
+        },
+        "Skia": {
+          "lines": 60,
+          "exact": 52,
+          "exact_fraction": 0.8666666666666667,
+          "cer": 0.027777777777777776
+        }
+      },
+      "confidence": {
+        "level": "Tesseract text line, 0..1",
+        "below_product_threshold_0_30": 0,
+        "wrong_but_confident_0_30": 13
+      },
+      "report": "tools/GostTraining/results/v3/evaluation-selected.json",
+      "report_sha256": "418c420e0bb1364418dbf6c94b197ff859ac11ef252332d72049a7ed1f03c9a6"
+    },
+    "glyph_accuracy": "Not inferred from whole-line exact or aggregate CER. Symbol confidences and each raw answer are retained in reports.",
+    "timing": {
+      "measurement": {
+        "scope": "C API read per line including PNG decode, excludes model initialization",
+        "initialization_ms": 302.1194650000325,
+        "median_ms": 15.563612999812904,
+        "p95_ms": 30.264669999269245
+      },
+      "benchmark": false,
+      "note": "Shared CPU correctness run; excludes geometry preparation and differs from production PDF/dual-engine latency."
+    }
+  },
+  "limitations": [
+    "Synthetic single pinned font; no font holdout, handwriting study, or broad real-scan claim.",
+    "V3 train/development/blind all contain Skia and Pillow; this is disjoint text/prefix holdout, not unseen-renderer holdout.",
+    "Two renderer images per text are correlated;120 blind images represent60 unique lines and30 document truths.",
+    "13 of120 blind lines are wrong, including9 of60 designations; all13 exceed confidence0.30. Confidence alone cannot authorize a filename.",
+    "General Russian remains first attempt; the specialist can still confuse Cyrillic letters, punctuation, ё and Latin brands.",
+    "Native line recognition measurements do not exercise PDF loading, crop location, frame removal, field parsing, PDF text verification, geometry rejection, two-engine agreement, or document naming. Those require separate production tests.",
+    "Only independent exact OCR agreement plus existing semantic and geometry checks may accept specialist output. Do not repair prefixes or punctuation from expected answers."
+  ]
+}

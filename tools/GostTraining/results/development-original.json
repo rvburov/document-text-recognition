@@ -1,0 +1,1263 @@
+{
+  "schema_version": 1,
+  "split": "development",
+  "languages": "rus+eng",
+  "model_sha256": {
+    "rus": "e16e5e036cce1d9ec2b00063cf8b54472625b9e14d893a169e2b0dedeb4df225",
+    "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+  },
+  "manifest_sha256": "3272096b925b89ae67da314fd3b508cf3af5211c30e581308d2e0d7a95c6660e",
+  "backend": "capi",
+  "psm": 6,
+  "normalization": "collapse whitespace only; preserve case, punctuation, Cyrillic/Latin and ё",
+  "post_ocr_corrections": false,
+  "summary": {
+    "lines": 76,
+    "exact": 35,
+    "exact_fraction": 0.4605263157894737,
+    "cer": 0.1690340909090909
+  },
+  "confidence": {
+    "level": "Tesseract text line, 0..1",
+    "below_product_threshold_0_30": 4,
+    "wrong_but_confident_0_30": 37
+  },
+  "by_role": {
+    "Designation": {
+      "lines": 32,
+      "exact": 0,
+      "exact_fraction": 0.0,
+      "cer": 0.351027397260274
+    },
+    "Name": {
+      "lines": 44,
+      "exact": 35,
+      "exact_fraction": 0.7954545454545454,
+      "cer": 0.04004854368932039
+    }
+  },
+  "timing": {
+    "scope": "C API read per line including PNG decode, excludes model initialization",
+    "initialization_ms": 165.20250699977623,
+    "median_ms": 19.86462200011374,
+    "p95_ms": 32.05183499994746
+  },
+  "results": [
+    {
+      "id": "development-001-designation-01-v1",
+      "case_id": "development-001",
+      "role": "Designation",
+      "truth": "МНПР.106744.808",
+      "actual": "МНГР 106 744.808",
+      "exact": false,
+      "edit_distance": 3,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.7844206237792969
+      ],
+      "min_line_confidence": 0.7844206237792969,
+      "elapsed_ms": 19.311467000079574,
+      "image_sha256": "311d28b7d4a59d194ea0375c9003d41749cb38212a5cfe55f07ece18ff605a50"
+    },
+    {
+      "id": "development-001-designation-01-v2",
+      "case_id": "development-001",
+      "role": "Designation",
+      "truth": "МНПР.106744.808",
+      "actual": "MHIP. 106 744.808",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.7788728332519531
+      ],
+      "min_line_confidence": 0.7788728332519531,
+      "elapsed_ms": 21.52840799999467,
+      "image_sha256": "bd60632d2037bcc722702e3915d8954603564331279ff08c98c63bcecc575ed6"
+    },
+    {
+      "id": "development-001-name-01-v1",
+      "case_id": "development-001",
+      "role": "Name",
+      "truth": "Контроллер SPI",
+      "actual": "Контроллер SPI",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 14,
+      "line_confidences": [
+        0.8439556884765625
+      ],
+      "min_line_confidence": 0.8439556884765625,
+      "elapsed_ms": 13.825242000166327,
+      "image_sha256": "59dcfe2796422e8db490138e5a1bd4d0e82ce9114c5f703f57af6e105230fa77"
+    },
+    {
+      "id": "development-001-name-01-v2",
+      "case_id": "development-001",
+      "role": "Name",
+      "truth": "Контроллер SPI",
+      "actual": "Контроллер SPI",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 14,
+      "line_confidences": [
+        0.8951838684082031
+      ],
+      "min_line_confidence": 0.8951838684082031,
+      "elapsed_ms": 15.134849999867583,
+      "image_sha256": "cfc6525ac608afcd3fe16da9b541d62a262fc1e751ff79e7384a6704df28fde4"
+    },
+    {
+      "id": "development-001-name-02-v1",
+      "case_id": "development-001",
+      "role": "Name",
+      "truth": "Исполнение 4463",
+      "actual": "Исполнение 4463",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.8809256744384766
+      ],
+      "min_line_confidence": 0.8809256744384766,
+      "elapsed_ms": 8.248531999925035,
+      "image_sha256": "7e4bca5be08a6effd854b6a4c559f7153b5e2db2de59428288515da1e8aeff89"
+    },
+    {
+      "id": "development-001-name-02-v2",
+      "case_id": "development-001",
+      "role": "Name",
+      "truth": "Исполнение 4463",
+      "actual": "Исполнение 4463",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9569403839111328
+      ],
+      "min_line_confidence": 0.9569403839111328,
+      "elapsed_ms": 9.47701999984929,
+      "image_sha256": "35b7bba5542205e271051a19cd853e7f0bb161ba047d62f872a533c6c8ebc087"
+    },
+    {
+      "id": "development-002-designation-01-v1",
+      "case_id": "development-002",
+      "role": "Designation",
+      "truth": "СФЦЧ.447768.223-35",
+      "actual": "(ФЦЧ447/69.223-35",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.3444208526611328
+      ],
+      "min_line_confidence": 0.3444208526611328,
+      "elapsed_ms": 17.948993000118207,
+      "image_sha256": "37decfcd0f899326510a37799ad5169588eedbdfd0b6ca8db411876c086d2fe3"
+    },
+    {
+      "id": "development-002-designation-01-v2",
+      "case_id": "development-002",
+      "role": "Designation",
+      "truth": "СФЦЧ.447768.223-35",
+      "actual": "(ФЦЧ447//69.723-3>",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.17380126953125
+      ],
+      "min_line_confidence": 0.17380126953125,
+      "elapsed_ms": 23.33544000020993,
+      "image_sha256": "14bab83272387b4195e8f5e576b3cdcd8abc44ef434e9bb8c78b491cbee4d108"
+    },
+    {
+      "id": "development-002-name-01-v1",
+      "case_id": "development-002",
+      "role": "Name",
+      "truth": "Разветвитель сигналов 6733",
+      "actual": "Разветвитель сигналов 6733",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.9021449279785156
+      ],
+      "min_line_confidence": 0.9021449279785156,
+      "elapsed_ms": 14.74507300008554,
+      "image_sha256": "fc2b5237fdcd5cdad64ae99076094dedf4cffa3fe66c1f3e6a376daab735d712"
+    },
+    {
+      "id": "development-002-name-01-v2",
+      "case_id": "development-002",
+      "role": "Name",
+      "truth": "Разветвитель сигналов 6733",
+      "actual": "Разветвитель сигналов 6 733",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.6198883819580078
+      ],
+      "min_line_confidence": 0.6198883819580078,
+      "elapsed_ms": 28.680126999915956,
+      "image_sha256": "d5ac8df40703561bdecae4b09447247b8a160e2b3e0822a7e3124367752fd6d9"
+    },
+    {
+      "id": "development-003-designation-01-v1",
+      "case_id": "development-003",
+      "role": "Designation",
+      "truth": "ЧШЭЮ.886557.900СБ",
+      "actual": "4/90 886557 9005",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.5363019561767578
+      ],
+      "min_line_confidence": 0.5363019561767578,
+      "elapsed_ms": 19.914701000288915,
+      "image_sha256": "1745ca7ccddf69ad46c01f200e6b55d47ef61fa420fbae7ff054a9a4c6caea2c"
+    },
+    {
+      "id": "development-003-designation-01-v2",
+      "case_id": "development-003",
+      "role": "Designation",
+      "truth": "ЧШЭЮ.886557.900СБ",
+      "actual": "WN 986557 9OOCB",
+      "exact": false,
+      "edit_distance": 11,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.5076482391357422
+      ],
+      "min_line_confidence": 0.5076482391357422,
+      "elapsed_ms": 24.665577999712696,
+      "image_sha256": "f7692d72afb6903896b33a0f294f86960262ff75146fdeb040a0c720d7e2308d"
+    },
+    {
+      "id": "development-003-name-01-v1",
+      "case_id": "development-003",
+      "role": "Name",
+      "truth": "Адаптер Ethernet 4282",
+      "actual": "Adanmep Ethernet 4282",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9469474029541015
+      ],
+      "min_line_confidence": 0.9469474029541015,
+      "elapsed_ms": 20.880759000192484,
+      "image_sha256": "86f9980889f37b011f42a2061cc3284f2fe23f53a93fa71d5a0bab6682ec6aab"
+    },
+    {
+      "id": "development-003-name-01-v2",
+      "case_id": "development-003",
+      "role": "Name",
+      "truth": "Адаптер Ethernet 4282",
+      "actual": "Адаптер Ethernet 4282",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.837647705078125
+      ],
+      "min_line_confidence": 0.837647705078125,
+      "elapsed_ms": 23.694270999840228,
+      "image_sha256": "78bbcbba49881203f4164d7e474ac03518cc2e46bd75bdde7c40c7950f3a57b4"
+    },
+    {
+      "id": "development-004-designation-01-v1",
+      "case_id": "development-004",
+      "role": "Designation",
+      "truth": "ЖКЛФ.641250.280-55СБ",
+      "actual": "ЖКЛФ 641250 280-556",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.5682286834716797
+      ],
+      "min_line_confidence": 0.5682286834716797,
+      "elapsed_ms": 23.40043699996386,
+      "image_sha256": "8f14f44eb89981341fe9420f333ed14327d060b652c46a280527c651a87e4d64"
+    },
+    {
+      "id": "development-004-designation-01-v2",
+      "case_id": "development-004",
+      "role": "Designation",
+      "truth": "ЖКЛФ.641250.280-55СБ",
+      "actual": "ЖК/Ф 641250 280-55 (Б",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.43288291931152345
+      ],
+      "min_line_confidence": 0.43288291931152345,
+      "elapsed_ms": 40.22872199993799,
+      "image_sha256": "fb5b384caec946ddd83957ad855451e922240736bf6df83abd2e23404fca7727"
+    },
+    {
+      "id": "development-004-name-01-v1",
+      "case_id": "development-004",
+      "role": "Name",
+      "truth": "Ограничитель тока",
+      "actual": "Ограничитель тока",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.923692855834961
+      ],
+      "min_line_confidence": 0.923692855834961,
+      "elapsed_ms": 16.467013999772462,
+      "image_sha256": "2ab1506b65609ba002c89a6383b2ed23915d92f58cc56326fab6455bfee4b1f3"
+    },
+    {
+      "id": "development-004-name-01-v2",
+      "case_id": "development-004",
+      "role": "Name",
+      "truth": "Ограничитель тока",
+      "actual": "Ограни читель тока",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.8640974426269531
+      ],
+      "min_line_confidence": 0.8640974426269531,
+      "elapsed_ms": 18.283897999936016,
+      "image_sha256": "c19d61869d57caea400fb47a3ecb3e2be7a11b6cffe4fc475e2edd8ac4235482"
+    },
+    {
+      "id": "development-004-name-02-v1",
+      "case_id": "development-004",
+      "role": "Name",
+      "truth": "Исполнение 5439",
+      "actual": "Исполнение 5439",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.8859577178955078
+      ],
+      "min_line_confidence": 0.8859577178955078,
+      "elapsed_ms": 8.076037000137148,
+      "image_sha256": "efa69d58c8f8ca0ed8f7aeac1e6d3a5cf7d483207372932e0908f94f98660ecf"
+    },
+    {
+      "id": "development-004-name-02-v2",
+      "case_id": "development-004",
+      "role": "Name",
+      "truth": "Исполнение 5439",
+      "actual": "Исполнение 5439",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9619358825683594
+      ],
+      "min_line_confidence": 0.9619358825683594,
+      "elapsed_ms": 9.531799999876966,
+      "image_sha256": "040d49a4636f1740553baa29cc8b8acbfbe912e347a01ffaa7319f2d4c145eae"
+    },
+    {
+      "id": "development-005-designation-01-v1",
+      "case_id": "development-005",
+      "role": "Designation",
+      "truth": "МНПР.153087.887Э3",
+      "actual": "MHIP. 15308788733",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.5144337463378906
+      ],
+      "min_line_confidence": 0.5144337463378906,
+      "elapsed_ms": 17.739973000061582,
+      "image_sha256": "1d71c411b39edd2b7c8c6ab982e6579b9abd5551b7e4325df0c37c28ae856fa7"
+    },
+    {
+      "id": "development-005-designation-01-v2",
+      "case_id": "development-005",
+      "role": "Designation",
+      "truth": "МНПР.153087.887Э3",
+      "actual": "МНИР 153087 88733",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.7099909973144531
+      ],
+      "min_line_confidence": 0.7099909973144531,
+      "elapsed_ms": 21.128565999788407,
+      "image_sha256": "5da1133a90c94cc6e642873a9267b83c9b5d40a26d9422c18b48a80803ed2969"
+    },
+    {
+      "id": "development-005-name-01-v1",
+      "case_id": "development-005",
+      "role": "Name",
+      "truth": "Контроллер SPI 7891",
+      "actual": "Контроллер SPI 7891",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 19,
+      "line_confidences": [
+        0.5320330810546875
+      ],
+      "min_line_confidence": 0.5320330810546875,
+      "elapsed_ms": 17.72783599972172,
+      "image_sha256": "4f8e65a8c94183dfe306c241c5981a22674b29527e52d9fb985fa162746501fa"
+    },
+    {
+      "id": "development-005-name-01-v2",
+      "case_id": "development-005",
+      "role": "Name",
+      "truth": "Контроллер SPI 7891",
+      "actual": "Контроллер SPI 7891",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 19,
+      "line_confidences": [
+        0.9089910888671875
+      ],
+      "min_line_confidence": 0.9089910888671875,
+      "elapsed_ms": 18.879679000292526,
+      "image_sha256": "c793536009658589fd8713e361a9d1ba872d85bae829b7f610e94a4197a6be1b"
+    },
+    {
+      "id": "development-006-designation-01-v1",
+      "case_id": "development-006",
+      "role": "Designation",
+      "truth": "СФЦЧ.599731.552-57Э3",
+      "actual": "(ФЦЧ599731552-5733",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.21982383728027344
+      ],
+      "min_line_confidence": 0.21982383728027344,
+      "elapsed_ms": 19.814542999938567,
+      "image_sha256": "69070c6cc46f711c905c2b53caf89b5c3dcca3c5de07cd7e7b63d6731b4cc973"
+    },
+    {
+      "id": "development-006-designation-01-v2",
+      "case_id": "development-006",
+      "role": "Designation",
+      "truth": "СФЦЧ.599731.552-57Э3",
+      "actual": "(ФЦЧ599731552-5 793",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.718288803100586
+      ],
+      "min_line_confidence": 0.718288803100586,
+      "elapsed_ms": 22.698377999859076,
+      "image_sha256": "8c20128ef39b8c59019128df4e0a965d58c6dda548b882fa78b48997fcf28901"
+    },
+    {
+      "id": "development-006-name-01-v1",
+      "case_id": "development-006",
+      "role": "Name",
+      "truth": "Разветвитель сигналов 9290",
+      "actual": "Разветвитель сигналов 9290",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.9011770629882813
+      ],
+      "min_line_confidence": 0.9011770629882813,
+      "elapsed_ms": 23.29868600008922,
+      "image_sha256": "fd8c859c8078b170e37c4fce6ccf02c35f26a2f9bfeddad4e02b23de353f337e"
+    },
+    {
+      "id": "development-006-name-01-v2",
+      "case_id": "development-006",
+      "role": "Name",
+      "truth": "Разветвитель сигналов 9290",
+      "actual": "Разветвитель сигналов 9290",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.8577313232421875
+      ],
+      "min_line_confidence": 0.8577313232421875,
+      "elapsed_ms": 29.66416300023411,
+      "image_sha256": "d7f0078742be4fc64fee4827ace4341eefd1b08ab03124bf58558f50a7bcf1a8"
+    },
+    {
+      "id": "development-007-designation-01-v1",
+      "case_id": "development-007",
+      "role": "Designation",
+      "truth": "ЧШЭЮ.420087.336ПЭ3",
+      "actual": "91/0 42008 7 336133",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.7711283874511718
+      ],
+      "min_line_confidence": 0.7711283874511718,
+      "elapsed_ms": 20.68108499997834,
+      "image_sha256": "1efec24f58a7dce3f7e7181d7abc1a71d7709dddb9a5657edb45e6940f2818f6"
+    },
+    {
+      "id": "development-007-designation-01-v2",
+      "case_id": "development-007",
+      "role": "Designation",
+      "truth": "ЧШЭЮ.420087.336ПЭ3",
+      "actual": "WNW 42008 7 336/193",
+      "exact": false,
+      "edit_distance": 10,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.5501453399658203
+      ],
+      "min_line_confidence": 0.5501453399658203,
+      "elapsed_ms": 23.539853000329458,
+      "image_sha256": "7efa50935f095ab5a1f3545065d85b737b365d23a6cdcad7a11b8d8ee0c4d6df"
+    },
+    {
+      "id": "development-007-name-01-v1",
+      "case_id": "development-007",
+      "role": "Name",
+      "truth": "Адаптер Ethernet",
+      "actual": "Adanmep Ethernet",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 16,
+      "line_confidences": [
+        0.936876220703125
+      ],
+      "min_line_confidence": 0.936876220703125,
+      "elapsed_ms": 14.00024000031408,
+      "image_sha256": "d3627b5ff7240aa68c73bf3ecbb41bef032b2a719b422528f60c1ead3cbc4efd"
+    },
+    {
+      "id": "development-007-name-01-v2",
+      "case_id": "development-007",
+      "role": "Name",
+      "truth": "Адаптер Ethernet",
+      "actual": "Адаптер Ethernet",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 16,
+      "line_confidences": [
+        0.740234375
+      ],
+      "min_line_confidence": 0.740234375,
+      "elapsed_ms": 17.539436999868485,
+      "image_sha256": "e87fca34740602b1c9c82f0ccc22c6b2e415b7f1821e5283817ba39b6951055b"
+    },
+    {
+      "id": "development-007-name-02-v1",
+      "case_id": "development-007",
+      "role": "Name",
+      "truth": "Исполнение 6270",
+      "actual": "Исполнение 6270",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.8353448486328126
+      ],
+      "min_line_confidence": 0.8353448486328126,
+      "elapsed_ms": 7.966505000240431,
+      "image_sha256": "71da75140e63225e235f3866530f8beb7ed6e5113e6bccb0da7ab1e00d0d9086"
+    },
+    {
+      "id": "development-007-name-02-v2",
+      "case_id": "development-007",
+      "role": "Name",
+      "truth": "Исполнение 6270",
+      "actual": "Исполнение 6270",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9606360626220704
+      ],
+      "min_line_confidence": 0.9606360626220704,
+      "elapsed_ms": 9.402218000104767,
+      "image_sha256": "ed6ee102688f3151bc204e9f3c3d8422945445f26523292cf0dc77f99fa0e85c"
+    },
+    {
+      "id": "development-008-designation-01-v1",
+      "case_id": "development-008",
+      "role": "Designation",
+      "truth": "ЖКЛФ.122724.451-26ПЭ3",
+      "actual": "ЖКЛФ 122 724.451-26153",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.5789007186889649
+      ],
+      "min_line_confidence": 0.5789007186889649,
+      "elapsed_ms": 21.251657999982854,
+      "image_sha256": "6af486978971079a84f740d23461dae42917b000e76927472c3c44a189fd8ed1"
+    },
+    {
+      "id": "development-008-designation-01-v2",
+      "case_id": "development-008",
+      "role": "Designation",
+      "truth": "ЖКЛФ.122724.451-26ПЭ3",
+      "actual": "ЖК/Ф 122724451-26193",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.42312728881835937
+      ],
+      "min_line_confidence": 0.42312728881835937,
+      "elapsed_ms": 27.690992999851005,
+      "image_sha256": "c9664b54753fc48c552da1d2e95a808386a8cebcdd279ae41beae62de5002fe2"
+    },
+    {
+      "id": "development-008-name-01-v1",
+      "case_id": "development-008",
+      "role": "Name",
+      "truth": "Ограничитель тока 2075",
+      "actual": "Ограничитель тока 2075",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 22,
+      "line_confidences": [
+        0.9391966247558594
+      ],
+      "min_line_confidence": 0.9391966247558594,
+      "elapsed_ms": 11.766006000016205,
+      "image_sha256": "94319770572b1680442ef8c5ea375ca965f289ee7e0ba2c14e53b90867e1307c"
+    },
+    {
+      "id": "development-008-name-01-v2",
+      "case_id": "development-008",
+      "role": "Name",
+      "truth": "Ограничитель тока 2075",
+      "actual": "Ограничитель тока 2075",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 22,
+      "line_confidences": [
+        0.9490232849121094
+      ],
+      "min_line_confidence": 0.9490232849121094,
+      "elapsed_ms": 24.723393999920518,
+      "image_sha256": "42c30fd18a8af8206c18af5ab71fcf1d33832a9006b8d1192c638f5a6411f933"
+    },
+    {
+      "id": "development-009-designation-01-v1",
+      "case_id": "development-009",
+      "role": "Designation",
+      "truth": "МНПР.101698.278",
+      "actual": "MHIP. 1016 98.278",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.6201960754394531
+      ],
+      "min_line_confidence": 0.6201960754394531,
+      "elapsed_ms": 20.131324999965727,
+      "image_sha256": "8ec837356cb79d7da5c70a3f2efff600e6005d7d110ea8432b97002328472750"
+    },
+    {
+      "id": "development-009-designation-01-v2",
+      "case_id": "development-009",
+      "role": "Designation",
+      "truth": "МНПР.101698.278",
+      "actual": "MHIP. 101698278",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.4645439910888672
+      ],
+      "min_line_confidence": 0.4645439910888672,
+      "elapsed_ms": 25.580461000117793,
+      "image_sha256": "49c86812f0cf2beb2a220d72bf1a038b1aff6447823a357653f332cef2f3b781"
+    },
+    {
+      "id": "development-009-name-01-v1",
+      "case_id": "development-009",
+      "role": "Name",
+      "truth": "Контроллер SPI 9433",
+      "actual": "Контроллер SPI 9433",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 19,
+      "line_confidences": [
+        0.8248598480224609
+      ],
+      "min_line_confidence": 0.8248598480224609,
+      "elapsed_ms": 16.620748000150343,
+      "image_sha256": "6b3ff2187cd56692728873c00bb3c93ed9f4da5a7bc96ae63a14bdb4f5cad248"
+    },
+    {
+      "id": "development-009-name-01-v2",
+      "case_id": "development-009",
+      "role": "Name",
+      "truth": "Контроллер SPI 9433",
+      "actual": "Контроллер SPI 94.33",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 19,
+      "line_confidences": [
+        0.9410885620117188
+      ],
+      "min_line_confidence": 0.9410885620117188,
+      "elapsed_ms": 18.544513000051666,
+      "image_sha256": "aed4ce21fcd6a8d78b2aab46f6e00b606400dddb3cbd6225421ad33fc978c8b8"
+    },
+    {
+      "id": "development-010-designation-01-v1",
+      "case_id": "development-010",
+      "role": "Designation",
+      "truth": "СФЦЧ.883640.374-91",
+      "actual": "(ФЦЧ893640 374-91",
+      "exact": false,
+      "edit_distance": 4,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.0
+      ],
+      "min_line_confidence": 0.0,
+      "elapsed_ms": 26.89886200005276,
+      "image_sha256": "3bc44700a4e45c24d48fa9bd57542447f883bdf583659cddde4b9442c7affe4e"
+    },
+    {
+      "id": "development-010-designation-01-v2",
+      "case_id": "development-010",
+      "role": "Designation",
+      "truth": "СФЦЧ.883640.374-91",
+      "actual": "(ФЦ9Ч993640 3/4-97]",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.3557585144042969
+      ],
+      "min_line_confidence": 0.3557585144042969,
+      "elapsed_ms": 36.638881000271795,
+      "image_sha256": "009d5a294a842efa44d466d2f2be8a21f693d5565404b01bfb0cbd1360112796"
+    },
+    {
+      "id": "development-010-name-01-v1",
+      "case_id": "development-010",
+      "role": "Name",
+      "truth": "Разветвитель сигналов",
+      "actual": "Разветвитель сигналов",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9270634460449219
+      ],
+      "min_line_confidence": 0.9270634460449219,
+      "elapsed_ms": 10.568354000042746,
+      "image_sha256": "dc444874d7b9cbd4e27daa297dbc0f47f8a30e0c745ee94926c2ae913d6b4932"
+    },
+    {
+      "id": "development-010-name-01-v2",
+      "case_id": "development-010",
+      "role": "Name",
+      "truth": "Разветвитель сигналов",
+      "actual": "Разбетвитель сигналов",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.6545955657958984
+      ],
+      "min_line_confidence": 0.6545955657958984,
+      "elapsed_ms": 22.449560000040947,
+      "image_sha256": "c65fb75da8fe5e716ca93e46c2c9a3ccc9c53ada0d353df9d1829cb393c753d0"
+    },
+    {
+      "id": "development-010-name-02-v1",
+      "case_id": "development-010",
+      "role": "Name",
+      "truth": "Исполнение 8349",
+      "actual": "Исполнение 8349",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.8512721252441406
+      ],
+      "min_line_confidence": 0.8512721252441406,
+      "elapsed_ms": 14.779023000301095,
+      "image_sha256": "96ed0b84d9a94c1998f613c9a5b92c64af899dcfb164e09480b50f04264b4352"
+    },
+    {
+      "id": "development-010-name-02-v2",
+      "case_id": "development-010",
+      "role": "Name",
+      "truth": "Исполнение 8349",
+      "actual": "Исполнение 8349",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9414030456542969
+      ],
+      "min_line_confidence": 0.9414030456542969,
+      "elapsed_ms": 15.442133000306058,
+      "image_sha256": "1d8d7cd337949ced2742c8aa42626f0466d380c36102d9fd46d4b6071f4bf99d"
+    },
+    {
+      "id": "development-011-designation-01-v1",
+      "case_id": "development-011",
+      "role": "Designation",
+      "truth": "ЧШЭЮ.155273.843СБ",
+      "actual": "YG 155273 6436",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.3483377838134766
+      ],
+      "min_line_confidence": 0.3483377838134766,
+      "elapsed_ms": 21.427988999676018,
+      "image_sha256": "aa8f6b57d46a32feb250bb4bdb7fa6db38ac25104a5d9f8f90e88459c0bf6802"
+    },
+    {
+      "id": "development-011-designation-01-v2",
+      "case_id": "development-011",
+      "role": "Designation",
+      "truth": "ЧШЭЮ.155273.843СБ",
+      "actual": "91/90 155273 84306",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.5532080078125
+      ],
+      "min_line_confidence": 0.5532080078125,
+      "elapsed_ms": 25.745711000126903,
+      "image_sha256": "af120643b6613ed26f19416d42bf4de97d7c5924dc2f724f86a65b6786cd3a32"
+    },
+    {
+      "id": "development-011-name-01-v1",
+      "case_id": "development-011",
+      "role": "Name",
+      "truth": "Адаптер Ethernet 8282",
+      "actual": "Adanmep Ethernet 8282",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9465634155273438
+      ],
+      "min_line_confidence": 0.9465634155273438,
+      "elapsed_ms": 22.359777000019676,
+      "image_sha256": "112ae836e61f1884df23ac1dc969bbe13bc268075efbd8a52d4fc8e27ba5d1a9"
+    },
+    {
+      "id": "development-011-name-01-v2",
+      "case_id": "development-011",
+      "role": "Name",
+      "truth": "Адаптер Ethernet 8282",
+      "actual": "Адаптер Ethernet 8282",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.8390083312988281
+      ],
+      "min_line_confidence": 0.8390083312988281,
+      "elapsed_ms": 24.716143000205193,
+      "image_sha256": "9dd7f294e01c58def155e8657d7c339c6aba5b65464747a5741156c60f1290be"
+    },
+    {
+      "id": "development-012-designation-01-v1",
+      "case_id": "development-012",
+      "role": "Designation",
+      "truth": "ЖКЛФ.197117.006-57СБ",
+      "actual": "ЖКЛФ 197117 006-5 СБ",
+      "exact": false,
+      "edit_distance": 3,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.6993711853027343
+      ],
+      "min_line_confidence": 0.6993711853027343,
+      "elapsed_ms": 23.114514000099007,
+      "image_sha256": "01c6bf0b486681ecf23a346177b202243e8534d2402066930c5b07c2ccb45355"
+    },
+    {
+      "id": "development-012-designation-01-v2",
+      "case_id": "development-012",
+      "role": "Designation",
+      "truth": "ЖКЛФ.197117.006-57СБ",
+      "actual": "ЖК/Ф 197111 006-5 ДБ",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.7036219024658203
+      ],
+      "min_line_confidence": 0.7036219024658203,
+      "elapsed_ms": 27.350920999651862,
+      "image_sha256": "d18c2a767e5154fb57ad6ead7b439aab72ba0a42a818723059869e3877790fa5"
+    },
+    {
+      "id": "development-012-name-01-v1",
+      "case_id": "development-012",
+      "role": "Name",
+      "truth": "Ограничитель тока 7506",
+      "actual": "Ограничитель тока 7506",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 22,
+      "line_confidences": [
+        0.9591675567626953
+      ],
+      "min_line_confidence": 0.9591675567626953,
+      "elapsed_ms": 11.599649999880057,
+      "image_sha256": "cfe37b55c67c06b88fb2c5733a1c97ce933741a0f53d9995bb84ef03db99b502"
+    },
+    {
+      "id": "development-012-name-01-v2",
+      "case_id": "development-012",
+      "role": "Name",
+      "truth": "Ограничитель тока 7506",
+      "actual": "Ограничитель тока 7506",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 22,
+      "line_confidences": [
+        0.9564873504638672
+      ],
+      "min_line_confidence": 0.9564873504638672,
+      "elapsed_ms": 14.07943799995337,
+      "image_sha256": "6cb1f0a75d0ef4bc5e03b1987514e420600db4e93a8a97b0223575a7880e7e09"
+    },
+    {
+      "id": "development-013-designation-01-v1",
+      "case_id": "development-013",
+      "role": "Designation",
+      "truth": "МНПР.273229.998Э3",
+      "actual": "МУР 273229 99633",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.5776055908203125
+      ],
+      "min_line_confidence": 0.5776055908203125,
+      "elapsed_ms": 20.25112799992712,
+      "image_sha256": "ac38326649d3842d0474d6d3f83c09d7a5c8e0d3c3e5e97598d60ee468ce527e"
+    },
+    {
+      "id": "development-013-designation-01-v2",
+      "case_id": "development-013",
+      "role": "Designation",
+      "truth": "МНПР.273229.998Э3",
+      "actual": "МНИР 27/3229 99833",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.7317791748046875
+      ],
+      "min_line_confidence": 0.7317791748046875,
+      "elapsed_ms": 21.70439700012139,
+      "image_sha256": "e515b871002b4fa6a193e3af831ba959a195785e0e7a4f95287981d07dca0c37"
+    },
+    {
+      "id": "development-013-name-01-v1",
+      "case_id": "development-013",
+      "role": "Name",
+      "truth": "Контроллер SPI",
+      "actual": "Контроллер SPI",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 14,
+      "line_confidences": [
+        0.8439556884765625
+      ],
+      "min_line_confidence": 0.8439556884765625,
+      "elapsed_ms": 13.713125999856857,
+      "image_sha256": "59dcfe2796422e8db490138e5a1bd4d0e82ce9114c5f703f57af6e105230fa77"
+    },
+    {
+      "id": "development-013-name-01-v2",
+      "case_id": "development-013",
+      "role": "Name",
+      "truth": "Контроллер SPI",
+      "actual": "Контроллер SPI",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 14,
+      "line_confidences": [
+        0.8951838684082031
+      ],
+      "min_line_confidence": 0.8951838684082031,
+      "elapsed_ms": 14.757810999981302,
+      "image_sha256": "cfc6525ac608afcd3fe16da9b541d62a262fc1e751ff79e7384a6704df28fde4"
+    },
+    {
+      "id": "development-013-name-02-v1",
+      "case_id": "development-013",
+      "role": "Name",
+      "truth": "Исполнение 1786",
+      "actual": "Исполнение 1786",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.8352699279785156
+      ],
+      "min_line_confidence": 0.8352699279785156,
+      "elapsed_ms": 7.992092999757006,
+      "image_sha256": "83e2a9f9c24f7c25e9b96edaffa7d29a89bd01a235db6ae600e76cb1e7469da5"
+    },
+    {
+      "id": "development-013-name-02-v2",
+      "case_id": "development-013",
+      "role": "Name",
+      "truth": "Исполнение 1786",
+      "actual": "Исполнение 1786",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9458792114257812
+      ],
+      "min_line_confidence": 0.9458792114257812,
+      "elapsed_ms": 9.516938999695412,
+      "image_sha256": "0d4dc162ba7acf5572eb077dc675547a61144ca028ca885792af001e948ca966"
+    },
+    {
+      "id": "development-014-designation-01-v1",
+      "case_id": "development-014",
+      "role": "Designation",
+      "truth": "СФЦЧ.400192.610-45Э3",
+      "actual": "(ФЦЧ400792 610-4553",
+      "exact": false,
+      "edit_distance": 5,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.6168618774414063
+      ],
+      "min_line_confidence": 0.6168618774414063,
+      "elapsed_ms": 34.742609999739216,
+      "image_sha256": "8da3c85f515604e453178d2985284a5a4a46d46cc53460181924d8ff475f169f"
+    },
+    {
+      "id": "development-014-designation-01-v2",
+      "case_id": "development-014",
+      "role": "Designation",
+      "truth": "СФЦЧ.400192.610-45Э3",
+      "actual": "CPLLY 400192 610-4553",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 20,
+      "line_confidences": [
+        0.6731868743896484
+      ],
+      "min_line_confidence": 0.6731868743896484,
+      "elapsed_ms": 26.071457999933045,
+      "image_sha256": "77954e4b3b353b294f578979f58572b9abbf1a029d9b818f8ad07ac165e2ff20"
+    },
+    {
+      "id": "development-014-name-01-v1",
+      "case_id": "development-014",
+      "role": "Name",
+      "truth": "Разветвитель сигналов 7261",
+      "actual": "Разветвитель сигналов 7261",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.9002017974853516
+      ],
+      "min_line_confidence": 0.9002017974853516,
+      "elapsed_ms": 15.155068999774812,
+      "image_sha256": "94348d0ed8dbbbf61c2324463695815c7b146676813c817b6fb930700044862a"
+    },
+    {
+      "id": "development-014-name-01-v2",
+      "case_id": "development-014",
+      "role": "Name",
+      "truth": "Разветвитель сигналов 7261",
+      "actual": "Разветвитель сигналов 7261",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 26,
+      "line_confidences": [
+        0.8532496643066406
+      ],
+      "min_line_confidence": 0.8532496643066406,
+      "elapsed_ms": 32.05183499994746,
+      "image_sha256": "7556cada030e84ccae67e6444ed1510be6b5c16ea3f2e3713982b2df45ce942a"
+    },
+    {
+      "id": "development-015-designation-01-v1",
+      "case_id": "development-015",
+      "role": "Designation",
+      "truth": "ЧШЭЮ.266221.611ПЭ3",
+      "actual": "WIG 26622161153",
+      "exact": false,
+      "edit_distance": 8,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.5738764953613281
+      ],
+      "min_line_confidence": 0.5738764953613281,
+      "elapsed_ms": 18.38055100006386,
+      "image_sha256": "6a906d0ee7c3b4b2c5158174b4c4636f9b1cc26255901bd1e426fa8de73b5acf"
+    },
+    {
+      "id": "development-015-designation-01-v2",
+      "case_id": "development-015",
+      "role": "Designation",
+      "truth": "ЧШЭЮ.266221.611ПЭ3",
+      "actual": "WNW 2662216111793",
+      "exact": false,
+      "edit_distance": 9,
+      "truth_characters": 18,
+      "line_confidences": [
+        0.4967771911621094
+      ],
+      "min_line_confidence": 0.4967771911621094,
+      "elapsed_ms": 21.383703000083187,
+      "image_sha256": "4600f6aefc7956e2185f8933cc1b011a448bdb33c93c8c43e9a8f21fb832a084"
+    },
+    {
+      "id": "development-015-name-01-v1",
+      "case_id": "development-015",
+      "role": "Name",
+      "truth": "Адаптер Ethernet 1468",
+      "actual": "Adanmep Ethernet 1468",
+      "exact": false,
+      "edit_distance": 7,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.9462647247314453
+      ],
+      "min_line_confidence": 0.9462647247314453,
+      "elapsed_ms": 18.480338000244956,
+      "image_sha256": "20ec26ca641bd80f7325a3ba987daa20ff4ad98107fdb0beb1dc4bf8101917e9"
+    },
+    {
+      "id": "development-015-name-01-v2",
+      "case_id": "development-015",
+      "role": "Name",
+      "truth": "Адаптер Ethernet 1468",
+      "actual": "Адаптер Ethernet 1468",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.896746826171875
+      ],
+      "min_line_confidence": 0.896746826171875,
+      "elapsed_ms": 21.215033000316907,
+      "image_sha256": "1da4880607b53dacc8394ee3c95488b471c4cbb411dbb73b03ded7865933efa6"
+    },
+    {
+      "id": "development-016-designation-01-v1",
+      "case_id": "development-016",
+      "role": "Designation",
+      "truth": "ЖКЛФ.549841.420-48ПЭ3",
+      "actual": "KKNP 54984 1420-48/193",
+      "exact": false,
+      "edit_distance": 10,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.522219123840332
+      ],
+      "min_line_confidence": 0.522219123840332,
+      "elapsed_ms": 22.681132999878173,
+      "image_sha256": "73625ed827858c95d3f40927e447a433e40e0f349befc88c8342b3fe56de9ace"
+    },
+    {
+      "id": "development-016-designation-01-v2",
+      "case_id": "development-016",
+      "role": "Designation",
+      "truth": "ЖКЛФ.549841.420-48ПЭ3",
+      "actual": "ЖК/Ф 549941420-48193",
+      "exact": false,
+      "edit_distance": 6,
+      "truth_characters": 21,
+      "line_confidences": [
+        0.18897979736328124
+      ],
+      "min_line_confidence": 0.18897979736328124,
+      "elapsed_ms": 27.31544899961591,
+      "image_sha256": "5be80cd12ce6f796e71a47216fc40e348493ec9f00f4fd7954a7ef16647913d3"
+    },
+    {
+      "id": "development-016-name-01-v1",
+      "case_id": "development-016",
+      "role": "Name",
+      "truth": "Ограничитель тока",
+      "actual": "Ограничитель тока",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.923692855834961
+      ],
+      "min_line_confidence": 0.923692855834961,
+      "elapsed_ms": 9.056327000052988,
+      "image_sha256": "2ab1506b65609ba002c89a6383b2ed23915d92f58cc56326fab6455bfee4b1f3"
+    },
+    {
+      "id": "development-016-name-01-v2",
+      "case_id": "development-016",
+      "role": "Name",
+      "truth": "Ограничитель тока",
+      "actual": "Ограни читель тока",
+      "exact": false,
+      "edit_distance": 1,
+      "truth_characters": 17,
+      "line_confidences": [
+        0.8640974426269531
+      ],
+      "min_line_confidence": 0.8640974426269531,
+      "elapsed_ms": 17.96272299998236,
+      "image_sha256": "c19d61869d57caea400fb47a3ecb3e2be7a11b6cffe4fc475e2edd8ac4235482"
+    },
+    {
+      "id": "development-016-name-02-v1",
+      "case_id": "development-016",
+      "role": "Name",
+      "truth": "Исполнение 1123",
+      "actual": "Исполнение 1123",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.8506735229492187
+      ],
+      "min_line_confidence": 0.8506735229492187,
+      "elapsed_ms": 7.48063600030946,
+      "image_sha256": "c9eb07d55e74d4eb950b5dce8c6c2cc84605079df38912fe63634e1f36730026"
+    },
+    {
+      "id": "development-016-name-02-v2",
+      "case_id": "development-016",
+      "role": "Name",
+      "truth": "Исполнение 1123",
+      "actual": "Исполнение 1123",
+      "exact": true,
+      "edit_distance": 0,
+      "truth_characters": 15,
+      "line_confidences": [
+        0.9267619323730468
+      ],
+      "min_line_confidence": 0.9267619323730468,
+      "elapsed_ms": 15.791209999861167,
+      "image_sha256": "518645f6ebf47cac589329d8889e7cae23d41efc5c20479230dbbfcc20963465"
+    }
+  ]
+}

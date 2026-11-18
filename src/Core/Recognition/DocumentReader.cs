@@ -11,7 +11,7 @@ namespace DocumentTextRecognition.Core.Recognition;
 
 /// <summary>Пара движков одного рабочего потока. Пороги уверенности — у каждого свои
 /// (шкалы несравнимы); подобраны на синтетических образцах, описание в docs/recognition.md.</summary>
-internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
+internal sealed class OcrPair(IOcrEngine first, IOcrEngine second, Func<OcrPair>? gostFactory = null) : IDisposable
 {
     public IOcrEngine First { get; } = first;
     public IOcrEngine Second { get; } = second;
@@ -21,6 +21,34 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
     /// <summary>Чтение одиночных строк без детектора с обязательной независимой сверкой;
     /// сомнительные поля возвращаются к полному детектору.</summary>
     internal bool PreferKnownLines { get; set; } = true;
+
+    /// <summary>Видимый текст PDF принимается только после независимой сверки с растром.</summary>
+    internal bool UsePdfText { get; set; } = true;
+
+    internal bool UseGostFallback { get; set; } = true;
+    private Func<OcrPair>? _gostFactory = gostFactory;
+    private bool _packagedGostFactory;
+    private OcrPair? _gost;
+    private bool _disposed;
+    // Only a model choice is retained. Every document is still read and independently
+    // confirmed; no recognized text, filename or expected designation is cached.
+    private readonly Dictionary<DocTemplate, bool> _gostPreferred = new(ReferenceEqualityComparer.Instance);
+
+    internal bool PrefersGost(DocTemplate template) => UseGostFallback && _gostFactory is not null &&
+        _gostPreferred.GetValueOrDefault(template);
+
+    internal void PreferGost(DocTemplate template, bool value) => _gostPreferred[template] = value;
+
+    internal OcrPair? GostPair()
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        if (!UseGostFallback || _gostFactory is null) return null;
+        _gost ??= _gostFactory();
+        _gost.UsePdfText = UsePdfText;
+        _gost.PreferKnownLines = PreferKnownLines;
+        _gost.BatchFields = BatchFields;
+        return _gost;
+    }
 
     public static double MinConfidence(IOcrEngine engine) => engine switch
     {
@@ -34,31 +62,76 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
         bool useOnnx = true, string? onnxModelsDir = null)
     {
         var first = new TesseractEngine(tessdata);
-        try { return new OcrPair(first, new PaddleEngine(OcrComponents.PaddleDir, useOneDnn, reusePredictors, useOnnx, onnxModelsDir)); }
+        try
+        {
+            return new OcrPair(first, new PaddleEngine(OcrComponents.PaddleDir, useOneDnn, reusePredictors, useOnnx, onnxModelsDir))
+            {
+                _gostFactory = () => CreateGost(first.TessdataDirectory, useOneDnn, reusePredictors, useOnnx, onnxModelsDir),
+                _packagedGostFactory = true,
+            };
+        }
+        catch { first.Dispose(); throw; }
+    }
+
+    private static OcrPair CreateGost(string tessdata, bool useOneDnn, bool reusePredictors, bool useOnnx, string? onnxModelsDir)
+    {
+        GostTesseractModel.Validate(tessdata);
+        var first = new TesseractEngine(tessdata, GostTesseractModel.Languages, GostTesseractModel.RawDesignation,
+            restrictDesignationAlphabet: false);
+        try
+        {
+            return new OcrPair(first, new PaddleEngine(OcrComponents.PaddleDir, useOneDnn, reusePredictors,
+                useOnnx, onnxModelsDir, OcrComponents.PaddleCyrillicRecognizer)) { UseGostFallback = false };
+        }
         catch { first.Dispose(); throw; }
     }
 
     public void Dispose()
     {
-        First.Dispose();
-        Second.Dispose();
+        if (_disposed) return;
+        _disposed = true;
+        try { First.Dispose(); }
+        finally
+        {
+            try { Second.Dispose(); }
+            finally
+            {
+                try { _gost?.Dispose(); }
+                finally
+                {
+                    _gostPreferred.Clear();
+                    _gost = null;
+                    _gostFactory = null;
+                }
+            }
+        }
     }
 
     internal OcrWorkerConfiguration ExportWorkerConfiguration(string templatesFolder)
     {
         if (First is not TesseractEngine tesseract || Second is not PaddleEngine paddle ||
-            tesseract.Languages != OcrComponents.TesseractLanguages ||
+            !tesseract.IsStandardConfiguration || paddle.RecognizerName != OcrComponents.PaddleRecognizer ||
+            UseGostFallback && _gostFactory is not null && !_packagedGostFactory ||
             !string.Equals(paddle.ModelsDirectory, Path.GetFullPath(OcrComponents.PaddleDir), FileNames.PathComparison))
             throw new NotSupportedException("Процессный режим поддерживает штатную пару Tesseract rus+eng и PaddleOCR из поставки.");
         return new OcrWorkerConfiguration(Path.GetFullPath(templatesFolder), tesseract.TessdataDirectory,
             paddle.UseOneDnn, paddle.ReusePredictors, paddle.UsesOnnx, paddle.OnnxModelsDirectory,
-            PreferKnownLines, BatchFields, TemplateMatcher.UseAvx2);
+            PreferKnownLines, BatchFields, TemplateMatcher.UseAvx2)
+            { UsePdfText = UsePdfText, UseGostFallback = UseGostFallback && _packagedGostFactory };
     }
 }
 
 /// <summary>Итог чтения документа: подтвержденные поля или причина пропуска.</summary>
 internal sealed record DocumentResult(FieldValues? Values, string? Problem, string? Template = null, string? Pages = null)
 {
+    public RecognitionProvenance? Trace { get; init; }
+
+    // Provenance describes the work performed, not the document's recognized value.
+    public bool Equals(DocumentResult? other) => other is not null &&
+        Values == other.Values && Problem == other.Problem && Template == other.Template && Pages == other.Pages;
+
+    public override int GetHashCode() => HashCode.Combine(Values, Problem, Template, Pages);
+
     public static DocumentResult Fail(string problem) => new(null, problem);
 }
 
@@ -72,12 +145,20 @@ internal sealed record DocumentResult(FieldValues? Values, string? Problem, stri
 /// поля, подходит к нескольким шаблонам сразу или дает другие данные — файл пропускается
 /// целиком: значит, в PDF может быть несколько документов.</para>
 /// </summary>
-internal static class DocumentReader
+internal static partial class DocumentReader
 {
     public const int MaxPages = 10;
 
     public static DocumentResult Read(string path, IReadOnlyList<DocTemplate> templates, OcrPair ocr, CancellationToken ct,
         Action<RecognitionDiagnostic>? diagnostic = null, Action<string, TimeSpan>? timing = null)
+    {
+        var trace = new RecognitionTraceBuilder();
+        var result = ReadCore(path, templates, ocr, ct, diagnostic, timing, trace);
+        return result with { Trace = trace.Snapshot() };
+    }
+
+    private static DocumentResult ReadCore(string path, IReadOnlyList<DocTemplate> templates, OcrPair ocr, CancellationToken ct,
+        Action<RecognitionDiagnostic>? diagnostic, Action<string, TimeSpan>? timing, RecognitionTraceBuilder trace)
     {
         var started = timing is null ? 0 : Stopwatch.GetTimestamp();
         PdfDocument pdf;
@@ -116,6 +197,7 @@ internal static class DocumentReader
                 using (features)
                 {
                     started = timing is null ? 0 : Stopwatch.GetTimestamp();
+                    trace.MatchingCalls++;
                     var outcome = TemplateMatcher.Match(features, size, templates);
                     Measure("match", ref started, timing);
                     if (outcome.Ambiguous)
@@ -131,8 +213,9 @@ internal static class DocumentReader
                     }
 
                     var match = outcome.Match;
+                    trace.MatchedPages++;
                     diagnostic?.Invoke(new("Совмещение", i + 1, $"Шаблон «{match.Template.Name}»: совпадение формы {match.Score:P0}."));
-                    var (values, problem) = ReadFields(pdf, i, size, features, match, ocr, ct, diagnostic, timing);
+                    var (values, problem) = ReadFields(pdf, i, size, features, match, ocr, ct, diagnostic, timing, trace);
                     if (values is null)
                         return DocumentResult.Fail($"стр. {i + 1} (шаблон «{match.Template.Name}»): {problem}");
                     confirmed.Add((i, values, match.Template.Name));
@@ -162,9 +245,64 @@ internal static class DocumentReader
     /// <summary>Вырезать поля страницы и прочитать их обоими движками; сверить.</summary>
     public static (FieldValues? Values, string? Problem) ReadFields(PdfDocument pdf, int pageIndex, PageSize size,
         PageFeatures features, PageMatch match, OcrPair ocr, CancellationToken ct,
-        Action<RecognitionDiagnostic>? diagnostic = null, Action<string, TimeSpan>? timing = null)
+        Action<RecognitionDiagnostic>? diagnostic = null, Action<string, TimeSpan>? timing = null,
+        RecognitionTraceBuilder? trace = null)
     {
+        ct.ThrowIfCancellationRequested();
+        var preferGost = ocr.PrefersGost(match.Template);
+        string? preferredProblem = null;
+        if (preferGost)
+        {
+            var gost = ocr.GostPair()!;
+            if (trace is not null) trace.GostAttempts++;
+            diagnostic?.Invoke(new("Шрифт", pageIndex + 1, "Проверяется модель чертёжного шрифта."));
+            var first = ReadFieldsCore(pdf, pageIndex, size, features, match, gost, ct, diagnostic, timing, trace);
+            ct.ThrowIfCancellationRequested();
+            if (first.Values is not null)
+            {
+                if (trace is not null) trace.GostAccepted++;
+                return first;
+            }
+            preferredProblem = first.Problem;
+        }
+
+        var standard = ReadFieldsCore(pdf, pageIndex, size, features, match, ocr, ct, diagnostic, timing, trace);
+        ct.ThrowIfCancellationRequested();
+        if (standard.Values is not null)
+        {
+            if (preferGost) ocr.PreferGost(match.Template, false);
+            return standard;
+        }
+        if (preferGost)
+            return (null, $"обычная модель: {standard.Problem}; чертёжный шрифт: {preferredProblem}");
+        ct.ThrowIfCancellationRequested();
+        var fallback = ocr.GostPair();
+        if (fallback is null) return standard;
+        ct.ThrowIfCancellationRequested();
+        if (trace is not null) trace.GostAttempts++;
+        diagnostic?.Invoke(new("Шрифт", pageIndex + 1,
+            "Обычные модели не подтвердили поля; проверяется модель чертёжного шрифта."));
+        var alternative = ReadFieldsCore(pdf, pageIndex, size, features, match, fallback, ct, diagnostic, timing, trace);
+        ct.ThrowIfCancellationRequested();
+        if (alternative.Values is not null)
+        {
+            if (trace is not null) trace.GostAccepted++;
+            ocr.PreferGost(match.Template, true);
+            return alternative;
+        }
+        return (null, $"обычная модель: {standard.Problem}; чертёжный шрифт: {alternative.Problem}");
+    }
+
+    private static (FieldValues? Values, string? Problem) ReadFieldsCore(PdfDocument pdf, int pageIndex, PageSize size,
+        PageFeatures features, PageMatch match, OcrPair ocr, CancellationToken ct,
+        Action<RecognitionDiagnostic>? diagnostic, Action<string, TimeSpan>? timing,
+        RecognitionTraceBuilder? trace)
+    {
+        ct.ThrowIfCancellationRequested();
         var started = timing is null ? 0 : Stopwatch.GetTimestamp();
+        if (ocr.UsePdfText && TryReadPdfTextFields(pdf, pageIndex, features, match, ocr, ct,
+                diagnostic, timing, trace, out var pdfValues))
+            return (pdfValues, null);
         var frames = match.Template.Frames;
         var combined = frames.FirstOrDefault(f => f.Role == FieldRole.Combined);
         diagnostic?.Invoke(new("Алфавиты", pageIndex + 1,
@@ -175,10 +313,10 @@ internal static class DocumentReader
             using var crop = FieldCrop.Extract(pdf, pageIndex, size, features, match, combined.Inner, timing);
             Measure("crop", ref started, timing);
             ct.ThrowIfCancellationRequested();
-            var a = ReadEngine(ocr.First, crop, timing);
+            var a = ReadEngine(ocr.First, crop, timing, trace: trace);
             if (timing is not null) Measure("ocr." + ocr.First.Name, ref started, timing);
             ct.ThrowIfCancellationRequested();
-            var b = ReadEngine(ocr.Second, crop, timing);
+            var b = ReadEngine(ocr.Second, crop, timing, trace: trace);
             if (timing is not null) Measure("ocr." + ocr.Second.Name, ref started, timing);
             first = ParseCombined(ocr.First, a);
             second = ParseCombined(ocr.Second, b);
@@ -189,7 +327,7 @@ internal static class DocumentReader
         }
         else if (ocr.BatchFields && (ocr.First is PaddleEngine || ocr.Second is PaddleEngine))
         {
-            (first, second) = ReadSeparateBatch(pdf, pageIndex, size, features, match, ocr, ct, diagnostic, timing);
+            (first, second) = ReadSeparateBatch(pdf, pageIndex, size, features, match, ocr, ct, diagnostic, timing, trace);
         }
         else
         {
@@ -223,17 +361,17 @@ internal static class DocumentReader
             OcrReading a, b;
             if (ocr.PreferKnownLines)
             {
-                var readings = ReadSeparateFields([crop], [role], ocr, ct, timing);
+                var readings = ReadSeparateFields([crop], [role], ocr, ct, timing, trace);
                 a = readings.First[0];
                 b = readings.Second[0];
             }
             else
             {
-                a = ReadEngine(ocr.First, crop, timing, Profile(role));
+                a = ReadEngine(ocr.First, crop, timing, Profile(role), trace);
                 if (timing is not null) Measure("ocr." + ocr.First.Name, ref started, timing);
                 ct.ThrowIfCancellationRequested();
                 started = timing is null ? 0 : Stopwatch.GetTimestamp();
-                b = ReadEngine(ocr.Second, crop, timing, Profile(role));
+                b = ReadEngine(ocr.Second, crop, timing, Profile(role), trace);
                 if (timing is not null) Measure("ocr." + ocr.Second.Name, ref started, timing);
             }
             var parsedA = parse(a, OcrPair.MinConfidence(ocr.First));
@@ -251,7 +389,7 @@ internal static class DocumentReader
 
     private static (EngineFields First, EngineFields Second) ReadSeparateBatch(PdfDocument pdf, int pageIndex,
         PageSize size, PageFeatures features, PageMatch match, OcrPair ocr, CancellationToken ct,
-        Action<RecognitionDiagnostic>? diagnostic, Action<string, TimeSpan>? timing)
+        Action<RecognitionDiagnostic>? diagnostic, Action<string, TimeSpan>? timing, RecognitionTraceBuilder? trace)
     {
         var roles = match.Template.TypeAbsent
             ? new[] { FieldRole.Designation, FieldRole.Name }
@@ -267,7 +405,7 @@ internal static class DocumentReader
                 crops.Add(FieldCrop.Extract(pdf, pageIndex, size, features, match, frame.Inner, timing));
                 Measure("crop", ref started, timing);
             }
-            var (a, b) = ReadSeparateFields(crops, roles, ocr, ct, timing);
+            var (a, b) = ReadSeparateFields(crops, roles, ocr, ct, timing, trace);
             var parsedA = new Parsed[3];
             var parsedB = new Parsed[3];
             for (var i = 0; i < roles.Length; i++)
@@ -300,7 +438,7 @@ internal static class DocumentReader
     /// Tesseract. Исключения движков распространяются без повторов.</summary>
     internal static (OcrReading[] First, OcrReading[] Second) ReadSeparateFields(IReadOnlyList<Mat> crops,
         IReadOnlyList<FieldRole> roles, OcrPair ocr, CancellationToken ct,
-        Action<string, TimeSpan>? timing = null)
+        Action<string, TimeSpan>? timing = null, RecognitionTraceBuilder? trace = null)
     {
         if (crops.Count != roles.Count || roles.Any(role => role is not
             (FieldRole.Designation or FieldRole.Name or FieldRole.Type)))
@@ -322,13 +460,16 @@ internal static class DocumentReader
             var started = timing is null ? 0 : Stopwatch.GetTimestamp();
             (OcrReading[] Readings, bool[]? KnownLines) result;
             if (engine is PaddleEngine paddle)
+            {
+                CountRead(engine, crops.Count, trace);
                 result = preferKnown ? paddle.ReadKnownLines(crops, timing, ct, profiles) :
                     (paddle.ReadMany(crops, timing, ct, profiles), null);
+            }
             else
                 result = (crops.Select((crop, i) =>
                 {
                     ct.ThrowIfCancellationRequested();
-                    return engine is TesseractEngine tess ? tess.Read(crop, profiles[i]) : engine.Read(crop);
+                    return ReadEngine(engine, crop, null, profiles[i], trace);
                 }).ToArray(), null);
             ct.ThrowIfCancellationRequested();
             if (timing is not null) Measure("ocr." + engine.Name, ref started, timing);
@@ -345,6 +486,7 @@ internal static class DocumentReader
             if (failed.Length == 0) return;
             ct.ThrowIfCancellationRequested();
             var started = timing is null ? 0 : Stopwatch.GetTimestamp();
+            CountRead(paddle, failed.Length, trace);
             var fallback = paddle.ReadMany(failed.Select(i => crops[i]).ToArray(), timing, ct,
                 failed.Select(i => profiles[i]).ToArray());
             if (timing is not null)
@@ -381,12 +523,24 @@ internal static class DocumentReader
         ? OcrTextProfile.CyrillicDesignation : OcrTextProfile.General;
 
     private static OcrReading ReadEngine(IOcrEngine engine, Mat crop, Action<string, TimeSpan>? timing,
-        OcrTextProfile profile = OcrTextProfile.General) => engine switch
+        OcrTextProfile profile = OcrTextProfile.General, RecognitionTraceBuilder? trace = null)
+    {
+        CountRead(engine, 1, trace);
+        return engine switch
         {
             PaddleEngine paddle => paddle.Read(crop, timing, profile),
             TesseractEngine tess => tess.Read(crop, profile),
             _ => engine.Read(crop),
         };
+    }
+
+    private static void CountRead(IOcrEngine engine, int count, RecognitionTraceBuilder? trace)
+    {
+        if (trace is null) return;
+        if (engine is TesseractEngine) trace.TesseractReads += count;
+        else if (engine is PaddleEngine) trace.PaddleReads += count;
+        else if (engine.Name == "EasyOCR") trace.EasyReads += count;
+    }
 
     private static void Measure(string phase, ref long started, Action<string, TimeSpan>? timing)
     {

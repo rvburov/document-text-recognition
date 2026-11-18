@@ -169,6 +169,7 @@ public sealed class GostTypeATests(OcrFixture ocr, ITestOutputHelper output)
                 using var template = loaded.Template!;
                 Assert.True(template.IsManual);
                 Assert.True(template.TypeAbsent);
+                Assert.False(ocr.Pair.PrefersGost(template)); // new template identity: base attempt precedes specialist
                 foreach (var region in saved.Markup.Regions)
                     Assert.Equal(region.Bounds, Assert.Single(template.Frames, f => f.Role == region.Role).Inner);
 
@@ -179,27 +180,42 @@ public sealed class GostTypeATests(OcrFixture ocr, ITestOutputHelper output)
                     CancellationToken.None, diagnostics.Add);
                 var fields = diagnostics.Where(d => d.Field is not null).ToArray();
                 var fieldRecords = new List<object>();
-                if (fields.Length != saved.Markup.Regions.Count)
-                    failures.Add($"{variant.Id}/knownLines={knownLines}: expected both saved fields after alignment, got {fields.Length}; {result.Problem}");
-                if (!fields.Select(d => d.Field!.Role).Order().SequenceEqual(saved.Markup.Regions.Select(r => r.Role).Order()))
+                var writtenRoles = saved.Markup.Regions.Select(r => r.Role).Order().ToArray();
+                var expectedAttempts = 1 + (result.Trace?.GostAttempts ?? 0);
+                if (result.Trace is null || fields.Length != saved.Markup.Regions.Count * expectedAttempts)
+                    failures.Add($"{variant.Id}/knownLines={knownLines}: expected both saved fields for each of {expectedAttempts} model attempts, got {fields.Length}; {result.Problem}");
+                if (!fields.Select(d => d.Field!.Role).Distinct().Order().SequenceEqual(writtenRoles))
                     failures.Add($"{variant.Id}/knownLines={knownLines}: actual field roles differ from saved regions.");
-                foreach (var field in fields)
+                var cropHashes = new Dictionary<FieldRole, string>();
+                foreach (var (attempt, attemptIndex) in fields.Chunk(saved.Markup.Regions.Count).Select((items, index) => (items, index)))
                 {
-                    var detail = field.Field!;
-                    var region = saved.Markup.Regions.Single(r => r.Role == detail.Role);
-                    if (detail.Bounds != region.Bounds)
-                        failures.Add($"{variant.Id}/knownLines={knownLines}/{detail.Role}: crop metadata differs from persisted normalized template coordinates.");
-                    var crop = $"{variant.Id}-known-{knownLines}-{detail.Role}.png";
-                    File.WriteAllBytes(Path.Combine(folder, crop), detail.CropPng);
-                    fieldRecords.Add(new { field.PageNumber, Role = detail.Role.ToString(),
-                        PersistedBounds = region.Bounds, ActualBounds = detail.Bounds, Crop = crop, detail.First, detail.Second });
-                    if (detail.First.MinConfidence is null || detail.Second.MinConfidence is null)
-                        failures.Add($"{variant.Id}/{detail.Role}: missing actual engine confidence.");
+                    if (!attempt.Select(d => d.Field!.Role).Order().SequenceEqual(writtenRoles))
+                        failures.Add($"{variant.Id}/knownLines={knownLines}/attempt={attemptIndex + 1}: missing or duplicate saved field.");
+                    foreach (var field in attempt)
+                    {
+                        var detail = field.Field!;
+                        var region = saved.Markup.Regions.Single(r => r.Role == detail.Role);
+                        if (detail.Bounds != region.Bounds)
+                            failures.Add($"{variant.Id}/knownLines={knownLines}/{detail.Role}: crop metadata differs from persisted normalized template coordinates.");
+                        var cropHash = Hash(detail.CropPng);
+                        if (cropHashes.TryGetValue(detail.Role, out var previousHash) && cropHash != previousHash)
+                            failures.Add($"{variant.Id}/knownLines={knownLines}/{detail.Role}: model attempts received different field pixels.");
+                        cropHashes[detail.Role] = cropHash;
+                        var crop = $"{variant.Id}-known-{knownLines}-attempt-{attemptIndex + 1}-{detail.Role}.png";
+                        File.WriteAllBytes(Path.Combine(folder, crop), detail.CropPng);
+                        fieldRecords.Add(new { ModelAttempt = attemptIndex + 1, ModelProfile = attemptIndex == 0 ? "base" : "gost",
+                            field.PageNumber, Role = detail.Role.ToString(), PersistedBounds = region.Bounds,
+                            ActualBounds = detail.Bounds, Crop = crop, CropSha256 = cropHash, detail.First, detail.Second });
+                        if (detail.First.MinConfidence is null || detail.Second.MinConfidence is null)
+                            failures.Add($"{variant.Id}/{detail.Role}: missing actual engine confidence.");
+                    }
                 }
                 var outcome = count.Add(result.Values, expected);
                 var built = result.Values is null ? null : FileNames.Build(result.Values).Name;
                 if (outcome == "wrong" || result.Values is not null && built != expectedFileName)
                     failures.Add($"{variant.Id}/knownLines={knownLines}: accepted '{built}', expected '{expectedFileName}'.");
+                if (variant.Id == "original" && knownLines && outcome != "correct")
+                    failures.Add("Original upright GOST PDF must be read exactly with the shipped known-line setting; refusal is not success.");
                 if (result.Values is null && string.IsNullOrWhiteSpace(result.Problem))
                     failures.Add(variant.Id + ": refusal has no reason.");
                 if (sourceHash != Hash(File.ReadAllBytes(sample.PdfPath)) ||
@@ -212,6 +228,7 @@ public sealed class GostTypeATests(OcrFixture ocr, ITestOutputHelper output)
                     TemplateSha256 = templateHash, MarkupSha256 = markupHash,
                     Expected = expected, ExpectedFileName = expectedFileName,
                     Actual = result.Values, ActualFileName = built, result.Problem, Outcome = outcome,
+                    SourceTrace = result.Trace,
                     Fields = fieldRecords,
                     Stages = diagnostics.Select(d => new { d.Stage, d.PageNumber, d.Message }).ToArray(),
                 });
@@ -233,6 +250,7 @@ public sealed class GostTypeATests(OcrFixture ocr, ITestOutputHelper output)
             Test = nameof(Saved_coordinates_follow_original_rotated_and_skewed_gost_pdf_without_wrong_acceptance),
             Scope = "Six actual raster-PDF reads, saved manual coordinates, unrelated template text, two real OCR engines. Refusal is reported separately from correct recognition.",
             GostTypeASamples.FontPath, GostTypeASamples.FontSha256,
+            GostSpecialist = new { GostTesseractModel.Sha256, GostTesseractModel.Languages, GostTesseractModel.RawDesignation },
             EndToEnd = count, Samples = records, Failures = failures,
         });
         Assert.True(failures.Count == 0, string.Join(Environment.NewLine, failures));

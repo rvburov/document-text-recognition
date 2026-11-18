@@ -1,0 +1,1874 @@
+{
+  "SchemaVersion": 1,
+  "CorpusId": "gost-type-a-pilot-v1-2026-11-18",
+  "Status": "planned-ground-truth-only; images and recognition results not generated",
+  "Purpose": "Small synthetic adaptation/evaluation pilot; not evidence of recognition accuracy.",
+  "FontFile": "tests/Core.Tests/Fonts/GOST2.304-81TypeA-Slanted.ttf",
+  "FontSha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+  "FontHeldOut": false,
+  "ExpectedNormalization": "Join printed whitespace with one space; retain every letter, digit, punctuation mark and Unicode alphabet.",
+  "Counts": {
+    "train": 64,
+    "development": 16,
+    "evaluation": 32
+  },
+  "SplitUnit": "Entire document truth including every field and all future renderings/augmentations.",
+  "Profiles": {
+    "train": {
+      "Rasterizer": "SkiaSharp with pinned GOST font",
+      "Dpi": [
+        200,
+        300
+      ],
+      "DesignationCapHeightMm": 5,
+      "NameCapHeightMm": 3.5,
+      "DocumentTypeCapHeightMm": 2.8,
+      "PlannedTrainingSkewDegrees": [
+        0,
+        -0.4,
+        0.4
+      ],
+      "Generated": false
+    },
+    "development": {
+      "Rasterizer": "SkiaSharp with pinned GOST font",
+      "Dpi": [
+        225,
+        325
+      ],
+      "PlannedSkewDegrees": [
+        0,
+        -0.8,
+        0.8
+      ],
+      "Generated": false
+    },
+    "evaluation": {
+      "Rasterizers": [
+        "Pillow/FreeType with pinned GOST font",
+        "PDFium rendering embedded GOST vector PDF"
+      ],
+      "Dpi": [
+        250,
+        350
+      ],
+      "SharedStandardCapHeightsMm": [
+        5,
+        3.5,
+        2.8
+      ],
+      "ExtraDirectCropStressCapHeightsMm": [
+        2.5,
+        7
+      ],
+      "CleanPrimary": true,
+      "SeparateStressVariants": {
+        "SkewDegrees": [
+          -1.2,
+          1.2
+        ],
+        "QuarterTurns": [
+          1,
+          2,
+          3
+        ],
+        "JpegQuality": 85
+      },
+      "Generated": false
+    }
+  },
+  "Cases": [
+    {
+      "Id": "train-001",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "АБВГ.182155.387",
+        "Name": "Плата усилителя Исполнение 4995",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "АБВГ.182155.387",
+        "Name": "Плата усилителя\nИсполнение 4995",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-002",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ДЖЛМ.345996.876-85",
+        "Name": "Блок питания USB 8108",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ДЖЛМ.345996.876-85",
+        "Name": "Блок питания USB 8108",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-003",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "КПРТ.968592.723СБ",
+        "Name": "Модуль Epcos 8978",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "КПРТ.968592.723СБ",
+        "Name": "Модуль Epcos 8978",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-004",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "НОФХ.339252.485-63СБ",
+        "Name": "Узел стабилизации Исполнение 2117",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "НОФХ.339252.485-63СБ",
+        "Name": "Узел стабилизации\nИсполнение 2117",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-005",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЦЧШЩ.763355.085Э3",
+        "Name": "Датчик температуры 6971",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЦЧШЩ.763355.085Э3",
+        "Name": "Датчик температуры 6971",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-006",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЭЮЯС.421998.719-30Э3",
+        "Name": "Фильтр частоты 2150",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЭЮЯС.421998.719-30Э3",
+        "Name": "Фильтр частоты 2150",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-007",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "БГДЖ.583297.693ПЭ3",
+        "Name": "Разъём UART Исполнение 6551",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "БГДЖ.583297.693ПЭ3",
+        "Name": "Разъём UART\nИсполнение 6551",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-008",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЛРФЦ.888693.255-32ПЭ3",
+        "Name": "Преобразователь PLL 9583",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЛРФЦ.888693.255-32ПЭ3",
+        "Name": "Преобразователь PLL 9583",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-009",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "АБВГ.716121.772",
+        "Name": "Плата усилителя 6750",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "АБВГ.716121.772",
+        "Name": "Плата усилителя 6750",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-010",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ДЖЛМ.394120.121-08",
+        "Name": "Блок питания USB Исполнение 2252",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ДЖЛМ.394120.121-08",
+        "Name": "Блок питания USB\nИсполнение 2252",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-011",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "КПРТ.855182.525СБ",
+        "Name": "Модуль Epcos 1074",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "КПРТ.855182.525СБ",
+        "Name": "Модуль Epcos 1074",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-012",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "НОФХ.438294.494-76СБ",
+        "Name": "Узел стабилизации 4604",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "НОФХ.438294.494-76СБ",
+        "Name": "Узел стабилизации 4604",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-013",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЦЧШЩ.906172.169Э3",
+        "Name": "Датчик температуры Исполнение 6372",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЦЧШЩ.906172.169Э3",
+        "Name": "Датчик температуры\nИсполнение 6372",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-014",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЭЮЯС.659782.303-81Э3",
+        "Name": "Фильтр частоты 1316",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЭЮЯС.659782.303-81Э3",
+        "Name": "Фильтр частоты 1316",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-015",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "БГДЖ.107982.239ПЭ3",
+        "Name": "Разъём UART 7278",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "БГДЖ.107982.239ПЭ3",
+        "Name": "Разъём UART 7278",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-016",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЛРФЦ.860023.436-18ПЭ3",
+        "Name": "Преобразователь PLL Исполнение 4081",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЛРФЦ.860023.436-18ПЭ3",
+        "Name": "Преобразователь PLL\nИсполнение 4081",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-017",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "АБВГ.567508.463",
+        "Name": "Плата усилителя 1290",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "АБВГ.567508.463",
+        "Name": "Плата усилителя 1290",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-018",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ДЖЛМ.508681.455-44",
+        "Name": "Блок питания USB 2309",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ДЖЛМ.508681.455-44",
+        "Name": "Блок питания USB 2309",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-019",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "КПРТ.470748.876СБ",
+        "Name": "Модуль Epcos Исполнение 2259",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "КПРТ.470748.876СБ",
+        "Name": "Модуль Epcos\nИсполнение 2259",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-020",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "НОФХ.569538.098-09СБ",
+        "Name": "Узел стабилизации 4887",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "НОФХ.569538.098-09СБ",
+        "Name": "Узел стабилизации 4887",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-021",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЦЧШЩ.543037.175Э3",
+        "Name": "Датчик температуры 2225",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЦЧШЩ.543037.175Э3",
+        "Name": "Датчик температуры 2225",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-022",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЭЮЯС.576256.741-10Э3",
+        "Name": "Фильтр частоты Исполнение 3193",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЭЮЯС.576256.741-10Э3",
+        "Name": "Фильтр частоты\nИсполнение 3193",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-023",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "БГДЖ.289615.942ПЭ3",
+        "Name": "Разъём UART 1989",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "БГДЖ.289615.942ПЭ3",
+        "Name": "Разъём UART 1989",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-024",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЛРФЦ.341707.130-67ПЭ3",
+        "Name": "Преобразователь PLL 8287",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЛРФЦ.341707.130-67ПЭ3",
+        "Name": "Преобразователь PLL 8287",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-025",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "АБВГ.186270.016",
+        "Name": "Плата усилителя Исполнение 2905",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "АБВГ.186270.016",
+        "Name": "Плата усилителя\nИсполнение 2905",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-026",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ДЖЛМ.526414.084-67",
+        "Name": "Блок питания USB 4099",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ДЖЛМ.526414.084-67",
+        "Name": "Блок питания USB 4099",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-027",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "КПРТ.585232.156СБ",
+        "Name": "Модуль Epcos 8891",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "КПРТ.585232.156СБ",
+        "Name": "Модуль Epcos 8891",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-028",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "НОФХ.569008.402-14СБ",
+        "Name": "Узел стабилизации Исполнение 9058",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "НОФХ.569008.402-14СБ",
+        "Name": "Узел стабилизации\nИсполнение 9058",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-029",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЦЧШЩ.307950.766Э3",
+        "Name": "Датчик температуры 3473",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЦЧШЩ.307950.766Э3",
+        "Name": "Датчик температуры 3473",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-030",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЭЮЯС.120494.876-22Э3",
+        "Name": "Фильтр частоты 9796",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЭЮЯС.120494.876-22Э3",
+        "Name": "Фильтр частоты 9796",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-031",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "БГДЖ.432120.876ПЭ3",
+        "Name": "Разъём UART Исполнение 2048",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "БГДЖ.432120.876ПЭ3",
+        "Name": "Разъём UART\nИсполнение 2048",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-032",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЛРФЦ.551168.146-28ПЭ3",
+        "Name": "Преобразователь PLL 9065",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЛРФЦ.551168.146-28ПЭ3",
+        "Name": "Преобразователь PLL 9065",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-033",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "АБВГ.430475.216",
+        "Name": "Плата усилителя 2859",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "АБВГ.430475.216",
+        "Name": "Плата усилителя 2859",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-034",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ДЖЛМ.256600.650-21",
+        "Name": "Блок питания USB Исполнение 2287",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ДЖЛМ.256600.650-21",
+        "Name": "Блок питания USB\nИсполнение 2287",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-035",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "КПРТ.396424.288СБ",
+        "Name": "Модуль Epcos 8035",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "КПРТ.396424.288СБ",
+        "Name": "Модуль Epcos 8035",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-036",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "НОФХ.710420.478-77СБ",
+        "Name": "Узел стабилизации 1547",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "НОФХ.710420.478-77СБ",
+        "Name": "Узел стабилизации 1547",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-037",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЦЧШЩ.115550.569Э3",
+        "Name": "Датчик температуры Исполнение 6822",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЦЧШЩ.115550.569Э3",
+        "Name": "Датчик температуры\nИсполнение 6822",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-038",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЭЮЯС.470716.505-22Э3",
+        "Name": "Фильтр частоты 4911",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЭЮЯС.470716.505-22Э3",
+        "Name": "Фильтр частоты 4911",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-039",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "БГДЖ.452969.248ПЭ3",
+        "Name": "Разъём UART 4146",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "БГДЖ.452969.248ПЭ3",
+        "Name": "Разъём UART 4146",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-040",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЛРФЦ.683774.933-33ПЭ3",
+        "Name": "Преобразователь PLL Исполнение 5086",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЛРФЦ.683774.933-33ПЭ3",
+        "Name": "Преобразователь PLL\nИсполнение 5086",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-041",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "АБВГ.475143.921",
+        "Name": "Плата усилителя 5106",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "АБВГ.475143.921",
+        "Name": "Плата усилителя 5106",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-042",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ДЖЛМ.200644.619-01",
+        "Name": "Блок питания USB 7971",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ДЖЛМ.200644.619-01",
+        "Name": "Блок питания USB 7971",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-043",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "КПРТ.178886.324СБ",
+        "Name": "Модуль Epcos Исполнение 5686",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "КПРТ.178886.324СБ",
+        "Name": "Модуль Epcos\nИсполнение 5686",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-044",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "НОФХ.344227.697-59СБ",
+        "Name": "Узел стабилизации 1703",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "НОФХ.344227.697-59СБ",
+        "Name": "Узел стабилизации 1703",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-045",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЦЧШЩ.686110.263Э3",
+        "Name": "Датчик температуры 6910",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЦЧШЩ.686110.263Э3",
+        "Name": "Датчик температуры 6910",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-046",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЭЮЯС.722908.344-33Э3",
+        "Name": "Фильтр частоты Исполнение 3137",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЭЮЯС.722908.344-33Э3",
+        "Name": "Фильтр частоты\nИсполнение 3137",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-047",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "БГДЖ.957998.072ПЭ3",
+        "Name": "Разъём UART 7849",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "БГДЖ.957998.072ПЭ3",
+        "Name": "Разъём UART 7849",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-048",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЛРФЦ.869602.503-84ПЭ3",
+        "Name": "Преобразователь PLL 5769",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЛРФЦ.869602.503-84ПЭ3",
+        "Name": "Преобразователь PLL 5769",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-049",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "АБВГ.144602.778",
+        "Name": "Плата усилителя Исполнение 2510",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "АБВГ.144602.778",
+        "Name": "Плата усилителя\nИсполнение 2510",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-050",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ДЖЛМ.875691.954-02",
+        "Name": "Блок питания USB 5968",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ДЖЛМ.875691.954-02",
+        "Name": "Блок питания USB 5968",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-051",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "КПРТ.821976.893СБ",
+        "Name": "Модуль Epcos 8195",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "КПРТ.821976.893СБ",
+        "Name": "Модуль Epcos 8195",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-052",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "НОФХ.137767.197-36СБ",
+        "Name": "Узел стабилизации Исполнение 1016",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "НОФХ.137767.197-36СБ",
+        "Name": "Узел стабилизации\nИсполнение 1016",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-053",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЦЧШЩ.156858.164Э3",
+        "Name": "Датчик температуры 8751",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЦЧШЩ.156858.164Э3",
+        "Name": "Датчик температуры 8751",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-054",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЭЮЯС.629231.506-77Э3",
+        "Name": "Фильтр частоты 7769",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЭЮЯС.629231.506-77Э3",
+        "Name": "Фильтр частоты 7769",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-055",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "БГДЖ.971719.171ПЭ3",
+        "Name": "Разъём UART Исполнение 7981",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "БГДЖ.971719.171ПЭ3",
+        "Name": "Разъём UART\nИсполнение 7981",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-056",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЛРФЦ.623856.813-34ПЭ3",
+        "Name": "Преобразователь PLL 4870",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЛРФЦ.623856.813-34ПЭ3",
+        "Name": "Преобразователь PLL 4870",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-057",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "АБВГ.638876.969",
+        "Name": "Плата усилителя 2702",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "АБВГ.638876.969",
+        "Name": "Плата усилителя 2702",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-058",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ДЖЛМ.685744.814-57",
+        "Name": "Блок питания USB Исполнение 8421",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ДЖЛМ.685744.814-57",
+        "Name": "Блок питания USB\nИсполнение 8421",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-059",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "КПРТ.785072.916СБ",
+        "Name": "Модуль Epcos 4179",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "КПРТ.785072.916СБ",
+        "Name": "Модуль Epcos 4179",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-060",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "НОФХ.127380.007-58СБ",
+        "Name": "Узел стабилизации 4782",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "НОФХ.127380.007-58СБ",
+        "Name": "Узел стабилизации 4782",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-061",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЦЧШЩ.827067.026Э3",
+        "Name": "Датчик температуры Исполнение 4476",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЦЧШЩ.827067.026Э3",
+        "Name": "Датчик температуры\nИсполнение 4476",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-062",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЭЮЯС.813090.059-52Э3",
+        "Name": "Фильтр частоты 5964",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЭЮЯС.813090.059-52Э3",
+        "Name": "Фильтр частоты 5964",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-063",
+      "Split": "train",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "БГДЖ.940187.839ПЭ3",
+        "Name": "Разъём UART 4601",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "БГДЖ.940187.839ПЭ3",
+        "Name": "Разъём UART 4601",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "train-064",
+      "Split": "train",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЛРФЦ.137694.673-32ПЭ3",
+        "Name": "Преобразователь PLL Исполнение 6871",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЛРФЦ.137694.673-32ПЭ3",
+        "Name": "Преобразователь PLL\nИсполнение 6871",
+        "Type": null
+      },
+      "ProfileGroup": "train"
+    },
+    {
+      "Id": "development-001",
+      "Split": "development",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "МНПР.106744.808",
+        "Name": "Контроллер SPI Исполнение 4463",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "МНПР.106744.808",
+        "Name": "Контроллер SPI\nИсполнение 4463",
+        "Type": null
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-002",
+      "Split": "development",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "СФЦЧ.447768.223-35",
+        "Name": "Разветвитель сигналов 6733",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "СФЦЧ.447768.223-35",
+        "Name": "Разветвитель сигналов 6733",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-003",
+      "Split": "development",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЧШЭЮ.886557.900СБ",
+        "Name": "Адаптер Ethernet 4282",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЧШЭЮ.886557.900СБ",
+        "Name": "Адаптер Ethernet 4282",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-004",
+      "Split": "development",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЖКЛФ.641250.280-55СБ",
+        "Name": "Ограничитель тока Исполнение 5439",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЖКЛФ.641250.280-55СБ",
+        "Name": "Ограничитель тока\nИсполнение 5439",
+        "Type": null
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-005",
+      "Split": "development",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "МНПР.153087.887Э3",
+        "Name": "Контроллер SPI 7891",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "МНПР.153087.887Э3",
+        "Name": "Контроллер SPI 7891",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-006",
+      "Split": "development",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "СФЦЧ.599731.552-57Э3",
+        "Name": "Разветвитель сигналов 9290",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "СФЦЧ.599731.552-57Э3",
+        "Name": "Разветвитель сигналов 9290",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-007",
+      "Split": "development",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЧШЭЮ.420087.336ПЭ3",
+        "Name": "Адаптер Ethernet Исполнение 6270",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЧШЭЮ.420087.336ПЭ3",
+        "Name": "Адаптер Ethernet\nИсполнение 6270",
+        "Type": null
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-008",
+      "Split": "development",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЖКЛФ.122724.451-26ПЭ3",
+        "Name": "Ограничитель тока 2075",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЖКЛФ.122724.451-26ПЭ3",
+        "Name": "Ограничитель тока 2075",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-009",
+      "Split": "development",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "МНПР.101698.278",
+        "Name": "Контроллер SPI 9433",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "МНПР.101698.278",
+        "Name": "Контроллер SPI 9433",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-010",
+      "Split": "development",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "СФЦЧ.883640.374-91",
+        "Name": "Разветвитель сигналов Исполнение 8349",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "СФЦЧ.883640.374-91",
+        "Name": "Разветвитель сигналов\nИсполнение 8349",
+        "Type": null
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-011",
+      "Split": "development",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЧШЭЮ.155273.843СБ",
+        "Name": "Адаптер Ethernet 8282",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЧШЭЮ.155273.843СБ",
+        "Name": "Адаптер Ethernet 8282",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-012",
+      "Split": "development",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЖКЛФ.197117.006-57СБ",
+        "Name": "Ограничитель тока 7506",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЖКЛФ.197117.006-57СБ",
+        "Name": "Ограничитель тока 7506",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-013",
+      "Split": "development",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "МНПР.273229.998Э3",
+        "Name": "Контроллер SPI Исполнение 1786",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "МНПР.273229.998Э3",
+        "Name": "Контроллер SPI\nИсполнение 1786",
+        "Type": null
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-014",
+      "Split": "development",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "СФЦЧ.400192.610-45Э3",
+        "Name": "Разветвитель сигналов 7261",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "СФЦЧ.400192.610-45Э3",
+        "Name": "Разветвитель сигналов 7261",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-015",
+      "Split": "development",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЧШЭЮ.266221.611ПЭ3",
+        "Name": "Адаптер Ethernet 1468",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЧШЭЮ.266221.611ПЭ3",
+        "Name": "Адаптер Ethernet 1468",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "development-016",
+      "Split": "development",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЖКЛФ.549841.420-48ПЭ3",
+        "Name": "Ограничитель тока Исполнение 1123",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЖКЛФ.549841.420-48ПЭ3",
+        "Name": "Ограничитель тока\nИсполнение 1123",
+        "Type": null
+      },
+      "ProfileGroup": "development"
+    },
+    {
+      "Id": "evaluation-001",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "МЖЦФ.579443.561",
+        "Name": "Приёмник радиоканала Исполнение 7657",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "МЖЦФ.579443.561",
+        "Name": "Приёмник радиоканала\nИсполнение 7657",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-002",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЯЖНФ.642676.234-80",
+        "Name": "Коммутатор RS-485 8065",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЯЖНФ.642676.234-80",
+        "Name": "Коммутатор RS-485 8065",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-003",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ШЛРД.162104.651СБ",
+        "Name": "Синтезатор частоты 5379",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ШЛРД.162104.651СБ",
+        "Name": "Синтезатор частоты 5379",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-004",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ФЖЮК.596970.023-24СБ",
+        "Name": "Антенна GNSS Исполнение 6310",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ФЖЮК.596970.023-24СБ",
+        "Name": "Антенна GNSS\nИсполнение 6310",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-005",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЩЦЛГ.256954.793Э3",
+        "Name": "Измеритель напряжения 6288",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЩЦЛГ.256954.793Э3",
+        "Name": "Измеритель напряжения 6288",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-006",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ДЖЭФ.227721.189-92Э3",
+        "Name": "Кабель DisplayPort 1147",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ДЖЭФ.227721.189-92Э3",
+        "Name": "Кабель DisplayPort 1147",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-007",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "КЛЩЯ.236456.955ПЭ3",
+        "Name": "Генератор импульсов Исполнение 8523",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "КЛЩЯ.236456.955ПЭ3",
+        "Name": "Генератор импульсов\nИсполнение 8523",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-008",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЮЖШФ.688279.071-83ПЭ3",
+        "Name": "Резонатор Murata 4629",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЮЖШФ.688279.071-83ПЭ3",
+        "Name": "Резонатор Murata 4629",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-009",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "МЖЦФ.881790.820",
+        "Name": "Приёмник радиоканала 5225",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "МЖЦФ.881790.820",
+        "Name": "Приёмник радиоканала 5225",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-010",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЯЖНФ.548184.755-22",
+        "Name": "Коммутатор RS-485 Исполнение 5933",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЯЖНФ.548184.755-22",
+        "Name": "Коммутатор RS-485\nИсполнение 5933",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-011",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ШЛРД.587200.343СБ",
+        "Name": "Синтезатор частоты 4109",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ШЛРД.587200.343СБ",
+        "Name": "Синтезатор частоты 4109",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-012",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ФЖЮК.266160.528-97СБ",
+        "Name": "Антенна GNSS 1381",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ФЖЮК.266160.528-97СБ",
+        "Name": "Антенна GNSS 1381",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-013",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЩЦЛГ.138814.613Э3",
+        "Name": "Измеритель напряжения Исполнение 6050",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЩЦЛГ.138814.613Э3",
+        "Name": "Измеритель напряжения\nИсполнение 6050",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-014",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ДЖЭФ.677113.935-03Э3",
+        "Name": "Кабель DisplayPort 8684",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ДЖЭФ.677113.935-03Э3",
+        "Name": "Кабель DisplayPort 8684",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-015",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "КЛЩЯ.980948.940ПЭ3",
+        "Name": "Генератор импульсов 8658",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "КЛЩЯ.980948.940ПЭ3",
+        "Name": "Генератор импульсов 8658",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-016",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ЮЖШФ.987624.105-02ПЭ3",
+        "Name": "Резонатор Murata Исполнение 4375",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ЮЖШФ.987624.105-02ПЭ3",
+        "Name": "Резонатор Murata\nИсполнение 4375",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-017",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "МЖЦФ.657109.140",
+        "Name": "Приёмник радиоканала 2533",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "МЖЦФ.657109.140",
+        "Name": "Приёмник радиоканала 2533",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-018",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЯЖНФ.308194.493-63",
+        "Name": "Коммутатор RS-485 7645",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЯЖНФ.308194.493-63",
+        "Name": "Коммутатор RS-485 7645",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-019",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ШЛРД.190272.546СБ",
+        "Name": "Синтезатор частоты Исполнение 5198",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ШЛРД.190272.546СБ",
+        "Name": "Синтезатор частоты\nИсполнение 5198",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-020",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ФЖЮК.952816.928-90СБ",
+        "Name": "Антенна GNSS 3551",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ФЖЮК.952816.928-90СБ",
+        "Name": "Антенна GNSS 3551",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-021",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЩЦЛГ.180956.840Э3",
+        "Name": "Измеритель напряжения 8487",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЩЦЛГ.180956.840Э3",
+        "Name": "Измеритель напряжения 8487",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-022",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ДЖЭФ.595936.062-15Э3",
+        "Name": "Кабель DisplayPort Исполнение 8060",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ДЖЭФ.595936.062-15Э3",
+        "Name": "Кабель DisplayPort\nИсполнение 8060",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-023",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "КЛЩЯ.675312.882ПЭ3",
+        "Name": "Генератор импульсов 5769",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "КЛЩЯ.675312.882ПЭ3",
+        "Name": "Генератор импульсов 5769",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-024",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЮЖШФ.322107.528-29ПЭ3",
+        "Name": "Резонатор Murata 3321",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ЮЖШФ.322107.528-29ПЭ3",
+        "Name": "Резонатор Murata 3321",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-025",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "МЖЦФ.396089.812",
+        "Name": "Приёмник радиоканала Исполнение 8578",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "МЖЦФ.396089.812",
+        "Name": "Приёмник радиоканала\nИсполнение 8578",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-026",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЯЖНФ.858401.004-53",
+        "Name": "Коммутатор RS-485 6531",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЯЖНФ.858401.004-53",
+        "Name": "Коммутатор RS-485 6531",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-027",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ШЛРД.961091.823СБ",
+        "Name": "Синтезатор частоты 2144",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ШЛРД.961091.823СБ",
+        "Name": "Синтезатор частоты 2144",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-028",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "ФЖЮК.579420.091-63СБ",
+        "Name": "Антенна GNSS Исполнение 3363",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "ФЖЮК.579420.091-63СБ",
+        "Name": "Антенна GNSS\nИсполнение 3363",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-029",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЩЦЛГ.499009.290Э3",
+        "Name": "Измеритель напряжения 4799",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЩЦЛГ.499009.290Э3",
+        "Name": "Измеритель напряжения 4799",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-030",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ДЖЭФ.832677.465-52Э3",
+        "Name": "Кабель DisplayPort 2711",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "Printed": {
+        "Designation": "ДЖЭФ.832677.465-52Э3",
+        "Name": "Кабель DisplayPort 2711",
+        "Type": "Схема электрическая принципиальная"
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-031",
+      "Split": "evaluation",
+      "Layout": "specification-a4",
+      "Expected": {
+        "Designation": "КЛЩЯ.920667.929ПЭ3",
+        "Name": "Генератор импульсов Исполнение 1002",
+        "Type": null
+      },
+      "Printed": {
+        "Designation": "КЛЩЯ.920667.929ПЭ3",
+        "Name": "Генератор импульсов\nИсполнение 1002",
+        "Type": null
+      },
+      "ProfileGroup": "evaluation"
+    },
+    {
+      "Id": "evaluation-032",
+      "Split": "evaluation",
+      "Layout": "drawing-a4",
+      "Expected": {
+        "Designation": "ЮЖШФ.311133.204-51ПЭ3",
+        "Name": "Резонатор Murata 7792",
+        "Type": "Сборочный чертёж"
+      },
+      "Printed": {
+        "Designation": "ЮЖШФ.311133.204-51ПЭ3",
+        "Name": "Резонатор Murata 7792",
+        "Type": "Сборочный чертёж"
+      },
+      "ProfileGroup": "evaluation"
+    }
+  ]
+}

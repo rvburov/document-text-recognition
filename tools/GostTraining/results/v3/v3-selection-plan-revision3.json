@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "selection_split": "development",
+  "blind_read": false,
+  "base_candidate_sha256": "26bab93eb188b4e1557be5ffc0e7cc9a33cac5a6249debe3a9141d53eef374ce",
+  "development_manifest_sha256": "7e83958a21698b8c482e5653666068750b7002b69fbaacea61efacfc907ae1df",
+  "policies": [
+    {
+      "name": "full-psm6",
+      "all_roles": {
+        "geometry": "full",
+        "psm": 6
+      }
+    },
+    {
+      "name": "designation-ink8-psm13",
+      "Designation": {
+        "geometry": "ink+8",
+        "ink_threshold": 200,
+        "psm": 13
+      },
+      "other_roles": {
+        "geometry": "full",
+        "psm": 6
+      }
+    },
+    {
+      "name": "role-preserve",
+      "Designation": {
+        "geometry": "strong ink<200 bbox expanded8, retain original source pixels, white only outside source",
+        "weak_ink_guard": "if any gray<245 bbox outside expanded8 use full PSM6",
+        "psm": 13
+      },
+      "other_roles": {
+        "geometry": "full",
+        "psm": 6
+      },
+      "limitation": "Does not reproduce production KnownSingleLineRegion gates; end-to-end product qualification separate."
+    }
+  ],
+  "models": [
+    "float",
+    "int"
+  ],
+  "criterion": "whole-line exact, then designation exact, then CER; prefer integer for exact ties",
+  "training_budget": "1500 samples first; if development still improves another bounded 1500 from candidate; max 3000 new samples; no blind-driven changes",
+  "reason": "PSM13 ink+8 read32/32 designation on prior76 development; full-PSM6 read30/32 designation and40/44 names. This prospective policy is selected/validated only on fresh V3 development before blind.",
+  "revision": 3,
+  "created_utc": "2026-11-18T21:45:25.647087+00:00",
+  "previous_plan_sha256": "749fb6ded640b381c5e0370de58347cde173fd8177cca8c077f0d2296cd91a1b",
+  "reason_for_revision": "Production safety review requires original source pixels retained; destructive white-margin variant remains diagnostic ablation, not eligible for deployment, independently of its score.",
+  "deployment_eligible_policies": [
+    "full",
+    "preserve"
+  ],
+  "diagnostic_only_policies": [
+    "role"
+  ],
+  "candidate_models": [
+    "v2-int",
+    "v3-1500-int",
+    "v3-1500-float",
+    "v3-3000-int",
+    "v3-3000-float"
+  ]
+}

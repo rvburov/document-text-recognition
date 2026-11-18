@@ -1,0 +1,989 @@
+{
+  "Date": "2026-11-18",
+  "Scope": "Existing public GOST development/regression crops; not unseen test evidence or a Windows full-document throughput claim. Candidate field exactness does not establish independent two-engine confirmation.",
+  "InputManifestSha256": "fd2e54f2aa06cecd76017e85706b11f0f4ca47b92336535d209d99b384c314e4",
+  "InputCases": 19,
+  "UniqueInputHashes": 13,
+  "CyrillicModelProvenance": {
+    "SourceModel": "cyrillic_PP-OCRv5_mobile_rec",
+    "SourceUrl": "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0/cyrillic_PP-OCRv5_mobile_rec_infer.tar",
+    "SourceDirectory": "artifacts/ocr-candidates/models/cyrillic_PP-OCRv5_mobile_rec_infer",
+    "Python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "Packages": {
+      "paddlepaddle": "3.3.1",
+      "paddle2onnx": "2.1.0",
+      "onnx": "1.17.0"
+    },
+    "Inputs": [
+      {
+        "File": "inference.json",
+        "Sha256": "5d90f1bfca52d80c01de176c5238fae2459995a99ff1dbfe5319ab4ed1735df2"
+      },
+      {
+        "File": "inference.pdiparams",
+        "Sha256": "434dc9fa2a99fa3653e08f8cf793ae56be7dd41c35c4980e6255147cc02bbc80"
+      },
+      {
+        "File": "inference.yml",
+        "Sha256": "5c76cc91fa98410178a09f498db10050d0ec1634a660053d3005ab7be581f501"
+      }
+    ],
+    "Output": {
+      "File": "rec.onnx",
+      "Sha256": "fd3733eaabf90d6364cf653592d97e2ab1170e6be8025c08047ecb4e6c4e6336",
+      "Bytes": 8051081
+    },
+    "Conversion": "FP32; no quantization; no optional optimizer; checked ONNX opset14/IR8",
+    "Dictionary": "Use inference.yml character_dict from the same source model; do not reuse eslav vocabulary"
+  },
+  "EngineComparisons": [
+    {
+      "Report": "artifacts/ocr-candidates/eslav-native-field.json",
+      "ReportSha256": "0ad36709bdd4a5dd6a8ad67595b4e4f9472ca6f8e9f2fb5cf5a8318218de665d",
+      "Engine": "eslav-native",
+      "Fields": 19,
+      "ExactNormalizedFields": 11,
+      "ExactDesignations": 0,
+      "MedianWarmMillisecondsPerField": 74.4826,
+      "PeakWorkingSetBytes": 538103808,
+      "Cases": [
+        {
+          "Id": "pillow-designation",
+          "CropSha256": "B7E98F68A904FF09C744CB413D98C5A95BCDC55171C5DF45A3642A644DBD9AFE",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.22377555072307587,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "pillow-name-multiline",
+          "CropSha256": "E5F6E9A83120DC9FABEB9C1ABABDADB28B90E5F2716F94B3A4660DDA7A3F909B",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8304465413093567,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "pillow-name-mixed",
+          "CropSha256": "3B67F598D21253D5856D5AA3125C1BA0B96E68336CA96E54B0861F449ADF70CF",
+          "Raw": "Плата Epcos USB",
+          "Expected": "Плата Epcos USB",
+          "Normalized": "Плата Epcos USB",
+          "MinimumConfidence": 0.9766835570335388,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-designation",
+          "CropSha256": "F356ABD32809A2CF556BE8544116DCB051E3451838BF4C866C7C7442021558FB",
+          "Raw": "УНЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.16262324154376984,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "skia-name-multiline",
+          "CropSha256": "3F06CB4E82FA67C267D0FFA9DE44A605A22680EFC9CF9E5A33439CF0711AA8A7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8217281103134155,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-name-mixed",
+          "CropSha256": "8BDC7E4AFBBD7BFA35B2E53284D6675C8647834E514131611634FD3733755937",
+          "Raw": "Плата Epcos USB",
+          "Expected": "Плата Epcos USB",
+          "Normalized": "Плата Epcos USB",
+          "MinimumConfidence": 0.9747816324234009,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-name-mixed-multiline",
+          "CropSha256": "8F60C84B8606CB1D23EC5752DC100D80D5D213C28C329B9EB4C9348E5A23B360",
+          "Raw": "Плата Epcos\nUSB 1489 MГц",
+          "Expected": "Плата Epcos USB 1489 МГц",
+          "Normalized": "Плата Epcos USB 1489 МГц",
+          "MinimumConfidence": 0.8774620890617371,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-false-designation",
+          "CropSha256": "2C3656B0BF82FF048324CE973CE57787D5777F0053545568DB46B391F1638A2B",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.2542032301425934,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-original-known-false-name",
+          "CropSha256": "9384A2F7D9C567E1C2A8EE900ECF3D9B7534BBC933E7436F8235E808F88D1D28",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8388932943344116,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-false-designation",
+          "CropSha256": "2049EE8805327E2DC99900098EF6401F35A1200E0C6ABCB73B693727AAFB37FC",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.24184492230415344,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-rotated-90-known-false-name",
+          "CropSha256": "FBB13DA7586222E4BB56A8B8454C2999B0E7D8DD20150F33D03BDE13BBA1DFA7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8418934345245361,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-false-designation",
+          "CropSha256": "8F735DA8E51353AE7636AF7EAC70035D616D6E208624FF6EF68ED04776CB9DEB",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.21378788352012634,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-skewed-1.2-known-false-name",
+          "CropSha256": "2DE2DC47F5279D7A7BEDF42D1B782836B3CAD34BE5F7C28481EE1E0EA1B7C812",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.7975224256515503,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-true-designation",
+          "CropSha256": "2C3656B0BF82FF048324CE973CE57787D5777F0053545568DB46B391F1638A2B",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.2542032301425934,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-original-known-true-name",
+          "CropSha256": "9384A2F7D9C567E1C2A8EE900ECF3D9B7534BBC933E7436F8235E808F88D1D28",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8388932943344116,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-true-designation",
+          "CropSha256": "2049EE8805327E2DC99900098EF6401F35A1200E0C6ABCB73B693727AAFB37FC",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.24184492230415344,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-rotated-90-known-true-name",
+          "CropSha256": "FBB13DA7586222E4BB56A8B8454C2999B0E7D8DD20150F33D03BDE13BBA1DFA7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8418934345245361,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-true-designation",
+          "CropSha256": "8F735DA8E51353AE7636AF7EAC70035D616D6E208624FF6EF68ED04776CB9DEB",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.21378788352012634,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-skewed-1.2-known-true-name",
+          "CropSha256": "2DE2DC47F5279D7A7BEDF42D1B782836B3CAD34BE5F7C28481EE1E0EA1B7C812",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.7975224256515503,
+          "ExactNormalized": true
+        }
+      ]
+    },
+    {
+      "Report": "artifacts/ocr-candidates/eslav-onnx-field.json",
+      "ReportSha256": "eb388fa134ba9620de580f204185ce188c6269829fb6f657f2d74c46ba2f322a",
+      "Engine": "eslav-onnx",
+      "Fields": 19,
+      "ExactNormalizedFields": 11,
+      "ExactDesignations": 0,
+      "MedianWarmMillisecondsPerField": 50.9394,
+      "PeakWorkingSetBytes": 213016576,
+      "Cases": [
+        {
+          "Id": "pillow-designation",
+          "CropSha256": "B7E98F68A904FF09C744CB413D98C5A95BCDC55171C5DF45A3642A644DBD9AFE",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.22377675771713257,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "pillow-name-multiline",
+          "CropSha256": "E5F6E9A83120DC9FABEB9C1ABABDADB28B90E5F2716F94B3A4660DDA7A3F909B",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8304473161697388,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "pillow-name-mixed",
+          "CropSha256": "3B67F598D21253D5856D5AA3125C1BA0B96E68336CA96E54B0861F449ADF70CF",
+          "Raw": "Плата Epcos USB",
+          "Expected": "Плата Epcos USB",
+          "Normalized": "Плата Epcos USB",
+          "MinimumConfidence": 0.9766830205917358,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-designation",
+          "CropSha256": "F356ABD32809A2CF556BE8544116DCB051E3451838BF4C866C7C7442021558FB",
+          "Raw": "УНЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.16262315213680267,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "skia-name-multiline",
+          "CropSha256": "3F06CB4E82FA67C267D0FFA9DE44A605A22680EFC9CF9E5A33439CF0711AA8A7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8217284083366394,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-name-mixed",
+          "CropSha256": "8BDC7E4AFBBD7BFA35B2E53284D6675C8647834E514131611634FD3733755937",
+          "Raw": "Плата Epcos USB",
+          "Expected": "Плата Epcos USB",
+          "Normalized": "Плата Epcos USB",
+          "MinimumConfidence": 0.974781334400177,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-name-mixed-multiline",
+          "CropSha256": "8F60C84B8606CB1D23EC5752DC100D80D5D213C28C329B9EB4C9348E5A23B360",
+          "Raw": "Плата Epcos\nUSB 1489 MГц",
+          "Expected": "Плата Epcos USB 1489 МГц",
+          "Normalized": "Плата Epcos USB 1489 МГц",
+          "MinimumConfidence": 0.8774614334106445,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-false-designation",
+          "CropSha256": "2C3656B0BF82FF048324CE973CE57787D5777F0053545568DB46B391F1638A2B",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.2542038559913635,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-original-known-false-name",
+          "CropSha256": "9384A2F7D9C567E1C2A8EE900ECF3D9B7534BBC933E7436F8235E808F88D1D28",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.838893711566925,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-false-designation",
+          "CropSha256": "2049EE8805327E2DC99900098EF6401F35A1200E0C6ABCB73B693727AAFB37FC",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.24184606969356537,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-rotated-90-known-false-name",
+          "CropSha256": "FBB13DA7586222E4BB56A8B8454C2999B0E7D8DD20150F33D03BDE13BBA1DFA7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8418928980827332,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-false-designation",
+          "CropSha256": "8F735DA8E51353AE7636AF7EAC70035D616D6E208624FF6EF68ED04776CB9DEB",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.21378670632839203,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-skewed-1.2-known-false-name",
+          "CropSha256": "2DE2DC47F5279D7A7BEDF42D1B782836B3CAD34BE5F7C28481EE1E0EA1B7C812",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.7975216507911682,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-true-designation",
+          "CropSha256": "2C3656B0BF82FF048324CE973CE57787D5777F0053545568DB46B391F1638A2B",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.2542038559913635,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-original-known-true-name",
+          "CropSha256": "9384A2F7D9C567E1C2A8EE900ECF3D9B7534BBC933E7436F8235E808F88D1D28",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.838893711566925,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-true-designation",
+          "CropSha256": "2049EE8805327E2DC99900098EF6401F35A1200E0C6ABCB73B693727AAFB37FC",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.24184606969356537,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-rotated-90-known-true-name",
+          "CropSha256": "FBB13DA7586222E4BB56A8B8454C2999B0E7D8DD20150F33D03BDE13BBA1DFA7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8418928980827332,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-true-designation",
+          "CropSha256": "8F735DA8E51353AE7636AF7EAC70035D616D6E208624FF6EF68ED04776CB9DEB",
+          "Raw": "УМЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.21378670632839203,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-skewed-1.2-known-true-name",
+          "CropSha256": "2DE2DC47F5279D7A7BEDF42D1B782836B3CAD34BE5F7C28481EE1E0EA1B7C812",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.7975216507911682,
+          "ExactNormalized": true
+        }
+      ]
+    },
+    {
+      "Report": "artifacts/ocr-candidates/cyrillic-native-field.json",
+      "ReportSha256": "a40d27702d1ab8f7f93110f434474232ba5beaa915c3179cc47be66bd34b9c6b",
+      "Engine": "cyrillic-native",
+      "Fields": 19,
+      "ExactNormalizedFields": 19,
+      "ExactDesignations": 8,
+      "MedianWarmMillisecondsPerField": 76.5836,
+      "PeakWorkingSetBytes": 532656128,
+      "Cases": [
+        {
+          "Id": "pillow-designation",
+          "CropSha256": "B7E98F68A904FF09C744CB413D98C5A95BCDC55171C5DF45A3642A644DBD9AFE",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.9001532196998596,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "pillow-name-multiline",
+          "CropSha256": "E5F6E9A83120DC9FABEB9C1ABABDADB28B90E5F2716F94B3A4660DDA7A3F909B",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8870041370391846,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "pillow-name-mixed",
+          "CropSha256": "3B67F598D21253D5856D5AA3125C1BA0B96E68336CA96E54B0861F449ADF70CF",
+          "Raw": "Плата Ерcos USB",
+          "Expected": "Плата Epcos USB",
+          "Normalized": "Плата Epcos USB",
+          "MinimumConfidence": 0.9251888394355774,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-designation",
+          "CropSha256": "F356ABD32809A2CF556BE8544116DCB051E3451838BF4C866C7C7442021558FB",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.9099953174591064,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-name-multiline",
+          "CropSha256": "3F06CB4E82FA67C267D0FFA9DE44A605A22680EFC9CF9E5A33439CF0711AA8A7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.889589786529541,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-name-mixed",
+          "CropSha256": "8BDC7E4AFBBD7BFA35B2E53284D6675C8647834E514131611634FD3733755937",
+          "Raw": "Плата Ерcos USB",
+          "Expected": "Плата Epcos USB",
+          "Normalized": "Плата Epcos USB",
+          "MinimumConfidence": 0.9396823644638062,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-name-mixed-multiline",
+          "CropSha256": "8F60C84B8606CB1D23EC5752DC100D80D5D213C28C329B9EB4C9348E5A23B360",
+          "Raw": "Плата Epcos\nUSB 1489 МГц",
+          "Expected": "Плата Epcos USB 1489 МГц",
+          "Normalized": "Плата Epcos USB 1489 МГц",
+          "MinimumConfidence": 0.9239418506622314,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-false-designation",
+          "CropSha256": "2C3656B0BF82FF048324CE973CE57787D5777F0053545568DB46B391F1638A2B",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.913451611995697,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-false-name",
+          "CropSha256": "9384A2F7D9C567E1C2A8EE900ECF3D9B7534BBC933E7436F8235E808F88D1D28",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8820681571960449,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-false-designation",
+          "CropSha256": "2049EE8805327E2DC99900098EF6401F35A1200E0C6ABCB73B693727AAFB37FC",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.88640296459198,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-false-name",
+          "CropSha256": "FBB13DA7586222E4BB56A8B8454C2999B0E7D8DD20150F33D03BDE13BBA1DFA7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8800028562545776,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-false-designation",
+          "CropSha256": "8F735DA8E51353AE7636AF7EAC70035D616D6E208624FF6EF68ED04776CB9DEB",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.9179489016532898,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-false-name",
+          "CropSha256": "2DE2DC47F5279D7A7BEDF42D1B782836B3CAD34BE5F7C28481EE1E0EA1B7C812",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8854942321777344,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-true-designation",
+          "CropSha256": "2C3656B0BF82FF048324CE973CE57787D5777F0053545568DB46B391F1638A2B",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.913451611995697,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-true-name",
+          "CropSha256": "9384A2F7D9C567E1C2A8EE900ECF3D9B7534BBC933E7436F8235E808F88D1D28",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8820681571960449,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-true-designation",
+          "CropSha256": "2049EE8805327E2DC99900098EF6401F35A1200E0C6ABCB73B693727AAFB37FC",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.88640296459198,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-true-name",
+          "CropSha256": "FBB13DA7586222E4BB56A8B8454C2999B0E7D8DD20150F33D03BDE13BBA1DFA7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8800028562545776,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-true-designation",
+          "CropSha256": "8F735DA8E51353AE7636AF7EAC70035D616D6E208624FF6EF68ED04776CB9DEB",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.9179489016532898,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-true-name",
+          "CropSha256": "2DE2DC47F5279D7A7BEDF42D1B782836B3CAD34BE5F7C28481EE1E0EA1B7C812",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8854942321777344,
+          "ExactNormalized": true
+        }
+      ]
+    },
+    {
+      "Report": "artifacts/ocr-candidates/cyrillic-onnx-detect.json",
+      "ReportSha256": "4864d98d61321427e56b3594dd6db621eef66b6d5f1b5a042890981f09611810",
+      "Engine": "cyrillic-onnx",
+      "Fields": 19,
+      "ExactNormalizedFields": 19,
+      "ExactDesignations": 8,
+      "MedianWarmMillisecondsPerField": 52.3619,
+      "PeakWorkingSetBytes": 212729856,
+      "Cases": [
+        {
+          "Id": "pillow-designation",
+          "CropSha256": "B7E98F68A904FF09C744CB413D98C5A95BCDC55171C5DF45A3642A644DBD9AFE",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.9001530408859253,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "pillow-name-multiline",
+          "CropSha256": "E5F6E9A83120DC9FABEB9C1ABABDADB28B90E5F2716F94B3A4660DDA7A3F909B",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8870033621788025,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "pillow-name-mixed",
+          "CropSha256": "3B67F598D21253D5856D5AA3125C1BA0B96E68336CA96E54B0861F449ADF70CF",
+          "Raw": "Плата Ерcos USB",
+          "Expected": "Плата Epcos USB",
+          "Normalized": "Плата Epcos USB",
+          "MinimumConfidence": 0.9251887798309326,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-designation",
+          "CropSha256": "F356ABD32809A2CF556BE8544116DCB051E3451838BF4C866C7C7442021558FB",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.9099953770637512,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-name-multiline",
+          "CropSha256": "3F06CB4E82FA67C267D0FFA9DE44A605A22680EFC9CF9E5A33439CF0711AA8A7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8895894885063171,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-name-mixed",
+          "CropSha256": "8BDC7E4AFBBD7BFA35B2E53284D6675C8647834E514131611634FD3733755937",
+          "Raw": "Плата Ерcos USB",
+          "Expected": "Плата Epcos USB",
+          "Normalized": "Плата Epcos USB",
+          "MinimumConfidence": 0.9396822452545166,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "skia-name-mixed-multiline",
+          "CropSha256": "8F60C84B8606CB1D23EC5752DC100D80D5D213C28C329B9EB4C9348E5A23B360",
+          "Raw": "Плата Epcos\nUSB 1489 МГц",
+          "Expected": "Плата Epcos USB 1489 МГц",
+          "Normalized": "Плата Epcos USB 1489 МГц",
+          "MinimumConfidence": 0.9239416122436523,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-false-designation",
+          "CropSha256": "2C3656B0BF82FF048324CE973CE57787D5777F0053545568DB46B391F1638A2B",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.913451611995697,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-false-name",
+          "CropSha256": "9384A2F7D9C567E1C2A8EE900ECF3D9B7534BBC933E7436F8235E808F88D1D28",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8820687532424927,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-false-designation",
+          "CropSha256": "2049EE8805327E2DC99900098EF6401F35A1200E0C6ABCB73B693727AAFB37FC",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.8864029049873352,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-false-name",
+          "CropSha256": "FBB13DA7586222E4BB56A8B8454C2999B0E7D8DD20150F33D03BDE13BBA1DFA7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8800026774406433,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-false-designation",
+          "CropSha256": "8F735DA8E51353AE7636AF7EAC70035D616D6E208624FF6EF68ED04776CB9DEB",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.9179486632347107,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-false-name",
+          "CropSha256": "2DE2DC47F5279D7A7BEDF42D1B782836B3CAD34BE5F7C28481EE1E0EA1B7C812",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8854943513870239,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-true-designation",
+          "CropSha256": "2C3656B0BF82FF048324CE973CE57787D5777F0053545568DB46B391F1638A2B",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.913451611995697,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-original-known-true-name",
+          "CropSha256": "9384A2F7D9C567E1C2A8EE900ECF3D9B7534BBC933E7436F8235E808F88D1D28",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8820687532424927,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-true-designation",
+          "CropSha256": "2049EE8805327E2DC99900098EF6401F35A1200E0C6ABCB73B693727AAFB37FC",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.8864029049873352,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-rotated-90-known-true-name",
+          "CropSha256": "FBB13DA7586222E4BB56A8B8454C2999B0E7D8DD20150F33D03BDE13BBA1DFA7",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8800026774406433,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-true-designation",
+          "CropSha256": "8F735DA8E51353AE7636AF7EAC70035D616D6E208624FF6EF68ED04776CB9DEB",
+          "Raw": "УИЕС.468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": "УИЕС.468732.271",
+          "MinimumConfidence": 0.9179486632347107,
+          "ExactNormalized": true
+        },
+        {
+          "Id": "saved-skewed-1.2-known-true-name",
+          "CropSha256": "2DE2DC47F5279D7A7BEDF42D1B782836B3CAD34BE5F7C28481EE1E0EA1B7C812",
+          "Raw": "Плата УПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плата УПЧ 1489 МГц",
+          "MinimumConfidence": 0.8854943513870239,
+          "ExactNormalized": true
+        }
+      ]
+    },
+    {
+      "Report": "artifacts/ocr-candidates/easyocr-normalized.json",
+      "ReportSha256": "5acb5bababf6d065cc35960a382e6e60f0b26596f3be72c6c038a7d1126e696a",
+      "Engine": "EasyOCR1.7.2",
+      "Fields": 19,
+      "ExactNormalizedFields": 0,
+      "ExactDesignations": 0,
+      "MedianWarmMillisecondsPerField": 1692.4447699999519,
+      "PeakWorkingSetBytes": 970272768,
+      "Cases": [
+        {
+          "Id": "pillow-designation",
+          "CropSha256": "b7e98f68a904ff09c744cb413d98c5a95bcdc55171c5df45a3642a644dbd9afe",
+          "Raw": "ЧИЕС468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.7691160137061347,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "pillow-name-multiline",
+          "CropSha256": "e5f6e9a83120dc9fabeb9c1ababdadb28b90e5f2716f94b3a4660dda7a3f909b",
+          "Raw": "Плamа ЧПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плamа ЧПЧ 1489 МГц",
+          "MinimumConfidence": 0.6290224692747053,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "pillow-name-mixed",
+          "CropSha256": "3b67f598d21253d5856d5aa3125c1ba0b96e68336ca96e54b0861f449adf70cf",
+          "Raw": "Плаma Epcos USB",
+          "Expected": "Плата Epcos USB",
+          "Normalized": "Плаma Epcos USB",
+          "MinimumConfidence": 0.6935554338332965,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "skia-designation",
+          "CropSha256": "f356abd32809a2cf556be8544116dcb051e3451838bf4c866c7c7442021558fb",
+          "Raw": "ЧИЕС 468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.6511644908958135,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "skia-name-multiline",
+          "CropSha256": "3f06cb4e82fa67c267d0ffa9de44a605a22680efc9cf9e5a33439cf0711aa8a7",
+          "Raw": "Пnama ЧПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Пnama ЧПЧ 1489 МГц",
+          "MinimumConfidence": 0.3237851499749098,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "skia-name-mixed",
+          "CropSha256": "8bdc7e4afbbd7bfa35b2e53284d6675c8647834e514131611634fd3733755937",
+          "Raw": "Плama Epcos USB",
+          "Expected": "Плата Epcos USB",
+          "Normalized": "Плama Epcos USB",
+          "MinimumConfidence": 0.653131980202039,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "skia-name-mixed-multiline",
+          "CropSha256": "8f60c84b8606cb1d23ec5752dc100d80d5d213c28c329b9eb4c9348e5a23b360",
+          "Raw": "Пnama Epcos\nUSB 1489 МГц",
+          "Expected": "Плата Epcos USB 1489 МГц",
+          "Normalized": "Пnama Epcos USB 1489 МГц",
+          "MinimumConfidence": 0.6457559852033825,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-original-known-false-designation",
+          "CropSha256": "2c3656b0bf82ff048324ce973ce57787d5777f0053545568db46b391f1638a2b",
+          "Raw": "ЧИЕС 468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.5649961297673759,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-original-known-false-name",
+          "CropSha256": "9384a2f7d9c567e1c2a8ee900ecf3d9b7534bbc933e7436f8235e808f88d1d28",
+          "Raw": "Плamа ЧПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плamа ЧПЧ 1489 МГц",
+          "MinimumConfidence": 0.6328058411731364,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-rotated-90-known-false-designation",
+          "CropSha256": "2049ee8805327e2dc99900098ef6401f35a1200e0c6abcb73b693727aafb37fc",
+          "Raw": "ЧИЕС 468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.9770030539051326,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-rotated-90-known-false-name",
+          "CropSha256": "fbb13da7586222e4bb56a8b8454c2999b0e7d8dd20150f33d03bde13bba1dfa7",
+          "Raw": "Плamа ЧПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плamа ЧПЧ 1489 МГц",
+          "MinimumConfidence": 0.6346906430540888,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-skewed-1.2-known-false-designation",
+          "CropSha256": "8f735da8e51353ae7636af7eac70035d616d6e208624ff6ef68ed04776cb9deb",
+          "Raw": "ЧИЕС 468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.8382215324729193,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-skewed-1.2-known-false-name",
+          "CropSha256": "2de2dc47f5279d7a7bedf42d1b782836b3cad34be5f7c28481ee1e0ea1b7c812",
+          "Raw": "Плama ЧПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плama ЧПЧ 1489 МГц",
+          "MinimumConfidence": 0.6054374386850433,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-original-known-true-designation",
+          "CropSha256": "2c3656b0bf82ff048324ce973ce57787d5777f0053545568db46b391f1638a2b",
+          "Raw": "ЧИЕС 468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.5649961297673759,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-original-known-true-name",
+          "CropSha256": "9384a2f7d9c567e1c2a8ee900ecf3d9b7534bbc933e7436f8235e808f88d1d28",
+          "Raw": "Плamа ЧПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плamа ЧПЧ 1489 МГц",
+          "MinimumConfidence": 0.6328058411731364,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-rotated-90-known-true-designation",
+          "CropSha256": "2049ee8805327e2dc99900098ef6401f35a1200e0c6abcb73b693727aafb37fc",
+          "Raw": "ЧИЕС 468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.9770030539051326,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-rotated-90-known-true-name",
+          "CropSha256": "fbb13da7586222e4bb56a8b8454c2999b0e7d8dd20150f33d03bde13bba1dfa7",
+          "Raw": "Плamа ЧПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плamа ЧПЧ 1489 МГц",
+          "MinimumConfidence": 0.6346906430540888,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-skewed-1.2-known-true-designation",
+          "CropSha256": "8f735da8e51353ae7636af7eac70035d616d6e208624ff6ef68ed04776cb9deb",
+          "Raw": "ЧИЕС 468732.271",
+          "Expected": "УИЕС.468732.271",
+          "Normalized": null,
+          "MinimumConfidence": 0.8382215324729193,
+          "ExactNormalized": false
+        },
+        {
+          "Id": "saved-skewed-1.2-known-true-name",
+          "CropSha256": "2de2dc47f5279d7a7bedf42d1b782836b3cad34be5f7c28481ee1e0ea1b7c812",
+          "Raw": "Плama ЧПЧ\n1489 МГц",
+          "Expected": "Плата УПЧ 1489 МГц",
+          "Normalized": "Плama ЧПЧ 1489 МГц",
+          "MinimumConfidence": 0.6054374386850433,
+          "ExactNormalized": false
+        }
+      ]
+    }
+  ],
+  "NativeOnnxDifferential": [
+    {
+      "Mode": "detect",
+      "Cases": 19,
+      "CharacterComparisons": 309,
+      "NativeExact": 19,
+      "OnnxExact": 19,
+      "MaximumScoreDifference": 7.600000000107521e-06,
+      "IdenticalTextGeometryParsing": true,
+      "NativeMedianMs": 79.3006,
+      "OnnxMedianMs": 52.3619,
+      "NativePeakMiB": 502.5078125,
+      "OnnxPeakMiB": 202.875
+    },
+    {
+      "Mode": "known",
+      "Cases": 19,
+      "CharacterComparisons": 302,
+      "NativeExact": 12,
+      "OnnxExact": 12,
+      "MaximumScoreDifference": 7.600000000107521e-06,
+      "IdenticalTextGeometryParsing": true,
+      "NativeMedianMs": 27.6194,
+      "OnnxMedianMs": 15.027,
+      "NativePeakMiB": 503.8984375,
+      "OnnxPeakMiB": 201.18359375
+    }
+  ],
+  "UnmaskedTensorComparison": {
+    "Scope": "Full unmasked post-softmax tensors, identical NCHW input, native Paddle vs bundled ORT1.11.1; no quantization",
+    "ValuesCompared": 1151052,
+    "MaximumAbsoluteDifference": 8.106231689453125e-06
+  }
+}

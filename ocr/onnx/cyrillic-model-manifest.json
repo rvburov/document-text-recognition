@@ -1,0 +1,63 @@
+{
+  "SchemaVersion": 1,
+  "SourceModel": "cyrillic_PP-OCRv5_mobile_rec",
+  "SourceArchive": {
+    "Url": "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0/cyrillic_PP-OCRv5_mobile_rec_infer.tar",
+    "Sha256": "ef0c66f19ebe6849daf9aa7485e9253d2a8d851e165e208bf08ba68a620ae645",
+    "FetchedDate": "2026-11-18"
+  },
+  "ModelLicense": {
+    "Id": "Apache-2.0",
+    "Copyright": "Copyright (c) 2016 PaddlePaddle Authors. All Rights Reserved.",
+    "Source": "https://github.com/PaddlePaddle/PaddleOCR/blob/main/LICENSE",
+    "SourceGitBlob": "430edfa0cfcb59f15b7aa5457427d0faf2e40dac",
+    "PackagedFile": "licenses/PaddleOCR-Apache-2.0.txt"
+  },
+  "OriginalAssets": [
+    {
+      "File": "ocr/paddle/cyrillic_PP_OCRv5_mobile_rec/inference.json",
+      "Sha256": "5d90f1bfca52d80c01de176c5238fae2459995a99ff1dbfe5319ab4ed1735df2",
+      "Bytes": 217712
+    },
+    {
+      "File": "ocr/paddle/cyrillic_PP_OCRv5_mobile_rec/inference.pdiparams",
+      "Sha256": "434dc9fa2a99fa3653e08f8cf793ae56be7dd41c35c4980e6255147cc02bbc80",
+      "Bytes": 7972691
+    },
+    {
+      "File": "ocr/paddle/cyrillic_PP_OCRv5_mobile_rec/inference.yml",
+      "Sha256": "5c76cc91fa98410178a09f498db10050d0ec1634a660053d3005ab7be581f501",
+      "Bytes": 6991
+    }
+  ],
+  "ConversionScript": "tools/OcrComparison/convert_recognizer.py",
+  "ConversionScriptSha256": "00ec0e9cce9ddaaf0f7c22f5922c94251673b78025e3aba4c361187f9c9bca36",
+  "Conversion": "FP32; no quantization; no optional optimizer; checked ONNX opset14/IR8",
+  "Python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "Packages": {
+    "paddlepaddle": "3.3.1",
+    "paddle2onnx": "2.1.0",
+    "onnx": "1.17.0"
+  },
+  "Output": {
+    "File": "ocr/onnx/rec-cyrillic.onnx",
+    "Sha256": "fd3733eaabf90d6364cf653592d97e2ab1170e6be8025c08047ecb4e6c4e6336",
+    "Bytes": 8051081,
+    "IrVersion": 8,
+    "Opset": 14
+  },
+  "Dictionary": "Original inference.yml in the Cyrillic model directory; never use the eslav dictionary for this graph.",
+  "ValidatedRuntime": {
+    "Managed": "Microsoft.ML.OnnxRuntime.Managed 1.11.0",
+    "Native": "ONNX Runtime 1.11.1 bundled in Sdcb.PaddleInference.runtime.*.mkl 3.3.1.70",
+    "Precision": "FP32"
+  },
+  "Validation": {
+    "Report": "tools/OcrComparison/comparison-summary.json",
+    "Scope": "19 existing GOST development crops (13 unique image hashes), not unseen evaluation or full-document acceptance. Full detector output19/19 exact fields; native and ONNX same text/geometry/parsed results. Known-line shortcut keeps normal confirmation and detector fallback.",
+    "UnmaskedProbabilitiesCompared": 1151052,
+    "MaximumAbsoluteProbabilityDifference": 8.106231689453125e-06,
+    "IdenticalCtcDecodePairs": 112
+  },
+  "Distribution": "All source assets, matching vocabulary, converted ONNX graph and license are included offline. No runtime model download."
+}

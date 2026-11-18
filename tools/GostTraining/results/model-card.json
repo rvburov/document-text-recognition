@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "name": "rus_gost",
+  "status": "experimental specialist; not a replacement for general rus",
+  "selected_model_sha256": "26bab93eb188b4e1557be5ffc0e7cc9a33cac5a6249debe3a9141d53eef374ce",
+  "model_bytes": 5053706,
+  "base_model": {
+    "repository": "tesseract-ocr/tessdata_best",
+    "commit": "e12c65a915945e4c28e237a9b52bc4a8f39a0cec",
+    "file": "rus.traineddata",
+    "sha256": "b617eb6830ffabaaa795dd87ea7fd251adfe9cf0efe05eb9a2e8128b7728d6b6",
+    "license": "Apache-2.0"
+  },
+  "training_font": {
+    "path": "tests/Core.Tests/Fonts/GOST2.304-81TypeA-Slanted.ttf",
+    "sha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+    "license": "OFL-1.1"
+  },
+  "runtime": {
+    "version": "Tesseract5.3.4",
+    "languages": "rus_gost+eng",
+    "psm": 6,
+    "eng_sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+    "model_type": "int8 quantized LSTM; unchanged Russian recoder"
+  },
+  "training": {
+    "base_train_images": 600,
+    "supplement_images": 160,
+    "total_train_unique_texts": 296,
+    "used_russian_lstmf": 632,
+    "excluded_training_images_with_latin": 128,
+    "development_all_lines": 76,
+    "development_unique_texts": 36,
+    "development_russian_lstmf": 60,
+    "evaluation_lines": 150,
+    "evaluation_unique_texts": 72,
+    "line_geometry": "ink bounds plus2px; source PNG and ground truth unchanged",
+    "selected_run_chain": [
+      "500sample ink pilot",
+      "1500sample continuation with frozen uppercase supplement"
+    ],
+    "sources": [
+      "docs/test-samples/gost-type-a/corpus-plan/manifest.json",
+      "docs/test-samples/gost-type-a/corpus-plan/alphabet-supplement-v2.json"
+    ]
+  },
+  "evaluation_policy": {
+    "chosen_on_development": true,
+    "selection_sha256": "0b91a8360461bc8d6bfb97fd16e26ff4d3ecdc477ad8fb51611f8f0a5f85aef7",
+    "evaluation_used_for_training_or_selection": false,
+    "further_tuning_after_evaluation": false,
+    "train_rasterizer": "SkiaSharp2.88.9",
+    "evaluation_rasterizer": "Pillow13/FreeType2.14.3",
+    "font_is_held_out": false
+  },
+  "results": {
+    "development-selected.json": {
+      "sha256": "8a02fe4d52438e47fef1dd418f5ffa1ab8095a4b40694095234e73f393a57fae",
+      "summary": {
+        "lines": 76,
+        "exact": 70,
+        "exact_fraction": 0.9210526315789473,
+        "cer": 0.018465909090909092
+      }
+    },
+    "development-original.json": {
+      "sha256": "9ec9a8926138f62400abbc4163dd00014e52484d7673842bf96656d35ba1c56e",
+      "summary": {
+        "lines": 76,
+        "exact": 35,
+        "exact_fraction": 0.4605263157894737,
+        "cer": 0.1690340909090909
+      }
+    },
+    "evaluation-selected.json": {
+      "sha256": "46f14384e711c8dd64b317569e204c7018626cd85cac2f9d36f3c9f1b6bfcf7c",
+      "summary": {
+        "lines": 150,
+        "exact": 91,
+        "exact_fraction": 0.6066666666666667,
+        "cer": 0.04478138222849083
+      }
+    },
+    "evaluation-original.json": {
+      "sha256": "cc8b1fa7f7fee297af2913f22fd0fb16a7c022122118a8e165dc539db6a3828e",
+      "summary": {
+        "lines": 150,
+        "exact": 61,
+        "exact_fraction": 0.4066666666666667,
+        "cer": 0.15902679830747532
+      }
+    },
+    "evaluation-best-baseline.json": {
+      "sha256": "757dfe28fbf4fad7356f40ad7521a7e959eef05a08ddbe72e1c6fd93a561040d",
+      "summary": {
+        "lines": 150,
+        "exact": 63,
+        "exact_fraction": 0.42,
+        "cer": 0.19040902679830748
+      }
+    },
+    "selection.json": {
+      "sha256": "0b91a8360461bc8d6bfb97fd16e26ff4d3ecdc477ad8fb51611f8f0a5f85aef7",
+      "summary": null
+    }
+  },
+  "limitations": [
+    "This is a small synthetic single-font adaptation pilot, not a broad accuracy claim for real scans.",
+    "Generalization across rasterizers remains limited: held-out designation exact19/64 despite development30/32.",
+    "56 incorrect held-out lines still exceed confidence0.30; confidence alone is not an acceptance rule.",
+    "Keep general Tesseract as the first attempt; some mixed Latin names regress under the specialist.",
+    "Only accept specialist fields when independently confirmed exactly by the second OCR engine and normal field validation.",
+    "Recognition was measured on line crops; document matching, cropping, type parsing and full filenames require separate application tests."
+  ]
+}

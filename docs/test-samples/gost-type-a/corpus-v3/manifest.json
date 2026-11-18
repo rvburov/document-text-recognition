@@ -1,0 +1,67 @@
+{
+  "SchemaVersion": 1,
+  "CorpusId": "gost-type-a-mixed-renderers-v3-2026-11-18",
+  "Scope": "Fresh synthetic mixed-rasterizer corpus fixed before v3 training.",
+  "FontFile": "tests/Core.Tests/Fonts/GOST2.304-81TypeA-Slanted.ttf",
+  "FontSha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+  "FontHeldOut": false,
+  "HistoricalEvaluation": "The 150 v1 evaluation images are historical evidence, not the blind evaluation of this corpus.",
+  "OldValueExclusions": [
+    {
+      "File": "docs/test-samples/gost-type-a/corpus-plan/manifest.json",
+      "Sha256": "74470e3b885cfd5380eb3454168ff82cdf1bf749ce176df4d779c73339f463b4"
+    },
+    {
+      "File": "docs/test-samples/gost-type-a/corpus-plan/alphabet-supplement-v2.json",
+      "Sha256": "5b4acbc2762e62058e5572a840ab1f99292267d73a9e79c817c9ec905882cd94"
+    },
+    {
+      "File": "tools/OcrComparison/input-cases.json",
+      "Sha256": "fd2e54f2aa06cecd76017e85706b11f0f4ca47b92336535d209d99b384c314e4"
+    },
+    {
+      "File": "docs/test-samples/verification.json",
+      "Sha256": "9cee0ee43838a2ca12022afc7448a8781e9d42da276fa1b593f0ce4073867b26"
+    }
+  ],
+  "CrossSplitTruthOverlap": [],
+  "CrossSplitDesignationPrefixOverlap": [],
+  "Splits": [
+    {
+      "Split": "train",
+      "File": "train.json",
+      "Sha256": "b0f387c95e9fbb5453c9f3e6ce8da33c5053884a117dbfc4a7abbf393244f662",
+      "DocumentCount": 300,
+      "UniqueTexts": 600,
+      "ImageCount": 1200,
+      "RendererCounts": {
+        "Skia": 600,
+        "Pillow": 600
+      }
+    },
+    {
+      "Split": "development",
+      "File": "development.json",
+      "Sha256": "fabfe5f742c03dcf74327ba095db2dd0e3d48c359fb280f7313828f39d3e02a5",
+      "DocumentCount": 60,
+      "UniqueTexts": 120,
+      "ImageCount": 240,
+      "RendererCounts": {
+        "Skia": 120,
+        "Pillow": 120
+      }
+    },
+    {
+      "Split": "evaluation",
+      "File": "evaluation.json",
+      "Sha256": "7c2998aa7012cbc235d16e2e45faacea032bb2370af50045c54f3069b4f8982c",
+      "DocumentCount": 30,
+      "UniqueTexts": 60,
+      "ImageCount": 120,
+      "RendererCounts": {
+        "Skia": 60,
+        "Pillow": 60
+      }
+    }
+  ]
+}

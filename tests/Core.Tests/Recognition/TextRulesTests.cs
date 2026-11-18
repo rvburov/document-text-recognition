@@ -100,6 +100,11 @@ public sealed class TextRulesTests
 
     [Theory]
     [InlineData("ЦОC-2", "ЦОС-2")]           // в слове есть «Ц» — двойник C кириллический
+    [InlineData("Дoгoвoр", "Договор")]
+    [InlineData("MГц", "МГц")]
+    [InlineData("YПЧ", "УПЧ")]
+    [InlineData("MOЭA", "МОЭА")]
+    [InlineData("Плата Э(Т)ОMOЭA", "Плата Э(Т)ОМОЭА")]
     [InlineData("Plata", "Plata")]
     [InlineData("Рlаtа", "Plata")]          // в слове есть «l», «t» — двойники латинские
     [InlineData("ТКС", "ТКС")]               // только двойники — не трогаем

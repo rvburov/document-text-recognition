@@ -1,0 +1,80 @@
+{
+  "Scope": "Fixture integrity and PDF text extraction only; no OCR success is claimed by this record.",
+  "FontSha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+  "Expected": {
+    "Designation": "УИЕС.468732.271",
+    "Name": "Плата Epcos USB 1489 МГц",
+    "Type": "Сборочный чертёж"
+  },
+  "PageSize": {
+    "Width": 595.2755905511812,
+    "Height": 841.8897637795276,
+    "WidthMm": 210,
+    "HeightMm": 297,
+    "IsLandscape": false
+  },
+  "RasterDpi": 250,
+  "MeanAbsolutePixelDifference": 0,
+  "Fields": [
+    {
+      "Role": "Designation",
+      "Bounds": {
+        "X": 0.4119047619047619,
+        "Y": 0.803030303030303,
+        "Width": 0.5571428571428572,
+        "Height": 0.04040404040404041,
+        "Right": 0.969047619047619,
+        "Bottom": 0.8434343434343434
+      },
+      "VectorText": "УИЕС.468732.271",
+      "VectorRequiresIndependentValidation": true,
+      "RasterTextStatus": "Empty"
+    },
+    {
+      "Role": "Name",
+      "Bounds": {
+        "X": 0.4119047619047619,
+        "Y": 0.8535353535353535,
+        "Width": 0.319047619047619,
+        "Height": 0.04040404040404041,
+        "Right": 0.7309523809523809,
+        "Bottom": 0.8939393939393939
+      },
+      "VectorText": "Плата Epcos\nUSB 1489 МГц",
+      "VectorRequiresIndependentValidation": true,
+      "RasterTextStatus": "Empty"
+    },
+    {
+      "Role": "Type",
+      "Bounds": {
+        "X": 0.4119047619047619,
+        "Y": 0.9040404040404041,
+        "Width": 0.319047619047619,
+        "Height": 0.02356902356902357,
+        "Right": 0.7309523809523809,
+        "Bottom": 0.9276094276094277
+      },
+      "VectorText": "Сборочный чертёж",
+      "VectorRequiresIndependentValidation": true,
+      "RasterTextStatus": "Empty"
+    }
+  ],
+  "Files": [
+    {
+      "Name": "scan-vector.pdf",
+      "Sha256": "FFFB525E457A8096B9FA9D36AA952FC820FE59C5D2C7F46CC55DAA529B2A907C"
+    },
+    {
+      "Name": "scan-raster.pdf",
+      "Sha256": "B454F1F0DF39E929D7494F9378B5C3D0F19AB335BF635542D945685A4A9A0893"
+    },
+    {
+      "Name": "template.pdf",
+      "Sha256": "910605E595DB14C916AC04CE4390682646EA1602756DA53A66A8BA453FC03CA7"
+    },
+    {
+      "Name": "template.pdf.template.json",
+      "Sha256": "4123F8024DEB3D7FA84AC49EEE53749AF375BA6163DB77AB2EEE803C8A666271"
+    }
+  ]
+}

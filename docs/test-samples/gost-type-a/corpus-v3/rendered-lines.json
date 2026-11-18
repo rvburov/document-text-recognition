@@ -1,0 +1,54 @@
+{
+  "ManifestSha256": "605a04017eb37c09ffc745506b4bf7ff8bb1943c696d6d72e58a42a282f6797b",
+  "Scope": "Image generation only; no OCR or model selection uses the held-out data in this record.",
+  "Splits": [
+    {
+      "Split": "train",
+      "Count": 1200,
+      "UniqueTexts": 600,
+      "RendererCounts": {
+        "Skia": 600,
+        "Pillow": 600
+      },
+      "DifferentRendererPngPairs": 600,
+      "IdenticalRendererPngPairs": [],
+      "SkiaVersion": "2.88.9",
+      "PillowVersion": "13.0.0",
+      "FreeTypeVersion": "2.14.3",
+      "MetadataSha256": "2ff0ba887b561150fa6d6a339e8ddfc5177a02059448160dfb98adbea8a8cc71",
+      "InferencePerformed": false
+    },
+    {
+      "Split": "development",
+      "Count": 240,
+      "UniqueTexts": 120,
+      "RendererCounts": {
+        "Skia": 120,
+        "Pillow": 120
+      },
+      "DifferentRendererPngPairs": 120,
+      "IdenticalRendererPngPairs": [],
+      "SkiaVersion": "2.88.9",
+      "PillowVersion": "13.0.0",
+      "FreeTypeVersion": "2.14.3",
+      "MetadataSha256": "7e83958a21698b8c482e5653666068750b7002b69fbaacea61efacfc907ae1df",
+      "InferencePerformed": false
+    },
+    {
+      "Split": "evaluation",
+      "Count": 120,
+      "UniqueTexts": 60,
+      "RendererCounts": {
+        "Skia": 60,
+        "Pillow": 60
+      },
+      "DifferentRendererPngPairs": 60,
+      "IdenticalRendererPngPairs": [],
+      "SkiaVersion": "2.88.9",
+      "PillowVersion": "13.0.0",
+      "FreeTypeVersion": "2.14.3",
+      "MetadataSha256": "490705f6211e3149a54bba7233dcbddd6dd854ebb7278cbe640601e6ed16503c",
+      "InferencePerformed": false
+    }
+  ]
+}
