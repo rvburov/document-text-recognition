@@ -1,5 +1,7 @@
 using System.Buffers.Binary;
 using System.Diagnostics;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Cryptography;
@@ -23,6 +25,9 @@ static int RunBenchmark(string[] args)
         if (options is null) return 0;
         OcrComponents.ConfigureRuntime();
         Cv2.SetNumThreads(1);
+        using var selector = new HammingSelector();
+        if (options.RequireAvx2 && !selector.Avx2Available)
+            throw new PlatformNotSupportedException("AVX2 comparison requires the experimental Core API and an AVX2-capable CPU.");
         var root = Path.GetFullPath(options.Samples);
         var loaded = TemplateLibrary.LoadFolder(Path.Combine(root, "templates"));
         var templates = loaded.Where(t => t.Template is not null).Select(t => t.Template!).ToArray();
@@ -46,6 +51,25 @@ static int RunBenchmark(string[] args)
             }
             var cases = pages.SelectMany(page => templates.Select(template => new DescriptorCase(
                 page.File, template.Name, page.Features.Descriptors, template.Features.Descriptors))).ToArray();
+            var preparations = new List<Preparation>();
+            if (selector.Avx2Available)
+            {
+                foreach (var template in templates)
+                {
+                    var allocated = GC.GetAllocatedBytesForCurrentThread();
+                    var started = Stopwatch.GetTimestamp();
+                    var prepared = selector.Prepare(template.Features.Descriptors)
+                        ?? throw new InvalidOperationException("AVX2 train preparation unexpectedly fell back for " + template.Name);
+                    preparations.Add(new Preparation(template.Name, template.Features.Descriptors.Rows,
+                        Stopwatch.GetElapsedTime(started).TotalMilliseconds,
+                        GC.GetAllocatedBytesForCurrentThread() - allocated, selector.PreparedBytes(prepared)));
+                    foreach (var item in cases.Where(c => ReferenceEquals(c.Train, template.Features.Descriptors)))
+                        item.PreparedTrain = prepared;
+                }
+            }
+            var methods = selector.Avx2Available
+                ? new[] { Method.Scalar, Method.Avx2, Method.Native }
+                : new[] { Method.Scalar, Method.Native };
             var quality = new Quality();
             var measurements = new List<Measurement>();
             using var process = Process.GetCurrentProcess();
@@ -53,13 +77,12 @@ static int RunBenchmark(string[] args)
             {
                 Cv2.SetNumThreads(threads);
                 using var bf = new BFMatcher(NormTypes.Hamming);
-                foreach (var c in cases) Verify(c.Page + " -> " + c.Template, c.Query, c.Train, bf, quality);
-                VerifyAdversarial(bf, quality);
+                foreach (var c in cases) Verify(c.Page + " -> " + c.Template, c.Query, c.Train, bf, quality, selector, c.PreparedTrain);
+                VerifyAdversarial(bf, quality, selector);
                 if (!quality.Passed || options.QualityOnly) continue;
                 for (var warmup = 0; warmup < options.Warmups; warmup++)
                 {
-                    _ = Measure(true, threads, -1, -1, cases, bf, process);
-                    _ = Measure(false, threads, -1, -1, cases, bf, process);
+                    foreach (var method in methods) _ = Measure(method, threads, -1, -1, cases, bf, process, selector);
                 }
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
@@ -67,9 +90,10 @@ static int RunBenchmark(string[] args)
                 // Two invocations of each implementation per block, with symmetric order.
                 for (var block = 0; block < options.Repeats / 2; block++)
                 {
-                    var order = new[] { true, false, false, true }; // scalar, native, native, scalar
+                    var forward = methods.Skip(block % methods.Length).Concat(methods.Take(block % methods.Length)).ToArray();
+                    var order = forward.Concat(forward.Reverse()).ToArray();
                     for (var sequence = 0; sequence < order.Length; sequence++)
-                        measurements.Add(Measure(order[sequence], threads, block, sequence, cases, bf, process));
+                        measurements.Add(Measure(order[sequence], threads, block, sequence, cases, bf, process, selector));
                 }
                 Console.WriteLine($"OpenCV threads={threads}; quality={quality.Passed}; runs/method={options.Repeats}");
             }
@@ -90,7 +114,7 @@ static int RunBenchmark(string[] args)
             }).ToArray();
             var report = new
             {
-                SchemaVersion = 1, options.Label, RecordedUtc = DateTimeOffset.UtcNow,
+                SchemaVersion = 2, options.Label, RecordedUtc = DateTimeOffset.UtcNow,
                 Scope = "Exact Hamming nearest-two stage only. PDFs/templates/ORB are prepared once. No OCR, renaming or document-throughput measurement.",
                 Environment = new
                 {
@@ -110,10 +134,14 @@ static int RunBenchmark(string[] args)
                 },
                 Configuration = new
                 {
-                    options.Repeats, options.Warmups, options.NativeThreads, options.QualityOnly,
-                    Order = "ABBA; A=production NearestTwo, B=native BFMatcher.KnnMatch(k=2)",
+                    options.Repeats, options.Warmups, options.NativeThreads, options.QualityOnly, options.RequireAvx2,
+                    SelectorProperty = "TemplateMatcher.UseAvx2", selector.OriginalPreference, selector.Avx2Available,
+                    ScalarResolvedImplementation = Popcnt.X64.IsSupported ? "scalar-popcnt" : "native-fallback-no-popcnt64",
+                    Methods = methods.Select(Name).ToArray(),
+                    Order = "Symmetric forward/reverse blocks, rotating the first method: ABCCBA/BCAACB/CABBAC (ABBA/BAAB without AVX2).",
                     NativeMatcherLifetime = "One BFMatcher reused per native-thread variant; explicit query/train matrices on every call.",
-                    ScalarThreading = "Single managed thread per invocation; production hardware/descriptor fallback remains enabled.",
+                    ManagedThreading = "One managed thread per invocation; AVX2 is an explicit prepared-index call, never an unsupported-hardware timing label.",
+                    Avx2TrainIndexLifetime = "One immutable train snapshot per template, prepared before warmups/timing and reused exactly as in the production PageFeatures cache.",
                     SetupExcluded = "PDF rendering, ORB, descriptor/file hashes, full-result verification and warmups.",
                 },
                 Dataset = new
@@ -133,7 +161,7 @@ static int RunBenchmark(string[] args)
                         WidthBytes = c.Query.Cols, QuerySha256 = DescriptorHash(c.Query), TrainSha256 = DescriptorHash(c.Train),
                     }).ToArray(),
                 },
-                Quality = quality, Summaries = summaries, Measurements = measurements,
+                TrainPreparations = preparations, Quality = quality, Summaries = summaries, Measurements = measurements,
             };
             var output = Path.GetFullPath(options.Output);
             Directory.CreateDirectory(Path.GetDirectoryName(output)!);
@@ -160,9 +188,10 @@ static int RunBenchmark(string[] args)
     }
 }
 
-static Measurement Measure(bool scalar, int threads, int block, int sequence, DescriptorCase[] cases,
-    BFMatcher bf, Process process)
+static Measurement Measure(Method method, int threads, int block, int sequence, DescriptorCase[] cases,
+    BFMatcher bf, Process process, HammingSelector selector)
 {
+    selector.Select(method == Method.Avx2);
     var pairTimes = new double[cases.Length];
     var collections = new[] { GC.CollectionCount(0), GC.CollectionCount(1), GC.CollectionCount(2) };
     process.Refresh();
@@ -174,9 +203,11 @@ static Measurement Measure(bool scalar, int threads, int block, int sequence, De
     {
         var c = cases[i];
         var pairStarted = Stopwatch.GetTimestamp();
-        if (scalar)
+        if (method != Method.Native)
         {
-            var result = TemplateMatcher.NearestTwo(c.Query, c.Train);
+            var result = method == Method.Avx2
+                ? selector.Avx2(c.Query, c.Train, c.PreparedTrain)
+                : selector.Scalar(c.Query, c.Train);
             if (result.Length > 0) checksum += result[0].FirstIndex + result[0].FirstDistance + result[0].SecondIndex + result[0].SecondDistance;
             GC.KeepAlive(result);
         }
@@ -193,35 +224,55 @@ static Measurement Measure(bool scalar, int threads, int block, int sequence, De
     var bytes = GC.GetAllocatedBytesForCurrentThread() - allocated;
     process.Refresh();
     var cpuElapsed = (process.TotalProcessorTime - cpu).TotalMilliseconds;
-    return new Measurement(scalar ? "production-nearest-two" : "native-bf-knn", threads, block, sequence,
+    return new Measurement(Name(method), threads, block, sequence,
         elapsed, cpuElapsed, bytes, [GC.CollectionCount(0) - collections[0], GC.CollectionCount(1) - collections[1],
             GC.CollectionCount(2) - collections[2]], checksum, pairTimes);
 }
 
-static void Verify(string name, Mat query, Mat train, BFMatcher bf, Quality quality)
+static string Name(Method method) => method switch
 {
-    var expected = bf.KnnMatch(query, train, 2);
-    var actual = TemplateMatcher.NearestTwo(query, train);
-    var rows = query.Rows;
-    quality.Cases++;
-    if (actual.Length != rows) quality.Fail(name + ": incorrect query row count");
-    for (var row = 0; row < rows; row++)
+    Method.Scalar => "scalar-nearest-two",
+    Method.Avx2 => "avx2-prepared-nearest-two",
+    _ => "native-bf-knn",
+};
+
+static void Verify(string name, Mat query, Mat train, BFMatcher bf, Quality quality, HammingSelector selector,
+    object? prepared = null)
+{
+    var expected = query.Empty() || train.Empty() ? [] : bf.KnnMatch(query, train, 2);
+    selector.Select(false);
+    Compare("scalar", selector.Scalar(query, train));
+    if (!selector.Avx2Available) return;
+    prepared ??= selector.Prepare(train);
+    selector.Select(true);
+    Compare("avx2-prepared", selector.Avx2(query, train, prepared));
+    // Production selector with no supplied snapshot must preserve all fallback/tail cases too.
+    Compare("avx2-selector", TemplateMatcher.NearestTwo(query, train));
+
+    void Compare(string method, TemplateMatcher.NearestDescriptor[] actual)
     {
-        quality.ComparedQueryRows++;
-        var pair = row < expected.Length ? expected[row] : [];
-        var reference = new TemplateMatcher.NearestDescriptor(pair.Length > 0 ? pair[0].TrainIdx : -1,
-            pair.Length > 0 ? (int)pair[0].Distance : int.MaxValue,
-            pair.Length > 1 ? pair[1].TrainIdx : -1, pair.Length > 1 ? (int)pair[1].Distance : int.MaxValue);
-        if (row >= actual.Length || reference != actual[row])
-            quality.Fail($"{name}: row {row}; BF={reference}; actual={(row < actual.Length ? actual[row].ToString() : "missing")}");
+        quality.Cases++;
+        var rows = query.Rows;
+        quality.ComparedRowsByMethod[method] = quality.ComparedRowsByMethod.GetValueOrDefault(method) + rows;
+        if (actual.Length != rows) quality.Fail($"{name}/{method}: incorrect query row count");
+        for (var row = 0; row < rows; row++)
+        {
+            quality.ComparedQueryRows++;
+            var pair = row < expected.Length ? expected[row] : [];
+            var reference = new TemplateMatcher.NearestDescriptor(pair.Length > 0 ? pair[0].TrainIdx : -1,
+                pair.Length > 0 ? (int)pair[0].Distance : int.MaxValue,
+                pair.Length > 1 ? pair[1].TrainIdx : -1, pair.Length > 1 ? (int)pair[1].Distance : int.MaxValue);
+            if (row >= actual.Length || reference != actual[row])
+                quality.Fail($"{name}/{method}: row {row}; BF={reference}; actual={(row < actual.Length ? actual[row].ToString() : "missing")}");
+        }
     }
 }
 
-static void VerifyAdversarial(BFMatcher bf, Quality quality)
+static void VerifyAdversarial(BFMatcher bf, Quality quality, HammingSelector selector)
 {
     using var query = new Mat(5, 32, MatType.CV_8UC1, Scalar.All(0));
     using var identical = new Mat(7, 32, MatType.CV_8UC1, Scalar.All(0));
-    Verify("all-identical/tied-zero-distance", query, identical, bf, quality);
+    Verify("all-identical/tied-zero-distance", query, identical, bf, quality, selector);
     using var tied = new Mat(7, 32, MatType.CV_8UC1, Scalar.All(255));
     foreach (var row in new[] { 0, 1, 2, 5 })
     {
@@ -229,9 +280,9 @@ static void VerifyAdversarial(BFMatcher bf, Quality quality)
         line[0] = (byte)(row is 0 or 5 ? 1 : 2);
         Marshal.Copy(line, 0, tied.Data + checked((int)(row * tied.Step())), line.Length);
     }
-    Verify("equal-distance/interleaved-duplicate-groups", query, tied, bf, quality);
+    Verify("equal-distance/interleaved-duplicate-groups", query, tied, bf, quality, selector);
     using var single = new Mat(1, 32, MatType.CV_8UC1, Scalar.All(255));
-    Verify("one-training-row/maximal-distance", query, single, bf, quality);
+    Verify("one-training-row/maximal-distance", query, single, bf, quality, selector);
     using var queryStorage = new Mat(11, 40, MatType.CV_8UC1);
     using var trainStorage = new Mat(17, 40, MatType.CV_8UC1);
     var random = new Random(7123);
@@ -243,7 +294,25 @@ static void VerifyAdversarial(BFMatcher bf, Quality quality)
     }
     using var stridedQuery = new Mat(queryStorage, new Rect(3, 0, 32, 11));
     using var stridedTrain = new Mat(trainStorage, new Rect(3, 0, 32, 17));
-    Verify("unaligned/strided-rows", stridedQuery, stridedTrain, bf, quality);
+    Verify("unaligned/strided-rows", stridedQuery, stridedTrain, bf, quality, selector);
+    using var empty = new Mat();
+    Verify("empty-query", empty, identical, bf, quality, selector);
+    Verify("empty-train", query, empty, bf, quality, selector);
+    foreach (var width in new[] { 16, 32 })
+        foreach (var count in new[] { 1, 2, 3, 4, 5, 7, 8, 9, 15, 16, 17, 31, 32, 33 })
+        {
+            using var qs = new Mat(7, width + 9, MatType.CV_8UC1);
+            using var ts = new Mat(count, width + 13, MatType.CV_8UC1);
+            foreach (var storage in new[] { qs, ts })
+            {
+                var bytes = new byte[storage.Rows * storage.Cols];
+                random.NextBytes(bytes);
+                Marshal.Copy(bytes, 0, storage.Data, bytes.Length);
+            }
+            using var q = new Mat(qs, new Rect(3, 0, width, qs.Rows));
+            using var t = new Mat(ts, new Rect(5, 0, width, ts.Rows));
+            Verify($"width-{width}/tail-{count}/strided", q, t, bf, quality, selector);
+        }
 }
 
 static string DescriptorHash(Mat matrix)
@@ -285,7 +354,13 @@ static string? CpuVendor()
     return Encoding.ASCII.GetString(data);
 }
 
-internal sealed record DescriptorCase(string Page, string Template, Mat Query, Mat Train);
+internal enum Method { Scalar, Avx2, Native }
+internal sealed record DescriptorCase(string Page, string Template, Mat Query, Mat Train)
+{
+    public object? PreparedTrain { get; set; }
+}
+internal sealed record Preparation(string Template, int TrainRows, double WallMilliseconds,
+    long AllocatedBytes, long EstimatedIndexBytes);
 internal sealed record Measurement(string Method, int NativeThreads, int Block, int Sequence,
     double WallMilliseconds, double CpuMilliseconds, long AllocatedBytes, int[] GarbageCollections,
     long Checksum, double[] PairWallMilliseconds);
@@ -294,26 +369,83 @@ internal sealed class Quality
     public bool Passed => Mismatches == 0;
     public int Cases { get; set; }
     public long ComparedQueryRows { get; set; }
+    public Dictionary<string, long> ComparedRowsByMethod { get; } = [];
     public long Mismatches { get; private set; }
     public List<string> Errors { get; } = [];
     public void Fail(string error) { Mismatches++; if (Errors.Count < 20) Errors.Add(error); }
 }
-internal sealed record Options(string Samples, int Repeats, int Warmups, int[] NativeThreads, string Label, string Output, bool QualityOnly)
+// Bind once so reflection and train-index construction are outside measured invocations.
+// Keeping the snapshot opaque also permits comparison with older CoreProjectPath builds.
+internal sealed class HammingSelector : IDisposable
+{
+    private const BindingFlags StaticFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+    private readonly PropertyInfo? _preference = typeof(TemplateMatcher).GetProperty("UseAvx2", StaticFlags);
+    private readonly Func<Mat, Mat, TemplateMatcher.NearestDescriptor[]> _scalar;
+    private readonly Func<Mat, object?>? _prepare;
+    private readonly Func<Mat, Mat, object?, TemplateMatcher.NearestDescriptor[]>? _avx2;
+    public bool? OriginalPreference { get; }
+    public bool Avx2Available { get; }
+
+    public HammingSelector()
+    {
+        OriginalPreference = _preference?.GetValue(null) as bool?;
+        var query = Expression.Parameter(typeof(Mat), "query");
+        var train = Expression.Parameter(typeof(Mat), "train");
+        var scalar = typeof(TemplateMatcher).GetMethod("NearestTwoScalar", StaticFlags);
+        _scalar = scalar is null ? TemplateMatcher.NearestTwo :
+            Expression.Lambda<Func<Mat, Mat, TemplateMatcher.NearestDescriptor[]>>(
+                Expression.Call(scalar, query, train), query, train).Compile();
+        var prepare = typeof(TemplateMatcher).GetMethod("PrepareHammingAvx2Train", StaticFlags);
+        var avx2 = typeof(TemplateMatcher).GetMethod("NearestTwoAvx2", StaticFlags);
+        if (prepare is not null && avx2 is not null)
+        {
+            _prepare = Expression.Lambda<Func<Mat, object?>>(
+                Expression.Convert(Expression.Call(prepare, train), typeof(object)), train).Compile();
+            var snapshot = Expression.Parameter(typeof(object), "snapshot");
+            _avx2 = Expression.Lambda<Func<Mat, Mat, object?, TemplateMatcher.NearestDescriptor[]>>(
+                Expression.Call(avx2, query, train, Expression.Convert(snapshot, avx2.GetParameters()[2].ParameterType)),
+                query, train, snapshot).Compile();
+        }
+        var capability = typeof(TemplateMatcher).GetProperty("HammingAvx2Available", StaticFlags)?.GetValue(null) as bool?;
+        Avx2Available = _preference?.CanWrite == true && _prepare is not null && _avx2 is not null &&
+            capability == true && System.Runtime.Intrinsics.X86.Avx2.IsSupported;
+    }
+
+    public void Select(bool avx2)
+    {
+        if (avx2 && !Avx2Available) throw new PlatformNotSupportedException("AVX2 implementation is unavailable.");
+        _preference?.SetValue(null, avx2);
+    }
+    public object? Prepare(Mat train) => _prepare?.Invoke(train);
+    public TemplateMatcher.NearestDescriptor[] Scalar(Mat query, Mat train) => _scalar(query, train);
+    public TemplateMatcher.NearestDescriptor[] Avx2(Mat query, Mat train, object? prepared) =>
+        (_avx2 ?? throw new PlatformNotSupportedException("AVX2 implementation is unavailable."))(query, train, prepared);
+    public long PreparedBytes(object prepared) => Convert.ToInt64(prepared.GetType().GetProperty("EstimatedBytes",
+        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(prepared) ?? 0L);
+    public void Dispose()
+    {
+        if (OriginalPreference is { } original) _preference!.SetValue(null, original);
+    }
+}
+
+internal sealed record Options(string Samples, int Repeats, int Warmups, int[] NativeThreads, string Label, string Output,
+    bool QualityOnly, bool RequireAvx2)
 {
     public static Options? Parse(string[] args)
     {
         string samples = "docs/test-samples", label = "exact-matching", output = "artifacts/performance/exact-matching.json";
-        int repeats = 20, warmups = 2;
+        int repeats = 6, warmups = 2;
         int[] threads = [1];
-        bool qualityOnly = false;
+        bool qualityOnly = false, requireAvx2 = false;
         for (var i = 0; i < args.Length; i++)
         {
             if (args[i] is "--help" or "-h")
             {
-                Console.WriteLine("--samples DIR --repeats 20 --warmups 2 --native-threads 1[,2,4] --label NAME --output FILE [--quality-only]");
+                Console.WriteLine("--samples DIR --repeats 6 --warmups 2 --native-threads 1[,2,4] --label NAME --output FILE [--quality-only] [--require-avx2]");
                 return null;
             }
             if (args[i] == "--quality-only") { qualityOnly = true; continue; }
+            if (args[i] == "--require-avx2") { requireAvx2 = true; continue; }
             if (i + 1 >= args.Length) throw new ArgumentException("Missing value: " + args[i]);
             var option = args[i++];
             var value = args[i];
@@ -330,6 +462,6 @@ internal sealed record Options(string Samples, int Repeats, int Warmups, int[] N
         }
         if (repeats <= 0 || repeats % 2 != 0 || warmups < 1 || threads.Length == 0 || threads.Any(n => n <= 0))
             throw new ArgumentException("Repeats must be positive and even; warmups and native-thread counts must be positive.");
-        return new Options(samples, repeats, warmups, threads, label, output, qualityOnly);
+        return new Options(samples, repeats, warmups, threads, label, output, qualityOnly, requireAvx2);
     }
 }

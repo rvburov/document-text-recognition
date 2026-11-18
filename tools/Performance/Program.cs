@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using DocumentTextRecognition.Core.Ocr;
+using DocumentTextRecognition.Core.Matching;
 using DocumentTextRecognition.Core.Recognition;
 using DocumentTextRecognition.Core.Rename;
 using DocumentTextRecognition.Core.Templates;
@@ -15,6 +16,15 @@ using OpenCvSharp;
 // Repeated sample bytes are disclosed in the report; there is no fake recognizer or result cache here.
 var options = Options.Parse(args);
 if (options is null) return 0;
+var hammingSelector = typeof(TemplateMatcher).GetProperty("UseAvx2", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+var hammingAvailable = typeof(TemplateMatcher).GetProperty("HammingAvx2Available", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+if (options.HammingAvx2 is { } useAvx2)
+{
+    if (useAvx2 && hammingSelector is null) throw new NotSupportedException("This core build has no AVX2 Hamming option.");
+    hammingSelector?.SetValue(null, useAvx2);
+}
+var resolvedHammingAvx2 = hammingSelector is null ? (bool?)null :
+    hammingSelector.GetValue(null) is true && hammingAvailable?.GetValue(null) is true;
 var configureRuntime = typeof(OcrComponents).GetMethod("ConfigureRuntime", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
 configureRuntime?.Invoke(null, null);
 if (options.OpenCvThreads is { } threads) Cv2.SetNumThreads(threads);
@@ -100,6 +110,7 @@ try
             GcAvailableMemoryBytes = GC.GetGCMemoryInfo().TotalAvailableMemoryBytes,
             Tesseract = TesseractEngine.Version(),
             OpenCvThreads = Cv2.GetNumThreads(),
+            HammingAvx2Available = hammingAvailable?.GetValue(null) as bool?,
             OmpThreadLimit = Environment.GetEnvironmentVariable("OMP_THREAD_LIMIT"),
             OmpNumThreads = Environment.GetEnvironmentVariable("OMP_NUM_THREADS"),
             OpenBlasNumThreads = Environment.GetEnvironmentVariable("OPENBLAS_NUM_THREADS"),
@@ -123,6 +134,8 @@ try
             RuntimeDefaultsApplied = configureRuntime is not null,
             options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines, options.Onnx, options.OnnxModels,
             options.DedicatedWorkers,
+            options.HammingAvx2,
+            ResolvedHammingAvx2 = resolvedHammingAvx2,
             ResolvedDedicatedWorkers = dedicatedProperty?.GetValue(settings) as bool?,
             ResolvedBatchFields = SelectedBackend.BatchFields,
             ResolvedKnownLines = SelectedBackend.KnownLines,
@@ -367,13 +380,13 @@ internal sealed class ResourceSampler : IDisposable
 }
 
 internal sealed record Options(string Samples, int Count, int Workers, int? OpenCvThreads, int ProfilePasses, bool? BatchFields, bool? OneDnn, bool? ReusePredictors,
-    bool? KnownLines, bool? Onnx, string? OnnxModels, bool? DedicatedWorkers, string Output, string Label, bool KeepWorkdir)
+    bool? KnownLines, bool? Onnx, string? OnnxModels, bool? DedicatedWorkers, bool? HammingAvx2, string Output, string Label, bool KeepWorkdir)
 {
     public static Options? Parse(string[] args)
     {
         if (args.Contains("--help"))
         {
-            Console.WriteLine("dotnet run --project tools/Performance -c Release -- --count 100 --workers 4 --opencv-threads 1 --profile-passes 2 --batch-fields false --label candidate --output artifacts/performance/candidate.json [--samples docs/test-samples] [--known-lines true|false] [--onnx true|false --onnx-models directory] [--keep-workdir]");
+            Console.WriteLine("dotnet run --project tools/Performance -c Release -- --count 100 --workers 4 --opencv-threads 1 --profile-passes 2 --batch-fields false --label candidate --output artifacts/performance/candidate.json [--samples docs/test-samples] [--known-lines true|false] [--onnx true|false --onnx-models directory] [--hamming-avx2 true|false] [--keep-workdir]");
             return null;
         }
         var values = new Dictionary<string, string>();
@@ -382,7 +395,7 @@ internal sealed record Options(string Samples, int Count, int Workers, int? Open
         {
             if (args[i] == "--keep-workdir") { keep = true; continue; }
             if (!args[i].StartsWith("--") || i + 1 >= args.Length) throw new ArgumentException("Expected --option value");
-            if (args[i] is not ("--samples" or "--count" or "--workers" or "--opencv-threads" or "--profile-passes" or "--batch-fields" or "--one-dnn" or "--reuse-predictors" or "--known-lines" or "--onnx" or "--onnx-models" or "--dedicated-workers" or "--output" or "--label"))
+            if (args[i] is not ("--samples" or "--count" or "--workers" or "--opencv-threads" or "--profile-passes" or "--batch-fields" or "--one-dnn" or "--reuse-predictors" or "--known-lines" or "--onnx" or "--onnx-models" or "--dedicated-workers" or "--hamming-avx2" or "--output" or "--label"))
                 throw new ArgumentException("Unknown option " + args[i]);
             values[args[i][2..]] = args[++i];
         }
@@ -402,6 +415,7 @@ internal sealed record Options(string Samples, int Count, int Workers, int? Open
             values.TryGetValue("onnx", out var onnx) ? bool.Parse(onnx) : null,
             values.GetValueOrDefault("onnx-models"),
             values.TryGetValue("dedicated-workers", out var dedicated) ? bool.Parse(dedicated) : null,
+            values.TryGetValue("hamming-avx2", out var avx2) ? bool.Parse(avx2) : null,
             values.GetValueOrDefault("output", "artifacts/performance/result.json"),
             values.GetValueOrDefault("label", "working-tree"), keep);
     }

@@ -54,6 +54,10 @@ internal static class TemplateMatcher
     /// <summary>Допуск совпадения линий, точек картинки сопоставления.</summary>
     internal const int LineTolerance = 3;
 
+    /// <summary>Experimental process-wide selector, set before workers start. Default off.</summary>
+    internal static bool UseAvx2 { get; set; }
+    internal static bool HammingAvx2Available => Avx2.IsSupported;
+
     public static MatchOutcome Match(PageFeatures page, PageSize pageSize, IReadOnlyList<DocTemplate> templates)
     {
         if (templates.Count == 0) return new MatchOutcome(null, "нет пригодных шаблонов");
@@ -113,7 +117,9 @@ internal static class TemplateMatcher
         var t = template.Features;
         if (t.Descriptors.Empty() || t.KeyPoints.Length < MinInliers) return null;
 
-        var knn = NearestTwo(page.Descriptors, t.Descriptors);
+        var knn = UseAvx2
+            ? NearestTwoAvx2(page.Descriptors, t.Descriptors, t.HammingAvx2TrainIndex)
+            : NearestTwoScalar(page.Descriptors, t.Descriptors);
         var src = new List<Point2f>();
         var dst = new List<Point2f>();
         for (var query = 0; query < knn.Length; query++)
@@ -174,12 +180,27 @@ internal static class TemplateMatcher
 
     internal readonly record struct NearestDescriptor(int FirstIndex, int FirstDistance, int SecondIndex, int SecondDistance);
 
+    internal static NearestDescriptor[] NearestTwo(Mat query, Mat train) => UseAvx2
+        ? NearestTwoAvx2(query, train) : NearestTwoScalar(query, train);
+
+    internal static HammingAvx2.TrainIndex? PrepareHammingAvx2Train(Mat train) => HammingAvx2.Prepare(train);
+
+    /// <summary>Exact SIMD experiment. Preparation can be excluded from repeated measurements;
+    /// the prepared index is a snapshot of this exact, immutable training Mat.</summary>
+    internal static NearestDescriptor[] NearestTwoAvx2(Mat query, Mat train, HammingAvx2.TrainIndex? prepared = null)
+    {
+        if (!HammingAvx2.CanUse(query) || !HammingAvx2.CanUse(train)) return NearestTwoScalar(query, train);
+        if (prepared is not null && !ReferenceEquals(prepared.Source, train))
+            throw new ArgumentException("Prepared Hamming index belongs to a different training Mat.", nameof(prepared));
+        return HammingAvx2.Find(query, prepared ?? HammingAvx2.Prepare(train)!);
+    }
+
     /// <summary>Те же два точных ближайших соседа по Hamming, что у BFMatcher. ORB дает
     /// 32 байта: четыре XOR + POPCNT обходятся без тысяч маленьких DMatch[] и внутреннего
     /// пула потоков OpenCV. При равных расстояниях сохраняется порядок строк шаблона.
     /// На CPU без POPCNT и для других размеров дескриптора используется исходный BFMatcher.</summary>
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-    internal static unsafe NearestDescriptor[] NearestTwo(Mat query, Mat train)
+    internal static unsafe NearestDescriptor[] NearestTwoScalar(Mat query, Mat train)
     {
         if (query.Empty()) return [];
         var queryCount = query.Rows;

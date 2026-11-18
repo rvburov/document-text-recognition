@@ -27,6 +27,10 @@ internal sealed class PageFeatures : IDisposable
     /// документы и потоки; после создания больше не изменяется.</summary>
     public Mat GrownLines => _grownLines.Value;
     private readonly Lazy<Mat> _grownLines;
+    // Only the experimental AVX2 path creates this managed snapshot. Template descriptors
+    // stay immutable while workers run; scans do not allocate a train index.
+    internal HammingAvx2.TrainIndex? HammingAvx2TrainIndex => _hammingAvx2TrainIndex.Value;
+    private readonly Lazy<HammingAvx2.TrainIndex?> _hammingAvx2TrainIndex;
     public KeyPoint[] KeyPoints { get; }
     public Mat Descriptors { get; }
 
@@ -44,6 +48,7 @@ internal sealed class PageFeatures : IDisposable
         Scale = scale;
         _lines = new(() => LineMaskOf(Gray), LazyThreadSafetyMode.ExecutionAndPublication);
         _grownLines = new(() => GrowLines(Lines), LazyThreadSafetyMode.ExecutionAndPublication);
+        _hammingAvx2TrainIndex = new(() => HammingAvx2.Prepare(Descriptors), LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
     /// <summary>Подготовить серую картинку страницы (длинная сторона — <see cref="LongSide"/>).

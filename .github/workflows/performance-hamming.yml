@@ -1,0 +1,152 @@
+name: performance-hamming
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['.github/workflows/performance-hamming.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: performance-hamming-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  windows:
+    name: Точный AVX2 Hamming и полный OCR (Windows)
+    runs-on: windows-2022
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Сборка измерителей с поставляемыми ONNX-моделями
+        shell: pwsh
+        run: |
+          dotnet build tools/MatchingPerformance -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet build tools/Performance -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Все точные соседи и три метода поиска
+        shell: pwsh
+        run: |
+          $reports = Join-Path '${{ runner.temp }}' 'hamming'
+          New-Item -ItemType Directory -Force -Path $reports | Out-Null
+          $env:COMPlus_JitDisasm = 'DocumentTextRecognition.Core.Matching.TemplateMatcher:NearestTwoScalar DocumentTextRecognition.Core.Matching.HammingAvx2:Find'
+          $env:COMPlus_JitStdOutFile = Join-Path $reports 'hamming-jit.txt'
+          try {
+            dotnet run --project tools/MatchingPerformance -c Release --no-build -- --repeats 6 --warmups 2 --native-threads 1 --require-avx2 --label windows-hamming --output (Join-Path $reports 'micro.json')
+            if ($LASTEXITCODE -ne 0) { throw 'Exact Hamming comparison failed.' }
+          } finally {
+            Remove-Item Env:COMPlus_JitDisasm -ErrorAction SilentlyContinue
+            Remove-Item Env:COMPlus_JitStdOutFile -ErrorAction SilentlyContinue
+          }
+          $micro = Get-Content (Join-Path $reports 'micro.json') -Raw | ConvertFrom-Json
+          $realRows = ($micro.Dataset.Descriptors | Measure-Object QueryRows -Sum).Sum
+          if (!$micro.Quality.Passed -or $micro.Quality.Mismatches -ne 0 -or !$micro.Configuration.Avx2Available -or
+              $micro.Quality.ComparedRowsByMethod.scalar -lt $realRows -or
+              $micro.Quality.ComparedRowsByMethod.'avx2-prepared' -lt $realRows -or
+              $micro.Quality.ComparedRowsByMethod.'avx2-selector' -lt $realRows) {
+            throw 'Expected complete exact AVX2 comparison on real descriptors.'
+          }
+      - name: Четыре полных прогона по 500 PDF, scalar-AVX2-AVX2-scalar
+        shell: pwsh
+        run: |
+          $env:DTR_BENCHMARK_CPU = @(Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name) -join '; '
+          $reports = Join-Path '${{ runner.temp }}' 'hamming'
+          $binaryRoot = Join-Path (Get-Location) 'artifacts/bin/Performance/release'
+          function ModelHashes {
+            $files = @(Get-ChildItem $binaryRoot -Recurse -Filter '*.onnx' | Sort-Object FullName)
+            if ($files.Count -ne 2) { throw 'Expected exactly two shipped ONNX models.' }
+            return @($files | ForEach-Object { [ordered]@{ File=$_.Name; Sha256=(Get-FileHash $_.FullName -Algorithm SHA256).Hash } })
+          }
+          $modelHashes = ModelHashes | ConvertTo-Json -Compress
+          $modelHashes | Set-Content (Join-Path $reports 'model-hashes.json')
+          $runs = @()
+          $datasetHash = $null
+          $coreHash = $null
+          $modes = @($false, $true, $true, $false)
+          for ($i = 0; $i -lt $modes.Count; $i++) {
+            $enabled = $modes[$i].ToString().ToLowerInvariant()
+            $method = if ($modes[$i]) { 'avx2' } else { 'scalar' }
+            $label = 'pipeline-{0:D2}-{1}-500' -f ($i + 1), $method
+            $file = Join-Path $reports ($label + '.json')
+            dotnet run --project tools/Performance -c Release --no-build -- --count 500 --workers 8 --opencv-threads 1 --known-lines true --onnx true --dedicated-workers true --hamming-avx2 $enabled --profile-passes 1 --label $label --output $file
+            if ($LASTEXITCODE -ne 0) { throw "$label failed names/hashes validation." }
+            $result = Get-Content $file -Raw | ConvertFrom-Json
+            if (!$result.Quality.Passed -or $result.Quality.IncorrectNames -ne 0 -or $result.Quality.Errors.Count -ne 0 -or
+                $result.Quality.VerifiedPdfHashes -ne 500 -or $result.Measurement.Renamed -ne 500 -or
+                $result.Measurement.Processed -ne 500 -or $result.Measurement.Skipped -ne 0 -or
+                $result.Configuration.HammingAvx2 -ne $modes[$i] -or
+                $result.Configuration.ResolvedHammingAvx2 -ne $modes[$i] -or !$result.Environment.HammingAvx2Available -or
+                $result.Configuration.EffectiveWorkers -ne 8 -or !$result.Configuration.ResolvedKnownLines -or
+                !$result.Configuration.ResolvedUsesOnnx -or !$result.Configuration.ResolvedDedicatedWorkers -or
+                $result.Environment.OpenCvThreads -ne 1) {
+              throw "$label did not use the requested pipeline or did not pass complete quality checks."
+            }
+            if ($i -eq 0) {
+              $datasetHash = $result.Dataset.DatasetSha256
+              $coreHash = $result.Environment.CoreAssemblySha256
+            }
+            if ($result.Dataset.DatasetSha256 -ne $datasetHash -or $result.Environment.CoreAssemblySha256 -ne $coreHash -or
+                (ModelHashes | ConvertTo-Json -Compress) -ne $modelHashes) {
+              throw 'Input files, models or Core changed between comparison runs.'
+            }
+            $runs += [pscustomobject]@{ Label=$label; Avx2=$modes[$i]; WallSeconds=[double]$result.Measurement.WallSeconds; QualityPassed=$result.Quality.Passed }
+          }
+          $scalar = @($runs | Where-Object { !$_.Avx2 })
+          $avx2 = @($runs | Where-Object Avx2)
+          $scalarMean = ($scalar | Measure-Object WallSeconds -Average).Average
+          $avx2Mean = ($avx2 | Measure-Object WallSeconds -Average).Average
+          $bestScalar = ($scalar | Measure-Object WallSeconds -Minimum).Minimum
+          $worstAvx2 = ($avx2 | Measure-Object WallSeconds -Maximum).Maximum
+          $reduction = 1 - $avx2Mean / $scalarMean
+          $accepted = $reduction -ge 0.05 -and $worstAvx2 -lt $bestScalar
+          $reason = if ($accepted) { 'All quality checks passed; mean wall-time reduction >=5%, and both AVX2 runs beat both scalar runs.' } else { 'No sufficiently consistent >=5% full-pipeline improvement; skip 8000 and retain scalar default.' }
+          [ordered]@{
+            Accepted=$accepted; Reason=$reason; Order='scalar, AVX2, AVX2, scalar'; Workers=8
+            ScalarMeanSeconds=$scalarMean; Avx2MeanSeconds=$avx2Mean; RelativeTimeReduction=$reduction
+            BestScalarSeconds=$bestScalar; WorstAvx2Seconds=$worstAvx2
+            CoreAssemblySha256=$coreHash; DatasetSha256=$datasetHash; Runs=$runs
+            Scope='Operational comparison on one VM, not a formal statistical significance test. Times exclude corpus copying and post-run hash verification.'
+          } | ConvertTo-Json -Depth 12 | Set-Content (Join-Path $reports 'selection.json')
+          "RUN_8000=$($accepted.ToString().ToLowerInvariant())" | Out-File -FilePath $env:GITHUB_ENV -Append
+          Write-Host $reason
+      - name: 8000 PDF только после подтвержденного выигрыша
+        if: env.RUN_8000 == 'true'
+        shell: pwsh
+        run: |
+          $env:DTR_BENCHMARK_CPU = @(Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name) -join '; '
+          $reports = Join-Path '${{ runner.temp }}' 'hamming'
+          $file = Join-Path $reports 'windows-hamming-avx2-8000.json'
+          dotnet run --project tools/Performance -c Release --no-build -- --count 8000 --workers 8 --opencv-threads 1 --known-lines true --onnx true --dedicated-workers true --hamming-avx2 true --profile-passes 1 --label windows-hamming-avx2-8000 --output $file
+          if ($LASTEXITCODE -ne 0) { throw '8000-document names/hashes validation failed.' }
+          $result = Get-Content $file -Raw | ConvertFrom-Json
+          $selection = Get-Content (Join-Path $reports 'selection.json') -Raw | ConvertFrom-Json
+          if (!$result.Quality.Passed -or $result.Quality.VerifiedPdfHashes -ne 8000 -or $result.Quality.IncorrectNames -ne 0 -or
+              $result.Quality.Errors.Count -ne 0 -or $result.Measurement.Renamed -ne 8000 -or $result.Measurement.Skipped -ne 0 -or
+              !$result.Configuration.ResolvedHammingAvx2 -or !$result.Configuration.ResolvedUsesOnnx -or
+              !$result.Configuration.ResolvedKnownLines -or $result.Configuration.EffectiveWorkers -ne 8 -or
+              $result.Dataset.DatasetSha256 -ne $selection.DatasetSha256 -or
+              $result.Environment.CoreAssemblySha256 -ne $selection.CoreAssemblySha256) {
+            throw '8000-document run failed final configuration or quality checks.'
+          }
+          [ordered]@{
+            QualityPassed=$true; Documents=8000; MeasuredMinutes=$result.Measurement.Measured8000Minutes
+            Goal20MinutesMet=([double]$result.Measurement.WallSeconds -le 1200)
+            Comparison='Actual current-run time; historical 22:29 is a different VM and is not a controlled speedup comparison.'
+          } | ConvertTo-Json | Set-Content (Join-Path $reports 'actual-8000-summary.json')
+      - name: Все отчеты, включая отказ от нового режима
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-hamming-windows
+          path: ${{ runner.temp }}/hamming
+          retention-days: 14
