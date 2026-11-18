@@ -24,6 +24,10 @@ internal static class EngineAgreement
     {
         var designation = Field("обозначение", first.Engine, first.Designation, second.Engine, second.Designation);
         if (designation.Problem is not null) return (null, designation.Problem);
+        // Одинаковая латинская B у обоих движков еще не подтверждает В или Б, даже если
+        // весь буквенный префикс состоит из B. Наименования могут содержать латиницу.
+        if (designation.Value!.Any(c => char.IsLetter(c) && !TextRules.IsCyrillic(c)))
+            return (null, "обозначение содержит неподтвержденные буквы вне кириллицы");
         var name = Field("наименование", first.Engine, first.Name, second.Engine, second.Name);
         if (name.Problem is not null) return (null, name.Problem);
         var type = Field("тип документа", first.Engine, first.Type, second.Engine, second.Type);

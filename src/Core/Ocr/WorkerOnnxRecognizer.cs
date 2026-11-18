@@ -53,8 +53,10 @@ internal sealed class WorkerOnnxRecognizer : IDisposable
     /// <param name="srcs">Array of images for OCR recognition.</param>
     /// <param name="batchSize">Size of the batch to run OCR recognition on.</param>
     /// <returns>Array of <see cref="PaddleOcrRecognizerResult"/> instances corresponding to OCR recognition results of the images.</returns>
-    public PaddleOcrRecognizerResult[] Run(Mat[] srcs, int batchSize = 0)
+    public PaddleOcrRecognizerResult[] Run(Mat[] srcs, int batchSize = 0, IReadOnlyList<OcrTextProfile>? profiles = null)
     {
+        if (profiles is not null && profiles.Count != srcs.Length)
+            throw new ArgumentException("Each OCR image needs its own text profile.", nameof(profiles));
         if (srcs.Length == 0)
         {
             return new PaddleOcrRecognizerResult[0];
@@ -63,17 +65,17 @@ internal sealed class WorkerOnnxRecognizer : IDisposable
         int chooseBatchSize = batchSize != 0 ? batchSize : Math.Min(8, Environment.ProcessorCount);
 
         return srcs
-            .Select((x, i) => (mat: x, i))
+            .Select((x, i) => (mat: x, i, profile: profiles?[i] ?? OcrTextProfile.General))
             .OrderBy(x => x.mat.Width)
             .Chunk(chooseBatchSize)
-            .Select(x => (result: RunMulti(x.Select(x => x.mat).ToArray()), ids: x.Select(x => x.i).ToArray()))
+            .Select(x => (result: RunMulti(x.Select(x => x.mat).ToArray(), profiles is null ? null : x.Select(x => x.profile).ToArray()), ids: x.Select(x => x.i).ToArray()))
             .SelectMany(x => x.result.Zip(x.ids, (result, i) => (result, i)))
             .OrderBy(x => x.i)
             .Select(x => x.result)
             .ToArray();
     }
 
-    private PaddleOcrRecognizerResult[] RunMulti(Mat[] srcs)
+    private PaddleOcrRecognizerResult[] RunMulti(Mat[] srcs, IReadOnlyList<OcrTextProfile>? profiles)
     {
         if (srcs.Length == 0)
         {
@@ -134,52 +136,11 @@ internal sealed class WorkerOnnxRecognizer : IDisposable
             float[] data = output.ToArray();
             int[] shape = output.Dimensions.ToArray();
 
-            GCHandle dataHandle = default;
-            try
-            {
-                dataHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
-                IntPtr dataPtr = dataHandle.AddrOfPinnedObject();
-                int labelCount = shape[2];
-                int charCount = shape[1];
-
-                return Enumerable.Range(0, shape[0])
-                    .Select(i =>
-                    {
-                        StringBuilder sb = new();
-                        int lastIndex = 0;
-                        float score = 0;
-                        List<RecognizedChar> ocrRecognizerResultSingleChars = new();
-                        int charIndex = 0;
-                        for (int n = 0; n < charCount; ++n)
-                        {
-                            using Mat mat = Mat.FromPixelData(1, labelCount, MatType.CV_32FC1, dataPtr + (n + i * charCount) * labelCount * sizeof(float));
-                            int[] maxIdx = new int[2];
-                            mat.MinMaxIdx(out double _, out double maxVal, new int[0], maxIdx);
-
-                            if (maxIdx[1] > 0 && (!(n > 0 && maxIdx[1] == lastIndex)))
-                            {
-                                score += (float)maxVal;
-                                string character = Model.GetLabelByIndex(maxIdx[1]);
-                                sb.Append(character);
-
-                                ocrRecognizerResultSingleChars.Add(new RecognizedChar(
-                                    character,
-                                    (float)maxVal,
-                                    charIndex
-                                ));
-                                charIndex++;
-                            }
-                            lastIndex = maxIdx[1];
-                        }
-
-                        return new PaddleOcrRecognizerResult(sb.ToString(), score / sb.Length, ocrRecognizerResultSingleChars);
-                    })
-                    .ToArray();
-            }
-            finally
-            {
-                dataHandle.Free();
-            }
+            var labelCount = shape[2];
+            var characterCount = shape[1];
+            return Enumerable.Range(0, shape[0]).Select(i => PaddleCtcDecoder.Decode(
+                data.AsSpan(i * characterCount * labelCount, characterCount * labelCount),
+                characterCount, labelCount, Model.GetLabelByIndex, profiles?[i] ?? OcrTextProfile.General)).ToArray();
         }
     }
 

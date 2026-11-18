@@ -11,6 +11,8 @@ namespace DocumentTextRecognition.Core.Ocr;
 internal sealed class TesseractEngine : IOcrEngine
 {
     private IntPtr _handle;
+    private const string DesignationCharacters =
+        "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789.-()/ ";
 
     public string Name => "Tesseract";
     internal string TessdataDirectory { get; }
@@ -42,9 +44,13 @@ internal sealed class TesseractEngine : IOcrEngine
         return Marshal.PtrToStringUTF8(TesseractApi.TessVersion()) ?? "";
     }
 
-    public OcrReading Read(Mat gray)
+    public OcrReading Read(Mat gray) => Read(gray, OcrTextProfile.General);
+
+    internal OcrReading Read(Mat gray, OcrTextProfile profile)
     {
         ObjectDisposedException.ThrowIf(_handle == IntPtr.Zero, this);
+        if (profile is not (OcrTextProfile.General or OcrTextProfile.CyrillicDesignation))
+            throw new ArgumentOutOfRangeException(nameof(profile));
         if (gray.Type() != MatType.CV_8UC1) throw new ArgumentException("нужна картинка 8 бит в оттенках серого");
         using var copy = gray.IsContinuous() ? null : gray.Clone();
         var image = copy ?? gray;
@@ -55,6 +61,11 @@ internal sealed class TesseractEngine : IOcrEngine
         TesseractApi.TessBaseAPISetSourceResolution(_handle, 300);
         try
         {
+            // Настройка принадлежит этому полю. Следующее наименование снова читает
+            // оба алфавита; ограничение не остается в переиспользуемом экземпляре.
+            if (TesseractApi.TessBaseAPISetVariable(_handle, "tessedit_char_whitelist",
+                profile == OcrTextProfile.CyrillicDesignation ? DesignationCharacters : "") == 0)
+                throw new InvalidOperationException("Tesseract не принял алфавит поля");
             if (TesseractApi.TessBaseAPIRecognize(_handle, IntPtr.Zero) != 0)
                 return new OcrReading(Name, lines);
 
@@ -87,6 +98,7 @@ internal sealed class TesseractEngine : IOcrEngine
         finally
         {
             TesseractApi.TessBaseAPIClear(_handle);
+            TesseractApi.TessBaseAPISetVariable(_handle, "tessedit_char_whitelist", "");
         }
         return new OcrReading(Name, lines.OrderBy(l => l.Top).ToList());
     }

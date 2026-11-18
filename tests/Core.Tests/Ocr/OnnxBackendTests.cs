@@ -63,9 +63,12 @@ public sealed class OnnxBackendTests
             requireTrackedPositives: false);
 
     [OnnxTheory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void Integrated_crop_batches_preserve_field_identity_geometry_parsing_and_confidence(bool knownLines)
+    [InlineData(false, false)]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    [InlineData(true, true)]
+    public void Integrated_crop_batches_preserve_field_identity_geometry_parsing_and_confidence(bool knownLines,
+        bool designationProfiles)
     {
         OcrComponents.ConfigureRuntime();
         var modelDirectory = RequiredModelDirectory();
@@ -82,30 +85,33 @@ public sealed class OnnxBackendTests
         {
             var paths = group.ToArray();
             var crops = paths.Select(LoadCrop).ToArray();
+            var roles = paths.Select(p => Enum.Parse<FieldRole>(Path.GetFileNameWithoutExtension(p).Split('-')[^1])).ToArray();
+            var profiles = designationProfiles ? roles.Select(role => role == FieldRole.Designation
+                ? OcrTextProfile.CyrillicDesignation : OcrTextProfile.General).ToArray() : null;
             try
             {
                 OcrReading[] expected;
                 OcrReading[] actual;
                 if (knownLines)
                 {
-                    var before = native.ReadKnownLines(crops);
-                    var after = onnx.ReadKnownLines(crops);
+                    var before = native.ReadKnownLines(crops, profiles: profiles);
+                    var after = onnx.ReadKnownLines(crops, profiles: profiles);
                     Assert.Equal(before.KnownLines, after.KnownLines);
                     expected = before.Readings;
                     actual = after.Readings;
                 }
                 else
                 {
-                    expected = native.ReadMany(crops);
-                    actual = onnx.ReadMany(crops);
+                    expected = native.ReadMany(crops, profiles: profiles);
+                    actual = onnx.ReadMany(crops, profiles: profiles);
                 }
                 Assert.Equal(paths.Length, expected.Length);
                 Assert.Equal(paths.Length, actual.Length);
                 for (var field = 0; field < paths.Length; field++)
                 {
-                    var context = $"knownLines={knownLines}, {Path.GetFileName(paths[field])}";
+                    var context = $"knownLines={knownLines}, designationProfiles={designationProfiles}, {Path.GetFileName(paths[field])}";
                     AssertReadings(expected[field], actual[field], context);
-                    var role = Enum.Parse<FieldRole>(Path.GetFileNameWithoutExtension(paths[field]).Split('-')[^1]);
+                    var role = roles[field];
                     Assert.Equal(Parse(role, expected[field], OcrPair.MinConfidence(native)),
                         Parse(role, actual[field], OcrPair.MinConfidence(onnx)));
                 }
@@ -173,12 +179,24 @@ public sealed class OnnxBackendTests
                     Assert.Equal(a.Field.Bounds, b.Field.Bounds);
                     Assert.Equal(a.Field.CropPng, b.Field.CropPng);
                     Assert.Equal(a.Field.First, b.Field.First);
-                    Assert.Equal(a.Field.Second, b.Field.Second);
+                    AssertDiagnostic(a.Field.Second, b.Field.Second, context);
                 }
                 Assert.Equal(hashBefore, SHA256.HashData(File.ReadAllBytes(path)));
             }
         }
         finally { foreach (var template in templates) template.Dispose(); }
+    }
+
+    private static void AssertDiagnostic(EngineDiagnostic expected, EngineDiagnostic actual, string context)
+    {
+        // Text, parsing, refusal and configured threshold remain exact. Native and ONNX
+        // FP32 kernels can differ in the last bits of the newly exposed measured score.
+        Assert.Equal(expected with { MinConfidence = null }, actual with { MinConfidence = null });
+        if (expected.MinConfidence is { } a && actual.MinConfidence is { } b &&
+            double.IsFinite(a) && double.IsFinite(b))
+            Assert.True(Math.Abs(a - b) <= ScoreTolerance, $"{context}: minimum confidence {a:R} vs {b:R}");
+        else
+            Assert.Equal(expected.MinConfidence, actual.MinConfidence);
     }
 
     private static void AssertReadings(OcrReading expected, OcrReading actual, string context)

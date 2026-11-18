@@ -17,10 +17,10 @@ internal sealed record DesignationMatch(string Value, string Rule, int Index, in
 /// только цифры вида <c>8.112.006</c> (средняя группа — не короче трех цифр, чтобы дата
 /// «12.05.2020» не принималась за обозначение).</item>
 /// </list>
-/// Каноническая запись: прописные буквы, без пробелов у точек и дефисов, тире → дефис. Код
-/// организации ЕСКД/ЕСПД/ТД — четыре кириллические буквы (ГОСТ 2.201), поэтому латинские
-/// двойники в нем переводятся в кириллицу; буква без кириллического двойника (D, F, L…) —
-/// обозначение не по ГОСТ. Цифры и буквы между собой не заменяются.
+/// Каноническая запись: прописные буквы, без пробелов у точек и дефисов, тире → дефис.
+/// Во всех форматах буквы обозначения — кириллица: однозначные латинские двойники переводятся
+/// в кириллицу, прочая латиница (D, F, L…) не принимается. Неоднозначная B остается до сверки
+/// со вторым движком. Цифры и буквы между собой не заменяются.
 /// </summary>
 internal static class Designations
 {
@@ -125,24 +125,20 @@ internal static class Designations
         return found;
     }
 
-    /// <summary>Каноническая запись совпадения; null — не годится (например, латиница в коде
-    /// организации ГОСТ). <paramref name="length"/> — сколько символов текста занято, с
+    /// <summary>Каноническая запись совпадения; null — не годится (например, латинская буква
+    /// без кириллического двойника). <paramref name="length"/> — сколько символов текста занято, с
     /// присоединенным кодом документа.</summary>
     private static string? Canonical(Match m, bool gost, string text, out int length)
     {
         length = m.Length;
-        var value = m.Value.ToUpperInvariant();
+        var value = TextRules.FoldToCyrillic(m.Value.ToUpperInvariant());
         var org = m.Groups["org"].Value.ToUpperInvariant();
 
-        if (gost)
-        {
-            // Код организации — кириллица; латинская «B» остается как есть («В» или «Б» —
-            // решает сверка со вторым движком), прочая латиница — не ГОСТ.
-            var folded = TextRules.FoldToCyrillic(org);
-            if (folded.Any(c => !TextRules.IsCyrillic(c) && c != TextRules.AmbiguousB)) return null;
-            value = folded + value[org.Length..];
-        }
-        else
+        // Правило относится только к найденному обозначению, включая отраслевые форматы.
+        // B не угадываем: второй движок должен подтвердить В; финальная сверка не оставит латиницу.
+        if (value.Any(c => char.IsLetter(c) && !TextRules.IsCyrillic(c) && c != TextRules.AmbiguousB)) return null;
+
+        if (!gost)
         {
             if (org.All(char.IsDigit))
             {
@@ -151,7 +147,6 @@ internal static class Designations
                 if (groups.Length < 3 || groups[1].Length < 3) return null;
             }
             else if (!org.Any(char.IsLetter)) return null;
-            value = TextRules.ResolveMixedWords(value);
         }
 
         // Код документа ЕСКД, отделенный пробелом: «…123 СБ».

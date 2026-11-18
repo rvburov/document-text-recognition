@@ -167,6 +167,8 @@ internal static class DocumentReader
         var started = timing is null ? 0 : Stopwatch.GetTimestamp();
         var frames = match.Template.Frames;
         var combined = frames.FirstOrDefault(f => f.Role == FieldRole.Combined);
+        diagnostic?.Invoke(new("Алфавиты", pageIndex + 1,
+            "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский."));
         EngineFields first, second;
         if (combined is not null)
         {
@@ -183,7 +185,7 @@ internal static class DocumentReader
             if (diagnostic is not null)
                 diagnostic(new("Распознавание", pageIndex + 1, "Все поля вместе", new FieldDiagnostic(
                     combined.Role, combined.Inner, crop.ToBytes(".png"),
-                    DescribeCombined(a, first), DescribeCombined(b, second))));
+                    DescribeCombined(a, first, ocr.First), DescribeCombined(b, second, ocr.Second))));
         }
         else if (ocr.BatchFields && (ocr.First is PaddleEngine || ocr.Second is PaddleEngine))
         {
@@ -227,11 +229,11 @@ internal static class DocumentReader
             }
             else
             {
-                a = ReadEngine(ocr.First, crop, timing);
+                a = ReadEngine(ocr.First, crop, timing, Profile(role));
                 if (timing is not null) Measure("ocr." + ocr.First.Name, ref started, timing);
                 ct.ThrowIfCancellationRequested();
                 started = timing is null ? 0 : Stopwatch.GetTimestamp();
-                b = ReadEngine(ocr.Second, crop, timing);
+                b = ReadEngine(ocr.Second, crop, timing, Profile(role));
                 if (timing is not null) Measure("ocr." + ocr.Second.Name, ref started, timing);
             }
             var parsedA = parse(a, OcrPair.MinConfidence(ocr.First));
@@ -239,8 +241,10 @@ internal static class DocumentReader
             if (diagnostic is not null)
                 diagnostic(new("Распознавание", pageIndex + 1, FieldName(role), new FieldDiagnostic(
                     role, frame.Inner, crop.ToBytes(".png"),
-                    new EngineDiagnostic(a.Engine, a.Text, parsedA.Value ?? "", parsedA.Problem),
-                    new EngineDiagnostic(b.Engine, b.Text, parsedB.Value ?? "", parsedB.Problem))));
+                    new EngineDiagnostic(a.Engine, a.Text, parsedA.Value ?? "", parsedA.Problem,
+                        a.MinConfidence, OcrPair.MinConfidence(ocr.First)),
+                    new EngineDiagnostic(b.Engine, b.Text, parsedB.Value ?? "", parsedB.Problem,
+                        b.MinConfidence, OcrPair.MinConfidence(ocr.Second)))));
             return (parsedA, parsedB);
         }
     }
@@ -273,8 +277,10 @@ internal static class DocumentReader
                 if (diagnostic is not null)
                     diagnostic(new("Распознавание", pageIndex + 1, FieldName(roles[i]), new FieldDiagnostic(
                         roles[i], frames[i].Inner, crops[i].ToBytes(".png"),
-                        new EngineDiagnostic(a[i].Engine, a[i].Text, parsedA[i].Value ?? "", parsedA[i].Problem),
-                        new EngineDiagnostic(b[i].Engine, b[i].Text, parsedB[i].Value ?? "", parsedB[i].Problem))));
+                        new EngineDiagnostic(a[i].Engine, a[i].Text, parsedA[i].Value ?? "", parsedA[i].Problem,
+                            a[i].MinConfidence, OcrPair.MinConfidence(ocr.First)),
+                        new EngineDiagnostic(b[i].Engine, b[i].Text, parsedB[i].Value ?? "", parsedB[i].Problem,
+                            b[i].MinConfidence, OcrPair.MinConfidence(ocr.Second)))));
             }
             if (match.Template.TypeAbsent)
             {
@@ -299,6 +305,7 @@ internal static class DocumentReader
         if (crops.Count != roles.Count || roles.Any(role => role is not
             (FieldRole.Designation or FieldRole.Name or FieldRole.Type)))
             throw new ArgumentException("Ожидаются отдельные области обозначения, наименования и типа.", nameof(roles));
+        var profiles = roles.Select(Profile).ToArray();
 
         // Быстрое чтение проверяет независимый движок, а не другая копия Paddle.
         var preferKnown = ocr.PreferKnownLines &&
@@ -315,13 +322,13 @@ internal static class DocumentReader
             var started = timing is null ? 0 : Stopwatch.GetTimestamp();
             (OcrReading[] Readings, bool[]? KnownLines) result;
             if (engine is PaddleEngine paddle)
-                result = preferKnown ? paddle.ReadKnownLines(crops, timing, ct) :
-                    (paddle.ReadMany(crops, timing, ct), null);
+                result = preferKnown ? paddle.ReadKnownLines(crops, timing, ct, profiles) :
+                    (paddle.ReadMany(crops, timing, ct, profiles), null);
             else
-                result = (crops.Select(crop =>
+                result = (crops.Select((crop, i) =>
                 {
                     ct.ThrowIfCancellationRequested();
-                    return engine.Read(crop);
+                    return engine is TesseractEngine tess ? tess.Read(crop, profiles[i]) : engine.Read(crop);
                 }).ToArray(), null);
             ct.ThrowIfCancellationRequested();
             if (timing is not null) Measure("ocr." + engine.Name, ref started, timing);
@@ -338,7 +345,8 @@ internal static class DocumentReader
             if (failed.Length == 0) return;
             ct.ThrowIfCancellationRequested();
             var started = timing is null ? 0 : Stopwatch.GetTimestamp();
-            var fallback = paddle.ReadMany(failed.Select(i => crops[i]).ToArray(), timing, ct);
+            var fallback = paddle.ReadMany(failed.Select(i => crops[i]).ToArray(), timing, ct,
+                failed.Select(i => profiles[i]).ToArray());
             if (timing is not null)
             {
                 var elapsed = Stopwatch.GetElapsedTime(started);
@@ -369,8 +377,16 @@ internal static class DocumentReader
         _ => throw new ArgumentOutOfRangeException(nameof(role)),
     };
 
-    private static OcrReading ReadEngine(IOcrEngine engine, Mat crop, Action<string, TimeSpan>? timing) =>
-        engine is PaddleEngine paddle ? paddle.Read(crop, timing) : engine.Read(crop);
+    private static OcrTextProfile Profile(FieldRole role) => role == FieldRole.Designation
+        ? OcrTextProfile.CyrillicDesignation : OcrTextProfile.General;
+
+    private static OcrReading ReadEngine(IOcrEngine engine, Mat crop, Action<string, TimeSpan>? timing,
+        OcrTextProfile profile = OcrTextProfile.General) => engine switch
+        {
+            PaddleEngine paddle => paddle.Read(crop, timing, profile),
+            TesseractEngine tess => tess.Read(crop, profile),
+            _ => engine.Read(crop),
+        };
 
     private static void Measure(string phase, ref long started, Action<string, TimeSpan>? timing)
     {
@@ -386,10 +402,11 @@ internal static class DocumentReader
         return new EngineFields(engine.Name, designation, name, type);
     }
 
-    private static EngineDiagnostic DescribeCombined(OcrReading reading, EngineFields fields) => new(
+    private static EngineDiagnostic DescribeCombined(OcrReading reading, EngineFields fields, IOcrEngine engine) => new(
         reading.Engine, reading.Text,
         $"Обозначение: {fields.Designation.Value}\nНаименование: {fields.Name.Value}\nТип: {fields.Type.Value}",
-        JoinProblems(fields.Designation.Problem, fields.Name.Problem, fields.Type.Problem));
+        JoinProblems(fields.Designation.Problem, fields.Name.Problem, fields.Type.Problem),
+        reading.MinConfidence, OcrPair.MinConfidence(engine));
 
     private static string? JoinProblems(params string?[] problems)
     {

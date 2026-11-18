@@ -4,6 +4,7 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
+using System.Globalization;
 using DocumentTextRecognition.Core.Ocr;
 using DocumentTextRecognition.Core.Recognition;
 using DocumentTextRecognition.Core.Rename;
@@ -70,6 +71,13 @@ public static class CheckScanDialog
                 content.Children.Add(new Image { Source = bitmap, MaxHeight = 180, Stretch = Stretch.Uniform,
                     HorizontalAlignment = HorizontalAlignment.Left });
             }
+            if (field.First.MinConfidence is not null || field.First.RequiredConfidence is not null ||
+                field.Second.MinConfidence is not null || field.Second.RequiredConfidence is not null)
+            {
+                var explanation = Text("Шкалы уверенности движков различаются; это не вероятность правильного ответа.");
+                explanation.Classes.Add("hint");
+                content.Children.Add(explanation);
+            }
             foreach (var engine in new[] { field.First, field.Second })
             {
                 content.Children.Add(new TextBlock { Text = engine.Engine, FontWeight = FontWeight.SemiBold });
@@ -78,6 +86,8 @@ public static class CheckScanDialog
                     Text = string.IsNullOrEmpty(engine.RawText) ? "Текст не найден" : engine.RawText,
                     TextWrapping = TextWrapping.Wrap,
                 });
+                if (DescribeConfidence(engine) is { } confidence)
+                    content.Children.Add(Text(confidence));
                 content.Children.Add(Text(engine.Problem is { } problem
                     ? $"Проверка поля: {problem}"
                     : $"После проверки: {(engine.ParsedText.Length == 0 ? "пустое поле" : engine.ParsedText)}"));
@@ -177,6 +187,25 @@ public static class CheckScanDialog
     }
 
     private static TextBlock Text(string text) => new() { Text = text, TextWrapping = TextWrapping.Wrap };
+
+    internal static string? DescribeConfidence(EngineDiagnostic engine)
+    {
+        if (engine.MinConfidence is null && engine.RequiredConfidence is null) return null;
+        var score = engine.MinConfidence;
+        var threshold = engine.RequiredConfidence;
+        var format = "0.##";
+        if (IsScore(score) && IsScore(threshold) && score != threshold &&
+            Percent(score!.Value, format) == Percent(threshold!.Value, format))
+            format = "0.##########";
+        var actual = string.IsNullOrWhiteSpace(engine.RawText) ? "нет распознанных строк"
+            : IsScore(score) ? Percent(score!.Value, format) : "оценка не получена";
+        var required = IsScore(threshold) ? $"; требуется не менее {Percent(threshold!.Value, format)}" : "";
+        return $"Уверенность (минимум по строкам): {actual}{required}.";
+
+        static bool IsScore(double? value) => value is { } number && double.IsFinite(number) && number is >= 0 and <= 1;
+        static string Percent(double value, string format) =>
+            (value * 100).ToString(format, CultureInfo.GetCultureInfo("ru-RU")) + " %";
+    }
 
     internal sealed record CheckReport(DocumentResult Result, IReadOnlyList<RecognitionDiagnostic> Diagnostics);
 

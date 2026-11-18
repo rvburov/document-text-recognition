@@ -1,0 +1,37 @@
+{
+  "fontFile": "tests/Core.Tests/Fonts/GOST2.304-81TypeA-Slanted.ttf",
+  "fontSha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+  "renderer": "Pillow FreeType, actual Type A slanted file, no artificial skew/bold, white margin3mm",
+  "dpi": 300,
+  "nominalCapHeightMm": 3.5,
+  "fontPixelSize": 64,
+  "cases": [
+    {
+      "file": "docs/test-samples/gost-type-a/crops/designation.png",
+      "expectedRawText": "УИЕС.468732.271",
+      "size": [
+        400,
+        113
+      ],
+      "sha256": "b7e98f68a904ff09c744cb413d98c5a95bcdc55171c5df45a3642a644dbd9afe"
+    },
+    {
+      "file": "docs/test-samples/gost-type-a/crops/name-multiline.png",
+      "expectedRawText": "Плата УПЧ\n1489 МГц",
+      "size": [
+        306,
+        194
+      ],
+      "sha256": "e5f6e9a83120dc9fabeb9c1ababdadb28b90e5f2716f94b3a4660dda7a3f909b"
+    },
+    {
+      "file": "docs/test-samples/gost-type-a/crops/name-mixed.png",
+      "expectedRawText": "Плата Epcos USB",
+      "size": [
+        431,
+        125
+      ],
+      "sha256": "3b67f598d21253d5856d5aa3125c1ba0b96e68336ca96e54b0861f449adf70cf"
+    }
+  ]
+}

@@ -26,7 +26,7 @@ internal static class FieldParser
     public static Parsed ParseDesignation(OcrReading reading, double minConfidence)
     {
         if (reading.IsEmpty) return Parsed.Fail("область обозначения пустая или текст не читается");
-        if (reading.MinConfidence < minConfidence) return Parsed.Fail("низкая уверенность распознавания обозначения");
+        if (!MeetsConfidence(reading, minConfidence)) return Parsed.Fail("низкая уверенность распознавания обозначения");
 
         var prepared = Designations.Prepare(reading.Text);
         var found = Designations.FindAll(prepared);
@@ -44,7 +44,7 @@ internal static class FieldParser
     public static Parsed ParseName(OcrReading reading, double minConfidence)
     {
         if (reading.IsEmpty) return Parsed.Fail("наименование отсутствует (область пустая или текст не читается)");
-        if (reading.MinConfidence < minConfidence) return Parsed.Fail("низкая уверенность распознавания наименования");
+        if (!MeetsConfidence(reading, minConfidence)) return Parsed.Fail("низкая уверенность распознавания наименования");
         return CheckName(reading.Lines.Select(l => l.Text).ToList());
     }
 
@@ -53,7 +53,7 @@ internal static class FieldParser
     public static Parsed ParseType(OcrReading reading, double minConfidence)
     {
         if (reading.IsEmpty) return Parsed.Ok("");
-        if (reading.MinConfidence < minConfidence) return Parsed.Fail("низкая уверенность распознавания типа документа");
+        if (!MeetsConfidence(reading, minConfidence)) return Parsed.Fail("низкая уверенность распознавания типа документа");
         return CheckType(reading.Lines.Select(l => l.Text).ToList());
     }
 
@@ -94,7 +94,7 @@ internal static class FieldParser
             var empty = Parsed.Fail("общая область пустая или текст не читается");
             return (empty, empty, empty);
         }
-        if (reading.MinConfidence < minConfidence)
+        if (!MeetsConfidence(reading, minConfidence))
         {
             var low = Parsed.Fail("низкая уверенность распознавания");
             return (low, low, low);
@@ -155,6 +155,9 @@ internal static class FieldParser
         }
         return (designation, CheckName(nameLines), null);
     }
+
+    private static bool MeetsConfidence(OcrReading reading, double minimum) =>
+        reading.Lines.All(line => double.IsFinite(line.Confidence) && line.Confidence >= minimum);
 
     /// <summary>Проверка наименования: буквы есть, строк немного, нет обозначения внутри,
     /// длина разумная.</summary>

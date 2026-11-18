@@ -123,7 +123,7 @@ Console.WriteLine(output);
 return passed ? 0 : 1;
 
 PaddleOcrResultRegion[] RunOnnx(Mat image) => RunRegions(image, detector.Run, recognizer.Run);
-PaddleOcrResultRegion[] RunReference(Mat image) => RunRegions(image, referenceDetector.Run, referenceRecognizer.Run);
+PaddleOcrResultRegion[] RunReference(Mat image) => RunRegions(image, referenceDetector.Run, (images, batchSize) => referenceRecognizer.Run(images, batchSize));
 
 static PaddleOcrResultRegion[] RunRegions(Mat image, Func<Mat, RotatedRect[]> detect,
     Func<Mat[], int, PaddleOcrRecognizerResult[]> recognize)

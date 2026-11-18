@@ -1,0 +1,812 @@
+{
+  "Test": "Saved_coordinates_follow_original_rotated_and_skewed_gost_pdf_without_wrong_acceptance",
+  "Scope": "Six actual raster-PDF reads, saved manual coordinates, unrelated template text, two real OCR engines. Refusal is reported separately from correct recognition.",
+  "FontPath": "/workspace/document-text-recognition/tests/Core.Tests/Fonts/GOST2.304-81TypeA-Slanted.ttf",
+  "FontSha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+  "EndToEnd": {
+    "Correct": 0,
+    "Refused": 6,
+    "Wrong": 0
+  },
+  "Samples": [
+    {
+      "Id": "original",
+      "KnownLines": false,
+      "Turns": 0,
+      "Skew": 0,
+      "PdfFileName": "scan.pdf",
+      "SourceSha256": "73FD3CB2F836BD917E138A543C114A140C2B2062D2538AE7B7BF1DAE5BB0F1E1",
+      "TemplateSha256": "CC78B9C8EC96BD4C4AC2A149808E8F15DC1B558D8010D6781F7A6FEACBDFC666",
+      "MarkupSha256": "0408B9FD108645052A07A90FAC8116A540641F8E05B42FD64725797AAF5FC4EB",
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата УПЧ 1489 МГц",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "УИЕС.468732.271 Плата УПЧ 1489 МГц Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Problem": "стр. 1 (шаблон «scan-layout»): низкая уверенность распознавания обозначения",
+      "Outcome": "refused",
+      "Fields": [
+        {
+          "PageNumber": 1,
+          "Role": "Designation",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "Crop": "original-known-False-Designation.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "9ИЕС 468732211",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.15332595825195314,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "УМЕС.468732.271",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.2542038559913635,
+            "RequiredConfidence": 0.5
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Name",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "Crop": "original-known-False-Name.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Гиата УПЧ\n1199 МЧ",
+            "ParsedText": "Гиата УПЧ 1199 МЧ",
+            "Problem": null,
+            "MinConfidence": 0.6704069519042969,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата УПЧ\n1489 МГц",
+            "ParsedText": "Плата УПЧ 1489 МГц",
+            "Problem": null,
+            "MinConfidence": 0.838893711566925,
+            "RequiredConfidence": 0.5
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «scan-layout»: совпадение формы 100 %."
+        },
+        {
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование"
+        },
+        {
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация»."
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "низкая уверенность распознавания обозначения"
+        }
+      ]
+    },
+    {
+      "Id": "rotated-90",
+      "KnownLines": false,
+      "Turns": 1,
+      "Skew": 0,
+      "PdfFileName": "scan.pdf",
+      "SourceSha256": "388F21A00D131E03737D74F489E843472860681057B0DC7B6DCF06C7BCA2A389",
+      "TemplateSha256": "92EC541E5FB42EAC84D3A719286538FE0D3A0E25739D3A9394C4106AADA409A7",
+      "MarkupSha256": "95CC1D48B5B72297E2470754379EA2FFFD5FD094596D3E766939CBD88DF9B19D",
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата УПЧ 1489 МГц",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "УИЕС.468732.271 Плата УПЧ 1489 МГц Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Problem": "стр. 1 (шаблон «scan-layout»): низкая уверенность распознавания обозначения",
+      "Outcome": "refused",
+      "Fields": [
+        {
+          "PageNumber": 1,
+          "Role": "Designation",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "Crop": "rotated-90-known-False-Designation.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "9ЙЕС 468732211",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.02048149108886719,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "УМЕС.468732.271",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.24184606969356537,
+            "RequiredConfidence": 0.5
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Name",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "Crop": "rotated-90-known-False-Name.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Гиата УПЧ\n14489 М",
+            "ParsedText": "Гиата УПЧ 14489 М",
+            "Problem": null,
+            "MinConfidence": 0.6991957092285156,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата УПЧ\n1489 МГц",
+            "ParsedText": "Плата УПЧ 1489 МГц",
+            "Problem": null,
+            "MinConfidence": 0.8418928980827332,
+            "RequiredConfidence": 0.5
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «scan-layout»: совпадение формы 100 %."
+        },
+        {
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование"
+        },
+        {
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация»."
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "низкая уверенность распознавания обозначения"
+        }
+      ]
+    },
+    {
+      "Id": "skewed-1.2",
+      "KnownLines": false,
+      "Turns": 0,
+      "Skew": 1.2,
+      "PdfFileName": "scan.pdf",
+      "SourceSha256": "BF7116DAEB5A8F78A34BAABE4F2325C26E40BE1382398EE89CABC4E625E41AD1",
+      "TemplateSha256": "E725A271F7BB534B795FDAB53EE9D17C60FDD8FE65B1C56988279550B10ACF34",
+      "MarkupSha256": "4AD78D7E2A8A92BDD3467C2E8EDE1BACE6D4DDAF94C172079210C60271EDD5EF",
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата УПЧ 1489 МГц",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "УИЕС.468732.271 Плата УПЧ 1489 МГц Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Problem": "стр. 1 (шаблон «scan-layout»): низкая уверенность распознавания обозначения",
+      "Outcome": "refused",
+      "Fields": [
+        {
+          "PageNumber": 1,
+          "Role": "Designation",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "Crop": "skewed-1.2-known-False-Designation.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "9ИЕС468 732271",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.29611686706542967,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "УМЕС.468732.271",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.21378670632839203,
+            "RequiredConfidence": 0.5
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Name",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "Crop": "skewed-1.2-known-False-Name.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Гиата SITY\n14489 МГЦ",
+            "ParsedText": "Гиата SITY 14489 МГЦ",
+            "Problem": null,
+            "MinConfidence": 0.7737728118896484,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата УПЧ\n1489 МГц",
+            "ParsedText": "Плата УПЧ 1489 МГц",
+            "Problem": null,
+            "MinConfidence": 0.7975216507911682,
+            "RequiredConfidence": 0.5
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «scan-layout»: совпадение формы 100 %."
+        },
+        {
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование"
+        },
+        {
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация»."
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "низкая уверенность распознавания обозначения"
+        }
+      ]
+    },
+    {
+      "Id": "original",
+      "KnownLines": true,
+      "Turns": 0,
+      "Skew": 0,
+      "PdfFileName": "scan.pdf",
+      "SourceSha256": "F91E90ADF1A47B3E0233278248C19F39C096FA93996AD10BE4B7DC152AE00B8C",
+      "TemplateSha256": "3A355DF0CD7951838628BAF45C13DC238ECDA58CBCAA45A1F015C54593207C51",
+      "MarkupSha256": "5F8CC82E8C0E78717B9446B6CCEBEE7E1F740A300209A80B789564C696FE17EA",
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата УПЧ 1489 МГц",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "УИЕС.468732.271 Плата УПЧ 1489 МГц Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Problem": "стр. 1 (шаблон «scan-layout»): низкая уверенность распознавания обозначения",
+      "Outcome": "refused",
+      "Fields": [
+        {
+          "PageNumber": 1,
+          "Role": "Designation",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "Crop": "original-known-True-Designation.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "9ИЕС 468732211",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.15332595825195314,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "УМЕС.468732.271",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.2542038559913635,
+            "RequiredConfidence": 0.5
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Name",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "Crop": "original-known-True-Name.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Гиата УПЧ\n1199 МЧ",
+            "ParsedText": "Гиата УПЧ 1199 МЧ",
+            "Problem": null,
+            "MinConfidence": 0.6704069519042969,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата УПЧ\n1489 МГц",
+            "ParsedText": "Плата УПЧ 1489 МГц",
+            "Problem": null,
+            "MinConfidence": 0.838893711566925,
+            "RequiredConfidence": 0.5
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «scan-layout»: совпадение формы 100 %."
+        },
+        {
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование"
+        },
+        {
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация»."
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "низкая уверенность распознавания обозначения"
+        }
+      ]
+    },
+    {
+      "Id": "rotated-90",
+      "KnownLines": true,
+      "Turns": 1,
+      "Skew": 0,
+      "PdfFileName": "scan.pdf",
+      "SourceSha256": "F94C5AEF6AF169EC928D89974574D2A4109A0EB9D1702F39D1CFDF5FB5FF198E",
+      "TemplateSha256": "55760ACDD754F6648429646E88F64AC7FF11A8E4563DC55D4386D3D2A0F3CFB6",
+      "MarkupSha256": "8C48B9156E7D0714085D7E05D6594519DA4B5E4A64A19EF7209F077088CD3FDB",
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата УПЧ 1489 МГц",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "УИЕС.468732.271 Плата УПЧ 1489 МГц Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Problem": "стр. 1 (шаблон «scan-layout»): низкая уверенность распознавания обозначения",
+      "Outcome": "refused",
+      "Fields": [
+        {
+          "PageNumber": 1,
+          "Role": "Designation",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "Crop": "rotated-90-known-True-Designation.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "9ЙЕС 468732211",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.02048149108886719,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "УМЕС.468732.271",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.24184606969356537,
+            "RequiredConfidence": 0.5
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Name",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "Crop": "rotated-90-known-True-Name.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Гиата УПЧ\n14489 М",
+            "ParsedText": "Гиата УПЧ 14489 М",
+            "Problem": null,
+            "MinConfidence": 0.6991957092285156,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата УПЧ\n1489 МГц",
+            "ParsedText": "Плата УПЧ 1489 МГц",
+            "Problem": null,
+            "MinConfidence": 0.8418928980827332,
+            "RequiredConfidence": 0.5
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «scan-layout»: совпадение формы 100 %."
+        },
+        {
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование"
+        },
+        {
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация»."
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "низкая уверенность распознавания обозначения"
+        }
+      ]
+    },
+    {
+      "Id": "skewed-1.2",
+      "KnownLines": true,
+      "Turns": 0,
+      "Skew": 1.2,
+      "PdfFileName": "scan.pdf",
+      "SourceSha256": "9A8405737B6FEF724063995D24ECB4727509AE8972AA31B91EE352D6ACA2B24B",
+      "TemplateSha256": "281501FFD8AACB01B4A3C2D705FD84116F1596B8A5A05E85CED03A5F99351366",
+      "MarkupSha256": "62123E8F1B59BE31D42402D4EDCF575CEFA60B1C3908E113824305812877E074",
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата УПЧ 1489 МГц",
+        "Type": "Спецификация"
+      },
+      "ExpectedFileName": "УИЕС.468732.271 Плата УПЧ 1489 МГц Спецификация.pdf",
+      "Actual": null,
+      "ActualFileName": null,
+      "Problem": "стр. 1 (шаблон «scan-layout»): низкая уверенность распознавания обозначения",
+      "Outcome": "refused",
+      "Fields": [
+        {
+          "PageNumber": 1,
+          "Role": "Designation",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.8535353535353535,
+            "Width": 0.5571428571428572,
+            "Height": 0.04040404040404041,
+            "Right": 0.969047619047619,
+            "Bottom": 0.8939393939393939
+          },
+          "Crop": "skewed-1.2-known-True-Designation.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "9ИЕС468 732271",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.29611686706542967,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "УМЕС.468732.271",
+            "ParsedText": "",
+            "Problem": "низкая уверенность распознавания обозначения",
+            "MinConfidence": 0.21378670632839203,
+            "RequiredConfidence": 0.5
+          }
+        },
+        {
+          "PageNumber": 1,
+          "Role": "Name",
+          "PersistedBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "ActualBounds": {
+            "X": 0.4119047619047619,
+            "Y": 0.9040404040404041,
+            "Width": 0.319047619047619,
+            "Height": 0.04040404040404041,
+            "Right": 0.7309523809523809,
+            "Bottom": 0.9444444444444445
+          },
+          "Crop": "skewed-1.2-known-True-Name.png",
+          "First": {
+            "Engine": "Tesseract",
+            "RawText": "Гиата SITY\n14489 МГЦ",
+            "ParsedText": "Гиата SITY 14489 МГЦ",
+            "Problem": null,
+            "MinConfidence": 0.7737728118896484,
+            "RequiredConfidence": 0.3
+          },
+          "Second": {
+            "Engine": "PaddleOCR",
+            "RawText": "Плата УПЧ\n1489 МГц",
+            "ParsedText": "Плата УПЧ 1489 МГц",
+            "Problem": null,
+            "MinConfidence": 0.7975216507911682,
+            "RequiredConfidence": 0.5
+          }
+        }
+      ],
+      "Stages": [
+        {
+          "Stage": "Открытие PDF",
+          "PageNumber": 0,
+          "Message": "Страниц: 1; проверяются первые 1."
+        },
+        {
+          "Stage": "Совмещение",
+          "PageNumber": 1,
+          "Message": "Шаблон «scan-layout»: совпадение формы 100 %."
+        },
+        {
+          "Stage": "Алфавиты",
+          "PageNumber": 1,
+          "Message": "Обозначение: кириллица, цифры и знаки формата. Наименование: русский и английский."
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Обозначение"
+        },
+        {
+          "Stage": "Распознавание",
+          "PageNumber": 1,
+          "Message": "Наименование"
+        },
+        {
+          "Stage": "Области",
+          "PageNumber": 1,
+          "Message": "Тип документа отсутствует по настройке шаблона: «Спецификация»."
+        },
+        {
+          "Stage": "Сверка движков",
+          "PageNumber": 1,
+          "Message": "низкая уверенность распознавания обозначения"
+        }
+      ]
+    }
+  ],
+  "Failures": []
+}

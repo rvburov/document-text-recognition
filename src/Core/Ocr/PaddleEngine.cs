@@ -33,7 +33,8 @@ internal sealed class PaddleEngine : IOcrEngine
     /// хуже (замер на синтетических сканах).</summary>
     public const float UnclipRatio = 2.0f;
 
-    public string Name => "PaddleOCR";
+    private const string EngineName = "PaddleOCR";
+    public string Name => EngineName;
 
     public PaddleEngine(string modelsDir, bool useOneDnn = true, bool reusePredictors = true,
         bool useOnnx = true, string? onnxModelsDir = null)
@@ -106,8 +107,9 @@ internal sealed class PaddleEngine : IOcrEngine
 
     public OcrReading Read(Mat gray) => Read(gray, null);
 
-    internal OcrReading Read(Mat gray, Action<string, TimeSpan>? timing)
+    internal OcrReading Read(Mat gray, Action<string, TimeSpan>? timing, OcrTextProfile profile = OcrTextProfile.General)
     {
+        if (profile != OcrTextProfile.General) return ReadMany([gray], timing, profiles: [profile])[0];
         if (timing is not null || _detector is not null || _onnxDetector is not null) return ReadMany([gray], timing)[0];
         ObjectDisposedException.ThrowIf(_ocr is null && _detector is null && _onnxDetector is null, this);
         using var bgr = new Mat();
@@ -119,21 +121,25 @@ internal sealed class PaddleEngine : IOcrEngine
 
     /// <summary>Детектор читает каждое поле отдельно; распознаватель получает строки всех полей одной пачкой.</summary>
     internal OcrReading[] ReadMany(IReadOnlyList<Mat> grays, Action<string, TimeSpan>? timing = null,
-        CancellationToken ct = default) => ReadManyCore(grays, null, timing, ct);
+        CancellationToken ct = default, IReadOnlyList<OcrTextProfile>? profiles = null) => ReadManyCore(grays, null, timing, ct, profiles);
 
     /// <summary>Эксперимент: явно известные одиночные строки читаются без нейросетевого детектора.
     /// Флаги принадлежат только этому вызову. Вызывающий код обязан подтвердить такие ответы
     /// вторым движком и повторить неподтвержденные поля через <see cref="ReadMany"/>.</summary>
     internal (OcrReading[] Readings, bool[] KnownLines) ReadKnownLines(IReadOnlyList<Mat> grays,
-        Action<string, TimeSpan>? timing = null, CancellationToken ct = default)
+        Action<string, TimeSpan>? timing = null, CancellationToken ct = default, IReadOnlyList<OcrTextProfile>? profiles = null)
     {
         var knownLines = new bool[grays.Count];
-        return (ReadManyCore(grays, knownLines, timing, ct), knownLines);
+        return (ReadManyCore(grays, knownLines, timing, ct, profiles), knownLines);
     }
 
     private OcrReading[] ReadManyCore(IReadOnlyList<Mat> grays, bool[]? knownLines,
-        Action<string, TimeSpan>? timing, CancellationToken ct)
+        Action<string, TimeSpan>? timing, CancellationToken ct, IReadOnlyList<OcrTextProfile>? profiles)
     {
+        if (profiles is not null && profiles.Count != grays.Count)
+            throw new ArgumentException("Each OCR field needs its own text profile.", nameof(profiles));
+        if (profiles is not null && profiles.Any(p => p is not (OcrTextProfile.General or OcrTextProfile.CyrillicDesignation)))
+            throw new ArgumentOutOfRangeException(nameof(profiles));
         ObjectDisposedException.ThrowIf(_ocr is null && _detector is null && _onnxDetector is null, this);
         var images = new List<Mat>();
         var lines = new List<Mat>();
@@ -176,7 +182,7 @@ internal sealed class PaddleEngine : IOcrEngine
             }
             ct.ThrowIfCancellationRequested();
             var recognitionStarted = timing is null ? 0 : Stopwatch.GetTimestamp();
-            var recognized = Recognize(lines.ToArray());
+            var recognized = Recognize(lines.ToArray(), profiles is null ? null : locations.Select(p => profiles[p.Field]).ToArray());
             timing?.Invoke("paddle.recognize", Stopwatch.GetElapsedTime(recognitionStarted));
             ct.ThrowIfCancellationRequested();
             var groups = Enumerable.Range(0, grays.Count).Select(_ => new List<PaddleOcrResultRegion>()).ToArray();
@@ -187,7 +193,8 @@ internal sealed class PaddleEngine : IOcrEngine
                 var score = knownLines?[field] == true ? KnownLineConfidence(answer) : answer.Score;
                 groups[field].Add(new PaddleOcrResultRegion(locations[i].Rect, answer.Text, score, answer.Chars));
             }
-            return groups.Select(Collect).ToArray();
+            return groups.Select((regions, field) => Collect(regions,
+                profiles?[field] ?? OcrTextProfile.General)).ToArray();
         }
         finally
         {
@@ -199,8 +206,16 @@ internal sealed class PaddleEngine : IOcrEngine
     private RotatedRect[] Detect(Mat image) => _onnxDetector is not null ? _onnxDetector.Run(image)
         : _detector is not null ? _detector.Run(image) : _ocr!.Detector.Run(image);
 
-    private PaddleOcrRecognizerResult[] Recognize(Mat[] lines) => _onnxRecognizer is not null ? _onnxRecognizer.Run(lines)
-        : _recognizer is not null ? _recognizer.Run(lines) : _ocr!.Recognizer.Run(lines);
+    private PaddleOcrRecognizerResult[] Recognize(Mat[] lines, IReadOnlyList<OcrTextProfile>? profiles)
+    {
+        if (_onnxRecognizer is not null) return _onnxRecognizer.Run(lines, profiles: profiles);
+        if (_recognizer is not null) return _recognizer.Run(lines, profiles: profiles);
+        var readings = _ocr!.Recognizer.Run(lines);
+        // This old comparison backend does not expose logits. Preserve evidence and fail
+        // forbidden letters rather than silently removing them or inventing alternatives.
+        return profiles is null ? readings : readings.Select((r, i) =>
+            PaddleCtcDecoder.ApplyLegacyProfile(r, profiles[i])).ToArray();
+    }
 
     /// <summary>Целая строка не должна скрыть слабое слово высоким средним остальных слов.
     /// Сохраняем минимум штатного score и средних по словам; пробелы не входят в среднее слова.
@@ -234,11 +249,16 @@ internal sealed class PaddleEngine : IOcrEngine
         return minimum;
     }
 
-    private OcrReading Collect(IEnumerable<PaddleOcrResultRegion> regions)
+    internal static OcrReading Collect(IEnumerable<PaddleOcrResultRegion> regions,
+        OcrTextProfile profile = OcrTextProfile.General)
     {
         var pieces = regions
-            .Where(r => !string.IsNullOrWhiteSpace(r.Text))
-            .Select(r => (Rect: r.Rect.BoundingRect(), Text: r.Text.Trim(), Score: (double)r.Score))
+            // A restricted region can become blank after rejecting forbidden letters.
+            // Retain that missing evidence so another valid region cannot hide it.
+            .Where(r => profile == OcrTextProfile.CyrillicDesignation || !string.IsNullOrWhiteSpace(r.Text))
+            .Select(r => (Rect: r.Rect.BoundingRect(), Text: r.Text.Trim(),
+                Score: profile == OcrTextProfile.CyrillicDesignation && string.IsNullOrWhiteSpace(r.Text)
+                    ? 0d : r.Score))
             .OrderBy(p => p.Rect.Top + p.Rect.Height / 2)
             .ToList();
 
@@ -261,7 +281,7 @@ internal sealed class PaddleEngine : IOcrEngine
                 ordered.Max(q => q.Rect.Right), ordered.Max(q => q.Rect.Bottom));
         }).OrderBy(l => l.Top).ToList();
 
-        return new OcrReading(Name, lines);
+        return new OcrReading(EngineName, lines);
     }
 
     private static double VerticalOverlap(Rect a, Rect b)

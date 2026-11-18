@@ -1,0 +1,710 @@
+{
+  "Test": "Direct_fields_use_production_profiles_and_accept_only_independent_goldens",
+  "Scope": "Text-only GOST Type A Slanted crops; current production profiles; actual two-engine readings. Field outcomes are not PDF success counts.",
+  "FontPath": "/workspace/document-text-recognition/tests/Core.Tests/Fonts/GOST2.304-81TypeA-Slanted.ttf",
+  "FontSha256": "e83689021a988a15736a70799aa166345499de548664079c58435d54d7cd973e",
+  "PaddleBackend": "ONNX",
+  "DirectFields": {
+    "Correct": 2,
+    "Refused": 6,
+    "Wrong": 0
+  },
+  "DirectFieldCombinations": {
+    "Correct": 0,
+    "Refused": 6,
+    "Wrong": 0
+  },
+  "Fields": [
+    {
+      "Id": "designation",
+      "KnownLines": false,
+      "Role": "Designation",
+      "Profile": "CyrillicDesignation",
+      "Rendered": "УИЕС.468732.271",
+      "CapHeightMm": 5,
+      "Dpi": 300,
+      "Expected": "УИЕС.468732.271",
+      "Crop": "designation-known-False.png",
+      "CropSha256": "F356ABD32809A2CF556BE8544116DCB051E3451838BF4C866C7C7442021558FB",
+      "First": {
+        "Reading": {
+          "Engine": "Tesseract",
+          "Lines": [
+            {
+              "Text": "9/ЕС468732271",
+              "Confidence": 0.18193672180175782,
+              "Left": 44,
+              "Top": 35,
+              "Right": 533,
+              "Bottom": 93,
+              "CenterY": 64,
+              "Height": 58
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.18193672180175782,
+          "Text": "9/ЕС468732271"
+        },
+        "Parsed": {
+          "Value": null,
+          "Problem": "низкая уверенность распознавания обозначения",
+          "IsOk": false
+        },
+        "Threshold": 0.3
+      },
+      "Second": {
+        "Reading": {
+          "Engine": "PaddleOCR",
+          "Lines": [
+            {
+              "Text": "УНЕС.468732.271",
+              "Confidence": 0.16262315213680267,
+              "Left": 36,
+              "Top": 25,
+              "Right": 541,
+              "Bottom": 110,
+              "CenterY": 67,
+              "Height": 85
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.16262315213680267,
+          "Text": "УНЕС.468732.271"
+        },
+        "Parsed": {
+          "Value": null,
+          "Problem": "низкая уверенность распознавания обозначения",
+          "IsOk": false
+        },
+        "Threshold": 0.5
+      },
+      "Accepted": null,
+      "RefusalReason": "низкая уверенность распознавания обозначения",
+      "Outcome": "refused"
+    },
+    {
+      "Id": "name-multiline",
+      "KnownLines": false,
+      "Role": "Name",
+      "Profile": "General",
+      "Rendered": "Плата УПЧ\n1489 МГц",
+      "CapHeightMm": 3.5,
+      "Dpi": 300,
+      "Expected": "Плата УПЧ 1489 МГц",
+      "Crop": "name-multiline-known-False.png",
+      "CropSha256": "3F06CB4E82FA67C267D0FFA9DE44A605A22680EFC9CF9E5A33439CF0711AA8A7",
+      "First": {
+        "Reading": {
+          "Engine": "Tesseract",
+          "Lines": [
+            {
+              "Text": "Гиата УПЧ",
+              "Confidence": 0.6929282379150391,
+              "Left": 38,
+              "Top": 35,
+              "Right": 271,
+              "Bottom": 76,
+              "CenterY": 55,
+              "Height": 41
+            },
+            {
+              "Text": "1489 My",
+              "Confidence": 0.8404750823974609,
+              "Left": 46,
+              "Top": 110,
+              "Right": 234,
+              "Bottom": 157,
+              "CenterY": 133,
+              "Height": 47
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.6929282379150391,
+          "Text": "Гиата УПЧ\n1489 My"
+        },
+        "Parsed": {
+          "Value": "Гиата УПЧ 1489 My",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.3
+      },
+      "Second": {
+        "Reading": {
+          "Engine": "PaddleOCR",
+          "Lines": [
+            {
+              "Text": "Плата УПЧ",
+              "Confidence": 0.9347389936447144,
+              "Left": 31,
+              "Top": 26,
+              "Right": 279,
+              "Bottom": 87,
+              "CenterY": 56,
+              "Height": 61
+            },
+            {
+              "Text": "1489 МГц",
+              "Confidence": 0.8108478784561157,
+              "Left": 34,
+              "Top": 99,
+              "Right": 246,
+              "Bottom": 167,
+              "CenterY": 133,
+              "Height": 68
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.8108478784561157,
+          "Text": "Плата УПЧ\n1489 МГц"
+        },
+        "Parsed": {
+          "Value": "Плата УПЧ 1489 МГц",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.5
+      },
+      "Accepted": null,
+      "RefusalReason": "The independent readings differ under the existing engine agreement policy.",
+      "Outcome": "refused"
+    },
+    {
+      "Id": "name-mixed",
+      "KnownLines": false,
+      "Role": "Name",
+      "Profile": "General",
+      "Rendered": "Плата Epcos USB",
+      "CapHeightMm": 3.5,
+      "Dpi": 300,
+      "Expected": "Плата Epcos USB",
+      "Crop": "name-mixed-known-False.png",
+      "CropSha256": "8BDC7E4AFBBD7BFA35B2E53284D6675C8647834E514131611634FD3733755937",
+      "First": {
+        "Reading": {
+          "Engine": "Tesseract",
+          "Lines": [
+            {
+              "Text": "Плата Epcos USB",
+              "Confidence": 0.9521425628662109,
+              "Left": 38,
+              "Top": 35,
+              "Right": 397,
+              "Bottom": 88,
+              "CenterY": 61,
+              "Height": 53
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.9521425628662109,
+          "Text": "Плата Epcos USB"
+        },
+        "Parsed": {
+          "Value": "Плата Epcos USB",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.3
+      },
+      "Second": {
+        "Reading": {
+          "Engine": "PaddleOCR",
+          "Lines": [
+            {
+              "Text": "Плата Epcos USB",
+              "Confidence": 0.9636193513870239,
+              "Left": 31,
+              "Top": 22,
+              "Right": 404,
+              "Bottom": 92,
+              "CenterY": 57,
+              "Height": 70
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.9636193513870239,
+          "Text": "Плата Epcos USB"
+        },
+        "Parsed": {
+          "Value": "Плата Epcos USB",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.5
+      },
+      "Accepted": "Плата Epcos USB",
+      "RefusalReason": null,
+      "Outcome": "correct"
+    },
+    {
+      "Id": "name-mixed-multiline",
+      "KnownLines": false,
+      "Role": "Name",
+      "Profile": "General",
+      "Rendered": "Плата Epcos\nUSB 1489 МГц",
+      "CapHeightMm": 3.5,
+      "Dpi": 300,
+      "Expected": "Плата Epcos USB 1489 МГц",
+      "Crop": "name-mixed-multiline-known-False.png",
+      "CropSha256": "8F60C84B8606CB1D23EC5752DC100D80D5D213C28C329B9EB4C9348E5A23B360",
+      "First": {
+        "Reading": {
+          "Engine": "Tesseract",
+          "Lines": [
+            {
+              "Text": "Плата Epcos",
+              "Confidence": 0.9180747222900391,
+              "Left": 38,
+              "Top": 35,
+              "Right": 302,
+              "Bottom": 88,
+              "CenterY": 61,
+              "Height": 53
+            },
+            {
+              "Text": "USB 1489 My",
+              "Confidence": 0.8756803131103515,
+              "Left": 41,
+              "Top": 110,
+              "Right": 329,
+              "Bottom": 157,
+              "CenterY": 133,
+              "Height": 47
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.8756803131103515,
+          "Text": "Плата Epcos\nUSB 1489 My"
+        },
+        "Parsed": {
+          "Value": "Плата Epcos USB 1489 My",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.3
+      },
+      "Second": {
+        "Reading": {
+          "Engine": "PaddleOCR",
+          "Lines": [
+            {
+              "Text": "Плата Epcos",
+              "Confidence": 0.9462995529174805,
+              "Left": 30,
+              "Top": 22,
+              "Right": 311,
+              "Bottom": 96,
+              "CenterY": 59,
+              "Height": 74
+            },
+            {
+              "Text": "USB 1489 MГц",
+              "Confidence": 0.8774614334106445,
+              "Left": 32,
+              "Top": 98,
+              "Right": 339,
+              "Bottom": 165,
+              "CenterY": 131,
+              "Height": 67
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.8774614334106445,
+          "Text": "Плата Epcos\nUSB 1489 MГц"
+        },
+        "Parsed": {
+          "Value": "Плата Epcos USB 1489 МГц",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.5
+      },
+      "Accepted": null,
+      "RefusalReason": "The independent readings differ under the existing engine agreement policy.",
+      "Outcome": "refused"
+    },
+    {
+      "Id": "designation",
+      "KnownLines": true,
+      "Role": "Designation",
+      "Profile": "CyrillicDesignation",
+      "Rendered": "УИЕС.468732.271",
+      "CapHeightMm": 5,
+      "Dpi": 300,
+      "Expected": "УИЕС.468732.271",
+      "Crop": "designation-known-True.png",
+      "CropSha256": "F356ABD32809A2CF556BE8544116DCB051E3451838BF4C866C7C7442021558FB",
+      "First": {
+        "Reading": {
+          "Engine": "Tesseract",
+          "Lines": [
+            {
+              "Text": "9/ЕС468732271",
+              "Confidence": 0.18193672180175782,
+              "Left": 44,
+              "Top": 35,
+              "Right": 533,
+              "Bottom": 93,
+              "CenterY": 64,
+              "Height": 58
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.18193672180175782,
+          "Text": "9/ЕС468732271"
+        },
+        "Parsed": {
+          "Value": null,
+          "Problem": "низкая уверенность распознавания обозначения",
+          "IsOk": false
+        },
+        "Threshold": 0.3
+      },
+      "Second": {
+        "Reading": {
+          "Engine": "PaddleOCR",
+          "Lines": [
+            {
+              "Text": "УНЕС.468732.271",
+              "Confidence": 0.16262315213680267,
+              "Left": 36,
+              "Top": 25,
+              "Right": 541,
+              "Bottom": 110,
+              "CenterY": 67,
+              "Height": 85
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.16262315213680267,
+          "Text": "УНЕС.468732.271"
+        },
+        "Parsed": {
+          "Value": null,
+          "Problem": "низкая уверенность распознавания обозначения",
+          "IsOk": false
+        },
+        "Threshold": 0.5
+      },
+      "Accepted": null,
+      "RefusalReason": "низкая уверенность распознавания обозначения",
+      "Outcome": "refused"
+    },
+    {
+      "Id": "name-multiline",
+      "KnownLines": true,
+      "Role": "Name",
+      "Profile": "General",
+      "Rendered": "Плата УПЧ\n1489 МГц",
+      "CapHeightMm": 3.5,
+      "Dpi": 300,
+      "Expected": "Плата УПЧ 1489 МГц",
+      "Crop": "name-multiline-known-True.png",
+      "CropSha256": "3F06CB4E82FA67C267D0FFA9DE44A605A22680EFC9CF9E5A33439CF0711AA8A7",
+      "First": {
+        "Reading": {
+          "Engine": "Tesseract",
+          "Lines": [
+            {
+              "Text": "Гиата УПЧ",
+              "Confidence": 0.6929282379150391,
+              "Left": 38,
+              "Top": 35,
+              "Right": 271,
+              "Bottom": 76,
+              "CenterY": 55,
+              "Height": 41
+            },
+            {
+              "Text": "1489 My",
+              "Confidence": 0.8404750823974609,
+              "Left": 46,
+              "Top": 110,
+              "Right": 234,
+              "Bottom": 157,
+              "CenterY": 133,
+              "Height": 47
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.6929282379150391,
+          "Text": "Гиата УПЧ\n1489 My"
+        },
+        "Parsed": {
+          "Value": "Гиата УПЧ 1489 My",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.3
+      },
+      "Second": {
+        "Reading": {
+          "Engine": "PaddleOCR",
+          "Lines": [
+            {
+              "Text": "Плата УПЧ",
+              "Confidence": 0.9347389936447144,
+              "Left": 31,
+              "Top": 26,
+              "Right": 279,
+              "Bottom": 87,
+              "CenterY": 56,
+              "Height": 61
+            },
+            {
+              "Text": "1489 МГц",
+              "Confidence": 0.8108478784561157,
+              "Left": 34,
+              "Top": 99,
+              "Right": 246,
+              "Bottom": 167,
+              "CenterY": 133,
+              "Height": 68
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.8108478784561157,
+          "Text": "Плата УПЧ\n1489 МГц"
+        },
+        "Parsed": {
+          "Value": "Плата УПЧ 1489 МГц",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.5
+      },
+      "Accepted": null,
+      "RefusalReason": "The independent readings differ under the existing engine agreement policy.",
+      "Outcome": "refused"
+    },
+    {
+      "Id": "name-mixed",
+      "KnownLines": true,
+      "Role": "Name",
+      "Profile": "General",
+      "Rendered": "Плата Epcos USB",
+      "CapHeightMm": 3.5,
+      "Dpi": 300,
+      "Expected": "Плата Epcos USB",
+      "Crop": "name-mixed-known-True.png",
+      "CropSha256": "8BDC7E4AFBBD7BFA35B2E53284D6675C8647834E514131611634FD3733755937",
+      "First": {
+        "Reading": {
+          "Engine": "Tesseract",
+          "Lines": [
+            {
+              "Text": "Плата Epcos USB",
+              "Confidence": 0.9521425628662109,
+              "Left": 38,
+              "Top": 35,
+              "Right": 397,
+              "Bottom": 88,
+              "CenterY": 61,
+              "Height": 53
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.9521425628662109,
+          "Text": "Плата Epcos USB"
+        },
+        "Parsed": {
+          "Value": "Плата Epcos USB",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.3
+      },
+      "Second": {
+        "Reading": {
+          "Engine": "PaddleOCR",
+          "Lines": [
+            {
+              "Text": "Плата Epcos USB",
+              "Confidence": 0.9015001654624939,
+              "Left": 0,
+              "Top": 0,
+              "Right": 435,
+              "Bottom": 125,
+              "CenterY": 62,
+              "Height": 125
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.9015001654624939,
+          "Text": "Плата Epcos USB"
+        },
+        "Parsed": {
+          "Value": "Плата Epcos USB",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.5
+      },
+      "Accepted": "Плата Epcos USB",
+      "RefusalReason": null,
+      "Outcome": "correct"
+    },
+    {
+      "Id": "name-mixed-multiline",
+      "KnownLines": true,
+      "Role": "Name",
+      "Profile": "General",
+      "Rendered": "Плата Epcos\nUSB 1489 МГц",
+      "CapHeightMm": 3.5,
+      "Dpi": 300,
+      "Expected": "Плата Epcos USB 1489 МГц",
+      "Crop": "name-mixed-multiline-known-True.png",
+      "CropSha256": "8F60C84B8606CB1D23EC5752DC100D80D5D213C28C329B9EB4C9348E5A23B360",
+      "First": {
+        "Reading": {
+          "Engine": "Tesseract",
+          "Lines": [
+            {
+              "Text": "Плата Epcos",
+              "Confidence": 0.9180747222900391,
+              "Left": 38,
+              "Top": 35,
+              "Right": 302,
+              "Bottom": 88,
+              "CenterY": 61,
+              "Height": 53
+            },
+            {
+              "Text": "USB 1489 My",
+              "Confidence": 0.8756803131103515,
+              "Left": 41,
+              "Top": 110,
+              "Right": 329,
+              "Bottom": 157,
+              "CenterY": 133,
+              "Height": 47
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.8756803131103515,
+          "Text": "Плата Epcos\nUSB 1489 My"
+        },
+        "Parsed": {
+          "Value": "Плата Epcos USB 1489 My",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.3
+      },
+      "Second": {
+        "Reading": {
+          "Engine": "PaddleOCR",
+          "Lines": [
+            {
+              "Text": "Плата Epcos",
+              "Confidence": 0.9462995529174805,
+              "Left": 30,
+              "Top": 22,
+              "Right": 311,
+              "Bottom": 96,
+              "CenterY": 59,
+              "Height": 74
+            },
+            {
+              "Text": "USB 1489 MГц",
+              "Confidence": 0.8774614334106445,
+              "Left": 32,
+              "Top": 98,
+              "Right": 339,
+              "Bottom": 165,
+              "CenterY": 131,
+              "Height": 67
+            }
+          ],
+          "IsEmpty": false,
+          "MinConfidence": 0.8774614334106445,
+          "Text": "Плата Epcos\nUSB 1489 MГц"
+        },
+        "Parsed": {
+          "Value": "Плата Epcos USB 1489 МГц",
+          "Problem": null,
+          "IsOk": true
+        },
+        "Threshold": 0.5
+      },
+      "Accepted": null,
+      "RefusalReason": "The independent readings differ under the existing engine agreement policy.",
+      "Outcome": "refused"
+    }
+  ],
+  "Combinations": [
+    {
+      "Id": "name-multiline",
+      "KnownLines": false,
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата УПЧ 1489 МГц",
+        "Type": "Спецификация"
+      },
+      "Values": null,
+      "Problem": "низкая уверенность распознавания обозначения",
+      "Outcome": "refused"
+    },
+    {
+      "Id": "name-mixed",
+      "KnownLines": false,
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата Epcos USB",
+        "Type": "Спецификация"
+      },
+      "Values": null,
+      "Problem": "низкая уверенность распознавания обозначения",
+      "Outcome": "refused"
+    },
+    {
+      "Id": "name-mixed-multiline",
+      "KnownLines": false,
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата Epcos USB 1489 МГц",
+        "Type": "Спецификация"
+      },
+      "Values": null,
+      "Problem": "низкая уверенность распознавания обозначения",
+      "Outcome": "refused"
+    },
+    {
+      "Id": "name-multiline",
+      "KnownLines": true,
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата УПЧ 1489 МГц",
+        "Type": "Спецификация"
+      },
+      "Values": null,
+      "Problem": "низкая уверенность распознавания обозначения",
+      "Outcome": "refused"
+    },
+    {
+      "Id": "name-mixed",
+      "KnownLines": true,
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата Epcos USB",
+        "Type": "Спецификация"
+      },
+      "Values": null,
+      "Problem": "низкая уверенность распознавания обозначения",
+      "Outcome": "refused"
+    },
+    {
+      "Id": "name-mixed-multiline",
+      "KnownLines": true,
+      "Expected": {
+        "Designation": "УИЕС.468732.271",
+        "Name": "Плата Epcos USB 1489 МГц",
+        "Type": "Спецификация"
+      },
+      "Values": null,
+      "Problem": "низкая уверенность распознавания обозначения",
+      "Outcome": "refused"
+    }
+  ],
+  "Failures": []
+}

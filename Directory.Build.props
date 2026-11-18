@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
-    <Version>1.3.1</Version>
+    <Version>1.3.2</Version>
     <Company>Roman Burov</Company>
     <Product>Распознавание текста документов</Product>
     <SatelliteResourceLanguages>ru</SatelliteResourceLanguages>
