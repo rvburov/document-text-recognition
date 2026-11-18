@@ -33,7 +33,7 @@ jobs:
       - name: Извлечение существующих моделей
         run: dotnet build src/Core -c Release
       - name: Конвертер из официальных пакетов
-        run: python -m pip install --no-cache-dir paddlepaddle==3.3.1 paddle2onnx==2.1.0 onnx==1.17.0
+        run: python -m pip install --no-cache-dir -r tools/OnnxPerformance/requirements.txt
       - name: Конвертация и SHA-256 manifest
         run: python tools/OnnxPerformance/convert_models.py artifacts/ocr-models/paddle-v5 "${{ runner.temp }}/onnx-models"
       - uses: actions/upload-artifact@v4

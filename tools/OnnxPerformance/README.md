@@ -11,7 +11,7 @@ Build Core first to extract the existing models. Install Python dependencies in 
 ```sh
 dotnet build src/Core/Core.csproj -c Release
 python3 -m venv artifacts/onnx-venv
-artifacts/onnx-venv/bin/python -m pip install --no-cache-dir paddlepaddle==3.3.1 paddle2onnx==2.1.0 onnx==1.17.0
+artifacts/onnx-venv/bin/python -m pip install --no-cache-dir -r tools/OnnxPerformance/requirements.txt
 artifacts/onnx-venv/bin/python tools/OnnxPerformance/convert_models.py artifacts/ocr-models/paddle-v5 artifacts/onnx-models
 ```
 
