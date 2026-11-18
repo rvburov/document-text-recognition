@@ -1,0 +1,46 @@
+name: performance-matching
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['.github/workflows/performance-matching.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: performance-matching-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  windows:
+    name: Точный Hamming на реальных дескрипторах (Windows)
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Сборка измерителя
+        run: dotnet build tools/MatchingPerformance -c Release
+      - name: Проверка индексов и сравнение CPU
+        shell: pwsh
+        run: |
+          $reports = Join-Path '${{ runner.temp }}' 'matching-performance'
+          New-Item -ItemType Directory -Force -Path $reports | Out-Null
+          $env:COMPlus_JitDisasm = 'DocumentTextRecognition.Core.Matching.TemplateMatcher:NearestTwo'
+          $env:COMPlus_JitStdOutFile = Join-Path $reports 'matching-jit.txt'
+          dotnet run --project tools/MatchingPerformance -c Release --no-build -- --repeats 20 --warmups 2 --native-threads 1 --label windows-exact --output (Join-Path $reports 'matching.json')
+      - name: Отчет и машинный код
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: matching-performance-windows
+          path: ${{ runner.temp }}/matching-performance
+          retention-days: 14

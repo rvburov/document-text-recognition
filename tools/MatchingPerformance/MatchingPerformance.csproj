@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- Reuse the existing benchmark friend; no production assembly change is needed. -->
+    <AssemblyName>DocumentTextRecognition.Performance</AssemblyName>
+    <CoreProjectPath Condition="'$(CoreProjectPath)' == ''">../../src/Core/Core.csproj</CoreProjectPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(CoreProjectPath)" />
+  </ItemGroup>
+</Project>
