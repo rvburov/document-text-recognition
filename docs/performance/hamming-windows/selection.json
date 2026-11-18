@@ -1,0 +1,40 @@
+{
+  "Accepted": false,
+  "Reason": "No sufficiently consistent >=5% full-pipeline improvement; skip 8000 and retain scalar default.",
+  "Order": "scalar, AVX2, AVX2, scalar",
+  "Workers": 8,
+  "ScalarMeanSeconds": 92.57601174999999,
+  "Avx2MeanSeconds": 88.35267160000001,
+  "RelativeTimeReduction": 0.04562024297833267,
+  "BestScalarSeconds": 92.5315766,
+  "WorstAvx2Seconds": 88.4603165,
+  "CoreAssemblySha256": "06BB672751C7202669DDF3E62B32EF8E54DB865C264180C80090D92CA4BF19DF",
+  "DatasetSha256": "052983CD7285A565EACD0649E8B43042F1073D1086D70E6FF7B00D6700DD577F",
+  "Runs": [
+    {
+      "Label": "pipeline-01-scalar-500",
+      "Avx2": false,
+      "WallSeconds": 92.5315766,
+      "QualityPassed": true
+    },
+    {
+      "Label": "pipeline-02-avx2-500",
+      "Avx2": true,
+      "WallSeconds": 88.4603165,
+      "QualityPassed": true
+    },
+    {
+      "Label": "pipeline-03-avx2-500",
+      "Avx2": true,
+      "WallSeconds": 88.2450267,
+      "QualityPassed": true
+    },
+    {
+      "Label": "pipeline-04-scalar-500",
+      "Avx2": false,
+      "WallSeconds": 92.6204469,
+      "QualityPassed": true
+    }
+  ],
+  "Scope": "Operational comparison on one VM, not a formal statistical significance test. Times exclude corpus copying and post-run hash verification."
+}

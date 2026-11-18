@@ -22,9 +22,13 @@ $reports = (Resolve-Path $ReportsDirectory).Path
 if (-not $SkipProbeBuild) {
   & dotnet build (Join-Path $root 'tools\PerformanceVerify\PerformanceVerify.csproj') -c Release
   if ($LASTEXITCODE -ne 0) { throw 'Published OCR probe did not build.' }
+  & dotnet build (Join-Path $root 'tools\Performance\Performance.csproj') -c Release
+  if ($LASTEXITCODE -ne 0) { throw 'Published bulk OCR probe did not build.' }
 }
 $probe = Join-Path $root 'artifacts\bin\PerformanceVerify\release\DocumentTextRecognition.Performance.dll'
+$bulkProbe = Join-Path $root 'artifacts\bin\Performance\release\DocumentTextRecognition.Performance.dll'
 if (-not (Test-Path -LiteralPath $probe -PathType Leaf)) { throw "Missing probe DLL: $probe" }
+if (-not (Test-Path -LiteralPath $bulkProbe -PathType Leaf)) { throw "Missing bulk probe DLL: $bulkProbe" }
 
 $work = Join-Path ([IO.Path]::GetTempPath()) ('Проверка распознавания ' + [guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $work | Out-Null
@@ -91,7 +95,19 @@ try {
     }
     $summary += @{ Mode = $mode.Name; Configuration = $result.Configuration; Correct = $result.Correct; Rejected = $result.Rejected; Incorrect = $result.Incorrect }
   }
-  @{ PublishedSource = $published; CheckedCyrillicPath = $work; CoreSha256 = $coreHash; Passed = $true; Modes = $summary } |
+  # Exercise child startup from the actual Cyrillic publish folder. The worker resolver
+  # chooses this folder's App.exe; no probe Core or native DLLs are copied here.
+  Copy-Item -LiteralPath $bulkProbe -Destination $publishedProbe -Force
+  $bulkOutput = Join-Path $reports 'process-workers.json'
+  & dotnet exec --runtimeconfig (Join-Path $work 'DocumentTextRecognition.runtimeconfig.json') --depsfile (Join-Path $work 'DocumentTextRecognition.deps.json') $publishedProbe --samples $samples --count 4 --workers 2 --known-lines true --onnx true --process-workers true --profile-passes 0 --label published-process-workers --output $bulkOutput
+  if ($LASTEXITCODE -ne 0) { throw 'Published child-process OCR failed.' }
+  $bulk = Get-Content -LiteralPath $bulkOutput -Raw | ConvertFrom-Json
+  if ($bulk.Environment.CoreAssemblySha256 -ne $coreHash -or !$bulk.Configuration.ResolvedProcessWorkers -or
+      $bulk.Measurement.WorkerProcessesStarted -ne 2 -or $bulk.Measurement.WorkerProcessesActiveAfterRun -ne 0 -or
+      !$bulk.Quality.Passed -or $bulk.Quality.VerifiedPdfHashes -ne 4) {
+    throw 'Published process workers did not use the expected payload or failed complete quality/cleanup checks.'
+  }
+  @{ PublishedSource = $published; CheckedCyrillicPath = $work; CoreSha256 = $coreHash; Passed = $true; Modes = $summary; ProcessWorkersPassed = $true } |
     ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $reports 'summary.json') -Encoding utf8
   Write-Host "Published OCR smoke passed; reports: $reports"
 }

@@ -14,6 +14,13 @@ using OpenCvSharp;
 
 // Every timed document uses the production OcrRenameRun and both real OCR engines.
 // Repeated sample bytes are disclosed in the report; there is no fake recognizer or result cache here.
+var workerBootstrap = typeof(OcrPair).Assembly.GetType("DocumentTextRecognition.Core.Rename.OcrWorkerHost")?
+    .GetMethod("TryRunWorker", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+if (workerBootstrap is not null)
+{
+    object?[] bootstrapArguments = [args, 0];
+    if (workerBootstrap.Invoke(null, bootstrapArguments) is true) return (int)bootstrapArguments[1]!;
+}
 var options = Options.Parse(args);
 if (options is null) return 0;
 var hammingSelector = typeof(TemplateMatcher).GetProperty("UseAvx2", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
@@ -54,6 +61,7 @@ try
     Console.WriteLine($"Warmup/profile {startup.Elapsed.TotalSeconds:F2}s; documents={options.Count}, workers={options.Workers}, OpenCV={Cv2.GetNumThreads()}");
 
     var process = Process.GetCurrentProcess();
+    var childrenBefore = ChildResources.Capture();
     process.Refresh();
     var cpuStart = process.TotalProcessorTime;
     var runClock = Stopwatch.StartNew();
@@ -61,6 +69,15 @@ try
     double engineInitMs = 0;
     using var sampler = new ResourceSampler(process);
     var settings = new RunSettings(templateFolder, source, Recursive: true, Workers: options.Workers);
+    var processWorkersProperty = typeof(RunSettings).GetProperty("UseProcessWorkers", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+    if (options.ProcessWorkers is { } useProcesses)
+    {
+        if (useProcesses && processWorkersProperty is null) throw new NotSupportedException("This core build has no process worker option.");
+        processWorkersProperty?.SetValue(settings, useProcesses);
+    }
+    var resolvedProcessWorkers = processWorkersProperty?.GetValue(settings) as bool?;
+    if (resolvedProcessWorkers == true && !ChildResources.Available)
+        throw new NotSupportedException("Process workers require aggregate child resource measurements.");
     var dedicatedProperty = typeof(RunSettings).GetProperty("DedicatedWorkers", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
     if (options.DedicatedWorkers is { } dedicated)
     {
@@ -77,11 +94,17 @@ try
     runClock.Stop();
     sampler.Stop();
     process.Refresh();
-    var cpuSeconds = (process.TotalProcessorTime - cpuStart).TotalSeconds;
+    var childrenAfter = ChildResources.Capture();
+    var parentCpuSeconds = (process.TotalProcessorTime - cpuStart).TotalSeconds;
+    var childCpuSeconds = childrenAfter.TotalChildCpuSeconds - childrenBefore.TotalChildCpuSeconds;
+    var cpuSeconds = parentCpuSeconds + childCpuSeconds;
 
     var errors = sink.Errors.ToList();
     var verifiedHashes = 0;
     if (summary.Fatal is not null) errors.Add(summary.Fatal);
+    if (childrenAfter.ActiveCount != childrenBefore.ActiveCount) errors.Add("Worker processes remain registered after the run.");
+    if (resolvedProcessWorkers == true && childrenAfter.StartedCount - childrenBefore.StartedCount != Math.Min(settings.EffectiveWorkers, options.Count))
+        errors.Add("The expected number of real worker processes did not start.");
     if (summary.Found != options.Count || summary.Processed != options.Count || summary.Renamed != options.Count)
         errors.Add($"Expected {options.Count} renamed; found={summary.Found}, processed={summary.Processed}, renamed={summary.Renamed}, skipped={summary.Skipped}.");
     // Verification is outside the timed interval and checks every output PDF, not a sample.
@@ -135,6 +158,8 @@ try
             options.ProfilePasses, options.BatchFields, options.OneDnn, options.ReusePredictors, options.KnownLines, options.Onnx, options.OnnxModels,
             options.DedicatedWorkers,
             options.HammingAvx2,
+            options.ProcessWorkers,
+            ResolvedProcessWorkers = resolvedProcessWorkers,
             ResolvedHammingAvx2 = resolvedHammingAvx2,
             ResolvedDedicatedWorkers = dedicatedProperty?.GetValue(settings) as bool?,
             ResolvedBatchFields = SelectedBackend.BatchFields,
@@ -148,6 +173,14 @@ try
         {
             WallSeconds = runClock.Elapsed.TotalSeconds,
             CpuSeconds = cpuSeconds,
+            ParentCpuSeconds = parentCpuSeconds,
+            ChildCpuSeconds = childCpuSeconds,
+            ResourceScope = "Parent plus registered OCR child processes; working sets and threads sampled together every100ms; shared file-backed pages are counted per process, not unique physical RAM. Final child CPU uses OS/report values, or the last available sample after an exit race.",
+            WorkerProcessesStarted = childrenAfter.StartedCount - childrenBefore.StartedCount,
+            WorkerProcessesActiveAfterRun = childrenAfter.ActiveCount,
+            RetiredWorkersWithoutFinalCpu = childrenAfter.RetiredWithoutFinalCpuCount - childrenBefore.RetiredWithoutFinalCpuCount,
+            ChildResourceSampleFailures = childrenAfter.SampleFailures - childrenBefore.SampleFailures,
+            SampledPeakWorkerProcesses = sampler.PeakWorkerProcesses,
             MeanCpuCoresUsed = cpuSeconds / runClock.Elapsed.TotalSeconds,
             SampledPeakWorkingSetBytes = sampler.PeakWorkingSet,
             SampledPeakThreads = sampler.PeakThreads,
@@ -354,6 +387,7 @@ internal sealed class ResourceSampler : IDisposable
     private readonly object _gate = new();
     public long PeakWorkingSet { get; private set; }
     public int PeakThreads { get; private set; }
+    public int PeakWorkerProcesses { get; private set; }
     public ResourceSampler(Process process)
     {
         _process = process;
@@ -365,8 +399,10 @@ internal sealed class ResourceSampler : IDisposable
         lock (_gate)
         {
             _process.Refresh();
-            PeakWorkingSet = Math.Max(PeakWorkingSet, _process.WorkingSet64);
-            PeakThreads = Math.Max(PeakThreads, _process.Threads.Count);
+            var children = ChildResources.Capture();
+            PeakWorkingSet = Math.Max(PeakWorkingSet, _process.WorkingSet64 + children.CurrentWorkingSetBytes);
+            PeakThreads = Math.Max(PeakThreads, _process.Threads.Count + children.CurrentThreads);
+            PeakWorkerProcesses = Math.Max(PeakWorkerProcesses, children.ActiveCount);
         }
     }
     public void Stop()
@@ -379,14 +415,34 @@ internal sealed class ResourceSampler : IDisposable
     public void Dispose() => _timer.Dispose();
 }
 
+internal sealed record ChildResources(double TotalChildCpuSeconds, long CurrentWorkingSetBytes, int CurrentThreads,
+    int ActiveCount, long StartedCount, long RetiredWithoutFinalCpuCount, long SampleFailures)
+{
+    private static readonly MethodInfo? CaptureMethod = typeof(OcrPair).Assembly
+        .GetType("DocumentTextRecognition.Core.Rename.WorkerProcessMetrics")?
+        .GetMethod("Capture", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+    internal static bool Available => CaptureMethod is not null;
+    internal static ChildResources Capture()
+    {
+        var value = CaptureMethod?.Invoke(null, null);
+        if (value is null) return new(0, 0, 0, 0, 0, 0, 0);
+        object? Property(string name) => value.GetType().GetProperty(name,
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(value);
+        return new(Convert.ToDouble(Property("TotalChildCpuSeconds")), Convert.ToInt64(Property("CurrentWorkingSetBytes")),
+            Convert.ToInt32(Property("CurrentThreads")), Convert.ToInt32(Property("ActiveCount")),
+            Convert.ToInt64(Property("StartedCount")), Convert.ToInt64(Property("RetiredWithoutFinalCpuCount")),
+            Convert.ToInt64(Property("SampleFailures")));
+    }
+}
+
 internal sealed record Options(string Samples, int Count, int Workers, int? OpenCvThreads, int ProfilePasses, bool? BatchFields, bool? OneDnn, bool? ReusePredictors,
-    bool? KnownLines, bool? Onnx, string? OnnxModels, bool? DedicatedWorkers, bool? HammingAvx2, string Output, string Label, bool KeepWorkdir)
+    bool? KnownLines, bool? Onnx, string? OnnxModels, bool? DedicatedWorkers, bool? HammingAvx2, bool? ProcessWorkers, string Output, string Label, bool KeepWorkdir)
 {
     public static Options? Parse(string[] args)
     {
         if (args.Contains("--help"))
         {
-            Console.WriteLine("dotnet run --project tools/Performance -c Release -- --count 100 --workers 4 --opencv-threads 1 --profile-passes 2 --batch-fields false --label candidate --output artifacts/performance/candidate.json [--samples docs/test-samples] [--known-lines true|false] [--onnx true|false --onnx-models directory] [--hamming-avx2 true|false] [--keep-workdir]");
+            Console.WriteLine("dotnet run --project tools/Performance -c Release -- --count 100 --workers 4 --opencv-threads 1 --profile-passes 2 --batch-fields false --label candidate --output artifacts/performance/candidate.json [--samples docs/test-samples] [--known-lines true|false] [--onnx true|false --onnx-models directory] [--hamming-avx2 true|false] [--process-workers true|false] [--keep-workdir]");
             return null;
         }
         var values = new Dictionary<string, string>();
@@ -395,7 +451,7 @@ internal sealed record Options(string Samples, int Count, int Workers, int? Open
         {
             if (args[i] == "--keep-workdir") { keep = true; continue; }
             if (!args[i].StartsWith("--") || i + 1 >= args.Length) throw new ArgumentException("Expected --option value");
-            if (args[i] is not ("--samples" or "--count" or "--workers" or "--opencv-threads" or "--profile-passes" or "--batch-fields" or "--one-dnn" or "--reuse-predictors" or "--known-lines" or "--onnx" or "--onnx-models" or "--dedicated-workers" or "--hamming-avx2" or "--output" or "--label"))
+            if (args[i] is not ("--samples" or "--count" or "--workers" or "--opencv-threads" or "--profile-passes" or "--batch-fields" or "--one-dnn" or "--reuse-predictors" or "--known-lines" or "--onnx" or "--onnx-models" or "--dedicated-workers" or "--hamming-avx2" or "--process-workers" or "--output" or "--label"))
                 throw new ArgumentException("Unknown option " + args[i]);
             values[args[i][2..]] = args[++i];
         }
@@ -416,6 +472,7 @@ internal sealed record Options(string Samples, int Count, int Workers, int? Open
             values.GetValueOrDefault("onnx-models"),
             values.TryGetValue("dedicated-workers", out var dedicated) ? bool.Parse(dedicated) : null,
             values.TryGetValue("hamming-avx2", out var avx2) ? bool.Parse(avx2) : null,
+            values.TryGetValue("process-workers", out var processWorkers) ? bool.Parse(processWorkers) : null,
             values.GetValueOrDefault("output", "artifacts/performance/result.json"),
             values.GetValueOrDefault("label", "working-tree"), keep);
     }

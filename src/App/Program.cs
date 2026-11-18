@@ -1,6 +1,7 @@
 using Avalonia;
 using DocumentTextRecognition.Common;
 using DocumentTextRecognition.Core.Ocr;
+using DocumentTextRecognition.Core.Rename;
 
 namespace DocumentTextRecognition;
 
@@ -17,6 +18,7 @@ public static class Program
     [STAThread]
     public static int Main(string[] args)
     {
+        if (OcrWorkerHost.TryRunWorker(args, out var workerExitCode)) return workerExitCode;
         Args = args;
         if (args.Contains("--check")) return Check();
 

@@ -4,6 +4,7 @@ using DocumentTextRecognition.Core.Imaging;
 using DocumentTextRecognition.Core.Matching;
 using DocumentTextRecognition.Core.Ocr;
 using DocumentTextRecognition.Core.Pdf;
+using DocumentTextRecognition.Core.Rename;
 using DocumentTextRecognition.Core.Templates;
 
 namespace DocumentTextRecognition.Core.Recognition;
@@ -41,6 +42,17 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second) : IDisposable
     {
         First.Dispose();
         Second.Dispose();
+    }
+
+    internal OcrWorkerConfiguration ExportWorkerConfiguration(string templatesFolder)
+    {
+        if (First is not TesseractEngine tesseract || Second is not PaddleEngine paddle ||
+            tesseract.Languages != OcrComponents.TesseractLanguages ||
+            !string.Equals(paddle.ModelsDirectory, Path.GetFullPath(OcrComponents.PaddleDir), FileNames.PathComparison))
+            throw new NotSupportedException("Процессный режим поддерживает штатную пару Tesseract rus+eng и PaddleOCR из поставки.");
+        return new OcrWorkerConfiguration(Path.GetFullPath(templatesFolder), tesseract.TessdataDirectory,
+            paddle.UseOneDnn, paddle.ReusePredictors, paddle.UsesOnnx, paddle.OnnxModelsDirectory,
+            PreferKnownLines, BatchFields, TemplateMatcher.UseAvx2);
     }
 }
 

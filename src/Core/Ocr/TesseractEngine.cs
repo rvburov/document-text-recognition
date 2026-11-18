@@ -13,9 +13,13 @@ internal sealed class TesseractEngine : IOcrEngine
     private IntPtr _handle;
 
     public string Name => "Tesseract";
+    internal string TessdataDirectory { get; }
+    internal string Languages { get; }
 
     public TesseractEngine(string tessdata, string languages = OcrComponents.TesseractLanguages)
     {
+        TessdataDirectory = Path.GetFullPath(tessdata);
+        Languages = languages;
         OcrComponents.RegisterNativeResolver();
         _handle = TesseractApi.TessBaseAPICreate();
         if (_handle == IntPtr.Zero) throw new InvalidOperationException("не создается экземпляр Tesseract");

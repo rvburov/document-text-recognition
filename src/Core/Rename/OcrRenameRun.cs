@@ -58,10 +58,24 @@ internal sealed record RunSettings(string TemplatesFolder, string SourceFolder, 
         return Math.Min(cpuBudget, memoryBudget);
     }
 
-    public int EffectiveWorkers => Workers > 0 ? Workers : DefaultWorkers;
+    /// <summary>Отдельные процессы не разделяют блокировку PDFium, поэтому автоматический
+    /// режим не создает больше процессов, чем CPU. Память ограничивается теми же резервами.</summary>
+    internal static int DefaultProcessWorkers => RecommendProcessWorkers(Environment.ProcessorCount,
+        GC.GetGCMemoryInfo().TotalAvailableMemoryBytes);
+
+    internal static int RecommendProcessWorkers(int processorCount, long totalAvailableMemoryBytes) =>
+        Math.Min(Math.Clamp(processorCount, 1, 8), RecommendWorkers(processorCount, totalAvailableMemoryBytes));
+
+    public int EffectiveWorkers => Workers > 0 ? Workers : UseProcessWorkers ? DefaultProcessWorkers : DefaultWorkers;
 
     /// <summary>Один постоянный поток на распознаватель: нативные кэши oneDNN привязаны к потоку.</summary>
     internal bool DedicatedWorkers { get; init; } = true;
+
+    /// <summary>Экспериментальный пул независимых OCR-процессов. Переименовывает только родитель.</summary>
+    internal bool UseProcessWorkers { get; init; }
+
+    /// <summary>Явная команда запуска для интеграционной проверки; обычно используется зарегистрированный host.</summary>
+    internal OcrWorkerLaunchCommand? WorkerHostOverride { get; init; }
 }
 
 /// <summary>Куда прогон сообщает о ходе работы. Вызывается из фоновых потоков.</summary>
@@ -104,8 +118,8 @@ internal sealed record RunSummary(int Found, int Processed, int Renamed, int Alr
 /// каждого своя пара движков), очередь между шагами ограничена — в памяти одновременно лишь
 /// несколько документов. Переименование — в одном потоке: конфликт имен проверяется прямо перед
 /// переименованием, и два документа с одним итоговым именем не могут «проскочить» вместе.</para>
-/// <para>Остановка: новые файлы не берутся, документы в работе дочитываются и не
-/// переименовываются; уже переименованные остаются. Переименование — одна атомарная операция
+/// <para>Остановка: новые файлы не берутся; работающие документы не переименовываются,
+/// дочерние OCR-процессы завершаются; уже переименованные остаются. Переименование — одна атомарная операция
 /// файловой системы, недоделанных файлов не бывает. Содержимое PDF не меняется никогда.</para>
 /// </summary>
 internal static class OcrRenameRun
@@ -117,8 +131,23 @@ internal static class OcrRenameRun
         if (!Directory.Exists(settings.SourceFolder))
             return Fatal(sink, "Папка с PDF не найдена.");
 
-        // Шаблоны — заново при каждом запуске.
-        var loads = TemplateLibrary.LoadFolder(settings.TemplatesFolder, ct);
+        TemplateSnapshot? captured = null;
+        try
+        {
+            if (settings.UseProcessWorkers) captured = TemplateSnapshot.Create(settings.TemplatesFolder, ct);
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return new RunSummary(0, 0, 0, 0, 0, true, null);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return Fatal(sink, $"Не удалось подготовить общий набор шаблонов: {ex.Message}");
+        }
+        using var snapshot = captured;
+        var templateFolder = snapshot?.Folder ?? settings.TemplatesFolder;
+        // В процессном режиме родитель и дети загружают один и тот же неизменяемый набор.
+        var loads = TemplateLibrary.LoadFolder(templateFolder, ct);
         var templates = loads.Where(l => l.Template is not null).Select(l => l.Template!).ToList();
         try
         {
@@ -129,14 +158,35 @@ internal static class OcrRenameRun
             if (loads.Count == 0) return Fatal(sink, "В папке шаблонов нет PDF-файлов.");
             if (templates.Count == 0) return Fatal(sink, "Нет ни одного пригодного шаблона: исправьте разметку.");
 
-            var files = ListSource(settings, loads.Select(l => l.FilePath));
+            var files = ListSource(settings, snapshot?.SourceFiles ?? loads.Select(l => l.FilePath));
             sink.Found(files.Count);
             if (files.Count == 0)
             {
                 sink.Message("PDF-файлов для обработки не найдено.");
                 return new RunSummary(0, 0, 0, 0, 0, false, null);
             }
-            return ProcessFiles(settings, files, () => new OcrRecognizer(templates, engines()), sink, ct);
+            if (!settings.UseProcessWorkers)
+                return ProcessFiles(settings, files, () => new OcrRecognizer(templates, engines()), sink, ct);
+
+            OcrWorkerConfiguration configuration;
+            try
+            {
+                ct.ThrowIfCancellationRequested();
+                // Фабрика вызывается один раз: передается ее фактическая конфигурация, а не
+                // неявные настройки по умолчанию. Нативные модели probe освобождаются до детей.
+                using var probe = engines();
+                configuration = probe.ExportWorkerConfiguration(templateFolder);
+            }
+            catch (OperationCanceledException) when (ct.IsCancellationRequested)
+            {
+                return new RunSummary(files.Count, 0, 0, 0, 0, true, null);
+            }
+            catch (Exception ex)
+            {
+                return Fatal(sink, $"OCR не запускается: {Ocr.OcrComponents.Explain(ex)}");
+            }
+            return ProcessFiles(settings, files,
+                () => new OcrWorkerClient(configuration, ct, settings.WorkerHostOverride), sink, ct);
         }
         finally
         {
@@ -199,12 +249,23 @@ internal static class OcrRenameRun
         var pairs = new List<IDocumentRecognizer>();
         try
         {
-            for (var i = 0; i < Math.Min(settings.EffectiveWorkers, files.Count); i++) pairs.Add(recognizers());
+            for (var i = 0; i < Math.Min(settings.EffectiveWorkers, files.Count); i++)
+            {
+                ct.ThrowIfCancellationRequested();
+                pairs.Add(recognizers());
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            var cleanup = DisposeAll(pairs);
+            var message = cleanup is null ? null : $"Ошибка остановки OCR: {Ocr.OcrComponents.Explain(cleanup)}";
+            if (message is not null) sink.Message(message);
+            return new RunSummary(files.Count, 0, 0, 0, 0, true, message);
         }
         catch (Exception ex)
         {
-            foreach (var p in pairs) p.Dispose();
-            return Fatal(sink, $"OCR не запускается: {Ocr.OcrComponents.Explain(ex)}");
+            var cleanup = DisposeAll(pairs);
+            return Fatal(sink, $"OCR не запускается: {Ocr.OcrComponents.Explain(WithCleanup(ex, cleanup))}");
         }
 
         var queue = Channel.CreateBounded<string>(new BoundedChannelOptions(settings.EffectiveWorkers * 2)
@@ -289,11 +350,16 @@ internal static class OcrRenameRun
             pipelineStop.Cancel();
             try { Task.WhenAll(workers).GetAwaiter().GetResult(); } catch (Exception) { }
             try { producer.GetAwaiter().GetResult(); } catch (Exception) { }
-            foreach (var pair in pairs.Skip(workers.Count)) pair.Dispose();
-            return Fatal(sink, $"Не удалось запустить обработчики OCR: {Ocr.OcrComponents.Explain(ex)}");
+            var cleanup = DisposeAll(pairs.Skip(workers.Count));
+            return Fatal(sink, $"Не удалось запустить обработчики OCR: {Ocr.OcrComponents.Explain(WithCleanup(ex, cleanup))}");
         }
 
-        var all = Task.WhenAll(workers).ContinueWith(_ => planned.Writer.TryComplete(), TaskScheduler.Default);
+        var finishedWorkers = Task.WhenAll(workers);
+        var all = finishedWorkers.ContinueWith(completed =>
+        {
+            if (completed.IsFaulted) pipelineStop.Cancel();
+            planned.Writer.TryComplete();
+        }, TaskScheduler.Default);
 
         // Переименование — в этом потоке, по одному.
         try
@@ -314,12 +380,35 @@ internal static class OcrRenameRun
         }
         finally
         {
+            // Если получатель результатов выбросил исключение, писатели ограниченной
+            // очереди тоже должны выйти, а дочерние процессы — завершиться.
+            pipelineStop.Cancel();
             all.Wait(CancellationToken.None);
             producer.Wait(CancellationToken.None);
         }
 
+        if (finishedWorkers.Exception is { } failure)
+        {
+            var message = $"Ошибка завершения OCR: {Ocr.OcrComponents.Explain(failure)}";
+            sink.Message(message);
+            return new RunSummary(files.Count, processed, renamed, already, skipped, ct.IsCancellationRequested, message);
+        }
         return new RunSummary(files.Count, processed, renamed, already, skipped, ct.IsCancellationRequested, null);
     }
+
+    private static Exception? DisposeAll(IEnumerable<IDocumentRecognizer> recognizers)
+    {
+        List<Exception>? errors = null;
+        foreach (var recognizer in recognizers)
+        {
+            try { recognizer.Dispose(); }
+            catch (Exception ex) { (errors ??= []).Add(ex); }
+        }
+        return errors is null ? null : new AggregateException(errors);
+    }
+
+    private static Exception WithCleanup(Exception primary, Exception? cleanup) =>
+        cleanup is null ? primary : new AggregateException(primary, cleanup);
 
     /// <summary>Распознать файл и решить, как его назвать. null — остановлено посреди файла.</summary>
     private static Planned? Recognize(string path, string root, IDocumentRecognizer recognizer, CancellationToken ct)

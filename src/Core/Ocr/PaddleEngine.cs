@@ -23,6 +23,10 @@ internal sealed class PaddleEngine : IOcrEngine
 
     /// <summary>Выбранный backend; native Paddle можно выбрать явно для сравнения.</summary>
     internal bool UsesOnnx { get; }
+    internal bool UseOneDnn { get; }
+    internal bool ReusePredictors { get; }
+    internal string ModelsDirectory { get; }
+    internal string? OnnxModelsDirectory { get; }
 
     /// <summary>Во сколько раз расширять найденную рамку строки перед распознаванием. 2.0 —
     /// значение PaddleOCR по умолчанию; 2.5 и 3.0 на синтетических сканах читали наименования
@@ -34,6 +38,9 @@ internal sealed class PaddleEngine : IOcrEngine
     public PaddleEngine(string modelsDir, bool useOneDnn = true, bool reusePredictors = true,
         bool useOnnx = true, string? onnxModelsDir = null)
     {
+        ModelsDirectory = Path.GetFullPath(modelsDir);
+        UseOneDnn = useOneDnn;
+        ReusePredictors = reusePredictors;
         var det = Path.Combine(modelsDir, OcrComponents.PaddleDetector);
         var rec = Path.Combine(modelsDir, OcrComponents.PaddleRecognizer);
         foreach (var dir in new[] { det, rec })
@@ -46,6 +53,7 @@ internal sealed class PaddleEngine : IOcrEngine
         if (useOnnx)
         {
             var directory = onnxModelsDir ?? Path.Combine(OcrComponents.ProgramDir, "ocr", "onnx");
+            OnnxModelsDirectory = Path.GetFullPath(directory);
             var detectorFile = Path.Combine(directory, "det.onnx");
             var recognizerFile = Path.Combine(directory, "rec.onnx");
             foreach (var path in new[] { detectorFile, recognizerFile })
