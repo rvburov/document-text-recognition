@@ -13,5 +13,15 @@
     "ProcessWorkers": false,
     "OpenCvThreads": 1
   },
-  "RawReportsPreserved": true
+  "RawReportsPreserved": true,
+  "Artifact": {
+    "Id": 14409839457,
+    "Name": "performance-final-windows",
+    "Sha256": "8c972e263112106e576676cd98461b09c4fa1d09b700dd995faf8ec6213628b8"
+  },
+  "SelectionArtifact": {
+    "Id": 14409606410,
+    "Name": "performance-final-selection-windows",
+    "Sha256": "b5566308134f0b6918cfeb59d2c77cdbc1b6e1a3814c884caa647476f6e0505e"
+  }
 }

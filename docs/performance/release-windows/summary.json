@@ -1,0 +1,65 @@
+{
+  "CoreSha256": "763C2A3CB0FDFD48D7FE3426DD752077A295E449021320F2903795ECAD19D854",
+  "Modes": [
+    {
+      "Rejected": 0,
+      "Incorrect": 0,
+      "Correct": 5,
+      "Mode": "default",
+      "Configuration": {
+        "KnownLines": null,
+        "ResolvedKnownLines": true,
+        "Onnx": null,
+        "OnnxModels": null,
+        "ResolvedUsesOnnx": true,
+        "ResolvedBatchFields": false
+      }
+    },
+    {
+      "Rejected": 1,
+      "Incorrect": 0,
+      "Correct": 4,
+      "Mode": "native",
+      "Configuration": {
+        "KnownLines": false,
+        "ResolvedKnownLines": false,
+        "Onnx": false,
+        "OnnxModels": null,
+        "ResolvedUsesOnnx": false,
+        "ResolvedBatchFields": false
+      }
+    },
+    {
+      "Rejected": 1,
+      "Incorrect": 0,
+      "Correct": 4,
+      "Mode": "onnx",
+      "Configuration": {
+        "KnownLines": false,
+        "ResolvedKnownLines": false,
+        "Onnx": true,
+        "OnnxModels": null,
+        "ResolvedUsesOnnx": true,
+        "ResolvedBatchFields": false
+      }
+    },
+    {
+      "Rejected": 0,
+      "Incorrect": 0,
+      "Correct": 5,
+      "Mode": "onnx-known-lines",
+      "Configuration": {
+        "KnownLines": true,
+        "ResolvedKnownLines": true,
+        "Onnx": true,
+        "OnnxModels": null,
+        "ResolvedUsesOnnx": true,
+        "ResolvedBatchFields": false
+      }
+    }
+  ],
+  "ProcessWorkersPassed": true,
+  "CheckedCyrillicPath": "C:\\Users\\runneradmin\\AppData\\Local\\Temp\\Проверка распознавания 7c867b0c2ad7475087da1da1c5e32ebc",
+  "PublishedSource": "D:\\a\\document-text-recognition\\document-text-recognition\\artifacts\\setup\\app",
+  "Passed": true
+}

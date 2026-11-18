@@ -1,0 +1,7 @@
+{
+  "SourceCommit": "12a58934cc36ed123b4c91b1417b48f190bdd192",
+  "WorkflowRun": "https://github.com/rvburov/document-text-recognition/actions/runs/44267338822",
+  "ArtifactId": 14411021506,
+  "ArtifactName": "ocr-windows",
+  "Scope": "Published v1.3.1 default OCR from a Cyrillic path plus a separate explicit two-process compatibility smoke; process workers remain disabled by default. Raw JSON copied with LF line endings."
+}

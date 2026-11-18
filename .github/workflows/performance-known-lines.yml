@@ -39,9 +39,9 @@ jobs:
         run: |
           $reports = Join-Path '${{ runner.temp }}' 'known-lines'
           New-Item -ItemType Directory -Force -Path $reports | Out-Null
-          dotnet run --project tools/PerformanceVerify -c Release --no-build -- docs/test-samples (Join-Path $reports 'five-baseline.json') --known-lines false
+          dotnet run --project tools/PerformanceVerify -c Release --no-build -- docs/test-samples (Join-Path $reports 'five-baseline.json') --known-lines false --onnx false
           if ($LASTEXITCODE -ne 0) { Write-Warning 'Baseline has an incorrect accepted name; retained its report.' }
-          dotnet run --project tools/PerformanceVerify -c Release --no-build -- docs/test-samples (Join-Path $reports 'five-candidate.json') --known-lines true
+          dotnet run --project tools/PerformanceVerify -c Release --no-build -- docs/test-samples (Join-Path $reports 'five-candidate.json') --known-lines true --onnx false
           if ($LASTEXITCODE -ne 0) { throw 'Candidate accepted an incorrect name.' }
           $candidate = Get-Content (Join-Path $reports 'five-candidate.json') -Raw | ConvertFrom-Json
           if ($candidate.Correct -ne 5 -or $candidate.Rejected -ne 0) { throw 'Expected all five exact names, including the parentheses example.' }
@@ -52,7 +52,7 @@ jobs:
           $reports = Join-Path '${{ runner.temp }}' 'known-lines'
           foreach ($mode in @(@{Known='false'; Workers=8}, @{Known='true'; Workers=4}, @{Known='true'; Workers=8})) {
             $label = "known-$($mode.Known)-workers-$($mode.Workers)"
-            dotnet run --project tools/Performance -c Release --no-build -- --count 1000 --workers $mode.Workers --known-lines $mode.Known --profile-passes 1 --label $label --output (Join-Path $reports "$label.json")
+            dotnet run --project tools/Performance -c Release --no-build -- --count 1000 --workers $mode.Workers --known-lines $mode.Known --onnx false --profile-passes 1 --label $label --output (Join-Path $reports "$label.json")
             if ($LASTEXITCODE -ne 0) { throw "$label failed names/hashes validation." }
           }
       - name: Все отчеты

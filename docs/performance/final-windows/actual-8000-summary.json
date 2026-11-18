@@ -1,0 +1,11 @@
+{
+  "QualityPassed": true,
+  "Documents": 8000,
+  "MeasuredMinutes": 20.645729393333333,
+  "Workers": 8,
+  "Processes": false,
+  "Avx2": true,
+  "BatchFields": false,
+  "Goal20MinutesMet": false,
+  "Comparison": "Actual current-run time; historical 22:29 is a different VM, not a controlled speedup comparison."
+}
