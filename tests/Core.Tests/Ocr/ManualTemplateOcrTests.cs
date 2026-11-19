@@ -53,12 +53,12 @@ public sealed class ManualTemplateOcrTests(OcrFixture ocr)
                     Assert.True(sample.AllowOcrRefusal, $"{sample.FileName}: {result.Problem}");
                     Assert.Contains("наименование прочитано по-разному", result.Problem);
                     Assert.Equal(2, diagnostics.Count(d => d.Field is not null));
-                    var designation = Assert.Single(diagnostics, d => d.Field?.Role == FieldRole.Designation).Field!;
+                    var designation = Assert.Single(diagnostics, d => d.Stage == "Распознавание" && d.Field?.Role == FieldRole.Designation).Field!;
                     Assert.Equal(sample.Designation, designation.First.ParsedText);
                     Assert.Equal(sample.Designation, designation.Second.ParsedText);
                     Assert.Null(designation.First.Problem);
                     Assert.Null(designation.Second.Problem);
-                    var reading = Assert.Single(diagnostics, d => d.Field?.Role == FieldRole.Name).Field!;
+                    var reading = Assert.Single(diagnostics, d => d.Stage == "Распознавание" && d.Field?.Role == FieldRole.Name).Field!;
                     Assert.Null(reading.First.Problem);
                     Assert.Null(reading.Second.Problem);
                     Assert.NotEqual(reading.First.ParsedText, reading.Second.ParsedText);

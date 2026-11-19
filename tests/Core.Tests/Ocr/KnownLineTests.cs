@@ -152,7 +152,7 @@ public sealed class KnownLineTests(OcrFixture ocr, ITestOutputHelper output)
                     Assert.Equal(new FieldValues(designation, fullName, type), values);
                 else
                     Assert.False(string.IsNullOrWhiteSpace(result.Problem));
-                var reading = Assert.Single(diagnostics, d => d.Field?.Role == FieldRole.Name).Field!;
+                var reading = Assert.Single(diagnostics, d => d.Stage == "Распознавание" && d.Field?.Role == FieldRole.Name).Field!;
                 output.WriteLine($"scale={smallScale}, above={above}, fast={fast}, result={result.Values?.Name ?? result.Problem}; " +
                     $"Tesseract='{reading.First.RawText}', Paddle='{reading.Second.RawText}'");
                 using var prepared = Cv2.ImDecode(reading.CropPng, ImreadModes.Grayscale);
