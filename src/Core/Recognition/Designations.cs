@@ -156,7 +156,7 @@ internal static class Designations
             var code = Regex.Match(rest, $@"^ ([{L}]{{1,3}}\d{{0,2}})(?![{L}0-9])");
             if (code.Success)
             {
-                var c = DigitInCode(TextRules.FoldToCyrillic(code.Groups[1].Value.ToUpperInvariant()), DocumentCodes.Contains);
+                var c = TextRules.FoldToCyrillic(code.Groups[1].Value.ToUpperInvariant());
                 if (DocumentCodes.Contains(c))
                 {
                     value += c;
@@ -168,27 +168,12 @@ internal static class Designations
         {
             // Код документа — только известный; латинские двойники в нем — кириллица (коды ЕСКД).
             var codeGroup = m.Groups["code"];
-            var c = DigitInCode(TextRules.FoldToCyrillic(codeGroup.Value.ToUpperInvariant()), IsKnownCode);
+            var c = TextRules.FoldToCyrillic(codeGroup.Value.ToUpperInvariant());
             if (!IsKnownCode(c)) return null;
             value = value[..(codeGroup.Index - m.Index)] + c + value[(codeGroup.Index - m.Index + codeGroup.Length)..];
         }
 
         return value;
-    }
-
-    /// <summary>
-    /// Цифра в конце кода документа, прочитанная буквой-двойником: «ПЭЗ» → «ПЭ3», «ЭО» → «Э0».
-    /// Цифра в кодах ЕСКД бывает только последней, а набор кодов закрыт, поэтому замена
-    /// делается, лишь когда исходный код неизвестен, а исправленный известен. Второй движок
-    /// по-прежнему должен прочитать то же самое.
-    /// </summary>
-    internal static string DigitInCode(string code, Func<string, bool> known)
-    {
-        if (code.Length < 2 || known(code)) return code;
-        var digit = code[^1] switch { 'З' => '3', 'О' => '0', _ => '\0' };
-        if (digit == '\0') return code;
-        var candidate = code[..^1] + digit;
-        return known(candidate) ? candidate : code;
     }
 
     /// <summary>Похож ли текст на обозначение (для проверки, что наименование не им является).</summary>

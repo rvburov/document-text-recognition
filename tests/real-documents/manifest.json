@@ -705,11 +705,11 @@
     },
     {
       "id": "18-dds-generator-schematic",
-      "file": "documents/18-dds-generator-schematic.pdf",
+      "file": "external/18-dds-generator-schematic.pdf",
       "sha256": "20eca82ea633156742a94d06b1aea157972adc659355c88e795a753a59d02d44",
       "source": "https://raw.githubusercontent.com/Ivanchenko59/DDS-Generator/7c5da372183133802695abb06e387bbb01738dbe/hardware/Schematic.pdf",
       "repository": "https://github.com/Ivanchenko59/DDS-Generator",
-      "license": "GPL-3.0",
+      "license": null,
       "producer": "Altium Designer",
       "page": 0,
       "typeAbsent": false,
@@ -1437,11 +1437,11 @@
     },
     {
       "id": "35-diploma-barchelor-mpsu-464414-22-01e3izme3",
-      "file": "documents/35-diploma-barchelor-mpsu-464414-22-01e3izme3.pdf",
+      "file": "external/35-diploma-barchelor-mpsu-464414-22-01e3izme3.pdf",
       "sha256": "0f627937a8a407e7b3ffd0af353589f3a6217b4fbff487164627fdaac3b1f70a",
       "source": "https://raw.githubusercontent.com/lazbaphilipp/diploma-barchelor/37b5fde9f5fd1d1294b152663e66e4782f7a3280/Project/Altium/%D0%9C%D0%9F%D0%A1%D0%A3.464414.22-01/Project%20Outputs%20for%20%D0%9C%D0%9F%D0%A1%D0%A3.464414.22-01/%D0%9C%D0%9F%D0%A1%D0%A3.464414.22-01%D0%AD3%D0%B8%D0%B7%D0%BC%D0%AD3.PDF",
       "repository": "https://github.com/lazbaphilipp/diploma-barchelor",
-      "license": "MIT",
+      "license": null,
       "producer": "Altium Designer",
       "page": 0,
       "typeAbsent": false,
@@ -1482,11 +1482,11 @@
     },
     {
       "id": "36-diploma-barchelor-mpsu-687251-22-01izmsp",
-      "file": "documents/36-diploma-barchelor-mpsu-687251-22-01izmsp.pdf",
+      "file": "external/36-diploma-barchelor-mpsu-687251-22-01izmsp.pdf",
       "sha256": "d1bf8cab1b62f15ac0add271824e26c6feb5ef77380137dcc51be1210bd86477",
       "source": "https://raw.githubusercontent.com/lazbaphilipp/diploma-barchelor/37b5fde9f5fd1d1294b152663e66e4782f7a3280/Project/Altium/%D0%9C%D0%9F%D0%A1%D0%A3.464414.22-01/Project%20Outputs%20for%20%D0%9C%D0%9F%D0%A1%D0%A3.464414.22-01/%D0%9C%D0%9F%D0%A1%D0%A3.687251.22-01%D0%B8%D0%B7%D0%BC%D0%A1%D0%9F.PDF",
       "repository": "https://github.com/lazbaphilipp/diploma-barchelor",
-      "license": "MIT",
+      "license": null,
       "producer": "Altium Designer",
       "page": 0,
       "typeAbsent": true,
@@ -2003,7 +2003,7 @@
         "name": "Плата индикации",
         "type": "Сборочный чертеж"
       },
-      "note": "текстовый слой основной надписи: none; растровая страница без текста"
+      "note": "текстовый слой основной надписи: none; растровая страница без текста; область наименования заканчивается на последней букве «и»: проверка обрезанного областью текста"
     },
     {
       "id": "49-diploma-e3",

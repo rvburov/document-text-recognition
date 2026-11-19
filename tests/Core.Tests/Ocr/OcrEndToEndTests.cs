@@ -88,7 +88,9 @@ public sealed class OcrEndToEndTests(OcrFixture ocr) : IDisposable
         var result = Read(_wb.AddDocument("doc.pdf", FormKind.Drawing, designation, name));
 
         if (result.Values is not null) Assert.Equal(new FieldValues(designation, name, DocTypes.WhenMissing), result.Values);
-        else Assert.Matches("по-разному|не подтверждено", result.Problem);
+        // «Щит распределительный» шире графы синтетического бланка: обрезанная «Щ» похожа на «Ц».
+        // Такой файл пропускается еще до чтения, потому что текст выходит за область.
+        else Assert.Matches("по-разному|не подтверждено|текст выходит за область", result.Problem);
     }
 
     [OcrTheory]

@@ -249,6 +249,12 @@ internal static partial class DocumentReader
         RecognitionTraceBuilder? trace = null)
     {
         ct.ThrowIfCancellationRequested();
+        var clipped = ClippedField(pdf, pageIndex, size, features, match);
+        if (clipped is not null)
+        {
+            diagnostic?.Invoke(new("Области", pageIndex + 1, clipped));
+            return (null, clipped);
+        }
         var preferGost = ocr.PrefersGost(match.Template);
         string? preferredProblem = null;
         if (preferGost)
@@ -291,6 +297,23 @@ internal static partial class DocumentReader
             return alternative;
         }
         return (null, $"обычная модель: {standard.Problem}; чертёжный шрифт: {alternative.Problem}");
+    }
+
+    /// <summary>
+    /// Текст поля не должен выходить за сохраненную область: иначе оба движка согласованно
+    /// прочитают обрезанное значение. Проверяется до чтения, одинаково для текста PDF и OCR.
+    /// </summary>
+    private static string? ClippedField(PdfDocument pdf, int pageIndex, PageSize size, PageFeatures features, PageMatch match)
+    {
+        var frames = match.Template.Frames;
+        foreach (var frame in frames)
+        {
+            var problem = FieldCrop.ClippedText(pdf, pageIndex, size, features, match, frame.Inner,
+                frames.Where(f => !ReferenceEquals(f, frame)).Select(f => f.Inner));
+            if (problem is not null)
+                return $"{FieldName(frame.Role)}: {problem}; проверьте область в редакторе шаблона «{match.Template.Name}»";
+        }
+        return null;
     }
 
     private static (FieldValues? Values, string? Problem) ReadFieldsCore(PdfDocument pdf, int pageIndex, PageSize size,

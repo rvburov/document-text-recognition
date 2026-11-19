@@ -52,6 +52,8 @@
 | Редактор шаблонов, правила распознавания, типы, статусы | [docs/recognition.md](docs/recognition.md) |
 | Изменения и ограничения версии 1.4.0 | [docs/releases/1.4.0.md](docs/releases/1.4.0.md) |
 | Созданные PDF и результаты настоящего OCR-теста | [docs/test-samples/README.md](docs/test-samples/README.md) |
+| Тест на 49 реальных документах ЕСКД и как добавить свои | [tests/real-documents/README.md](tests/real-documents/README.md) |
+| Аудит распознавания на реальных документах и что улучшить | [docs/audit/real-documents-2026-11.md](docs/audit/real-documents-2026-11.md) |
 | Скорость OCR, виртуализация и воспроизводимые замеры | [docs/performance/README.md](docs/performance/README.md) |
 | Макет интерфейса (утвержден 13.11.2026) | [docs/design/README.md](docs/design/README.md) |
 | Лицензии сторонних компонентов | [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt) |
@@ -65,7 +67,7 @@ src/Setup     установщик «Распознавание текста д�
 src/Common    общее для программы и установщика: пути, настройки, журнал, ярлыки
 src/Ui        оформление по макету: цвета, шрифты, кнопки, поля, полоса прокрутки, значки
 ocr/tessdata  языковые данные Tesseract (rus, eng, дополнительная модель rus_gost)
-tests         тесты ядра и окна (настоящее распознавание на синтетических сканах)
+tests         тесты ядра и окна (настоящее распознавание на синтетических сканах и реальных документах)
 scripts       build.ps1: сборка на ПК; ci-ocr-deps.sh: компоненты для проверок на GitHub
 docs          документация и макет
 ```

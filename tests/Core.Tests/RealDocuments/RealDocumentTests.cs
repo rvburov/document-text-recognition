@@ -103,8 +103,9 @@ public sealed class RealDocumentTests(OcrFixture ocr, ITestOutputHelper output)
                             regressions.Add($"{key}: раньше читалось точно, теперь отказ: {result.Problem}");
                         else if (outcome == Outcome.Exact && baseline != RealBaseline.Exact)
                             improvements.Add($"{key}: теперь читается точно");
-                        if (outcome == Outcome.Exact && FileNames.Build(result.Values!).Problem is { } nameProblem)
-                            failures.Add($"{key}: имя файла не собрано: {nameProblem}");
+                        // Верно прочитанное значение может не годиться для имени файла («10/14 МГц»):
+                        // программа тогда пропускает файл с причиной. Это не ошибка распознавания.
+                        var nameProblem = outcome == Outcome.Exact ? FileNames.Build(result.Values!).Problem : null;
 
                         foreach (var field in diagnostics.Where(d => d.Field is not null).Select(d => d.Field!))
                             engines.Add(variant.Key, field, expected, document.MustRefuse is null);
@@ -118,6 +119,7 @@ public sealed class RealDocumentTests(OcrFixture ocr, ITestOutputHelper output)
                             Expected = expected,
                             Actual = result.Values,
                             result.Problem,
+                            FileNameProblem = nameProblem,
                             document.MustRefuse,
                             Fields = diagnostics.Where(d => d.Field is not null).Select((d, i) => new
                             {
@@ -129,7 +131,8 @@ public sealed class RealDocumentTests(OcrFixture ocr, ITestOutputHelper output)
                             }).ToArray(),
                             Stages = diagnostics.Where(d => d.Field is null).Select(d => $"{d.Stage}: {d.Message}").ToArray(),
                         });
-                        output.WriteLine($"{key,-65} {outcome,-8} {(result.Values is null ? result.Problem : Describe(result.Values))}");
+                        output.WriteLine($"{key,-65} {outcome,-8} {(result.Values is null ? result.Problem : Describe(result.Values))}"
+                            + (nameProblem is null ? "" : $" (имя файла не собрано: {nameProblem})"));
                     }
                 }
                 finally
