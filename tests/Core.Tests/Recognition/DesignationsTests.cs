@@ -20,6 +20,68 @@ public sealed class DesignationsTests
     }
 
     [Theory]
+    [InlineData("АБВГ.112345.001 ПЭЗ", "АБВГ.112345.001ПЭ3")]
+    [InlineData("АБВГ.112345.001ПЭЗ", "АБВГ.112345.001ПЭ3")]
+    [InlineData("АБВГ.112345.001 ЭЗ", "АБВГ.112345.001Э3")]
+    [InlineData("АБВГ.112345.001ЭО", "АБВГ.112345.001Э0")]
+    [InlineData("АБВГ.112345.001ЗИ", "АБВГ.112345.001ЗИ")]
+    public void Digit_read_as_letter_at_the_end_of_a_document_code_is_restored(string raw, string expected)
+    {
+        Assert.Equal(expected, FieldParser.ParseDesignation(Reading(raw), 0.5).Value);
+    }
+
+    [Theory]
+    [InlineData("АБВГ.112345.001 ПЗЭ")]
+    [InlineData("АБВГ.112345.001 ЗЭ")]
+    [InlineData("АБВГ.112345.001 93")]
+    [InlineData("АБВГ.112345.001 1393")]
+    [InlineData("МГТУ.469335.001 33")]
+    [InlineData("МГТУ.469335.001П33")]
+    [InlineData("МИЭМ.467999.001733")]
+    [InlineData("МГТУ.469335.00133")]
+    public void Unknown_code_or_code_read_as_digits_is_not_a_designation(string raw)
+    {
+        Assert.False(FieldParser.ParseDesignation(Reading(raw), 0.5).IsOk);
+    }
+
+    [Theory]
+    [InlineData("ЦШЩЭ.909090.111ПЗ")]
+    [InlineData("ЦШЩЭ.909090.111П3")]
+    [InlineData("АБВГ.123456.001ВО")]
+    [InlineData("АБВГ.123456.001 ТО")]
+    public void Codes_that_look_identical_on_drafting_fonts_are_refused_from_ocr_but_kept_in_pdf_text(string raw)
+    {
+        var ocr = FieldParser.ParseDesignation(Reading(raw), 0.5);
+        Assert.False(ocr.IsOk);
+        Assert.Contains("не различить", ocr.Problem);
+        Assert.True(FieldParser.ParseDesignationText(raw).IsOk);
+    }
+
+    [Theory]
+    [InlineData("ящик", false)]
+    [InlineData("плата ЕТЗ", false)]
+    [InlineData("Ящик", true)]
+    [InlineData("ЯЩИК", true)]
+    [InlineData("Захват 19590", true)]
+    [InlineData("72758 Нагреватель", true)]
+    public void Ocr_name_must_start_with_a_capital_letter(string raw, bool ok)
+    {
+        var parsed = FieldParser.ParseName(Reading(raw), 0.5);
+        Assert.Equal(ok, parsed.IsOk);
+        if (!ok) Assert.Contains("строчной", parsed.Problem);
+        Assert.True(FieldParser.CheckName([raw]).IsOk); // текст PDF правилом регистра не проверяется
+    }
+
+    [Theory]
+    [InlineData("МПСУ.464414.22-01Э3", "МПСУ.464414.22-01Э3")]
+    [InlineData("ИУ4.11.03.03", "ИУ4.11.03.03")]
+    [InlineData("2436.181092.5167", "2436.181092.5167")]
+    public void Industry_designations_keep_their_short_groups(string raw, string expected)
+    {
+        Assert.Equal(expected, FieldParser.ParseDesignation(Reading(raw), 0.5).Value);
+    }
+
+    [Theory]
     [InlineData("DX.700.004")]
     [InlineData("USB.700.004")]
     [InlineData("R2.700.004")]
