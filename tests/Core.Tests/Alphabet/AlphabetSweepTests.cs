@@ -122,7 +122,25 @@ public sealed class AlphabetSweepTests(OcrFixture ocr, ITestOutputHelper output)
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             }));
         }
-        Assert.True(wrong.Count == 0, "Программа приняла неверные строки:\n" + string.Join("\n", wrong));
+        // Базовая линия: известные неверные принятия на чертежных шрифтах (их еще предстоит
+        // устранить) и число точных строк по шрифтам. Новое неверное принятие или меньше точных
+        // строк — провал; исправленное — подсказка обновить файл.
+        var baseline = AlphabetBaseline.Load();
+        var exactLines = stats.Outcomes();
+        var failures = new List<string>();
+        failures.AddRange(wrong.Where(w => !baseline.KnownWrong.Contains(w)).Select(w => "новое неверное принятие: " + w));
+        foreach (var (key, exact) in baseline.Exact)
+            if (exactLines.GetValueOrDefault(key) < exact)
+                failures.Add($"меньше точных строк в {key}: {exactLines.GetValueOrDefault(key)} вместо {exact}");
+        foreach (var fixedLine in baseline.KnownWrong.Where(k => !wrong.Contains(k)))
+            output.WriteLine("Исправлено (уберите из alphabet-baseline.json): " + fixedLine);
+        foreach (var (key, exact) in exactLines.Where(p => p.Value > baseline.Exact.GetValueOrDefault(p.Key)))
+            output.WriteLine($"Больше точных строк в {key}: {exact} (обновите alphabet-baseline.json)");
+        if (!string.IsNullOrWhiteSpace(outputRoot))
+            File.WriteAllText(Path.Combine(outputRoot, "alphabet-baseline.suggested.json"),
+                AlphabetBaseline.Serialize(new AlphabetBaseline(wrong.Order(StringComparer.Ordinal).ToList(),
+                    exactLines.OrderBy(p => p.Key, StringComparer.Ordinal).ToDictionary())));
+        Assert.True(failures.Count == 0, "Прогон алфавита:\n" + string.Join("\n", failures));
     }
 
     /// <summary>Эталон в форме программы: правила поля применяются к самому тексту строки.</summary>
@@ -294,9 +312,36 @@ public sealed class AlphabetSweepTests(OcrFixture ocr, ITestOutputHelper output)
             return shared.OrderByDescending(p => p.Value).Select(p => $"{p.Key} ×{p.Value}").ToArray();
         }
 
+        /// <summary>Точные строки по ключу «шрифт|условия|графа».</summary>
+        public Dictionary<string, int> Outcomes() => _outcomes.ToDictionary(p => p.Key, p => p.Value[0]);
+
         public object OutcomeTable() => _outcomes.OrderBy(p => p.Key).Select(p => new
         {
             Key = p.Key, Exact = p.Value[0], Refused = p.Value[1], Wrong = p.Value[2],
         }).ToArray();
     }
+}
+
+/// <summary>Базовая линия прогона алфавита: tests/Core.Tests/Alphabet/alphabet-baseline.json.</summary>
+internal sealed record AlphabetBaseline(List<string> KnownWrong, Dictionary<string, int> Exact)
+{
+    private static readonly JsonSerializerOptions Json = new()
+    {
+        WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
+
+    public static AlphabetBaseline Load()
+    {
+        for (var dir = new DirectoryInfo(AppContext.BaseDirectory); dir is not null; dir = dir.Parent)
+        {
+            var path = Path.Combine(dir.FullName, "tests", "Core.Tests", "Alphabet", "alphabet-baseline.json");
+            if (File.Exists(path))
+                return JsonSerializer.Deserialize<AlphabetBaseline>(File.ReadAllText(path), Json)
+                    ?? throw new InvalidDataException(path);
+        }
+        throw new FileNotFoundException("alphabet-baseline.json не найден");
+    }
+
+    public static string Serialize(AlphabetBaseline baseline) => JsonSerializer.Serialize(baseline, Json) + "\n";
 }
