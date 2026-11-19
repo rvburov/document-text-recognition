@@ -26,6 +26,10 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second, Func<OcrPair>
     internal bool UsePdfText { get; set; } = true;
 
     internal bool UseGostFallback { get; set; } = true;
+
+    /// <summary>Значение обычной пары со спорными для чертежного шрифта буквами дополнительно
+    /// читает модель чертежного шрифта (<see cref="DraftingConfusions"/>).</summary>
+    internal bool UseThirdOpinion { get; set; } = true;
     private Func<OcrPair>? _gostFactory = gostFactory;
     private bool _packagedGostFactory;
     private OcrPair? _gost;
@@ -257,19 +261,22 @@ internal static partial class DocumentReader
         }
         var preferGost = ocr.PrefersGost(match.Template);
         string? preferredProblem = null;
+        PairResult? gostResult = null;
         if (preferGost)
         {
             var gost = ocr.GostPair()!;
             if (trace is not null) trace.GostAttempts++;
             diagnostic?.Invoke(new("Шрифт", pageIndex + 1, "Проверяется модель чертёжного шрифта."));
-            var first = ReadFieldsCore(pdf, pageIndex, size, features, match, gost, ct, diagnostic, timing, trace);
+            gostResult = ReadFieldsCore(pdf, pageIndex, size, features, match, gost, ct, diagnostic, timing, trace);
             ct.ThrowIfCancellationRequested();
-            if (first.Values is not null)
+            if (gostResult.Values is not null)
             {
-                if (trace is not null) trace.GostAccepted++;
-                return first;
+                var checkedGost = ThirdOpinion(pdf, pageIndex, size, features, match, gostResult, ocr, standard: null,
+                    acceptedByGost: true, ct, diagnostic, timing, trace);
+                if (checkedGost.Values is not null && trace is not null) trace.GostAccepted++;
+                return checkedGost;
             }
-            preferredProblem = first.Problem;
+            preferredProblem = gostResult.Problem;
         }
 
         var standard = ReadFieldsCore(pdf, pageIndex, size, features, match, ocr, ct, diagnostic, timing, trace);
@@ -277,13 +284,14 @@ internal static partial class DocumentReader
         if (standard.Values is not null)
         {
             if (preferGost) ocr.PreferGost(match.Template, false);
-            return standard;
+            return ThirdOpinion(pdf, pageIndex, size, features, match, standard, ocr, standard: null,
+                acceptedByGost: false, ct, diagnostic, timing, trace);
         }
         if (preferGost)
             return (null, $"обычная модель: {standard.Problem}; чертёжный шрифт: {preferredProblem}");
         ct.ThrowIfCancellationRequested();
         var fallback = ocr.GostPair();
-        if (fallback is null) return standard;
+        if (fallback is null) return (null, standard.Problem);
         ct.ThrowIfCancellationRequested();
         if (trace is not null) trace.GostAttempts++;
         diagnostic?.Invoke(new("Шрифт", pageIndex + 1,
@@ -292,9 +300,12 @@ internal static partial class DocumentReader
         ct.ThrowIfCancellationRequested();
         if (alternative.Values is not null)
         {
+            var checkedAlternative = ThirdOpinion(pdf, pageIndex, size, features, match, alternative, ocr, standard,
+                acceptedByGost: true, ct, diagnostic, timing, trace);
+            if (checkedAlternative.Values is null) return checkedAlternative;
             if (trace is not null) trace.GostAccepted++;
             ocr.PreferGost(match.Template, true);
-            return alternative;
+            return checkedAlternative;
         }
         return (null, $"обычная модель: {standard.Problem}; чертёжный шрифт: {alternative.Problem}");
     }
@@ -316,7 +327,12 @@ internal static partial class DocumentReader
         return null;
     }
 
-    private static (FieldValues? Values, string? Problem) ReadFieldsCore(PdfDocument pdf, int pageIndex, PageSize size,
+    /// <summary>Итог одной пары: значения или причина, разобранные ответы обоих движков (для
+    /// третьего мнения) и признак, что значения взяты из текста PDF.</summary>
+    private sealed record PairResult(FieldValues? Values, string? Problem, EngineFields? First = null,
+        EngineFields? Second = null, bool FromPdfText = false);
+
+    private static PairResult ReadFieldsCore(PdfDocument pdf, int pageIndex, PageSize size,
         PageFeatures features, PageMatch match, OcrPair ocr, CancellationToken ct,
         Action<RecognitionDiagnostic>? diagnostic, Action<string, TimeSpan>? timing,
         RecognitionTraceBuilder? trace)
@@ -325,7 +341,7 @@ internal static partial class DocumentReader
         var started = timing is null ? 0 : Stopwatch.GetTimestamp();
         if (ocr.UsePdfText && TryReadPdfTextFields(pdf, pageIndex, features, match, ocr, ct,
                 diagnostic, timing, trace, out var pdfValues))
-            return (pdfValues, null);
+            return new(pdfValues, null, FromPdfText: true);
         var frames = match.Template.Frames;
         var combined = frames.FirstOrDefault(f => f.Role == FieldRole.Combined);
         diagnostic?.Invoke(new("Алфавиты", pageIndex + 1,
@@ -372,7 +388,7 @@ internal static partial class DocumentReader
         var result = EngineAgreement.Combine(first, second);
         diagnostic?.Invoke(new("Сверка движков", pageIndex + 1,
             result.Problem ?? "Все поля подтверждены обоими способами распознавания."));
-        return result;
+        return new(result.Values, result.Problem, first, second);
 
         (Parsed First, Parsed Second) ReadField(FieldRole role, Func<OcrReading, double, Parsed> parse)
         {

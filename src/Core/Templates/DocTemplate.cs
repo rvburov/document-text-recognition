@@ -108,7 +108,9 @@ internal static class TemplateLibrary
                     PageIndex = markup.PageIndex,
                     PageSize = size,
                     Frames = frames,
-                    Features = BuildFeatures(rendered, new FrameLayout(frames, null), size),
+                    // Ручная разметка не использует цветные рамки: цветные линии формы
+                    // (голубые, малиновые) остаются признаками для совмещения.
+                    Features = BuildFeatures(rendered, new FrameLayout(frames, null), size, eraseColored: false),
                     TypeAbsent = markup.TypeAbsent,
                     IsManual = true,
                 }, null);
@@ -174,20 +176,23 @@ internal static class TemplateLibrary
     public static string TypeName(string file) => Path.GetFileNameWithoutExtension(file).Trim();
 
     /// <summary>
-    /// Признаки шаблона: цветные рамки и все цветное (печати, подписи) — в белый, содержимое
+    /// Признаки шаблона: цветные рамки и все цветное (печати, подписи) — в белый (только для
+    /// шаблонов с цветными рамками; ручная разметка цвет не трогает), содержимое
     /// полей — в белый (у каждого документа оно свое), затем уменьшение до размера
     /// сопоставления.
     /// </summary>
-    private static PageFeatures BuildFeatures(Mat page, FrameLayout layout, PageSize size)
+    private static PageFeatures BuildFeatures(Mat page, FrameLayout layout, PageSize size, bool eraseColored = true)
     {
-        using var mask = ColorFrames.ColoredMask(page, out var hsv);
-        hsv.Dispose();
-        using var grown = new Mat();
-        using (var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5)))
-            Cv2.Dilate(mask, grown, k);
-
         using var gray = PageImage.ToGray(page);
-        gray.SetTo(new Scalar(255), grown);
+        if (eraseColored)
+        {
+            using var mask = ColorFrames.ColoredMask(page, out var hsv);
+            hsv.Dispose();
+            using var grown = new Mat();
+            using (var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5)))
+                Cv2.Dilate(mask, grown, k);
+            gray.SetTo(new Scalar(255), grown);
+        }
         foreach (var frame in layout.Frames)
         {
             var r = frame.Inner.ToPixels(gray.Width, gray.Height);

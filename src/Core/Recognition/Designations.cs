@@ -147,16 +147,23 @@ internal static class Designations
                 if (groups.Length < 3 || groups[1].Length < 3) return null;
             }
             else if (!org.Any(char.IsLetter)) return null;
+
+            // Начало как у ЕСКД (АААА.000000.), но длинный хвост цифр: так выглядит код документа,
+            // прочитанный цифрами («…001ПЭ3» как «…001733»). Правило ЕСКД его уже не приняло.
+            var parts = value.Split('.');
+            if (org.Length == 4 && org.All(TextRules.IsCyrillic) && parts.Length >= 3 && parts[1].Length == 6
+                && parts[1].All(char.IsDigit) && parts[2].TakeWhile(char.IsDigit).Count() > 4)
+                return null;
         }
 
         // Код документа ЕСКД, отделенный пробелом: «…123 СБ».
         if (!m.Groups["code"].Success || m.Groups["code"].Length == 0)
         {
             var rest = text[(m.Index + m.Length)..];
-            var code = Regex.Match(rest, $@"^ ([{L}]{{1,3}}\d{{0,2}})(?![{L}0-9])");
+            var code = Regex.Match(rest, $@"^ ([{L}0-9]{{1,3}})(?![{L}0-9])");
             if (code.Success)
             {
-                var c = TextRules.FoldToCyrillic(code.Groups[1].Value.ToUpperInvariant());
+                var c = DigitInCode(TextRules.FoldToCyrillic(code.Groups[1].Value.ToUpperInvariant()), DocumentCodes.Contains);
                 if (DocumentCodes.Contains(c))
                 {
                     value += c;
@@ -168,12 +175,52 @@ internal static class Designations
         {
             // Код документа — только известный; латинские двойники в нем — кириллица (коды ЕСКД).
             var codeGroup = m.Groups["code"];
-            var c = TextRules.FoldToCyrillic(codeGroup.Value.ToUpperInvariant());
+            var c = DigitInCode(TextRules.FoldToCyrillic(codeGroup.Value.ToUpperInvariant()), IsKnownCode);
             if (!IsKnownCode(c)) return null;
             value = value[..(codeGroup.Index - m.Index)] + c + value[(codeGroup.Index - m.Index + codeGroup.Length)..];
         }
 
         return value;
+    }
+
+    /// <summary>
+    /// Код документа с буквами и цифрами, перепутанными на чертежном шрифте: «ПЭЗ» → «ПЭ3»,
+    /// «ЭО» → «Э0», «33» → «Э3», «П33» → «ПЭ3». Цифра в кодах ЕСКД бывает только последней, а
+    /// набор кодов закрыт, поэтому замена делается, лишь когда исходный код неизвестен, а
+    /// исправленный известен. Второй движок по-прежнему должен прочитать то же самое.
+    /// </summary>
+    internal static string DigitInCode(string code, Func<string, bool> known)
+    {
+        if (code.Length < 2 || known(code)) return code;
+        // Буквы кода стоят до последнего знака: «3» на их месте на чертежном шрифте — «Э».
+        var chars = code.ToCharArray();
+        for (var i = 0; i < chars.Length - 1; i++)
+            if (chars[i] == '3') chars[i] = 'Э';
+        chars[^1] = chars[^1] switch { 'З' => '3', 'О' => '0', var c => c };
+        var candidate = new string(chars);
+        return known(candidate) ? candidate : code;
+    }
+
+    // Пары существующих кодов, которые на чертежных шрифтах выглядят одинаково: буква З и
+    // цифра 3, буква О и цифра 0 нарисованы почти одной линией (прогон алфавита).
+    private static readonly (string Letter, string Digit, string What)[] AmbiguousCodes =
+    [
+        ("ПЗ", "П3", "пояснительная записка или схема пневматическая принципиальная"),
+        ("ВО", "В0", "чертеж общего вида или схема вакуумная объединенная"),
+        ("ТО", "Т0", "техническое описание или схема тепловая объединенная"),
+    ];
+
+    /// <summary>
+    /// Код документа, который по изображению не отличить от другого существующего кода
+    /// («ПЗ» и «П3»). Для чтения изображения это отказ с причиной; в тексте PDF код записан
+    /// точно и такой проверки не требует. null — код однозначен.
+    /// </summary>
+    public static string? AmbiguousCode(string designation)
+    {
+        foreach (var (letter, digit, what) in AmbiguousCodes)
+            if (Regex.IsMatch(designation, $@"[0-9]({letter}|{digit})$"))
+                return $"код документа «{letter}» и «{digit}» на изображении не различить ({what}): переименуйте файл вручную";
+        return null;
     }
 
     /// <summary>Похож ли текст на обозначение (для проверки, что наименование не им является).</summary>

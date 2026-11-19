@@ -28,7 +28,8 @@ internal static class FieldParser
         if (reading.IsEmpty) return Parsed.Fail("область обозначения пустая или текст не читается");
         if (!MeetsConfidence(reading, minConfidence)) return Parsed.Fail("низкая уверенность распознавания обозначения");
 
-        return ParseDesignationText(reading.Text);
+        var parsed = ParseDesignationText(reading.Text);
+        return parsed.IsOk && Designations.AmbiguousCode(parsed.Value!) is { } ambiguous ? Parsed.Fail(ambiguous) : parsed;
     }
 
     /// <summary>Формат текста из PDF: уверенности OCR у этого источника нет.
