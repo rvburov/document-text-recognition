@@ -20,6 +20,29 @@ public sealed class DesignationsTests
     }
 
     [Theory]
+    [InlineData("АБВГ.112345.001 ПЭЗ", "АБВГ.112345.001ПЭ3")]
+    [InlineData("АБВГ.112345.001ПЭЗ", "АБВГ.112345.001ПЭ3")]
+    [InlineData("АБВГ.112345.001 ЭЗ", "АБВГ.112345.001Э3")]
+    [InlineData("АБВГ.112345.001ЭО", "АБВГ.112345.001Э0")]
+    [InlineData("АБВГ.112345.001 ТО", "АБВГ.112345.001ТО")]
+    [InlineData("АБВГ.112345.001ЗИ", "АБВГ.112345.001ЗИ")]
+    public void Digit_read_as_letter_twin_at_the_end_of_a_document_code_is_restored(string raw, string expected)
+    {
+        Assert.Equal(expected, FieldParser.ParseDesignation(Reading(raw), 0.5).Value);
+    }
+
+    [Theory]
+    [InlineData("АБВГ.112345.001 ПЗЭ")]
+    [InlineData("АБВГ.112345.001 ЗЭ")]
+    [InlineData("АБВГ.112345.ОО1 СБ")]
+    public void Only_the_last_code_character_may_become_a_digit(string raw)
+    {
+        Assert.NotEqual("АБВГ.112345.001ПЭ3", FieldParser.ParseDesignation(Reading(raw), 0.5).Value);
+        Assert.NotEqual("АБВГ.112345.001Э3", FieldParser.ParseDesignation(Reading(raw), 0.5).Value);
+        Assert.NotEqual("АБВГ.112345.001СБ", FieldParser.ParseDesignation(Reading(raw), 0.5).Value);
+    }
+
+    [Theory]
     [InlineData("DX.700.004")]
     [InlineData("USB.700.004")]
     [InlineData("R2.700.004")]
