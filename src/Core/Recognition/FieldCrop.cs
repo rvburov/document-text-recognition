@@ -97,15 +97,85 @@ internal static class FieldCrop
         Cv2.Divide(gray, background, flat, 255);
 
         using var ink = PageImage.InkMask(flat);
-        var minLine = (int)(7 / 25.4 * OcrDpi);
+        // Линия графы длиннее и 7 мм, и самой высокой буквы: крупный шрифт обозначения
+        // (7-10 мм по ГОСТ 2.304) не теряет вертикальные штрихи Б, В, Г, П, 1.
+        var minLine = Math.Max((int)(7 / 25.4 * OcrDpi), (int)Math.Ceiling(1.3 * TextHeight(ink)));
         using var lines = PageImage.LineMask(ink, minLine);
         using var grown = new Mat();
         using (var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5)))
             Cv2.Dilate(lines, grown, k);
+        AddLineStubs(ink, grown);
         flat.SetTo(new Scalar(255), grown);
 
         var padded = new Mat();
         Cv2.CopyMakeBorder(flat, padded, 24, 24, 24, 24, BorderTypes.Constant, Scalar.All(255));
         return padded;
+    }
+
+    /// <summary>Высота крупных знаков области, точек: по связным пятнам, похожим на буквы
+    /// (не линии во всю область и не точки). 0 — знаков нет.</summary>
+    internal static double TextHeight(Mat ink)
+    {
+        using var labels = new Mat();
+        using var stats = new Mat();
+        using var centroids = new Mat();
+        var count = Cv2.ConnectedComponentsWithStats(ink, labels, stats, centroids, PixelConnectivity.Connectivity8);
+        var minSize = 1.2 / 25.4 * OcrDpi;
+        var heights = new List<int>();
+        for (var i = 1; i < count; i++)
+        {
+            var w = stats.At<int>(i, (int)ConnectedComponentsTypes.Width);
+            var h = stats.At<int>(i, (int)ConnectedComponentsTypes.Height);
+            if (h < minSize || h > 0.85 * ink.Height || w > 0.85 * ink.Width) continue;
+            if (w * 6 < h && h > 2 * (7 / 25.4 * OcrDpi)) continue; // отрезок линии, а не «1»
+            heights.Add(h);
+        }
+        if (heights.Count == 0) return 0;
+        heights.Sort();
+        return heights[(int)(0.8 * (heights.Count - 1))];
+    }
+
+    /// <summary>
+    /// Обрезки линий соседних граф (область чуть шире графы): тонкий горизонтальный штрих,
+    /// который касается левого или правого края области или примыкал к удаленной линии.
+    /// Иначе движки читают их как «-», «—», «т». Добавляются в маску удаляемого.
+    /// </summary>
+    private static void AddLineStubs(Mat ink, Mat removed)
+    {
+        using var residual = new Mat();
+        using (var notRemoved = new Mat())
+        {
+            Cv2.BitwiseNot(removed, notRemoved);
+            Cv2.BitwiseAnd(ink, notRemoved, residual);
+        }
+        using var near = new Mat();
+        using (var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(3, 3)))
+            Cv2.Dilate(removed, near, k);
+        using var labels = new Mat();
+        using var stats = new Mat();
+        using var centroids = new Mat();
+        var count = Cv2.ConnectedComponentsWithStats(residual, labels, stats, centroids, PixelConnectivity.Connectivity8);
+        var thin = 0.7 / 25.4 * OcrDpi;
+        for (var i = 1; i < count; i++)
+        {
+            var x = stats.At<int>(i, (int)ConnectedComponentsTypes.Left);
+            var w = stats.At<int>(i, (int)ConnectedComponentsTypes.Width);
+            var h = stats.At<int>(i, (int)ConnectedComponentsTypes.Height);
+            // Только горизонтальные обрезки: вертикальный тонкий штрих у края может быть «1».
+            if (h > thin || w < 2 * h) continue;
+            using var component = new Mat();
+            Cv2.Compare(labels, i, component, CmpTypes.EQ);
+            var atEdge = x == 0 || x + w >= ink.Width;
+            if (!atEdge)
+            {
+                using var touch = new Mat();
+                Cv2.BitwiseAnd(component, near, touch);
+                if (Cv2.CountNonZero(touch) == 0) continue;
+            }
+            // С тем же запасом, что и линии: иначе остается серый ореол сглаживания.
+            using (var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5)))
+                Cv2.Dilate(component, component, k);
+            removed.SetTo(new Scalar(255), component);
+        }
     }
 }
