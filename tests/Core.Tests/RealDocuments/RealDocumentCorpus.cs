@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using DocumentTextRecognition.Core.Imaging;
@@ -10,11 +11,15 @@ namespace DocumentTextRecognition.Tests.RealDocuments;
 
 /// <summary>
 /// Корпус настоящих документов конструкторской документации: PDF, эталонные значения граф
-/// основной надписи (заданы человеком по самому документу, не по ответам OCR), области шаблонов
-/// и базовая линия результатов. Хранится в <c>tests/real-documents</c>; дополнительный локальный
-/// корпус с тем же форматом подключается переменной <c>DTR_REAL_DOCS_DIR</c> и в git не попадает.
+/// основной надписи (заданы человеком по самому документу, не по ответам OCR), области полей
+/// (как их сохраняет редактор шаблона) и базовая линия результатов.
+///
+/// <para>Корпус в репозитории — <c>tests/real-documents</c>. Документы с открытой лицензией
+/// лежат в <c>documents/</c>; остальные хранятся у авторов на GitHub и скачиваются по ссылке на
+/// конкретный коммит в <c>external/</c> (папка не попадает в git), содержимое проверяется по
+/// SHA-256. Свой корпус с тем же форматом подключается переменной <c>DTR_REAL_DOCS_DIR</c>.</para>
 /// </summary>
-internal sealed record RealCorpus(string Root, string Title, IReadOnlyList<RealTemplate> Templates, IReadOnlyList<RealDocument> Documents)
+internal sealed record RealCorpus(string Root, string Title, IReadOnlyList<RealDocument> Documents)
 {
     public const string ManifestName = "manifest.json";
 
@@ -26,36 +31,34 @@ internal sealed record RealCorpus(string Root, string Title, IReadOnlyList<RealT
         Converters = { new JsonStringEnumConverter() },
     };
 
-    /// <summary>Прочитать manifest.json; любая ошибка формата — исключение с понятным текстом.</summary>
+    /// <summary>Прочитать manifest.json; ошибка формата — исключение с понятным текстом.</summary>
     public static RealCorpus Load(string root)
     {
         var path = Path.Combine(root, ManifestName);
         var manifest = JsonSerializer.Deserialize<RealManifest>(File.ReadAllText(path), Json)
             ?? throw new InvalidDataException($"{path}: пустой манифест");
         if (manifest.Version != 1) throw new InvalidDataException($"{path}: неподдерживаемая версия {manifest.Version}");
-        var templates = manifest.Templates ?? [];
         var documents = manifest.Documents ?? [];
-        foreach (var t in templates)
-        {
-            if (!File.Exists(Path.Combine(root, t.File))) throw new FileNotFoundException($"{path}: нет файла шаблона", t.File);
-            var problem = TemplateMarkupStore.Validate(t.Regions, t.TypeAbsent);
-            if (problem is not null) throw new InvalidDataException($"{path}: шаблон «{t.Name}»: {problem}");
-        }
-        foreach (var d in documents)
-        {
-            if (!File.Exists(Path.Combine(root, d.File))) throw new FileNotFoundException($"{path}: нет документа", d.File);
-            if (!templates.Any(t => t.Name == d.Template))
-                throw new InvalidDataException($"{path}: документ {d.Id}: нет шаблона «{d.Template}»");
-            if (string.IsNullOrWhiteSpace(d.Expected.Designation) || string.IsNullOrWhiteSpace(d.Expected.Name)
-                || string.IsNullOrWhiteSpace(d.Expected.Type))
-                throw new InvalidDataException($"{path}: документ {d.Id}: эталон должен содержать обозначение, наименование и тип");
-        }
         var duplicate = documents.GroupBy(d => d.Id).FirstOrDefault(g => g.Count() > 1);
         if (duplicate is not null) throw new InvalidDataException($"{path}: повторяется id {duplicate.Key}");
-        return new RealCorpus(root, manifest.Title ?? Path.GetFileName(root), templates, documents);
+        foreach (var d in documents)
+        {
+            var template = d.Template is null ? d : documents.FirstOrDefault(t => t.Id == d.Template)
+                ?? throw new InvalidDataException($"{path}: {d.Id}: нет документа-шаблона «{d.Template}»");
+            if (template.Regions is null)
+                throw new InvalidDataException($"{path}: {d.Id}: у шаблона {template.Id} нет областей");
+            var problem = TemplateMarkupStore.Validate(template.Regions, template.TypeAbsent);
+            if (problem is not null) throw new InvalidDataException($"{path}: {template.Id}: {problem}");
+            if (d.MustRefuse is null && (string.IsNullOrWhiteSpace(d.Expected.Designation)
+                || string.IsNullOrWhiteSpace(d.Expected.Name) || string.IsNullOrWhiteSpace(d.Expected.Type)))
+                throw new InvalidDataException($"{path}: {d.Id}: эталон должен содержать обозначение, наименование и тип");
+            if (d.Sha256 is { } sha && (sha.Length != 64 || !sha.All(Uri.IsHexDigit)))
+                throw new InvalidDataException($"{path}: {d.Id}: неверный sha256");
+        }
+        return new RealCorpus(root, manifest.Title ?? Path.GetFileName(root), documents);
     }
 
-    /// <summary>Корпус в репозитории и, если задан, локальный корпус пользователя.</summary>
+    /// <summary>Корпус в репозитории и, если задан, свой корпус пользователя.</summary>
     public static IReadOnlyList<RealCorpus> Discover()
     {
         var result = new List<RealCorpus>();
@@ -80,79 +83,130 @@ internal sealed record RealCorpus(string Root, string Title, IReadOnlyList<RealT
         }
         return null;
     }
+
+    public string PathOf(RealDocument document) => Path.Combine(Root, document.File);
+
+    /// <summary>
+    /// Файл документа на месте и совпадает с эталонным хешем. Отсутствующий внешний документ
+    /// скачивается, если задано <c>DTR_REAL_DOCS_FETCH=1</c>. null — документ готов; иначе причина.
+    /// Неверный хеш у файла на диске — ошибка корпуса, а не пропуск.
+    /// </summary>
+    public string? Ensure(RealDocument document)
+    {
+        var path = PathOf(document);
+        if (!File.Exists(path))
+        {
+            if (document.Source is null) throw new FileNotFoundException($"{document.Id}: нет файла", path);
+            if (Environment.GetEnvironmentVariable("DTR_REAL_DOCS_FETCH") != "1")
+                return "внешний документ не скачан (DTR_REAL_DOCS_FETCH=1 скачает его)";
+            try { Download(document.Source, path, document.Sha256); }
+            catch (Exception ex) when (ex is HttpRequestException or IOException or TaskCanceledException or InvalidDataException)
+            {
+                return $"не удалось скачать: {ex.Message}";
+            }
+        }
+        if (document.Sha256 is { } expected)
+        {
+            using var stream = File.OpenRead(path);
+            var actual = Convert.ToHexString(SHA256.HashData(stream));
+            if (!string.Equals(actual, expected, StringComparison.OrdinalIgnoreCase))
+                throw new InvalidDataException($"{document.Id}: файл отличается от эталона (sha256 {actual})");
+        }
+        return null;
+    }
+
+    private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(60) };
+
+    private static void Download(string url, string path, string? sha256)
+    {
+        var bytes = Http.GetByteArrayAsync(url).GetAwaiter().GetResult();
+        if (sha256 is not null && !string.Equals(Convert.ToHexString(SHA256.HashData(bytes)), sha256, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException("содержимое по ссылке изменилось (sha256 не совпадает)");
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        var temporary = path + ".part";
+        File.WriteAllBytes(temporary, bytes);
+        File.Move(temporary, path, overwrite: true);
+    }
 }
 
 internal sealed record RealManifest
 {
     public int Version { get; init; }
     public string? Title { get; init; }
-    public RealTemplate[]? Templates { get; init; }
     public RealDocument[]? Documents { get; init; }
 }
 
-/// <summary>Шаблон: PDF-образец формы и области граф в долях страницы (как сохраняет редактор).</summary>
-internal sealed record RealTemplate
-{
-    public required string Name { get; init; }
-    public required string File { get; init; }
-    public int Page { get; init; }
-    public bool TypeAbsent { get; init; }
-    public required TemplateRegion[] Regions { get; init; }
-}
-
+/// <summary>Эталон в форме, которую дает программа: код документа слитно, «ё» как «е», тип
+/// из справочника; без типа в шаблоне — «Спецификация».</summary>
 internal sealed record RealExpected(string Designation, string Name, string Type);
 
-/// <summary>Ожидаемый исход варианта: точное чтение обязательно или допустим отказ.</summary>
+/// <summary>Исход варианта в базовой линии.</summary>
 internal enum RealBaseline { Exact, Refused }
 
 internal sealed record RealDocument
 {
     public required string Id { get; init; }
+    /// <summary>Путь от корня корпуса: documents/… (в git) или external/… (скачивается).</summary>
     public required string File { get; init; }
-    public required string Template { get; init; }
-    public required RealExpected Expected { get; init; }
+    public string? Sha256 { get; init; }
+    /// <summary>Ссылка для скачивания на конкретный коммит.</summary>
     public string? Source { get; init; }
+    public string? Repository { get; init; }
     public string? License { get; init; }
+    public string? Producer { get; init; }
+    /// <summary>Страница с основной надписью (от 0): по ней строится шаблон и «скан».</summary>
+    public int Page { get; init; }
+    public bool TypeAbsent { get; init; }
+    /// <summary>Области полей, как их сохраняет редактор шаблона.</summary>
+    public TemplateRegion[]? Regions { get; init; }
+    /// <summary>Шаблон из другого документа (id); по умолчанию — сам документ.</summary>
+    public string? Template { get; init; }
+    public required RealExpected Expected { get; init; }
+    /// <summary>Программа не может дать верное имя (нет обозначения по правилам): любое принятое значение — ошибка.</summary>
+    public string? MustRefuse { get; init; }
     public string? Note { get; init; }
-    /// <summary>Базовая линия по вариантам. Нет записи — допускается отказ, неверное имя запрещено всегда.</summary>
+    /// <summary>Базовая линия по вариантам. Нет записи — допускается отказ; неверное имя запрещено всегда.</summary>
     public Dictionary<string, RealBaseline> Baseline { get; init; } = [];
 }
 
 /// <summary>
-/// Варианты одного документа. «vector» — исходный PDF (текстовый слой подтверждается OCR).
-/// Растровые варианты — тот же лист без текстового слоя, как после сканера: проверяется
+/// Варианты документа. «vector» — исходный PDF (текстовый слой подтверждается OCR, иначе OCR).
+/// Растровые варианты — страница с основной надписью без текстового слоя, как после сканера:
 /// чистое распознавание изображения. Шум задается своим зерном: прогоны повторяемы.
 /// </summary>
-internal sealed record RealVariant(string Key, int Dpi, double SkewDegrees, double Blur, double Noise, int JpegQuality, bool Gray)
+internal sealed record RealVariant(string Key, int Dpi, double SkewDegrees, double Blur, double Noise, int JpegQuality)
 {
-    public static readonly RealVariant Vector = new("vector", 0, 0, 0, 0, 0, false);
+    public static readonly RealVariant Vector = new("vector", 0, 0, 0, 0, 0);
+
+    private const int MaxLongSide = 7016;
 
     public static readonly IReadOnlyList<RealVariant> All =
     [
         Vector,
-        new("scan300", 300, 0.0, 0.0, 0.0, 90, true),
-        new("scan200-skew", 200, 0.6, 0.5, 0.02, 75, true),
+        new("scan300", 300, 0.0, 0.0, 0.0, 90),
+        new("scan200-skew", 200, 0.6, 0.5, 0.02, 75),
     ];
 
-    /// <summary>Создать растровую копию страницы документа.</summary>
-    public string Rasterize(string sourcePdf, int page, string targetPdf, int seed)
+    /// <summary>Растровая копия одной страницы документа: серый лист, как из сканера.</summary>
+    public void Rasterize(string sourcePdf, int page, string targetPdf, int seed)
     {
         using var pdf = PdfDocument.Open(sourcePdf);
         var size = pdf.GetPageSize(page);
-        var longSide = (int)Math.Round(Math.Max(size.WidthMm, size.HeightMm) / 25.4 * Dpi);
-        using var bgr = pdf.RenderPage(page, longSide);
+        // Листы A1 и больше сканируются широкоформатным сканером с меньшим разрешением:
+        // длинная сторона не больше, чем у A2 при 300 dpi, иначе картинка не помещается в память.
+        var inches = Math.Max(size.WidthMm, size.HeightMm) / 25.4;
+        var dpi = Math.Min(Dpi, (int)(MaxLongSide / inches));
+        using var bgr = pdf.RenderPage(page, (int)Math.Round(inches * dpi));
         using var scanned = Degrade(bgr, seed);
-        SyntheticForms.SavePdf(targetPdf, [scanned], Dpi, JpegQuality);
-        return targetPdf;
+        SyntheticForms.SavePdf(targetPdf, [scanned], dpi, JpegQuality);
     }
 
     private Mat Degrade(Mat bgr, int seed)
     {
-        var page = bgr.Clone();
-        if (Gray)
+        var page = new Mat();
+        using (var gray = new Mat())
         {
-            using var gray = new Mat();
-            Cv2.CvtColor(page, gray, ColorConversionCodes.BGR2GRAY);
+            Cv2.CvtColor(bgr, gray, ColorConversionCodes.BGR2GRAY);
             Cv2.CvtColor(gray, page, ColorConversionCodes.GRAY2BGR);
         }
         if (SkewDegrees != 0)

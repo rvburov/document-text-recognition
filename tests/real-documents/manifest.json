@@ -1,0 +1,2045 @@
+{
+  "version": 1,
+  "title": "Реальные документы ЕСКД с GitHub",
+  "documents": [
+    {
+      "id": "01-can-sensor-pcb-nvct-dtn-0000-100-sb",
+      "file": "external/01-can-sensor-pcb-nvct-dtn-0000-100-sb.pdf",
+      "sha256": "0331b7ef6b22ed7012f115efaf706ac61a40b9c0e73e9e5cd56bbefa5b776294",
+      "source": "https://raw.githubusercontent.com/Alexandr-Filatov/CAN_Sensor_PCB/6b91eec723c587f430e6e16653b4de93a37fa788/Docs/%D0%9D%D0%92%D0%A6%D0%A2.%D0%94%D0%A2%D0%9D.0000.100%20%D0%A1%D0%91.pdf",
+      "repository": "https://github.com/Alexandr-Filatov/CAN_Sensor_PCB",
+      "license": null,
+      "producer": "AutoCAD 2024",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.77205,
+            "y": 0.81181,
+            "width": 0.15157,
+            "height": 0.02725
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.71285,
+            "y": 0.86866,
+            "width": 0.14863,
+            "height": 0.03969
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.73792,
+            "y": 0.90849,
+            "width": 0.09395,
+            "height": 0.02006
+          }
+        }
+      ],
+      "expected": {
+        "designation": "НВЦТ.ДТН.0000.100СБ",
+        "name": "Плата датчика температуры CAN",
+        "type": "Сборочный чертеж"
+      }
+    },
+    {
+      "id": "02-dcdc-adaptor-nvct-evp150-2-1-2000-150-e3",
+      "file": "external/02-dcdc-adaptor-nvct-evp150-2-1-2000-150-e3.pdf",
+      "sha256": "529c2be2041296edf2c3b298762acb92442c0c2c315187ab49dadee0acaec703",
+      "source": "https://raw.githubusercontent.com/Alexandr-Filatov/DCDC_Adaptor/8d245b295328bf23ef16d1058db9a256c756be0d/Docs/%D0%9D%D0%92%D0%A6%D0%A2.EVP150-2-1.2000.150%20%D0%AD3.pdf",
+      "repository": "https://github.com/Alexandr-Filatov/DCDC_Adaptor",
+      "license": null,
+      "producer": "KiCad (Eeschema)",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.48141,
+            "y": 0.8148,
+            "width": 0.4457,
+            "height": 0.02694
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.43332,
+            "y": 0.88383,
+            "width": 0.31094,
+            "height": 0.02054
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.42189,
+            "y": 0.90773,
+            "width": 0.33237,
+            "height": 0.01616
+          }
+        }
+      ],
+      "expected": {
+        "designation": "НВЦТ.ЕVР150-2-1.2000.150Э3",
+        "name": "Плата источника питания",
+        "type": "Схема электрическая принципиальная"
+      },
+      "note": "текстовый слой основной надписи: garbled"
+    },
+    {
+      "id": "03-kamaz-power-pcb-plata-silovaya-elp-mpst-76721-75",
+      "file": "external/03-kamaz-power-pcb-plata-silovaya-elp-mpst-76721-75.pdf",
+      "sha256": "637645ea4fd01c65fdefc943377768e331ff2a0c66e0e4482e317487f6f4968f",
+      "source": "https://raw.githubusercontent.com/Alexandr-Filatov/KAMAZ_Power_PCB/8cea1771d6bb3fda6d29fd75a3bd29f93732d257/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%9F%D0%BB%D0%B0%D1%82%D0%B0%20%D1%81%D0%B8%D0%BB%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%AD%D0%9B%D0%9F%20-%20%D0%9C%D0%9F%D0%A1%D0%A2.76721.758764.01.%D0%AD3.%D0%9C.pdf",
+      "repository": "https://github.com/Alexandr-Filatov/KAMAZ_Power_PCB",
+      "license": null,
+      "producer": "KiCad (Eeschema)",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.71145,
+            "y": 0.81413,
+            "width": 0.19286,
+            "height": 0.02727
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.70192,
+            "y": 0.88349,
+            "width": 0.17453,
+            "height": 0.02054
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МПСТ.76721.758764.01.Э3.М",
+        "name": "Плата силовая ЭЛТ",
+        "type": "Схема электрическая принципиальная"
+      },
+      "mustRefuse": "наименование и тип в одной строке, обозначение вне правил ЕСКД",
+      "note": "текстовый слой основной надписи: garbled"
+    },
+    {
+      "id": "04-moyka-hvu-e3",
+      "file": "external/04-moyka-hvu-e3.pdf",
+      "sha256": "18e6814e79b1977efdfef26686189a82801f7cc98b39f677b05f053aa323e99c",
+      "source": "https://raw.githubusercontent.com/Alexandr-Filatov/Moyka/b1e743f5e2408759af91152952a9444299aac6de/HVU_%D0%AD3/HVU_%D0%AD3.pdf",
+      "repository": "https://github.com/Alexandr-Filatov/Moyka",
+      "license": null,
+      "producer": "KiCad (Eeschema)",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.82996,
+            "y": 0.86907,
+            "width": 0.13131,
+            "height": 0.01929
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.80067,
+            "y": 0.91788,
+            "width": 0.09714,
+            "height": 0.01452
+          }
+        }
+      ],
+      "expected": {
+        "designation": "НВЦТ.0001.0400.010Э3",
+        "name": "Плата управления блока коммутаций HVU",
+        "type": "Спецификация"
+      },
+      "note": "текстовый слой основной надписи: garbled"
+    },
+    {
+      "id": "05-mps-principialnaya-shema",
+      "file": "external/05-mps-principialnaya-shema.pdf",
+      "sha256": "a0deca4fb6a34a64fd6121b95e77c938b2ca44630efc31a167ad611ee6f0f0de",
+      "source": "https://raw.githubusercontent.com/AmaTeramisu/MPS/cde48c2394a73d7ec55f5e210461f95afd2a3c73/%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D1%85%D0%B5%D0%BC%D0%B0.pdf",
+      "repository": "https://github.com/AmaTeramisu/MPS",
+      "license": null,
+      "producer": "KiCad (Eeschema)",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.67036,
+            "y": 0.73759,
+            "width": 0.25219,
+            "height": 0.03857
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.58753,
+            "y": 0.78663,
+            "width": 0.23232,
+            "height": 0.04809
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.57878,
+            "y": 0.83568,
+            "width": 0.27306,
+            "height": 0.02905
+          }
+        }
+      ],
+      "expected": {
+        "designation": "КОНТРОЛЛЕР ТЕПЛИЦЫ",
+        "name": "",
+        "type": "Схема электрическая принципиальная"
+      },
+      "mustRefuse": "в графе обозначения написано наименование изделия",
+      "note": "текстовый слой основной надписи: garbled"
+    },
+    {
+      "id": "06-korpus-24-25-kursach-specifikaciya",
+      "file": "external/06-korpus-24-25-kursach-specifikaciya.pdf",
+      "sha256": "fd7e520f80bf106e0ee84e204de5599ee8d771530663f35d9215bb83e2a1b26d",
+      "source": "https://raw.githubusercontent.com/BeGosha-git/KORPUS_24-25_KURSACH/dccc43770d6e478b007825908a0865f61b9cb667/%D0%9F%D0%90%D0%9F%D0%9A%D0%98/%D0%9011/%D0%BF%D0%B5%D1%87%D0%B0%D1%82%D1%8C/%D0%A1%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F.pdf",
+      "repository": "https://github.com/BeGosha-git/KORPUS_24-25_KURSACH",
+      "license": null,
+      "producer": "KOMPAS-3D (учебная)",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.53536,
+            "y": 0.85614,
+            "width": 0.29622,
+            "height": 0.03897
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.42686,
+            "y": 0.90637,
+            "width": 0.27621,
+            "height": 0.07246
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МРАГ.431122.1100",
+        "name": "Плата фильтра 10 / 14 mHz",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "07-korpus-24-25-kursach-e3",
+      "file": "external/07-korpus-24-25-kursach-e3.pdf",
+      "sha256": "bb7f52780ac73ae7fdda2c06c79a072c18420bb701787510fa8584d63e3bb893",
+      "source": "https://raw.githubusercontent.com/BeGosha-git/KORPUS_24-25_KURSACH/dccc43770d6e478b007825908a0865f61b9cb667/%D0%9F%D0%90%D0%9F%D0%9A%D0%98/%D0%9011/%D0%BF%D0%B5%D1%87%D0%B0%D1%82%D1%8C/%D0%AD3..pdf",
+      "repository": "https://github.com/BeGosha-git/KORPUS_24-25_KURSACH",
+      "license": null,
+      "producer": "unknown ECAD -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.75521,
+            "y": 0.80176,
+            "width": 0.15774,
+            "height": 0.03286
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.76058,
+            "y": 0.85184,
+            "width": 0.0431,
+            "height": 0.04238
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.71473,
+            "y": 0.89653,
+            "width": 0.14142,
+            "height": 0.0194
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МРАГ.1122.1000Э3",
+        "name": "Фильтр 10/14 мГц",
+        "type": "Схема электрическая принципиальная"
+      }
+    },
+    {
+      "id": "08-etz-shema-e3",
+      "file": "external/08-etz-shema-e3.pdf",
+      "sha256": "6096556a7097f6b48355d7b4467eb63c9f77e1fa8be65bb6c91f0eaed1188a86",
+      "source": "https://raw.githubusercontent.com/DmitryKaverznev/etz/6c2ba9a3f62b34eb3f3708ffa91dd062803131dc/%D0%AD%D0%BA%D1%81%D0%BF%D0%BE%D1%80%D1%82/%D0%A1%D1%85%D0%B5%D0%BC%D0%B0%20%D0%AD3.pdf",
+      "repository": "https://github.com/DmitryKaverznev/etz",
+      "license": null,
+      "producer": "KiCad (likely) -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.803,
+            "y": 0.85089,
+            "width": 0.16498,
+            "height": 0.03381
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.78953,
+            "y": 0.88851,
+            "width": 0.10673,
+            "height": 0.02619
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.79896,
+            "y": 0.92279,
+            "width": 0.09293,
+            "height": 0.01571
+          }
+        }
+      ],
+      "expected": {
+        "designation": "",
+        "name": "Инженерный проект",
+        "type": "Схема электрическая принципиальная"
+      },
+      "mustRefuse": "графа обозначения пустая",
+      "note": "текстовый слой основной надписи: none"
+    },
+    {
+      "id": "09-diplom-kryshka-korpusa-iu4-11-03-03-25-01-82-08",
+      "file": "external/09-diplom-kryshka-korpusa-iu4-11-03-03-25-01-82-08.pdf",
+      "sha256": "975619286a09c258671de3b3b9aa5bc974c08f198d050458b3f67d4144abe688",
+      "source": "https://raw.githubusercontent.com/Dravner/diplom/2a6630a833652f17dd011d61a6debaeae5719ac2/tech%20docs/%D0%BF%D0%B5%D1%87%D0%B0%D1%82%D1%8C/%D0%9A%D1%80%D1%8B%D1%88%D0%BA%D0%B0%20%D0%BA%D0%BE%D1%80%D0%BF%D1%83%D1%81%D0%B0%20_%20%D0%98%D0%A34.11.03.03.25.01.82.08.004.pdf",
+      "repository": "https://github.com/Dravner/diplom",
+      "license": null,
+      "producer": "KOMPAS-3D v22",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.45551,
+            "y": 0.80582,
+            "width": 0.45591,
+            "height": 0.03897
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.42437,
+            "y": 0.87392,
+            "width": 0.28154,
+            "height": 0.03897
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ИУ4.11.03.03.25.01.82.08.004",
+        "name": "Крышка корпуса",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "10-diplom-pe3",
+      "file": "external/10-diplom-pe3.pdf",
+      "sha256": "48a0d146e4d6d6403996e45ff2f273f8051581ab6659283629c2f3953c6d6cb1",
+      "source": "https://raw.githubusercontent.com/Dravner/diplom/2a6630a833652f17dd011d61a6debaeae5719ac2/tech%20docs/%D0%BF%D0%B5%D1%87%D0%B0%D1%82%D1%8C/%D0%9F%D0%AD3.pdf",
+      "repository": "https://github.com/Dravner/diplom",
+      "license": null,
+      "producer": "Microsoft Word",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.42824,
+            "y": 0.8299,
+            "width": 0.45053,
+            "height": 0.02777
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.3712,
+            "y": 0.88299,
+            "width": 0.32638,
+            "height": 0.0723
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ИУ4.11.03.03.25.01.82.08.001ПЭ3",
+        "name": "Система отслеживания раскачивания грузового прицепа",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "11-diplom-specifikaciya-sistema-monitoringa-raskach",
+      "file": "external/11-diplom-specifikaciya-sistema-monitoringa-raskach.pdf",
+      "sha256": "6df8d189008a7fcd83a55fed52a524cd8e0e4ac05128b52b85015b6800987ceb",
+      "source": "https://raw.githubusercontent.com/Dravner/diplom/2a6630a833652f17dd011d61a6debaeae5719ac2/tech%20docs/%D0%BF%D0%B5%D1%87%D0%B0%D1%82%D1%8C/%D0%A1%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F%20%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0%20%D0%BC%D0%BE%D0%BD%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B3%D0%B0%20%D1%80%D0%B0%D1%81%D0%BA%D0%B0%D1%87%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE%20%D0%BE%D1%82%D1%81%D0%B5%D0%BA%D0%B0.pdf",
+      "repository": "https://github.com/Dravner/diplom",
+      "license": null,
+      "producer": "Microsoft Word",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.46241,
+            "y": 0.83104,
+            "width": 0.38379,
+            "height": 0.02777
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.37161,
+            "y": 0.88584,
+            "width": 0.3274,
+            "height": 0.07244
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ИУ4.11.03.03.25.01.82.08.001",
+        "name": "Система мониторинга раскачивания грузового отсека",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "12-for-study-bcvku-rka-e3",
+      "file": "external/12-for-study-bcvku-rka-e3.pdf",
+      "sha256": "bfa7b7847e3bd1e3de1e084bc6715482aeaf2db0e2e6d9759b2381e2e522f7d8",
+      "source": "https://raw.githubusercontent.com/GnomYeaH/for_study/b858e8aa1a559bd4ca3911a2058a7403404ba3dd/sem8/%D0%91%D0%A6%D0%92%D0%9A%D0%A3%D0%A0%D0%9A%D0%90/%D0%91%D0%A6%D0%92%D0%9A%D0%A3%20%D0%A0%D0%9A%D0%90%20%D0%AD3.pdf",
+      "repository": "https://github.com/GnomYeaH/for_study",
+      "license": null,
+      "producer": "KOMPAS-3D",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.84477,
+            "y": 0.86267,
+            "width": 0.08585,
+            "height": 0.02759
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.79277,
+            "y": 0.89765,
+            "width": 0.10691,
+            "height": 0.03341
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.7877,
+            "y": 0.93116,
+            "width": 0.11796,
+            "height": 0.01763
+          }
+        }
+      ],
+      "expected": {
+        "designation": "БЦВКУРКАЭ3",
+        "name": "Умный турникет с приоритетным входом",
+        "type": "Схема электрическая принципиальная"
+      }
+    },
+    {
+      "id": "13-for-study-rl5-08-01-00-001-sb",
+      "file": "external/13-for-study-rl5-08-01-00-001-sb.pdf",
+      "sha256": "2403f354a392e1a57d46a4bf88de2826a8ec7e04746e96a8dbb54377f331a7e1",
+      "source": "https://raw.githubusercontent.com/GnomYeaH/for_study/b858e8aa1a559bd4ca3911a2058a7403404ba3dd/sem6/%D0%9A%D0%9F%20%D0%9E%D0%9A%D0%9F/%D0%BD%D0%B0%20%D0%BF%D0%B5%D1%87%D0%B0%D1%82%D1%8C/%D0%A0%D0%9B5.08.01.00.001%20%D0%A1%D0%91.pdf",
+      "repository": "https://github.com/GnomYeaH/for_study",
+      "license": null,
+      "producer": "KOMPAS-3D",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.75834,
+            "y": 0.80582,
+            "width": 0.16609,
+            "height": 0.03897
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.72063,
+            "y": 0.85523,
+            "width": 0.11947,
+            "height": 0.04693
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.7244,
+            "y": 0.90229,
+            "width": 0.11677,
+            "height": 0.02535
+          }
+        }
+      ],
+      "expected": {
+        "designation": "РЛ5.08.01.00.001СБ",
+        "name": "Электродвигатель в сборе",
+        "type": "Сборочный чертеж"
+      }
+    },
+    {
+      "id": "14-student-chair-eskd-p8-21932-0-01-kolpak",
+      "file": "external/14-student-chair-eskd-p8-21932-0-01-kolpak.pdf",
+      "sha256": "7895f6833fc3d6154316a479390cb7dfbc389c009a0bef2d0a7d31af3f36d15f",
+      "source": "https://raw.githubusercontent.com/Grenka054/Student-chair-ESKD/5b3c71cbd0c4f30c2d5a6469af926528e94315cb/%D0%A1%D1%82%D1%83%D0%BB%20%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9/%D0%A1%D1%82%D1%83%D0%BB%20%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9A%D0%94/%D0%9F8%2021932%200%2001%20%20%20%D0%9A%D0%BE%D0%BB%D0%BF%D0%B0%D0%BA.pdf",
+      "repository": "https://github.com/Grenka054/Student-chair-ESKD",
+      "license": null,
+      "producer": "KOMPAS-3D v22 (учебная версия)",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.57002,
+            "y": 0.80582,
+            "width": 0.22675,
+            "height": 0.03897
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.47431,
+            "y": 0.86737,
+            "width": 0.17662,
+            "height": 0.05315
+          }
+        }
+      ],
+      "expected": {
+        "designation": "П8.21932.0.01",
+        "name": "Колпак",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "15-student-chair-eskd-p8-21932-0-sb",
+      "file": "external/15-student-chair-eskd-p8-21932-0-sb.pdf",
+      "sha256": "20fd22171119c1bc3f9b21f7ec375b23b4c6b8f0cb27af695a5575bed35703f8",
+      "source": "https://raw.githubusercontent.com/Grenka054/Student-chair-ESKD/5b3c71cbd0c4f30c2d5a6469af926528e94315cb/%D0%A1%D1%82%D1%83%D0%BB%20%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9/%D0%A1%D1%82%D1%83%D0%BB%20%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9A%D0%94/%D0%9F8%2021932%200%20%D0%A1%D0%91.pdf",
+      "repository": "https://github.com/Grenka054/Student-chair-ESKD",
+      "license": null,
+      "producer": "KOMPAS-3D v22 (учебная версия)",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.78143,
+            "y": 0.80582,
+            "width": 0.1199,
+            "height": 0.03897
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.70358,
+            "y": 0.85614,
+            "width": 0.15698,
+            "height": 0.03619
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.7016,
+            "y": 0.89246,
+            "width": 0.16069,
+            "height": 0.03619
+          }
+        }
+      ],
+      "expected": {
+        "designation": "П8.21932.0СБ",
+        "name": "Стул ученический",
+        "type": "Сборочный чертеж"
+      }
+    },
+    {
+      "id": "16-student-chair-eskd-p8-21932-0-sp",
+      "file": "external/16-student-chair-eskd-p8-21932-0-sp.pdf",
+      "sha256": "8ea88d5b2a09781feda78c6c49ef5977e19306ee9273c8c135bba9150a920aca",
+      "source": "https://raw.githubusercontent.com/Grenka054/Student-chair-ESKD/5b3c71cbd0c4f30c2d5a6469af926528e94315cb/%D0%A1%D1%82%D1%83%D0%BB%20%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9/%D0%A1%D1%82%D1%83%D0%BB%20%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9A%D0%94/%D0%9F8%2021932%200%20%D0%A1%D0%9F.pdf",
+      "repository": "https://github.com/Grenka054/Student-chair-ESKD",
+      "license": null,
+      "producer": "KOMPAS-3D v22 (учебная версия)",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.56387,
+            "y": 0.85614,
+            "width": 0.23918,
+            "height": 0.03897
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.40277,
+            "y": 0.91869,
+            "width": 0.32416,
+            "height": 0.05181
+          }
+        }
+      ],
+      "expected": {
+        "designation": "П8.21932.0 СП",
+        "name": "Стул ученический",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "17-rf-digital-attenuator-6ghz-gost-kursach-pe3-4",
+      "file": "external/17-rf-digital-attenuator-6ghz-gost-kursach-pe3-4.pdf",
+      "sha256": "c560e835ad54fac1a12aa33361ef8985146b5f78609492b7931bd7239738b75b",
+      "source": "https://raw.githubusercontent.com/HomeboyMakkri/rf-digital-attenuator-6ghz/b636e345a4bee5383bc1c1ab045efa43092c0676/hardware/GOST/GOST_Kursach_%D0%9F%D0%AD3%204.pdf",
+      "repository": "https://github.com/HomeboyMakkri/rf-digital-attenuator-6ghz",
+      "license": null,
+      "producer": "Microsoft Excel",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.53044,
+            "y": 0.74281,
+            "width": 0.29443,
+            "height": 0.03106
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.44697,
+            "y": 0.79733,
+            "width": 0.22574,
+            "height": 0.02494
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.47842,
+            "y": 0.83692,
+            "width": 0.16431,
+            "height": 0.01895
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МГТУ.468158.001ПЭ3",
+        "name": "Система управления",
+        "type": "Перечень элементов"
+      }
+    },
+    {
+      "id": "18-dds-generator-schematic",
+      "file": "documents/18-dds-generator-schematic.pdf",
+      "sha256": "20eca82ea633156742a94d06b1aea157972adc659355c88e795a753a59d02d44",
+      "source": "https://raw.githubusercontent.com/Ivanchenko59/DDS-Generator/7c5da372183133802695abb06e387bbb01738dbe/hardware/Schematic.pdf",
+      "repository": "https://github.com/Ivanchenko59/DDS-Generator",
+      "license": "GPL-3.0",
+      "producer": "Altium Designer",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.74469,
+            "y": 0.80415,
+            "width": 0.16742,
+            "height": 0.02836
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.72246,
+            "y": 0.85182,
+            "width": 0.11244,
+            "height": 0.04526
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.70853,
+            "y": 0.89999,
+            "width": 0.13633,
+            "height": 0.01858
+          }
+        }
+      ],
+      "expected": {
+        "designation": "РІ91.468789.001 Е3",
+        "name": "Генератор прямого цифрового синтезу",
+        "type": "Схема електрична принципова"
+      },
+      "note": "документ на украинском языке"
+    },
+    {
+      "id": "19-reis-pcb-reis-pcb",
+      "file": "external/19-reis-pcb-reis-pcb.pdf",
+      "sha256": "eb78637dfec51ee8c7df47c27b74eb6d83812df3df99864fe5734a12dd323b60",
+      "source": "https://raw.githubusercontent.com/K-Lab-Students/REIS_PCB/1fd53d6cc4b17117ebe1b2a4813f82fd341c348b/REIS_PCB.pdf",
+      "repository": "https://github.com/K-Lab-Students/REIS_PCB",
+      "license": null,
+      "producer": "Altium Designer",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.86188,
+            "y": 0.85698,
+            "width": 0.04135,
+            "height": 0.02654
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.83168,
+            "y": 0.89964,
+            "width": 0.02359,
+            "height": 0.02024
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.79208,
+            "y": 0.92501,
+            "width": 0.10277,
+            "height": 0.01813
+          }
+        }
+      ],
+      "expected": {
+        "designation": "RЕISЭ3",
+        "name": "Node",
+        "type": "Схема электрическая принципиальная"
+      }
+    },
+    {
+      "id": "20-ir-motion-sensor-mgtu-469335-001-pe3-sistema-ele",
+      "file": "external/20-ir-motion-sensor-mgtu-469335-001-pe3-sistema-ele.pdf",
+      "sha256": "81b4fa648adde75a49ac513e474f3c58d99bc44e3040fdfd65a6ce99a0761520",
+      "source": "https://raw.githubusercontent.com/KaisLissera/IR-motion-sensor/dc73cfd16b533772b6b520bc307265ec7eef8fe1/Doc/%D0%9C%D0%93%D0%A2%D0%A3.469335.001%20%D0%9F%D0%AD3%20%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0%20%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%85%D1%80%D0%BE%D0%BD%D0%BE%D0%BC%D0%B5%D1%82%D1%80%D0%B0%D0%B6%D0%B0.pdf",
+      "repository": "https://github.com/KaisLissera/IR-motion-sensor",
+      "license": null,
+      "producer": "Microsoft Excel -> Acrobat PDFMaker",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.48096,
+            "y": 0.82696,
+            "width": 0.40088,
+            "height": 0.04105
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.40556,
+            "y": 0.8808,
+            "width": 0.31062,
+            "height": 0.05456
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.48157,
+            "y": 0.9419,
+            "width": 0.16245,
+            "height": 0.01903
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МГТУ.469335.001ПЭ3",
+        "name": "Система электронного хронометража",
+        "type": "Перечень элементов"
+      }
+    },
+    {
+      "id": "21-ir-motion-sensor-mgtu-469335-001-e3-sistema-elek",
+      "file": "external/21-ir-motion-sensor-mgtu-469335-001-e3-sistema-elek.pdf",
+      "sha256": "93df5b5040d79c8c74399653d20a4a0248f5b31f0cc5770f5154de73be6666d4",
+      "source": "https://raw.githubusercontent.com/KaisLissera/IR-motion-sensor/dc73cfd16b533772b6b520bc307265ec7eef8fe1/Doc/%D0%9C%D0%93%D0%A2%D0%A3.469335.001%20%D0%AD3%20%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0%20%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%BE%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%85%D1%80%D0%BE%D0%BD%D0%BE%D0%BC%D0%B5%D1%82%D1%80%D0%B0%D0%B6%D0%B0.pdf",
+      "repository": "https://github.com/KaisLissera/IR-motion-sensor",
+      "license": null,
+      "producer": "Altium Designer",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.83398,
+            "y": 0.85651,
+            "width": 0.09692,
+            "height": 0.02654
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.80436,
+            "y": 0.89109,
+            "width": 0.07787,
+            "height": 0.03478
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.79183,
+            "y": 0.92606,
+            "width": 0.10354,
+            "height": 0.01657
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МГТУ.469335.001Э3",
+        "name": "Система электронного хронометража",
+        "type": "Схема электрическая принципиальная"
+      }
+    },
+    {
+      "id": "22-ir-motion-sensor-mgtu-731146-001-korpus",
+      "file": "external/22-ir-motion-sensor-mgtu-731146-001-korpus.pdf",
+      "sha256": "fa337ca1d9b1fa49a6bb3c17f70011c806b691244cf0a5a9235bb9f16ef55af4",
+      "source": "https://raw.githubusercontent.com/KaisLissera/IR-motion-sensor/dc73cfd16b533772b6b520bc307265ec7eef8fe1/Doc/%D0%9C%D0%93%D0%A2%D0%A3.731146.001%20%D0%9A%D0%BE%D1%80%D0%BF%D1%83%D1%81.PDF",
+      "repository": "https://github.com/KaisLissera/IR-motion-sensor",
+      "license": null,
+      "producer": "SOLIDWORKS 2022",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.75119,
+            "y": 0.79663,
+            "width": 0.17262,
+            "height": 0.04579
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.75738,
+            "y": 0.867,
+            "width": 0.06024,
+            "height": 0.03502
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МГТУ.731146.001",
+        "name": "Корпус",
+        "type": "Спецификация"
+      },
+      "note": "текстовый слой основной надписи: garbled"
+    },
+    {
+      "id": "23-nucleo-f030r8-board-os-miem-467999-001pe3",
+      "file": "external/23-nucleo-f030r8-board-os-miem-467999-001pe3.pdf",
+      "sha256": "7d2c44da55e7c871fb3204185ad6bc6a53d5e59537ffc5713b961e9223987030",
+      "source": "https://raw.githubusercontent.com/RomanBadalyan/NUCLEO-F030R8-Board-OS/f30baaf414590a292354e9e4ecd4aaec55bea22d/Documents/%D0%9C%D0%98%D0%AD%D0%9C.467999.001%D0%9F%D0%AD3.pdf",
+      "repository": "https://github.com/RomanBadalyan/NUCLEO-F030R8-Board-OS",
+      "license": null,
+      "producer": "Microsoft Excel 365",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.53823,
+            "y": 0.84721,
+            "width": 0.29011,
+            "height": 0.03623
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.47252,
+            "y": 0.91199,
+            "width": 0.18506,
+            "height": 0.02688
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.47695,
+            "y": 0.95628,
+            "width": 0.17692,
+            "height": 0.02389
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МИЭМ.467999.001ПЭ3",
+        "name": "Плата отладочная",
+        "type": "Перечень элементов"
+      }
+    },
+    {
+      "id": "24-nucleo-f030r8-board-os-miem-467999-001sb",
+      "file": "external/24-nucleo-f030r8-board-os-miem-467999-001sb.pdf",
+      "sha256": "990a4d790302533cf6e971d050ea8e39e33e9e622a0e7f99c09dbff31503bdd2",
+      "source": "https://raw.githubusercontent.com/RomanBadalyan/NUCLEO-F030R8-Board-OS/f30baaf414590a292354e9e4ecd4aaec55bea22d/Documents/%D0%9C%D0%98%D0%AD%D0%9C.467999.001%D0%A1%D0%91.pdf",
+      "repository": "https://github.com/RomanBadalyan/NUCLEO-F030R8-Board-OS",
+      "license": null,
+      "producer": "Altium Designer (exported via PDFsharp)",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.7723,
+            "y": 0.80928,
+            "width": 0.14579,
+            "height": 0.02728
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.73533,
+            "y": 0.87127,
+            "width": 0.1007,
+            "height": 0.02131
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.74114,
+            "y": 0.91438,
+            "width": 0.08909,
+            "height": 0.01932
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МИЭМ.467999.001СБ",
+        "name": "Плата отладочная",
+        "type": "Сборочный чертеж"
+      }
+    },
+    {
+      "id": "25-nucleo-f030r8-board-os-miem-687253-001",
+      "file": "external/25-nucleo-f030r8-board-os-miem-687253-001.pdf",
+      "sha256": "57e616f55cf41418532099909320a3007c6a6a11bc5e2dbbe4c2c51a7dfdec64",
+      "source": "https://raw.githubusercontent.com/RomanBadalyan/NUCLEO-F030R8-Board-OS/f30baaf414590a292354e9e4ecd4aaec55bea22d/Documents/%D0%9C%D0%98%D0%AD%D0%9C.687253.001.pdf",
+      "repository": "https://github.com/RomanBadalyan/NUCLEO-F030R8-Board-OS",
+      "license": null,
+      "producer": "Microsoft Excel 365",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.54972,
+            "y": 0.85065,
+            "width": 0.23564,
+            "height": 0.03566
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.40496,
+            "y": 0.92084,
+            "width": 0.29169,
+            "height": 0.02651
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МИЭМ.687253.001",
+        "name": "Плата печатная многослойная",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "26-adapter-usb-dmx512-principialnaya-elektricheskay",
+      "file": "documents/26-adapter-usb-dmx512-principialnaya-elektricheskay.pdf",
+      "sha256": "bc9d77285de95ad2f2e36a6a5aca4e8917de6950790271ae88f29add1f294777",
+      "source": "https://raw.githubusercontent.com/S-LABc/Adapter-USB-DMX512/615f129c9c66e24518b4fe2190cf3309b6ece448/Altium_Designer_OUT/%D0%9F%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F%20%D1%81%D1%85%D0%B5%D0%BC%D0%B0.PDF",
+      "repository": "https://github.com/S-LABc/Adapter-USB-DMX512",
+      "license": "MIT",
+      "producer": "Altium Designer",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.57251,
+            "y": 0.80552,
+            "width": 0.2223,
+            "height": 0.02475
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.43081,
+            "y": 0.84743,
+            "width": 0.23703,
+            "height": 0.03737
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.4916,
+            "y": 0.89555,
+            "width": 0.15377,
+            "height": 0.0256
+          }
+        }
+      ],
+      "expected": {
+        "designation": "2436.181092.5167",
+        "name": "Контроллер управления USB-DMX512",
+        "type": "Схема электрическая структурная"
+      }
+    },
+    {
+      "id": "27-ucheba-sb-kd",
+      "file": "external/27-ucheba-sb-kd.pdf",
+      "sha256": "0841ca037c303c3310948d9f9157fcf29ded1646d35ef230200a1cce79753b1f",
+      "source": "https://media.githubusercontent.com/media/UshliyOrk/Ucheba/635702d4d603082fb312988fbc927f233af17523/%D0%9E%D0%9B%D0%95%D0%93/2%20%D1%81%D0%B5%D0%BC/%D0%98%D0%9D%D0%96%D0%90/%D0%9A%D0%A3%D0%A0%D0%A1%D0%90%D0%A7%20%D0%A3%20%D0%91%D0%A3%D0%A0%D0%9B%D0%A3%D0%A6%D0%9A%D0%9E%D0%99/%D0%A1%D0%91%20%D0%9A%D0%94.pdf",
+      "repository": "https://github.com/UshliyOrk/Ucheba",
+      "license": null,
+      "producer": "KOMPAS-3D v21 (учебная версия) -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.49962,
+            "y": 0.8024,
+            "width": 0.36981,
+            "height": 0.04328
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.40185,
+            "y": 0.85379,
+            "width": 0.33061,
+            "height": 0.03749
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.40428,
+            "y": 0.89141,
+            "width": 0.32187,
+            "height": 0.0385
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ПМИГ 2208.23.000СБ",
+        "name": "Сборка крепежных деталей",
+        "type": "Сборочный чертеж"
+      }
+    },
+    {
+      "id": "28-ucheba-spec-kd",
+      "file": "external/28-ucheba-spec-kd.pdf",
+      "sha256": "5e6917b0025fca0c6a3884e9908662c84e42739048231e417ec733ffb58dc94c",
+      "source": "https://media.githubusercontent.com/media/UshliyOrk/Ucheba/635702d4d603082fb312988fbc927f233af17523/%D0%9E%D0%9B%D0%95%D0%93/2%20%D1%81%D0%B5%D0%BC/%D0%98%D0%9D%D0%96%D0%90/%D0%9A%D0%A3%D0%A0%D0%A1%D0%90%D0%A7%20%D0%A3%20%D0%91%D0%A3%D0%A0%D0%9B%D0%A3%D0%A6%D0%9A%D0%9E%D0%99/%D0%A1%D0%9F%D0%95%D0%A6%20%D0%9A%D0%94.pdf",
+      "repository": "https://github.com/UshliyOrk/Ucheba",
+      "license": null,
+      "producer": "KOMPAS-3D v21 (учебная версия) -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.52643,
+            "y": 0.85299,
+            "width": 0.31611,
+            "height": 0.04328
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.40466,
+            "y": 0.91428,
+            "width": 0.32517,
+            "height": 0.0573
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ПМИГ 2208.23.000",
+        "name": "Сборка крепежных деталей",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "29-ucheba-kukozhuh-ch",
+      "file": "external/29-ucheba-kukozhuh-ch.pdf",
+      "sha256": "93cc37bc8a2a56e901873f79f2fa070fbd017ec4960156fc3821c04d5a05f960",
+      "source": "https://media.githubusercontent.com/media/UshliyOrk/Ucheba/635702d4d603082fb312988fbc927f233af17523/%D0%9E%D0%9B%D0%95%D0%93/2%20%D1%81%D0%B5%D0%BC/%D0%98%D0%9D%D0%96%D0%90/%D0%9A%D0%A3%D0%A0%D0%A1%D0%90%D0%A7%20%D0%A3%20%D0%91%D0%A3%D0%A0%D0%9B%D0%A3%D0%A6%D0%9A%D0%9E%D0%99/%D0%BA%D1%83%D0%BA%D0%BE%D0%B6%D1%83%D1%85%20%D1%87.pdf",
+      "repository": "https://github.com/UshliyOrk/Ucheba",
+      "license": null,
+      "producer": "KOMPAS-3D v21 (учебная версия) -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.53004,
+            "y": 0.8024,
+            "width": 0.309,
+            "height": 0.04328
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.48368,
+            "y": 0.86205,
+            "width": 0.15879,
+            "height": 0.05954
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ПМИГ 2208.23.001",
+        "name": "Кожух",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "30-microclimate-monitoring-device-sf-mei-pe-25-11-0",
+      "file": "documents/30-microclimate-monitoring-device-sf-mei-pe-25-11-0.pdf",
+      "sha256": "fa467b8c8617949bf5eb161a681923bad891f6dc7fa34c32811e11e33e065161",
+      "source": "https://raw.githubusercontent.com/VladislavChepurin/Microclimate-monitoring-device/937fa61c5448edec1f17c1643779057b18427ea7/%D0%9F%D0%BE%D0%B4%D0%BB%D0%B8%D0%BD%D0%BD%D0%B8%D0%BA%D0%B8/%D0%A1%D0%A4%20%D0%9C%D0%AD%D0%98%20%D0%9F%D0%AD-25.11.04.04.09.01%20%D0%9F%D0%AD3.pdf",
+      "repository": "https://github.com/VladislavChepurin/Microclimate-monitoring-device",
+      "license": "MIT",
+      "producer": "KOMPAS-3D v21",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.40593,
+            "y": 0.85614,
+            "width": 0.55533,
+            "height": 0.03897
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.50642,
+            "y": 0.90749,
+            "width": 0.11745,
+            "height": 0.03897
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.43788,
+            "y": 0.94833,
+            "width": 0.25775,
+            "height": 0.02925
+          }
+        }
+      ],
+      "expected": {
+        "designation": "СФ МЭИ ПЭ-25.11.04.04.09.01ПЭ3",
+        "name": "Плата",
+        "type": "Перечень элементов"
+      }
+    },
+    {
+      "id": "31-microclimate-monitoring-device-sf-mei-pe-25-11-0",
+      "file": "documents/31-microclimate-monitoring-device-sf-mei-pe-25-11-0.pdf",
+      "sha256": "4e871a8312d2239480ecccad11acc26fb08bb9946b2f6643aa78b46d209b5893",
+      "source": "https://raw.githubusercontent.com/VladislavChepurin/Microclimate-monitoring-device/937fa61c5448edec1f17c1643779057b18427ea7/%D0%9F%D0%BE%D0%B4%D0%BB%D0%B8%D0%BD%D0%BD%D0%B8%D0%BA%D0%B8/%D0%A1%D0%A4%20%D0%9C%D0%AD%D0%98%20%D0%9F%D0%AD-25.11.04.04.09.01%20%D0%AD3.pdf",
+      "repository": "https://github.com/VladislavChepurin/Microclimate-monitoring-device",
+      "license": "MIT",
+      "producer": "unknown ECAD (Altium per repo) -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.80198,
+            "y": 0.85455,
+            "width": 0.16224,
+            "height": 0.02647
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.7868,
+            "y": 0.88546,
+            "width": 0.10715,
+            "height": 0.04619
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.80269,
+            "y": 0.93175,
+            "width": 0.07829,
+            "height": 0.01182
+          }
+        }
+      ],
+      "expected": {
+        "designation": "СФ МЭИ ПЭ-25.11.04.04.09.01Э3",
+        "name": "Устройство измерения параметров микроклимата с беспроводным интерфейсом",
+        "type": "Схема элетрическая принципиальная"
+      }
+    },
+    {
+      "id": "32-tu-tu",
+      "file": "external/32-tu-tu.pdf",
+      "sha256": "ce410fba1f5f773d864b26df6825ba5543d3d0c62446250456ee23b4c2d265b2",
+      "source": "https://raw.githubusercontent.com/a-maksimov/TU/b3d9a124c3d6e96d260e7f8cd61bcf89831ba089/TU.pdf",
+      "repository": "https://github.com/a-maksimov/TU",
+      "license": null,
+      "producer": "LaTeX (pdfTeX)",
+      "page": 1,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.51031,
+            "y": 0.86249,
+            "width": 0.31269,
+            "height": 0.0265
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.44808,
+            "y": 0.91904,
+            "width": 0.24669,
+            "height": 0.02172
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.44157,
+            "y": 0.9409,
+            "width": 0.2597,
+            "height": 0.02172
+          }
+        }
+      ],
+      "expected": {
+        "designation": "АГБП.563251.001ТУ",
+        "name": "Блок аккумуляторов",
+        "type": "Технические условия"
+      }
+    },
+    {
+      "id": "33-eth-switch-1gbit-gidr-123456-012-01-01-sb",
+      "file": "external/33-eth-switch-1gbit-gidr-123456-012-01-01-sb.pdf",
+      "sha256": "532eaac3fc5504e70292a49a1366df6d4399b0fee0b2d4b0a30111f2c5607c6c",
+      "source": "https://raw.githubusercontent.com/cavesLezet/Eth_switch_1gbit/60baec389eaa0003ef406b485ab63ba8d20965b9/Project%20Outputs%20for%20Eth_switch_1gbit/%D0%93%D0%98%D0%94%D0%A0.123456.012-01.01/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F/%D0%93%D0%98%D0%94%D0%A0.123456.012-01.01%20%D0%A1%D0%91.PDF",
+      "repository": "https://github.com/cavesLezet/Eth_switch_1gbit",
+      "license": null,
+      "producer": "Altium Designer (PCB drawing)",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.75667,
+            "y": 0.80875,
+            "width": 0.17952,
+            "height": 0.02694
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.74143,
+            "y": 0.85589,
+            "width": 0.0919,
+            "height": 0.05421
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.74452,
+            "y": 0.91582,
+            "width": 0.08286,
+            "height": 0.01818
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ГИДР.123456.012-01.01СБ",
+        "name": "Гигабитный коммутатор",
+        "type": "Сборочный чертеж"
+      },
+      "note": "текстовый слой основной надписи: none"
+    },
+    {
+      "id": "34-xenon-flash-gidr-123456-001-01-01-e3",
+      "file": "external/34-xenon-flash-gidr-123456-001-01-01-e3.pdf",
+      "sha256": "1cb1c87086ead550f89a1a9a4d2f0729e1e802d8d332a609fde686bd1c28459b",
+      "source": "https://raw.githubusercontent.com/cavesLezet/Xenon_flash/142e78f8d84653c65ecbd6897e4a0bc2c296a1de/Project%20Outputs%20for%20Xenon_flash/%D0%93%D0%98%D0%94%D0%A0.123456.001-01.01/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F/%D0%93%D0%98%D0%94%D0%A0.123456.001-01.01%20%D0%AD3.PDF",
+      "repository": "https://github.com/cavesLezet/Xenon_flash",
+      "license": null,
+      "producer": "Altium Designer",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.75323,
+            "y": 0.81221,
+            "width": 0.16876,
+            "height": 0.02526
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.71394,
+            "y": 0.85125,
+            "width": 0.1414,
+            "height": 0.0492
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.70568,
+            "y": 0.91392,
+            "width": 0.15902,
+            "height": 0.01752
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ГИДР.123456.001-01.01Э3",
+        "name": "Преобразователь из 15В в 300В",
+        "type": "Схема электрическая принципиальная"
+      }
+    },
+    {
+      "id": "35-diploma-barchelor-mpsu-464414-22-01e3izme3",
+      "file": "documents/35-diploma-barchelor-mpsu-464414-22-01e3izme3.pdf",
+      "sha256": "0f627937a8a407e7b3ffd0af353589f3a6217b4fbff487164627fdaac3b1f70a",
+      "source": "https://raw.githubusercontent.com/lazbaphilipp/diploma-barchelor/37b5fde9f5fd1d1294b152663e66e4782f7a3280/Project/Altium/%D0%9C%D0%9F%D0%A1%D0%A3.464414.22-01/Project%20Outputs%20for%20%D0%9C%D0%9F%D0%A1%D0%A3.464414.22-01/%D0%9C%D0%9F%D0%A1%D0%A3.464414.22-01%D0%AD3%D0%B8%D0%B7%D0%BC%D0%AD3.PDF",
+      "repository": "https://github.com/lazbaphilipp/diploma-barchelor",
+      "license": "MIT",
+      "producer": "Altium Designer",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.75946,
+            "y": 0.81215,
+            "width": 0.14934,
+            "height": 0.02506
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.71696,
+            "y": 0.85914,
+            "width": 0.12866,
+            "height": 0.02506
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.72723,
+            "y": 0.88935,
+            "width": 0.11247,
+            "height": 0.03772
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МПСУ.464414.22-01Э3",
+        "name": "Модуль мобильный",
+        "type": "Схема электрическая принципиальная"
+      }
+    },
+    {
+      "id": "36-diploma-barchelor-mpsu-687251-22-01izmsp",
+      "file": "documents/36-diploma-barchelor-mpsu-687251-22-01izmsp.pdf",
+      "sha256": "d1bf8cab1b62f15ac0add271824e26c6feb5ef77380137dcc51be1210bd86477",
+      "source": "https://raw.githubusercontent.com/lazbaphilipp/diploma-barchelor/37b5fde9f5fd1d1294b152663e66e4782f7a3280/Project/Altium/%D0%9C%D0%9F%D0%A1%D0%A3.464414.22-01/Project%20Outputs%20for%20%D0%9C%D0%9F%D0%A1%D0%A3.464414.22-01/%D0%9C%D0%9F%D0%A1%D0%A3.687251.22-01%D0%B8%D0%B7%D0%BC%D0%A1%D0%9F.PDF",
+      "repository": "https://github.com/lazbaphilipp/diploma-barchelor",
+      "license": "MIT",
+      "producer": "Altium Designer",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.5611,
+            "y": 0.84294,
+            "width": 0.2587,
+            "height": 0.02708
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.529,
+            "y": 0.90692,
+            "width": 0.0848,
+            "height": 0.02708
+          }
+        }
+      ],
+      "expected": {
+        "designation": "МПСУ.687251.22-01",
+        "name": "Плата",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "37-dds-dds-48-52-sch",
+      "file": "external/37-dds-dds-48-52-sch.pdf",
+      "sha256": "f90724878c73d035c21386eb04b9e1f038d7c6dde0c17a28e8a65d393c9c8008",
+      "source": "https://raw.githubusercontent.com/maximkurein/DDS/8f4ca3e6201dece3c5e74f2e4679355110410465/output/pdf/DDS_48_52_sch.pdf",
+      "repository": "https://github.com/maximkurein/DDS",
+      "license": null,
+      "producer": "KiCad 10 (Eeschema)",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.82458,
+            "y": 0.86336,
+            "width": 0.13137,
+            "height": 0.02233
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.79057,
+            "y": 0.90557,
+            "width": 0.11524,
+            "height": 0.01678
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.79267,
+            "y": 0.9337,
+            "width": 0.10981,
+            "height": 0.01307
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ХХХХ.ХХХХХХ.ХХХЭ3",
+        "name": "Синтезатор частоты 48-52 МГц",
+        "type": "Схема электрическая принципиальная"
+      }
+    },
+    {
+      "id": "38-usb-rs485-dongle-kryshka-verhnyaya-xxxx-741374-0",
+      "file": "documents/38-usb-rs485-dongle-kryshka-verhnyaya-xxxx-741374-0.pdf",
+      "sha256": "f48802ea92f9a5421e0ec72f67c211a32754ad010eb5828f547bb4bff2e942fa",
+      "source": "https://raw.githubusercontent.com/nomatin/USB-RS485-Dongle/94738db9d96a6c6f161aca059065c73dc49f7a22/Docs/%D0%9A%D1%80%D1%8B%D1%88%D0%BA%D0%B0%20%D0%B2%D0%B5%D1%80%D1%85%D0%BD%D1%8F%D1%8F%20XXXX.741374.002.pdf",
+      "repository": "https://github.com/nomatin/USB-RS485-Dongle",
+      "license": "MIT",
+      "producer": "unknown (no Creator; KOMPAS-like GOST font)",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.57151,
+            "y": 0.80641,
+            "width": 0.21995,
+            "height": 0.03356
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.46496,
+            "y": 0.87375,
+            "width": 0.20655,
+            "height": 0.03356
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ХХХХ.741374.002",
+        "name": "Крышка верхняя",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "39-usb-rs485-dongle-preobrazovatel-usb-rs485-xxxx-4",
+      "file": "documents/39-usb-rs485-dongle-preobrazovatel-usb-rs485-xxxx-4.pdf",
+      "sha256": "07a25bce3bb94d183b3229963864c15fa42a80cdf37f6991d5986584f2881b0d",
+      "source": "https://raw.githubusercontent.com/nomatin/USB-RS485-Dongle/94738db9d96a6c6f161aca059065c73dc49f7a22/Board/OUTPUT/%D0%9A%D0%94/%D0%9F%D1%80%D0%B5%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%20USB%E2%80%93RS485%20XXXX.426477.001%20%D0%AD3.PDF",
+      "repository": "https://github.com/nomatin/USB-RS485-Dongle",
+      "license": "MIT",
+      "producer": "Altium Designer",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.77819,
+            "y": 0.80897,
+            "width": 0.14451,
+            "height": 0.03053
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.70749,
+            "y": 0.85345,
+            "width": 0.1549,
+            "height": 0.02458
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.71494,
+            "y": 0.91502,
+            "width": 0.13792,
+            "height": 0.01863
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ХХХХ.426477.001Э3",
+        "name": "Преобразователь USB-RS485",
+        "type": "Схема электрическая принципиальная"
+      }
+    },
+    {
+      "id": "40-projectpractice44labs-1539140-01",
+      "file": "external/40-projectpractice44labs-1539140-01.pdf",
+      "sha256": "c1205ab7cbe68fb1810083bcb45fa2d1d07c773e202b5a30287483ca974431df",
+      "source": "https://raw.githubusercontent.com/pudoff/ProjectPractice44Labs/00b6162b33c04a758ab9900f2d1e203a11903133/dataset/pairs_pdf-dxf/pdf/1539140_01.pdf",
+      "repository": "https://github.com/pudoff/ProjectPractice44Labs",
+      "license": null,
+      "producer": "AutoCAD (DWG TrueView 2027 plot)",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.57836,
+            "y": 0.80865,
+            "width": 0.22963,
+            "height": 0.03367
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.50118,
+            "y": 0.87733,
+            "width": 0.1253,
+            "height": 0.0266
+          }
+        }
+      ],
+      "expected": {
+        "designation": "1539140.01",
+        "name": "Планка",
+        "type": "Спецификация"
+      },
+      "note": "текстовый слой основной надписи: none_in_title_block"
+    },
+    {
+      "id": "41-projectpractice44labs-260620-km3-18-00-00-00-sb",
+      "file": "external/41-projectpractice44labs-260620-km3-18-00-00-00-sb.pdf",
+      "sha256": "d7d5cc29d701bb70e312775d5721b72f0047475b214c785ccb092375ff86d513",
+      "source": "https://raw.githubusercontent.com/pudoff/ProjectPractice44Labs/00b6162b33c04a758ab9900f2d1e203a11903133/dataset/pairs_pdf-dxf/pdf/260620-%D0%9A%D0%9C3.18-00.00.00%20%D0%A1%D0%91%20-%20%D0%A2%D0%B5%D0%BB%D0%B5%D0%B6%D0%BA%D0%B0%20%D1%82%D1%8F%D0%B3%D0%BE%D0%B2%D0%B0%D1%8F.pdf",
+      "repository": "https://github.com/pudoff/ProjectPractice44Labs",
+      "license": null,
+      "producer": "KOMPAS-3D v18.1",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.86537,
+            "y": 0.90205,
+            "width": 0.11406,
+            "height": 0.01952
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.85492,
+            "y": 0.9277,
+            "width": 0.07233,
+            "height": 0.01952
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.86356,
+            "y": 0.94816,
+            "width": 0.05587,
+            "height": 0.01466
+          }
+        }
+      ],
+      "expected": {
+        "designation": "260620-КМ3.18-00.00.00СБ",
+        "name": "Тележка тяговая",
+        "type": "Сборочный чертеж"
+      }
+    },
+    {
+      "id": "42-projectpractice44labs-260620-km3-18-00-00-00-sp",
+      "file": "external/42-projectpractice44labs-260620-km3-18-00-00-00-sp.pdf",
+      "sha256": "21ba6c3b4114a3410e482b21b9db7653fb678f71beb3ddb44d342d7118a285ba",
+      "source": "https://raw.githubusercontent.com/pudoff/ProjectPractice44Labs/00b6162b33c04a758ab9900f2d1e203a11903133/dataset/pairs_pdf-dxf/pdf/260620-%D0%9A%D0%9C3.18-00.00.00%20%D0%A1%D0%9F%20-%20%D0%A2%D0%B5%D0%BB%D0%B5%D0%B6%D0%BA%D0%B0%20%D1%82%D1%8F%D0%B3%D0%BE%D0%B2%D0%B0%D1%8F.pdf",
+      "repository": "https://github.com/pudoff/ProjectPractice44Labs",
+      "license": null,
+      "producer": "KOMPAS-3D v18.1",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.26789,
+            "y": 0.85909,
+            "width": 0.14671,
+            "height": 0.02926
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.23161,
+            "y": 0.92618,
+            "width": 0.10533,
+            "height": 0.02926
+          }
+        }
+      ],
+      "expected": {
+        "designation": "260620-КМ3.18-00.00.00",
+        "name": "Тележка тяговая",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "43-projectpractice44labs-260620-km3-18-00-00-01-os",
+      "file": "external/43-projectpractice44labs-260620-km3-18-00-00-01-os.pdf",
+      "sha256": "2adf096f46a47ef316c141cbfb18f26c6de0815bd49d4a743ac33578c590d46a",
+      "source": "https://raw.githubusercontent.com/pudoff/ProjectPractice44Labs/00b6162b33c04a758ab9900f2d1e203a11903133/dataset/pairs_pdf-dxf/pdf/260620-%D0%9A%D0%9C3.18-00.00.01%20-%20%D0%9E%D1%81%D1%8C.pdf",
+      "repository": "https://github.com/pudoff/ProjectPractice44Labs",
+      "license": null,
+      "producer": "KOMPAS-3D v18.1",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.4985,
+            "y": 0.8045,
+            "width": 0.39698,
+            "height": 0.03897
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.51568,
+            "y": 0.86549,
+            "width": 0.09514,
+            "height": 0.05315
+          }
+        }
+      ],
+      "expected": {
+        "designation": "260620-КМ3.18-00.00.01",
+        "name": "Ось",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "44-itmo-works-specifikaciya-suir-06-06-00-sb",
+      "file": "external/44-itmo-works-specifikaciya-suir-06-06-00-sb.pdf",
+      "sha256": "9987b75e3e72fa1cb3678a4e7100c77ab4a31f5c57d017af5886cb733f4fdf21",
+      "source": "https://media.githubusercontent.com/media/snowlue/ITMO_works/9163e9d8977a10c9c5ad3927afe856be0c1e17e4/1%20%D1%81%D0%B5%D0%BC%D0%B5%D1%81%D1%82%D1%80/%D0%9A%D0%98%D0%93/6-8/%D0%A1%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F_%D0%A1%D0%A3%D0%98%D0%A0.06.06.00.%D0%A1%D0%91.pdf",
+      "repository": "https://github.com/snowlue/ITMO_works",
+      "license": null,
+      "producer": "KOMPAS-3D (учебная) -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.53677,
+            "y": 0.85299,
+            "width": 0.264,
+            "height": 0.04349
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.47441,
+            "y": 0.91252,
+            "width": 0.16669,
+            "height": 0.05976
+          }
+        }
+      ],
+      "expected": {
+        "designation": "СУИР.06.06.00.СБ",
+        "name": "Обойма",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "45-itmo-works-chertezh-suir-06-06-00-sb",
+      "file": "external/45-itmo-works-chertezh-suir-06-06-00-sb.pdf",
+      "sha256": "4c35126d6be30847e84406d376bef28971a4bf148f9bfcb22838fab6383eea24",
+      "source": "https://media.githubusercontent.com/media/snowlue/ITMO_works/9163e9d8977a10c9c5ad3927afe856be0c1e17e4/1%20%D1%81%D0%B5%D0%BC%D0%B5%D1%81%D1%82%D1%80/%D0%9A%D0%98%D0%93/6-8/%D0%A7%D0%B5%D1%80%D1%82%D1%91%D0%B6_%D0%A1%D0%A3%D0%98%D0%A0.06.06.00.%D0%A1%D0%91.pdf",
+      "repository": "https://github.com/snowlue/ITMO_works",
+      "license": null,
+      "producer": "KOMPAS-3D (учебная) -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.74365,
+            "y": 0.89983,
+            "width": 0.13905,
+            "height": 0.02438
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.71247,
+            "y": 0.92436,
+            "width": 0.08998,
+            "height": 0.02769
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.70228,
+            "y": 0.95219,
+            "width": 0.11426,
+            "height": 0.01424
+          }
+        }
+      ],
+      "expected": {
+        "designation": "СУИР.06.06.00.СБ",
+        "name": "Обойма",
+        "type": "Сборочный чертеж"
+      }
+    },
+    {
+      "id": "46-itmo-works-chertezh-suir-06-06-01-vilka",
+      "file": "external/46-itmo-works-chertezh-suir-06-06-01-vilka.pdf",
+      "sha256": "b3a4a4ea2a319d019f27bac7fa2bc0cf9e4a28db4fe00ef71fd5c529d368577b",
+      "source": "https://media.githubusercontent.com/media/snowlue/ITMO_works/9163e9d8977a10c9c5ad3927afe856be0c1e17e4/1%20%D1%81%D0%B5%D0%BC%D0%B5%D1%81%D1%82%D1%80/%D0%9A%D0%98%D0%93/6-8/%D0%A7%D0%B5%D1%80%D1%82%D1%91%D0%B6_%D0%A1%D0%A3%D0%98%D0%A0.06.06.01%20%D0%92%D0%B8%D0%BB%D0%BA%D0%B0.pdf",
+      "repository": "https://github.com/snowlue/ITMO_works",
+      "license": null,
+      "producer": "KOMPAS-3D (учебная) -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.78175,
+            "y": 0.77561,
+            "width": 0.12088,
+            "height": 0.04194
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.74205,
+            "y": 0.83022,
+            "width": 0.07879,
+            "height": 0.05693
+          }
+        }
+      ],
+      "expected": {
+        "designation": "СУИР.06.06.01",
+        "name": "Вилка",
+        "type": "Спецификация"
+      }
+    },
+    {
+      "id": "47-etz-9-e3",
+      "file": "external/47-etz-9-e3.pdf",
+      "sha256": "48acafc5f3ba136ecdbc77b8604f594f4f8d311f0763fe644c014bfb9fc48a91",
+      "source": "https://raw.githubusercontent.com/sudo14121/ETZ_9/ce9fae238a365d058d222b1291f12c5459fc4c40/schematic/%D0%AD3.pdf",
+      "repository": "https://github.com/sudo14121/ETZ_9",
+      "license": null,
+      "producer": "KiCad (likely) -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.82448,
+            "y": 0.79775,
+            "width": 0.02807,
+            "height": 0.04333
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.75564,
+            "y": 0.848,
+            "width": 0.05095,
+            "height": 0.05679
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.7049,
+            "y": 0.90498,
+            "width": 0.15445,
+            "height": 0.01928
+          }
+        }
+      ],
+      "expected": {
+        "designation": "Э3",
+        "name": "плата ЕТЗ",
+        "type": "Схема электрическая принципиальная"
+      },
+      "mustRefuse": "в графе обозначения только код документа"
+    },
+    {
+      "id": "48-nixietubeclock-acsd-687281-259-02sb",
+      "file": "external/48-nixietubeclock-acsd-687281-259-02sb.pdf",
+      "sha256": "6a548d503a2b0753aa0c2eabe29eed2b55bf06a929c1984ad4ea8698fbeed763",
+      "source": "https://raw.githubusercontent.com/v-kb/NixieTubeClock/6fd06ace8076f6cadbdc107d6ccaf75a9e858ef2/Docs/PCB/Docs/%D0%90%D0%A6%D0%A1%D0%94.687281.259-02%D0%A1%D0%91.pdf",
+      "repository": "https://github.com/v-kb/NixieTubeClock",
+      "license": null,
+      "producer": "unknown (likely Altium/AutoCAD) -> Microsoft Print to PDF (rasterized)",
+      "page": 0,
+      "typeAbsent": false,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.74145,
+            "y": 0.80873,
+            "width": 0.21096,
+            "height": 0.02694
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.70692,
+            "y": 0.87135,
+            "width": 0.12953,
+            "height": 0.02424
+          }
+        },
+        {
+          "role": "Type",
+          "bounds": {
+            "x": 0.7324,
+            "y": 0.90906,
+            "width": 0.10405,
+            "height": 0.01818
+          }
+        }
+      ],
+      "expected": {
+        "designation": "АЦСД.687281.259-02СБ",
+        "name": "Плата индикации",
+        "type": "Сборочный чертеж"
+      },
+      "note": "текстовый слой основной надписи: none; растровая страница без текста"
+    },
+    {
+      "id": "49-diploma-e3",
+      "file": "external/49-diploma-e3.pdf",
+      "sha256": "59adc9591d121310352469d9e2a6564067f9f584845f48256e4419dbc926e661",
+      "source": "https://raw.githubusercontent.com/yungvldai/diploma/3eecd74bb06380c9ecf1963830eea745bd749e26/pdfs/e3.pdf",
+      "repository": "https://github.com/yungvldai/diploma",
+      "license": null,
+      "producer": "KOMPAS-3D -> Microsoft Print to PDF",
+      "page": 0,
+      "typeAbsent": true,
+      "regions": [
+        {
+          "role": "Designation",
+          "bounds": {
+            "x": 0.73809,
+            "y": 0.80457,
+            "width": 0.20812,
+            "height": 0.0389
+          }
+        },
+        {
+          "role": "Name",
+          "bounds": {
+            "x": 0.72075,
+            "y": 0.85333,
+            "width": 0.1202,
+            "height": 0.07577
+          }
+        }
+      ],
+      "expected": {
+        "designation": "ФСУИР.205.R3435.003Э3",
+        "name": "Модуль управления бесколлекторным двигателем",
+        "type": "Спецификация"
+      }
+    }
+  ]
+}
