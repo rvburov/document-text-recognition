@@ -69,7 +69,7 @@ public sealed class ThirdOpinionTests
         var third = thirdDesignation is null ? new Answers("Чертежная", thirdName) : new Answers("Чертежная", thirdDesignation, thirdName);
         using var pair = new OcrPair(new Answers("Первый", designation, pairName), new Answers("Второй", designation, pairName),
             () => new OcrPair(third, new Answers("Четвертый")) { UseGostFallback = false })
-        { UsePdfText = false };
+        { UsePdfText = false, UseThirdOpinion = true };
         return (DocumentReader.Read(file, [template], pair, CancellationToken.None), third);
     }
 

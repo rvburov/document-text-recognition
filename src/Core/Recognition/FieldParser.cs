@@ -54,7 +54,13 @@ internal static class FieldParser
     {
         if (reading.IsEmpty) return Parsed.Fail("наименование отсутствует (область пустая или текст не читается)");
         if (!MeetsConfidence(reading, minConfidence)) return Parsed.Fail("низкая уверенность распознавания наименования");
-        return CheckName(reading.Lines.Select(l => l.Text).ToList());
+        var name = CheckName(reading.Lines.Select(l => l.Text).ToList());
+        // Наименование изделия начинается с прописной буквы (ГОСТ 2.109). У многих букв
+        // (Я, Щ, И, К, С, О, П, Ш) прописная и строчная различаются только размером, и OCR
+        // теряет регистр целого слова: «ЯЩИК» читается как «ящик». Текст PDF не проверяется.
+        if (name.IsOk && name.Value!.FirstOrDefault(char.IsLetter) is var first && first != default && char.IsLower(first))
+            return Parsed.Fail("наименование начинается со строчной буквы: регистр не подтвержден");
+        return name;
     }
 
     /// <summary>Желтая область: тип документа. Пустая область значит «тип не написан»:

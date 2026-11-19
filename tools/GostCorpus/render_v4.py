@@ -240,10 +240,49 @@ def render_supplement():
     print(len(texts), "truths")
 
 
+def write_texts():
+    """Only the line texts (split, kind, text) for rendering by the application's own pipeline:
+    tests/Core.Tests/Alphabet/TrainingCorpusExport.cs renders them with Skia and FieldCrop.Prepare."""
+    parser = argparse.ArgumentParser(description="Write V4 training line texts as TSV")
+    parser.add_argument("--words", type=Path, required=True)
+    parser.add_argument("--exclude", type=Path, action="append", default=[])
+    parser.add_argument("--v3-train", type=Path)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--train", type=int, default=6000)
+    parser.add_argument("--development", type=int, default=600)
+    parser.add_argument("--seed", type=int, default=20261121)
+    args = parser.parse_args()
+    words = load_words(args.words, excluded_words(args.exclude))
+    random.Random(args.seed).shuffle(words)
+    cut = len(words) // 10
+    pools = {"development": words[:cut], "train": words[cut:]}
+    seen, rows = set(), []
+    for split, count in (("train", args.train), ("development", args.development)):
+        lines = Lines(pools[split], random.Random(f"{args.seed}-{split}"))
+        made = 0
+        while made < count:
+            kind, text = lines.line()
+            if text in seen: continue
+            seen.add(text); rows.append((split, kind, text)); made += 1
+    if args.v3_train:
+        record = json.loads(args.v3_train.read_text(encoding="utf-8"))
+        for document in record["Documents"]:
+            for key in ("Designation", "Name"):
+                value = document.get(key)
+                for text in ([value] if key == "Designation" else (value or "").split("\n")):
+                    if text and text not in seen:
+                        seen.add(text); rows.append(("train", "v3", text))
+    args.output.write_text("".join(f"{a}\t{b}\t{c}\n" for a, b, c in rows), encoding="utf-8")
+    print(len(rows), "lines")
+
+
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1 and sys.argv[1] == "supplement":
         sys.argv.pop(1)
         render_supplement()
+    elif len(sys.argv) > 1 and sys.argv[1] == "texts":
+        sys.argv.pop(1)
+        write_texts()
     else:
         main()

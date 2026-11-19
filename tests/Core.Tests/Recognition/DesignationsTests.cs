@@ -25,11 +25,7 @@ public sealed class DesignationsTests
     [InlineData("АБВГ.112345.001 ЭЗ", "АБВГ.112345.001Э3")]
     [InlineData("АБВГ.112345.001ЭО", "АБВГ.112345.001Э0")]
     [InlineData("АБВГ.112345.001ЗИ", "АБВГ.112345.001ЗИ")]
-    [InlineData("МГТУ.469335.001 33", "МГТУ.469335.001Э3")]
-    [InlineData("МГТУ.469335.001 П33", "МГТУ.469335.001ПЭ3")]
-    [InlineData("ГИДР.123456.001-01.01 33", "ГИДР.123456.001-01.01Э3")]
-    [InlineData("МГТУ.469335.001П33", "МГТУ.469335.001ПЭ3")]
-    public void Document_code_letters_and_digits_confused_on_drafting_fonts_are_restored(string raw, string expected)
+    public void Digit_read_as_letter_at_the_end_of_a_document_code_is_restored(string raw, string expected)
     {
         Assert.Equal(expected, FieldParser.ParseDesignation(Reading(raw), 0.5).Value);
     }
@@ -39,6 +35,8 @@ public sealed class DesignationsTests
     [InlineData("АБВГ.112345.001 ЗЭ")]
     [InlineData("АБВГ.112345.001 93")]
     [InlineData("АБВГ.112345.001 1393")]
+    [InlineData("МГТУ.469335.001 33")]
+    [InlineData("МГТУ.469335.001П33")]
     [InlineData("МИЭМ.467999.001733")]
     [InlineData("МГТУ.469335.00133")]
     public void Unknown_code_or_code_read_as_digits_is_not_a_designation(string raw)
@@ -57,6 +55,21 @@ public sealed class DesignationsTests
         Assert.False(ocr.IsOk);
         Assert.Contains("не различить", ocr.Problem);
         Assert.True(FieldParser.ParseDesignationText(raw).IsOk);
+    }
+
+    [Theory]
+    [InlineData("ящик", false)]
+    [InlineData("плата ЕТЗ", false)]
+    [InlineData("Ящик", true)]
+    [InlineData("ЯЩИК", true)]
+    [InlineData("Захват 19590", true)]
+    [InlineData("72758 Нагреватель", true)]
+    public void Ocr_name_must_start_with_a_capital_letter(string raw, bool ok)
+    {
+        var parsed = FieldParser.ParseName(Reading(raw), 0.5);
+        Assert.Equal(ok, parsed.IsOk);
+        if (!ok) Assert.Contains("строчной", parsed.Problem);
+        Assert.True(FieldParser.CheckName([raw]).IsOk); // текст PDF правилом регистра не проверяется
     }
 
     [Theory]

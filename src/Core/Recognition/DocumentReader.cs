@@ -28,8 +28,11 @@ internal sealed class OcrPair(IOcrEngine first, IOcrEngine second, Func<OcrPair>
     internal bool UseGostFallback { get; set; } = true;
 
     /// <summary>Значение обычной пары со спорными для чертежного шрифта буквами дополнительно
-    /// читает модель чертежного шрифта (<see cref="DraftingConfusions"/>).</summary>
-    internal bool UseThirdOpinion { get; set; } = true;
+    /// читает модель чертежного шрифта (<see cref="DraftingConfusions"/>). Выключено: модель V3
+    /// сама путает «в» и «б», и на прогоне алфавита третье мнение останавливало верных значений
+    /// больше, чем неверных (31 против 8). Включать вместе с моделью, которая читает эти буквы
+    /// лучше обычной пары (tools/GostTraining/RESULTS-V4.md).</summary>
+    internal bool UseThirdOpinion { get; set; }
     private Func<OcrPair>? _gostFactory = gostFactory;
     private bool _packagedGostFactory;
     private OcrPair? _gost;

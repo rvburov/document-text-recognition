@@ -23,6 +23,9 @@ internal sealed record AlphabetFont(string Key, string File, string? Sha256, flo
         new("opengost-b-italic", "OpenGOSTtypeB-Regular.ttf", "510f175c6856e7d9fc4ab2388266cf09860ef7e9ab10fc1baa6b64d09e4c63d9", -0.268f),
         new("opengost-a-upright", "OpenGOSTtypeA-Regular.ttf", "3caec4e2a004eacf8aea6883781015fc2df9b7c0154e974cec97f22299d7fc0e", 0f),
         new("dejavu-sans", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", null, 0f, System: true),
+        // Метрические аналоги Times New Roman и Arial: так набраны документы из Word и Excel.
+        new("liberation-serif", "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf", null, 0f, System: true),
+        new("liberation-sans", "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf", null, 0f, System: true),
     ];
 
     public string Path
