@@ -1,5 +1,5 @@
-# Проверки: тесты ядра и окна на Linux (настоящее распознавание на синтетических сканах и на реальных
-# документах ЕСКД из tests/real-documents) и сборка
+# Проверки: тесты ядра и окна на Linux (настоящее распознавание на синтетических сканах, на реальных
+# документах ЕСКД из tests/real-documents и прогон всех букв в чертежных и обычных шрифтах) и сборка
 # установщика на Windows тем же сценарием, что на ПК (scripts/build.ps1). Установщик выкладывается
 # файлом сборки (Actions → запуск → Artifacts) на 14 дней; выпусков (Releases) нет.
 name: checks
@@ -47,6 +47,8 @@ jobs:
           DTR_REAL_DOCS_OUTPUT: ${{ runner.temp }}/dtr-test-samples/real-documents
           DTR_REAL_DOCS_FETCH: '1'
           DTR_REAL_DOCS_BASELINE: enforce
+          DTR_ALPHABET_OUTPUT: ${{ runner.temp }}/dtr-test-samples/alphabet
+          DTR_ALPHABET_BASELINE: enforce
         run: dotnet test tests/Core.Tests -c Release --logger trx --results-directory artifacts/test-results/core
       - name: Тесты окна и установщика
         env:
