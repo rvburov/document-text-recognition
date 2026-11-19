@@ -311,7 +311,9 @@ public sealed class PdfTextReaderTests(OcrFixture ocr, ITestOutputHelper output)
             var text = pdf.ReadTextPage(0);
             var glyph = text.Select(regions[0].Bounds).Characters.First(c => !c.IsGenerated && !c.IsWhitespace);
             var original = regions[0].Bounds;
-            var left = (glyph.Bounds.X + glyph.Bounds.Width / 2) / text.Size.Width;
+            // Граница режет символ текстового слоя на 0,5 мм, а запас вырезки (1 мм) показывает
+            // OCR его целиком. Букву, обрезанную больше запаса, проверяет следующий тест.
+            var left = (glyph.Bounds.X + Math.Min(glyph.Bounds.Width / 4, 0.5 / 25.4 * 72)) / text.Size.Width;
             regions[0] = new(FieldRole.Designation,
                 new(left, original.Y, original.Right - left, original.Height));
         }
@@ -323,6 +325,7 @@ public sealed class PdfTextReaderTests(OcrFixture ocr, ITestOutputHelper output)
 
         var result = DocumentReader.Read(path, [template], pair, CancellationToken.None, diagnostics.Add);
 
+        Assert.True(result.Values is not null, result.Problem);
         Assert.Equal(Expected, result.Values);
         Assert.Equal(1, result.Trace!.PdfTextAttempts);
         Assert.Equal(0, result.Trace.PdfTextAccepted);
@@ -331,6 +334,35 @@ public sealed class PdfTextReaderTests(OcrFixture ocr, ITestOutputHelper output)
         Assert.Empty(ConfirmedFields(diagnostics));
         Assert.Contains(diagnostics, d => d.Stage == "Текст PDF" && d.Message.Contains("OCR"));
         Assert.Equal(2, diagnostics.Count(d => d.Stage == "Распознавание" && d.Field is not null));
+    }
+
+    [OcrFact]
+    public void Region_cutting_a_letter_beyond_the_crop_margin_is_refused_before_any_engine_read()
+    {
+        using var wb = new Workbench();
+        var path = Create(wb.Source, [Page(Designation, Name)]);
+        var regions = Regions(null);
+        using (var pdf = PdfDocument.Open(path))
+        {
+            var text = pdf.ReadTextPage(0);
+            var glyph = text.Select(regions[0].Bounds).Characters.Last(c => !c.IsGenerated && !c.IsWhitespace);
+            var original = regions[0].Bounds;
+            // Правая граница проходит по середине последней буквы обозначения: за запасом
+            // вырезки остается ее половина, и оба движка прочитали бы обрубок одинаково.
+            var right = (glyph.Bounds.X + glyph.Bounds.Width / 2) / text.Size.Width;
+            regions[0] = new(FieldRole.Designation, new(original.X, original.Y, right - original.X, original.Height));
+        }
+        using var template = Template(wb, regions: regions);
+        var first = new Answers(Designation, Name);
+        var second = new Answers(Designation, Name);
+        using var pair = new OcrPair(first, second) { UsePdfText = true };
+
+        var result = DocumentReader.Read(path, [template], pair, CancellationToken.None);
+
+        Assert.Null(result.Values);
+        Assert.Contains("Обозначение: текст выходит за область поля", result.Problem);
+        Assert.Equal(0, first.Calls);
+        Assert.Equal(0, second.Calls);
     }
 
     [OcrFact]

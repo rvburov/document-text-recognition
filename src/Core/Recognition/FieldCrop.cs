@@ -29,6 +29,26 @@ internal static class FieldCrop
     public static Mat Extract(PdfDocument pdf, int pageIndex, PageSize pageSize, PageFeatures page, PageMatch match, NormRect field,
         Action<string, TimeSpan>? timing = null)
     {
+        using var upright = RenderUpright(pdf, pageIndex, pageSize, page, match, field, MarginMm, timing, out _);
+        var started = timing is null ? 0 : Stopwatch.GetTimestamp();
+        var prepared = Prepare(upright);
+        timing?.Invoke("crop.prepare", Stopwatch.GetElapsedTime(started));
+        return prepared;
+    }
+
+    /// <summary>Положение области на картинке <see cref="RenderUpright"/>: точка шаблона → точка картинки.</summary>
+    private readonly record struct UprightMap(double X, double Y, double Scale)
+    {
+        public Rect ToPixels(NormRect r, double templateWidth, double templateHeight) => new(
+            (int)Math.Floor((r.X * templateWidth - X) * Scale), (int)Math.Floor((r.Y * templateHeight - Y) * Scale),
+            (int)Math.Ceiling(r.Width * templateWidth * Scale), (int)Math.Ceiling(r.Height * templateHeight * Scale));
+    }
+
+    /// <summary>Область шаблона с запасом <paramref name="marginMm"/>, нарисованная заново в
+    /// <see cref="OcrDpi"/> и повернутая так, как стоит в шаблоне. BGR, без обработки.</summary>
+    private static Mat RenderUpright(PdfDocument pdf, int pageIndex, PageSize pageSize, PageFeatures page, PageMatch match,
+        NormRect field, double marginMm, Action<string, TimeSpan>? timing, out UprightMap placement)
+    {
         var t = match.Template.Features;
         var m = match.Transform;
 
@@ -38,7 +58,7 @@ internal static class FieldCrop
         double ic = -(ia * m[2] + ib * m[5]), iff = -(id * m[2] + ie * m[5]);
 
         var rect = field.ToPixels(t.Width, t.Height);
-        var margin = MarginMm / 25.4 * 72 * t.Scale;
+        var margin = marginMm / 25.4 * 72 * t.Scale;
         double fx = rect.X - margin, fy = rect.Y - margin, fw = rect.Width + 2 * margin, fh = rect.Height + 2 * margin;
 
         var scaleT = Math.Sqrt(m[0] * m[0] + m[3] * m[3]);    // точек шаблона на точку страницы
@@ -47,6 +67,7 @@ internal static class FieldCrop
         if (fw * k > MaxSide || fh * k > MaxSide) k = MaxSide / Math.Max(fw, fh);
         var outW = Math.Max(8, (int)Math.Round(fw * k));
         var outH = Math.Max(8, (int)Math.Round(fh * k));
+        placement = new UprightMap(fx, fy, k);
 
         // Углы области в пунктах страницы → охватывающий прямоугольник для отрисовки.
         (double X, double Y) ToPoints(double tx, double ty) =>
@@ -72,13 +93,100 @@ internal static class FieldCrop
         map.Set(1, 1, q * ie);
         map.Set(1, 2, r / page.Scale * (id * fx + ie * fy + iff) - r * ry);
 
-        using var upright = new Mat();
+        var upright = new Mat();
         Cv2.WarpAffine(region, upright, map, new Size(outW, outH),
             InterpolationFlags.Linear | InterpolationFlags.WarpInverseMap, BorderTypes.Constant, Scalar.All(255));
-        started = timing is null ? 0 : Stopwatch.GetTimestamp();
-        var prepared = Prepare(upright);
-        timing?.Invoke("crop.prepare", Stopwatch.GetElapsedTime(started));
-        return prepared;
+        return upright;
+    }
+
+    /// <summary>Ширина полосы вокруг вырезки, в которой ищется продолжение текста, мм.</summary>
+    public const double ClipProbeMm = 4.0;
+
+    /// <summary>
+    /// Не обрезает ли область текст поля. Оба движка читают одну и ту же вырезку, поэтому
+    /// буква, оставшаяся за краем области, дает согласованное, но неверное значение
+    /// («Плата индикаци», первая строка наименования без второй). Вокруг вырезки рисуется
+    /// полоса <see cref="ClipProbeMm"/>: если в ней есть знак, перерезанный краем, или
+    /// продолжение той же строки (следующая строка) на расстоянии межбуквенного (межстрочного)
+    /// промежутка и их не разделяет линия графы, текст выходит за область. Текст других
+    /// областей шаблона (тип под наименованием) не учитывается. null — текст целиком в области.
+    /// </summary>
+    public static string? ClippedText(PdfDocument pdf, int pageIndex, PageSize pageSize, PageFeatures page, PageMatch match,
+        NormRect field, IEnumerable<NormRect> otherFields)
+    {
+        var t = match.Template.Features;
+        using var upright = RenderUpright(pdf, pageIndex, pageSize, page, match, field, MarginMm + ClipProbeMm, null, out var placement);
+        using var gray = PageImage.ToGray(upright);
+        using var background = new Mat();
+        using (var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(31, 31)))
+            Cv2.Dilate(gray, background, k);
+        using var flat = new Mat();
+        Cv2.Divide(gray, background, flat, 255);
+        using var ink = PageImage.InkMask(flat);
+        var pxPerMm = placement.Scale * t.Scale * 72 / 25.4;
+        var minLine = Math.Max((int)(7 * pxPerMm), (int)Math.Ceiling(1.3 * TextHeight(ink)));
+        using var lines = PageImage.LineMask(ink, minLine);
+        using var removed = new Mat();
+        using (var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5)))
+            Cv2.Dilate(lines, removed, k);
+        AddLineStubs(ink, removed);
+        using var text = new Mat();
+        using (var notRemoved = new Mat())
+        {
+            Cv2.BitwiseNot(removed, notRemoved);
+            Cv2.BitwiseAnd(ink, notRemoved, text);
+        }
+        var bounds = new Rect(0, 0, text.Width, text.Height);
+        foreach (var other in otherFields)
+        {
+            var o = placement.ToPixels(other, t.Width, t.Height).Intersect(bounds);
+            if (o.Width > 0 && o.Height > 0) text[o].SetTo(Scalar.All(0));
+        }
+
+        var probe = (int)Math.Round(ClipProbeMm * pxPerMm);
+        var inner = new Rect(probe, probe, text.Width - 2 * probe, text.Height - 2 * probe);
+        if (inner.Width <= 0 || inner.Height <= 0) return null;
+        using var labels = new Mat();
+        using var stats = new Mat();
+        using var centroids = new Mat();
+        var count = Cv2.ConnectedComponentsWithStats(text, labels, stats, centroids, PixelConnectivity.Connectivity8);
+        var speck = 0.3 * pxPerMm;
+        var inside = new List<Rect>();
+        var outside = new List<Rect>();
+        for (var i = 1; i < count; i++)
+        {
+            var b = new Rect(stats.At<int>(i, (int)ConnectedComponentsTypes.Left), stats.At<int>(i, (int)ConnectedComponentsTypes.Top),
+                stats.At<int>(i, (int)ConnectedComponentsTypes.Width), stats.At<int>(i, (int)ConnectedComponentsTypes.Height));
+            if (b.Width < speck && b.Height < speck) continue;
+            var within = b.X >= inner.X && b.Y >= inner.Y && b.Right <= inner.Right && b.Bottom <= inner.Bottom;
+            var touches = b.IntersectsWith(inner);
+            // Знак, перерезанный краем вырезки (поле + 1 мм): OCR видит его обрубок.
+            if (touches && !within && b.Height >= 1.0 * pxPerMm) return "текст выходит за область поля или в нее попал край соседнего текста";
+            if (within) inside.Add(b);
+            else if (!touches) outside.Add(b);
+        }
+        if (inside.Count == 0) return null;
+        var height = inside.Select(b => b.Height).OrderBy(h => h).ElementAt(inside.Count / 2);
+        foreach (var o in outside)
+        foreach (var b in inside)
+        {
+            var verticalOverlap = Math.Min(o.Bottom, b.Bottom) - Math.Max(o.Y, b.Y);
+            var horizontalOverlap = Math.Min(o.Right, b.Right) - Math.Max(o.X, b.X);
+            var sameLine = verticalOverlap >= 0.5 * Math.Min(o.Height, b.Height);
+            var gapX = Math.Max(o.X - b.Right, b.X - o.Right);
+            var gapY = Math.Max(o.Y - b.Bottom, b.Y - o.Bottom);
+            var continues = sameLine && gapX >= 0 && gapX <= 0.9 * height
+                || horizontalOverlap > 0 && gapY >= 0 && gapY <= 0.8 * height && o.Height >= 0.5 * height;
+            if (!continues) continue;
+            // Линия графы между ними: это соседняя графа, а не продолжение.
+            var between = sameLine
+                ? new Rect(Math.Min(o.Right, b.Right), Math.Max(o.Y, b.Y), Math.Max(1, Math.Abs(gapX)), Math.Max(1, verticalOverlap))
+                : new Rect(Math.Max(o.X, b.X), Math.Min(o.Bottom, b.Bottom), Math.Max(1, horizontalOverlap), Math.Max(1, Math.Abs(gapY)));
+            between = between.Intersect(bounds);
+            if (between.Width > 0 && between.Height > 0 && Cv2.CountNonZero(lines[between]) > 0) continue;
+            return "текст выходит за область поля";
+        }
+        return null;
     }
 
     /// <summary>
@@ -97,15 +205,85 @@ internal static class FieldCrop
         Cv2.Divide(gray, background, flat, 255);
 
         using var ink = PageImage.InkMask(flat);
-        var minLine = (int)(7 / 25.4 * OcrDpi);
+        // Линия графы длиннее и 7 мм, и самой высокой буквы: крупный шрифт обозначения
+        // (7-10 мм по ГОСТ 2.304) не теряет вертикальные штрихи Б, В, Г, П, 1.
+        var minLine = Math.Max((int)(7 / 25.4 * OcrDpi), (int)Math.Ceiling(1.3 * TextHeight(ink)));
         using var lines = PageImage.LineMask(ink, minLine);
         using var grown = new Mat();
         using (var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5)))
             Cv2.Dilate(lines, grown, k);
+        AddLineStubs(ink, grown);
         flat.SetTo(new Scalar(255), grown);
 
         var padded = new Mat();
         Cv2.CopyMakeBorder(flat, padded, 24, 24, 24, 24, BorderTypes.Constant, Scalar.All(255));
         return padded;
+    }
+
+    /// <summary>Высота крупных знаков области, точек: по связным пятнам, похожим на буквы
+    /// (не линии во всю область и не точки). 0 — знаков нет.</summary>
+    internal static double TextHeight(Mat ink)
+    {
+        using var labels = new Mat();
+        using var stats = new Mat();
+        using var centroids = new Mat();
+        var count = Cv2.ConnectedComponentsWithStats(ink, labels, stats, centroids, PixelConnectivity.Connectivity8);
+        var minSize = 1.2 / 25.4 * OcrDpi;
+        var heights = new List<int>();
+        for (var i = 1; i < count; i++)
+        {
+            var w = stats.At<int>(i, (int)ConnectedComponentsTypes.Width);
+            var h = stats.At<int>(i, (int)ConnectedComponentsTypes.Height);
+            if (h < minSize || h > 0.85 * ink.Height || w > 0.85 * ink.Width) continue;
+            if (w * 6 < h && h > 2 * (7 / 25.4 * OcrDpi)) continue; // отрезок линии, а не «1»
+            heights.Add(h);
+        }
+        if (heights.Count == 0) return 0;
+        heights.Sort();
+        return heights[(int)(0.8 * (heights.Count - 1))];
+    }
+
+    /// <summary>
+    /// Обрезки линий соседних граф (область чуть шире графы): тонкий горизонтальный штрих,
+    /// который касается левого или правого края области или примыкал к удаленной линии.
+    /// Иначе движки читают их как «-», «—», «т». Добавляются в маску удаляемого.
+    /// </summary>
+    private static void AddLineStubs(Mat ink, Mat removed)
+    {
+        using var residual = new Mat();
+        using (var notRemoved = new Mat())
+        {
+            Cv2.BitwiseNot(removed, notRemoved);
+            Cv2.BitwiseAnd(ink, notRemoved, residual);
+        }
+        using var near = new Mat();
+        using (var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(3, 3)))
+            Cv2.Dilate(removed, near, k);
+        using var labels = new Mat();
+        using var stats = new Mat();
+        using var centroids = new Mat();
+        var count = Cv2.ConnectedComponentsWithStats(residual, labels, stats, centroids, PixelConnectivity.Connectivity8);
+        var thin = 0.7 / 25.4 * OcrDpi;
+        for (var i = 1; i < count; i++)
+        {
+            var x = stats.At<int>(i, (int)ConnectedComponentsTypes.Left);
+            var w = stats.At<int>(i, (int)ConnectedComponentsTypes.Width);
+            var h = stats.At<int>(i, (int)ConnectedComponentsTypes.Height);
+            // Только горизонтальные обрезки: вертикальный тонкий штрих у края может быть «1».
+            if (h > thin || w < 2 * h) continue;
+            using var component = new Mat();
+            Cv2.Compare(labels, i, component, CmpTypes.EQ);
+            var atEdge = x == 0 || x + w >= ink.Width;
+            if (!atEdge)
+            {
+                using var touch = new Mat();
+                Cv2.BitwiseAnd(component, near, touch);
+                if (Cv2.CountNonZero(touch) == 0) continue;
+            }
+            // С тем же запасом, что и линии: иначе остается серый ореол сглаживания.
+            using (var k = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(5, 5)))
+                Cv2.Dilate(component, component, k);
+            removed.SetTo(new Scalar(255), component);
+        }
     }
 }
