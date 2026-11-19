@@ -1,4 +1,5 @@
-# Проверки: тесты ядра и окна на Linux (настоящее распознавание на синтетических сканах) и сборка
+# Проверки: тесты ядра и окна на Linux (настоящее распознавание на синтетических сканах и на реальных
+# документах ЕСКД из tests/real-documents) и сборка
 # установщика на Windows тем же сценарием, что на ПК (scripts/build.ps1). Установщик выкладывается
 # файлом сборки (Actions → запуск → Artifacts) на 14 дней; выпусков (Releases) нет.
 name: checks
@@ -38,6 +39,7 @@ jobs:
           DTR_ONNX_MODELS_DIR: ${{ github.workspace }}/ocr/onnx
           DTR_GOST_OUTPUT: ${{ runner.temp }}/dtr-test-samples/gost-type-a
           DTR_GOST_V3_PDF_OUTPUT: ${{ runner.temp }}/dtr-test-samples/gost-type-a/v3-pdf-fixtures
+          DTR_REAL_DOCS_OUTPUT: ${{ runner.temp }}/dtr-test-samples/real-documents
         run: dotnet test tests/Core.Tests -c Release --logger trx --results-directory artifacts/test-results/core
       - name: Тесты окна и установщика
         env:
@@ -78,6 +80,7 @@ jobs:
           DTR_ONNX_MODELS_DIR: ${{ github.workspace }}/ocr/onnx
           DTR_GOST_OUTPUT: ${{ runner.temp }}/gost-windows
           DTR_GOST_V3_PDF_OUTPUT: ${{ runner.temp }}/gost-windows/v3-pdf-fixtures
+          DTR_REAL_DOCS_OUTPUT: ${{ runner.temp }}/real-documents-windows
         run: |
           $classes = @(
             'OnnxBackendTests',
@@ -93,7 +96,8 @@ jobs:
             'GostRoutingTests',
             'GostTypeATests',
             'GostTypeAPairedPdfTests',
-            'GostTypeAV3'
+            'GostTypeAV3',
+            'RealDocumentTests'
           )
           $filter = ($classes | ForEach-Object { "FullyQualifiedName~$_" }) -join '|'
           dotnet test tests/Core.Tests -c Release --filter $filter --logger trx --results-directory artifacts/test-results/onnx-windows
@@ -109,6 +113,7 @@ jobs:
             ${{ runner.temp }}/ocr-windows.json
             ${{ runner.temp }}/published-ocr-smoke
             ${{ runner.temp }}/gost-windows
+            ${{ runner.temp }}/real-documents-windows
             artifacts/test-results/onnx-windows
           retention-days: 14
       - uses: actions/upload-artifact@v4
